@@ -351,7 +351,7 @@ ol {
 }
 
 .header-main {
-  background: #fa8f1c url(img/orange-bg.png);
+  background: #fa8f1c url(../img/orange-bg.png);
   box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3) inset;
   color: #FFF;
   height: 40px;
@@ -372,13 +372,13 @@ ol {
   height: 40px;
 }
 .header-main .nav-item.home {
-  background-image: url(img/header-home.png);
+  background-image: url(../img/header-home.png);
 }
 .header-main .nav-item.content {
-  background-image: url(img/header-content.png);
+  background-image: url(../img/header-content.png);
 }
 .header-main .nav-item.participants {
-  background-image: url(img/header-participants.png);
+  background-image: url(../img/header-participants.png);
 }
 
 .header-tit {
@@ -394,7 +394,7 @@ ol {
 /* - user-menu
 -------------------------------------------------------------------------- */
 .panel.user-menu {
-  background: #fa8f1c url(img/orange-bg.png);
+  background: #fa8f1c url(../img/orange-bg.png);
   color: #fff;
   font-size: 12px;
   font-size: 0.875rem;
@@ -422,14 +422,14 @@ ol {
   border: 0;
 }
 .panel.user-menu .nav-item > a {
-  background: url(img/ico-userarrowdown.png) no-repeat right center;
+  background: url(../img/ico-userarrowdown.png) no-repeat right center;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   color: #fff;
   padding-left: 2.46154rem;
 }
 .panel.user-menu .no-submenu > a {
-  background-image: url(img/ico-userarrowright.png);
+  background-image: url(../img/ico-userarrowright.png);
 }
 
 .user-menu .submenu {
@@ -441,7 +441,7 @@ ol {
   padding-left: 1.23077rem;
 }
 .user-menu .submenu .nav-item > a {
-  background-image: url(img/ico-userarrowright.png);
+  background-image: url(../img/ico-userarrowright.png);
   border: 0;
 }
 
@@ -453,15 +453,15 @@ ol {
   height: 40px;
 }
 .user-menu .user-options .network .ir {
-  background-image: url(img/ico-network.png);
+  background-image: url(../img/ico-network.png);
   background-position: 20% center;
 }
 .user-menu .user-options .help .ir {
-  background-image: url(img/ico-help.png);
+  background-image: url(../img/ico-help.png);
   background-position: center;
 }
 .user-menu .user-options .settings .ir {
-  background-image: url(img/ico-settings.png);
+  background-image: url(../img/ico-settings.png);
   background-position: 80% center;
 }
 
@@ -513,7 +513,7 @@ ol {
 }
 
 .content-index .nav-item {
-  background: url(../img/ico-arrowdown.png) no-repeat right center;
+  background: url(../../img/ico-arrowdown.png) no-repeat right center;
   padding-right: 40px;
 }
 
@@ -538,7 +538,7 @@ text-decoration: none;
 }
 
 #add-site {
-  background: #fa8f1c url(img/orange-bg.png);
+  background: #fa8f1c url(../img/orange-bg.png);
   padding-top: 4.92308rem;
 }
 

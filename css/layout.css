@@ -55,7 +55,7 @@ body {
 }
 
 .user-menu  .user-options {
-	background: #FA8F1C url(img/orange-bg.png);
+	background: #FA8F1C url(../img/orange-bg.png);
 	height: 40px;
 	width: 100%;
 }
