@@ -1,0 +1,7 @@
+{"cache_time" : 300000,
+"lang" : "en",
+"plugins" : ["notifications", "upload", "contents"],
+"wsservice" : "moodle_mobile_app",
+"test_enabled" : true,
+"presets" : {"url": "http://demo.moodle.net", "username": "admin"}
+}

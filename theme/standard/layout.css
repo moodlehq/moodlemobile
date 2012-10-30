@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+#main-wrapper {
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; 
+}
+
+.panel {
+	position: absolute;
+}
+
+#panel-left {
+ left: 0;
+ width: 100%;
+ overflow: auto;
+
+}
+
+#panel-center {
+ left: 100%;
+ width: 100%;
+ top: 40px;
+ overflow: auto;
+}
+
+#panel-right {
+ left: 100%;
+ width: 100%;
+ top: 40px;
+ overflow: auto;
+
+}
+
+#panel-left.animate {
+ left: -100%;
+}
+
+#panel-center.animate {
+ left: 0%;
+}
+
+.header-wrapper {
+  position: absolute;
+  width: 100%;
+  left: 100%;
+  z-index: 30;
+}
+
+.user-menu  .user-options {
+	background: #FA8F1C url(img/orange-bg.png);
+	height: 40px;
+	width: 100%;
+}
+
+#mycourses {
+	overflow: auto;
+	width: 100%;
+}
+
+@media	only screen and (min-width: 768px)	and (-webkit-min-device-pixel-ratio: 1) {
+    
+    #panel-left{
+        width: 30%;
+    }
+    
+    #panel-center {
+		left: 0%;  
+		width: 33%;
+    }
+
+    #panel-right{
+		left: 33%;
+		width: 67%;
+    }
+
+	.header-wrapper {
+	  position: absolute;
+	  width: 100%;
+	  left: 0%;
+	  z-index: 30;
+	}	
+}
