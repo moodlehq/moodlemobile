@@ -155,14 +155,18 @@
 			<input type="search" results="5" placeholder="Search...">
 		</form>
 		<ul class="nav nav-v">
+			<% _.each(users, function(user) { %>
 			<li class="nav-item">
-				<a href="#" class="media">
-					<div class="img"><img src="http://placekitten.com/g/34/34" alt="img"></div>
+				<a href="#participant/<%= user.id %>/<%= courseId %>" class="media">
+					<div class="img">
+					<img src="<%= MM.fixPluginfile(user.profileimageurlsmall) %>" alt="img">
+					</div>
 					<div class="bd">
-					  <h3>John Doe</h3>
+					  <h3><%= user.fullname %></h3>
 					</div>
 				</a>
 			</li>
+			<% }); %>
 		</ul>
 	</section>
 </script>

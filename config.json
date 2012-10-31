@@ -2,6 +2,6 @@
 "lang" : "en",
 "plugins" : ["notifications", "upload", "contents"],
 "wsservice" : "moodle_mobile_app",
-"test_enabled" : true,
-"presets" : {"url": "http://demo.moodle.net", "username": "admin"}
+"test_enabled" : false,
+"presets" : {"url": "http://mm.cvaconsulting.com/moodle", "username": "student"}
 }
