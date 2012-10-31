@@ -4,8 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title></title>
     <meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" href="theme/standard/layout.css">
-	<link rel="stylesheet" href="theme/standard/styles.css">
+	<link rel="stylesheet" href="css/layout.css">
+	<link rel="stylesheet" href="css/styles.css">
 	<script src="lib/jquery-1.8.1.min.js"></script>
 	<script src="lib/jquery.touchSwipe.min.js"></script>
 	<script src="lib/jquery-impromptu.4.0.min.js"></script>
@@ -20,7 +20,7 @@
 <body>
 
 <div id="add-site" style="display: block">
-	        <h1><img src="theme/standard/img/login-logo.png" alt="Moodle"></h1>
+	        <h1><img src="img/login-logo.png" alt="Moodle"></h1>
 			<form action="">
             <p>
                 <input type="url" id="url" placeholder="Site URL">
@@ -53,25 +53,7 @@
         </header>
     </div>
 
-    <div id="panel-left" class="panel user-menu">
-		<ul class="nav user-options">
-			<li class="nav-item no-submenu network">
-				<a href="#" class="ir">
-					Network
-				</a>
-			</li>
-			<li class="nav-item no-submenu help">
-				<a href="#" class="ir">
-					Help
-				</a>
-			</li>
-			<li class="nav-item no-submenu settings">
-				<a href="#" class="ir">
-					settings
-				</a>
-			</li>
-		</ul>
-	</div>
+    <div id="panel-left" class="panel user-menu"></div>
 
 	<div id="panel-center" class="panel"></div>
 
@@ -147,6 +129,23 @@
                 </li>
                 <% }); %>
             </ul>
+			<ul class="nav user-options">
+				<li class="nav-item no-submenu network">
+					<a href="<%= siteurl%>" rel="external" target="_blank" class="ir">
+						Network
+					</a>
+				</li>
+				<li class="nav-item no-submenu help">
+					<a href="http://docs.moodle.org/" rel="external" target="_blank" class="ir">
+						Help
+					</a>
+				</li>
+				<li class="nav-item no-submenu settings">
+					<a href="#settings" class="ir">
+						settings
+					</a>
+				</li>
+			</ul>
         </div>
 </script>
 
