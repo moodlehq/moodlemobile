@@ -5,8 +5,7 @@ define(function () {
             type: "course",
             menuURL: "#course/contents/",
             lang: {
-                component: "moodle",
-                file: "mobile"
+                component: "moodle"
             }
         },
 
@@ -21,7 +20,16 @@ define(function () {
         ],
 
         viewCourseContents: function(courseId) {
-            window.alert("browse");
+            var data = {
+            "options[0][name]" : "",
+            "options[0][value]" : ""
+            };
+            
+            data.courseid = courseId;
+            
+            MM.moodleWSCall('core_course_get_contents', data, function(contents) {
+                console.log(contents);    
+            });
         },
 
         viewContent: function(courseId, contentId) {
@@ -30,7 +38,7 @@ define(function () {
         
         templates: {
             "content": {
-                model: content,
+                model: "content",
                 html: "<h1><%= content.title %></h1>"
             },
             "contents": {

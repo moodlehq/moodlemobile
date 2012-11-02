@@ -4,9 +4,9 @@ define(function () {
             name: "upload",
             type: "general",
             subMenus: [
-                {name: "browse", menuURL: "#upload/browse"},
-                {name: "take", menuURL: "#upload/take"},
-                {name: "record", menuURL: "#upload/record"}
+                {name: "browsephotoalbums", menuURL: "#upload/browse"},
+                {name: "takepicture", menuURL: "#upload/take"},
+                {name: "recordaudio", menuURL: "#upload/record"}
             ]
         },
         

@@ -4,42 +4,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title></title>
     <meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" href="css/layout.css">
-	<link rel="stylesheet" href="css/styles.css">
-	<script src="lib/jquery-1.8.1.min.js"></script>
-	<script src="lib/jquery.touchSwipe.min.js"></script>
-	<script src="lib/jquery-impromptu.4.0.min.js"></script>
-	<script src="lib/matchMedia.js"></script>
-	<script src="lib/underscore.js"></script>
-	<script src="lib/backbone.js"></script>
-	<script src="lib/backbone-localstorage.js"></script>
-	<script src="lib/scroll.js"></script>
-	<script src="lib/mm.js"></script>
-	<script data-main="lib/app.js" src="lib/require.js"></script>
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="lib/jquery-1.8.1.min.js"></script>
+    <script src="lib/jquery.touchSwipe.min.js"></script>
+    <script src="lib/jquery-impromptu.4.0.min.js"></script>
+    <script src="lib/md5.js"></script>
+    <script src="lib/matchMedia.js"></script>
+    <script src="lib/underscore.js"></script>
+    <script src="lib/backbone.js"></script>
+    <script src="lib/backbone-localstorage.js"></script>
+    <script src="lib/scroll.js"></script>
+    <script src="lib/mm.js"></script>
+    <script data-main="lib/app.js" src="lib/require.js"></script>
 </head>
 <body>
 
-<div id="add-site" style="display: block">
-	        <h1><img src="img/login-logo.png" alt="Moodle"></h1>
-			<form action="">
-            <p>
-                <input type="url" id="url" placeholder="Site URL">
-            </p>
-            <p>
-                <input type="text" id="username" placeholder="Username">
-            </p>
-            <p>
-                <input type="password" id="password" placeholder="Password">
-            </p>
-            <p>
-                <input type="submit" name="add" id="addsitebutton" value="Add">
-            </p>
+<div id="add-site" style="display: none">
+        <h1><img src="img/login-logo.png" alt="Moodle"></h1>
+        <form action="">
+        <p>
+            <input type="url" id="url" placeholder="Site URL">
+        </p>
+        <p>
+            <input type="text" id="username" placeholder="Username">
+        </p>
+        <p>
+            <input type="password" id="password" placeholder="Password">
+        </p>
+        <p>
+            <input type="submit" name="add" id="addsitebutton" value="Add">
+        </p>
         </form>
 </div>
 
 <div id="main-wrapper" style="display: none">
 
-	<div class="header-wrapper">
+    <div class="header-wrapper">
         <header class="header-main">
             <nav class="nav-main">
                 <ul class="nav">
@@ -55,7 +56,7 @@
 
     <div id="panel-left" class="panel user-menu"></div>
 
-	<div id="panel-center" class="panel"></div>
+    <div id="panel-center" class="panel"></div>
 
     <div id="panel-right" class="panel"></div>
 </div>
@@ -77,21 +78,21 @@
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink">
                     <span data-icon="n" aria-hidden="true"></span>
-                    <%= plugin.name %>
+                    <%= MM.lang.s(plugin.name) %>
                 </a>
             </li>
             <% } else { %>
             <li class="nav-item">
                 <a href="" class="toogler">
                     <span data-icon="u" aria-hidden="true"></span>
-                    <%= plugin.name %>
+                    <%= MM.lang.s(plugin.name) %>
                 </a>
                 <ul class="nav submenu">
                     <% _.each(plugin.subMenus, function(menu) { %>
                     <li class="nav-item">
                         <a href="<%= menu.menuURL %>" class="alink">
                             <span data-icon="p" aria-hidden="true"></span>
-                            <%= menu.name %>
+                            <%= MM.lang.s(menu.name) %>
                         </a>
                     </li>
                     <% }); %>
@@ -101,7 +102,7 @@
             <% }); %>
         </ul>
 
-        <h2>My courses</h2>
+        <h2><%= MM.lang.s("mycourses") %></h2>
         <div id="mycourses">
             <ul class="nav nav-v js-accordion">
                 <% _.each(courses, function(course) { %>
@@ -115,7 +116,7 @@
                         <li class="nav-item">
                             <a href="<%= plugin.menuURL %><%= course.id %>">
                                 <span data-icon="g" aria-hidden="true"></span>
-                                <%= plugin.name %>
+                                <%= MM.lang.s(plugin.name) %>
                             </a>
                         </li>
                         <% }); %>
@@ -129,70 +130,70 @@
                 </li>
                 <% }); %>
             </ul>
-			<ul class="nav user-options">
-				<li class="nav-item no-submenu network">
-					<a href="<%= siteurl%>" rel="external" target="_blank" class="ir">
-						Network
-					</a>
-				</li>
-				<li class="nav-item no-submenu help">
-					<a href="http://docs.moodle.org/" rel="external" target="_blank" class="ir">
-						Help
-					</a>
-				</li>
-				<li class="nav-item no-submenu settings">
-					<a href="#settings" class="ir">
-						settings
-					</a>
-				</li>
-			</ul>
+            <ul class="nav user-options">
+                <li class="nav-item no-submenu network">
+                    <a href="<%= siteurl%>" rel="external" target="_blank" class="ir">
+                        Network
+                    </a>
+                </li>
+                <li class="nav-item no-submenu help">
+                    <a href="http://docs.moodle.org/" rel="external" target="_blank" class="ir">
+                        Help
+                    </a>
+                </li>
+                <li class="nav-item no-submenu settings">
+                    <a href="#settings" class="ir">
+                        settings
+                    </a>
+                </li>
+            </ul>
         </div>
 </script>
 
 <script type="text/template" id="participants_template">
-	<section class="users-index-list">
-		<form class="search">
-			<input type="search" results="5" placeholder="Search...">
-		</form>
-		<ul class="nav nav-v">
-			<% _.each(users, function(user) { %>
-			<li class="nav-item">
-				<a href="#participant/<%= courseId %>/<%= user.id %>" class="media">
-					<div class="img">
-					<img width="35" src="<%= MM.fixPluginfile(user.profileimageurlsmall) %>" alt="img">
-					</div>
-					<div class="bd">
-					  <h3><%= user.fullname %></h3>
-					</div>
-				</a>
-			</li>
-			<% }); %>
-		</ul>
-	</section>
+    <section class="users-index-list">
+        <form class="search">
+            <input type="search" results="5" placeholder="Search...">
+        </form>
+        <ul class="nav nav-v">
+            <% _.each(users, function(user) { %>
+            <li class="nav-item">
+                <a href="#participant/<%= courseId %>/<%= user.id %>" class="media">
+                    <div class="img">
+                    <img width="35" src="<%= MM.fixPluginfile(user.profileimageurlsmall) %>" alt="img">
+                    </div>
+                    <div class="bd">
+                      <h3><%= user.fullname %></h3>
+                    </div>
+                </a>
+            </li>
+            <% }); %>
+        </ul>
+    </section>
 </script>
 
 <script type="text/template" id="participant_template">
-	<div class="user-card">
-		<div class="content">
-			<figure class="imagen">
-				<img src="<%= MM.fixPluginfile(user.profileimageurl) %>" alt="" />
-			</figure>
-			<ul class="user-data">
-			<% var fields = ["fullname", "email", "city", "country", "description"]; %>
-			<% _.each(fields, function(field) { %>
-			<% if (user[field]) { %>
-				<li><strong><% print(field); %>:</strong> <% print(user[field]); %>
-				</li>
-			<% } %>
-			<% }); %>
-			</ul>
-		</div>
-		<div class="buttons">
-			<div><button>Add as a contact</button></div>
-			<div><button>Send a message</button></div>
-			<div><button>Add a note</button></div>
-		</div>
-	</div>
+    <div class="user-card">
+        <div class="content">
+            <figure class="imagen">
+                <img src="<%= MM.fixPluginfile(user.profileimageurl) %>" alt="" />
+            </figure>
+            <ul class="user-data">
+            <% var fields = ["fullname", "email", "city", "country", "description"]; %>
+            <% _.each(fields, function(field) { %>
+            <% if (user[field]) { %>
+                <li><strong><% print(MM.lang.s(field)); %>:</strong> <% print(user[field]); %>
+                </li>
+            <% } %>
+            <% }); %>
+            </ul>
+        </div>
+        <div class="buttons">
+            <% _.each(plugins, function(plugin) { %>
+            <div><a href="<%= plugin.menuURL %>/<%= user.id %>"><button><%= MM.lang.s(plugin.name) %></button></a></div>
+            <% }); %>
+        </div>
+    </div>
 </script>
 
 </body>
