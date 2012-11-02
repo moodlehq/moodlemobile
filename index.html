@@ -157,9 +157,9 @@
 		<ul class="nav nav-v">
 			<% _.each(users, function(user) { %>
 			<li class="nav-item">
-				<a href="#participant/<%= user.id %>/<%= courseId %>" class="media">
+				<a href="#participant/<%= courseId %>/<%= user.id %>" class="media">
 					<div class="img">
-					<img src="<%= MM.fixPluginfile(user.profileimageurlsmall) %>" alt="img">
+					<img width="35" src="<%= MM.fixPluginfile(user.profileimageurlsmall) %>" alt="img">
 					</div>
 					<div class="bd">
 					  <h3><%= user.fullname %></h3>
@@ -169,6 +169,30 @@
 			<% }); %>
 		</ul>
 	</section>
+</script>
+
+<script type="text/template" id="participant_template">
+	<div class="user-card">
+		<div class="content">
+			<figure class="imagen">
+				<img src="<%= MM.fixPluginfile(user.profileimageurl) %>" alt="" />
+			</figure>
+			<ul class="user-data">
+			<% var fields = ["fullname", "email", "city", "country", "description"]; %>
+			<% _.each(fields, function(field) { %>
+			<% if (user[field]) { %>
+				<li><strong><% print(field); %>:</strong> <% print(user[field]); %>
+				</li>
+			<% } %>
+			<% }); %>
+			</ul>
+		</div>
+		<div class="buttons">
+			<div><button>Add as a contact</button></div>
+			<div><button>Send a message</button></div>
+			<div><button>Add a note</button></div>
+		</div>
+	</div>
 </script>
 
 </body>

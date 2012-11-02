@@ -677,3 +677,53 @@ div.jqi button.jqidefaultbutton{
 .users-index-list h3 {
   line-height: 34px;
 }
+
+/* - .user-card
+-------------------------------------------------------------------------- */
+.imagen {
+  background: #E9E9E9;
+  text-align: center;
+  margin-bottom: 1.23077rem;
+}
+
+.user-data {
+  list-style: none;
+}
+.user-data li {
+  margin-bottom: 0.30769rem;
+}
+
+.user-card .buttons {
+/*  background: #dedfe1;
+  border-top: 1px solid #F4F4F4;
+  box-shadow: 0 -4px 6px 0 rgba(0, 0, 0, 0.1);
+  padding: 0.61538rem 1.23077rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;*/
+}
+.user-card .buttons button {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0;
+  box-shadow: none;
+  color: #666;
+  float: left;
+  font-size: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.43077rem 1.23077rem 0.30769rem;
+  width: 33%;
+}
+.user-card .buttons button:hover, .user-card .buttons button:active {
+  background: #f3f3f3;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+.user-card .buttons :nth-child(1) button {
+  border-radius: 50px 0 0 50px;
+}
+.user-card .buttons :nth-child(3) button {
+  border-radius: 0 50px 50px 0;
+}
