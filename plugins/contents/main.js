@@ -3,7 +3,16 @@ define(function () {
         settings: {
             name: "contents",
             type: "course",
-            menuURL: "#course/contents/"
+            menuURL: "#course/contents/",
+            lang: {
+                component: "moodle",
+                file: "mobile"
+            }
+        },
+
+        storage: {
+            content: {type: "model"},
+            contents: {type: "collection", model: "content"}
         },
 
         routes: [
@@ -17,6 +26,16 @@ define(function () {
 
         viewContent: function(courseId, contentId) {
             window.alert("take");
+        },
+        
+        templates: {
+            "content": {
+                model: content,
+                html: "<h1><%= content.title %></h1>"
+            },
+            "contents": {
+                html: "<li></li>"
+            }
         }
     }
 
