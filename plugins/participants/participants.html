@@ -1,0 +1,19 @@
+    <section class="users-index-list">
+        <form class="search">
+            <input type="search" results="5" placeholder="Search...">
+        </form>
+        <ul class="nav nav-v">
+            <% _.each(users, function(user) { %>
+            <li class="nav-item">
+                <a href="#participant/<%= courseId %>/<%= user.id %>" class="media">
+                    <div class="img">
+                    <img width="35" src="<%= MM.fixPluginfile(user.profileimageurlsmall) %>" alt="img">
+                    </div>
+                    <div class="bd">
+                      <h3><%= user.fullname %></h3>
+                    </div>
+                </a>
+            </li>
+            <% }); %>
+        </ul>
+    </section>

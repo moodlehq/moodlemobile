@@ -1,0 +1,21 @@
+    <div class="user-card">
+        <div class="content">
+            <figure class="imagen">
+                <img src="<%= MM.fixPluginfile(user.profileimageurl) %>" alt="" />
+            </figure>
+            <ul class="user-data">
+            <% var fields = ["fullname", "email", "city", "country", "description"]; %>
+            <% _.each(fields, function(field) { %>
+            <% if (user[field]) { %>
+                <li><strong><% print(MM.lang.s(field)); %>:</strong> <% print(user[field]); %>
+                </li>
+            <% } %>
+            <% }); %>
+            </ul>
+        </div>
+        <div class="buttons">
+            <% _.each(plugins, function(plugin) { %>
+            <div><a href="<%= plugin.menuURL %>/<%= user.id %>"><button><%= MM.lang.s(plugin.name) %></button></a></div>
+            <% }); %>
+        </div>
+    </div>
