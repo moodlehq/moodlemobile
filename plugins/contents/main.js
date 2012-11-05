@@ -1,4 +1,8 @@
-define(function () {
+var templates = [
+    "root/lib/text!root/plugins/contents/contents.html"
+];
+
+define(templates,function (contentsTpl) {
     var plugin = {
         settings: {
             name: "contents",
@@ -20,15 +24,28 @@ define(function () {
         ],
 
         viewCourseContents: function(courseId) {
+
+            MM.panels.showLoading('center');
+
+            if (MM.deviceType == "tablet") {
+                MM.panels.showLoading('right');
+            }
+
             var data = {
             "options[0][name]" : "",
             "options[0][value]" : ""
-            };
-            
+            };            
             data.courseid = courseId;
             
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
-                console.log(contents);    
+                var course = MM.collections.courses.get(MM.config.current_site.id + "-" + courseId);
+                console.log(contents);
+                var tpl = {
+                    sections: contents,
+                    course: course.toJSON() // Convert a model to a plain javascript object.
+                }
+                var html = _.template(MM.plugins.contents.templates.contents.html, tpl);
+                MM.panels.show('center', html);
             });
         },
 
@@ -42,7 +59,7 @@ define(function () {
                 html: "<h1><%= content.title %></h1>"
             },
             "contents": {
-                html: "<li></li>"
+                html: contentsTpl
             }
         }
     }

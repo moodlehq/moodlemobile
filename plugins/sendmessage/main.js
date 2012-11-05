@@ -14,7 +14,7 @@ define(function () {
         ],
         
         sendMessage: function(userId) {
-            window.alert("send message" + userId);
+            MM.panels.show("center", "Not implemented");
         }
     }
     

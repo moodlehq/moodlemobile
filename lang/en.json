@@ -99,4 +99,6 @@
 "requiredfields": "You must fill up all required fields.",
 "notifications": "Notifications",
 "contents": "Contents",
-"fullname": "Full name"}
+"fullname": "Full name",
+"development": "Development",
+"synchronization": "Synchronization"}

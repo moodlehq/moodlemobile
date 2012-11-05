@@ -16,6 +16,7 @@
     <script src="lib/backbone-localstorage.js"></script>
     <script src="lib/scroll.js"></script>
     <script src="lib/mm.js"></script>
+    <script src="lib/mm.settings.js"></script>
     <script data-main="lib/app.js" src="lib/require.js"></script>
 </head>
 <body>
@@ -120,12 +121,6 @@
                             </a>
                         </li>
                         <% }); %>
-                        <li class="nav-item">
-                            <a href="#participants/<%= course.id %>" class="participants" >
-                                <span data-icon="g" aria-hidden="true"></span>
-                                Participants
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 <% }); %>
@@ -150,49 +145,24 @@
         </div>
 </script>
 
-<script type="text/template" id="participants_template">
-    <section class="users-index-list">
-        <form class="search">
-            <input type="search" results="5" placeholder="Search...">
-        </form>
+<script type="text/template" id="settings_template">
+    <div class="settings-list">
         <ul class="nav nav-v">
-            <% _.each(users, function(user) { %>
             <li class="nav-item">
-                <a href="#participant/<%= courseId %>/<%= user.id %>" class="media">
-                    <div class="img">
-                    <img width="35" src="<%= MM.fixPluginfile(user.profileimageurlsmall) %>" alt="img">
-                    </div>
-                    <div class="bd">
-                      <h3><%= user.fullname %></h3>
-                    </div>
-                </a>
+                <a href="#settings/sites/" class="menu1"><%= MM.lang.s("sites") %><br></a>
             </li>
+            <li class="nav-item">
+                <a href="#settings/sync/" class="menu1"><%= MM.lang.s("synchronization") %><br></a>
+            </li>
+            <li class="nav-item">
+                <a href="#settings/development/" class="menu1"><%= MM.lang.s("development") %><br></a>
+            </li>
+            <% _.each(plugins, function(plugin) { %>
+            <li class="nav-item">
+                <a href="#settings/plugin.menuURL" class="menu1"><%= MM.lang.s(plugin.name) %><br></a>
+            </li>          
             <% }); %>
         </ul>
-    </section>
-</script>
-
-<script type="text/template" id="participant_template">
-    <div class="user-card">
-        <div class="content">
-            <figure class="imagen">
-                <img src="<%= MM.fixPluginfile(user.profileimageurl) %>" alt="" />
-            </figure>
-            <ul class="user-data">
-            <% var fields = ["fullname", "email", "city", "country", "description"]; %>
-            <% _.each(fields, function(field) { %>
-            <% if (user[field]) { %>
-                <li><strong><% print(MM.lang.s(field)); %>:</strong> <% print(user[field]); %>
-                </li>
-            <% } %>
-            <% }); %>
-            </ul>
-        </div>
-        <div class="buttons">
-            <% _.each(plugins, function(plugin) { %>
-            <div><a href="<%= plugin.menuURL %>/<%= user.id %>"><button><%= MM.lang.s(plugin.name) %></button></a></div>
-            <% }); %>
-        </div>
     </div>
 </script>
 

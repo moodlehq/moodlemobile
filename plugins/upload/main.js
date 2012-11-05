@@ -17,15 +17,15 @@ define(function () {
         ],
         
         browseAlbums: function() {
-            window.alert("browse");
+            MM.panels.show("center", "Not implemented");
         },
 
         takeMedia: function() {
-            window.alert("take");
+            MM.panels.show("center", "Not implemented");
         },
         
         recordAudio: function() {
-            window.alert("record");
+            MM.panels.show("center", "Not implemented");
         }
     }
     

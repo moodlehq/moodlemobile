@@ -14,7 +14,7 @@ define(function () {
         ],
         
         addContact: function(userId) {
-            window.alert("add contact" + userId);
+            MM.panels.show("center", "Not implemented");
         }
     }
     

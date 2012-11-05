@@ -14,7 +14,7 @@ define(function () {
         ],
         
         addNote: function(userId) {
-            window.alert("add note" + userId);
+            MM.panels.show("center", "Not implemented");
         }
     }
     
