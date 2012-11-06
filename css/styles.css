@@ -715,3 +715,7 @@ div.jqi button.jqidefaultbutton{
   border-radius: 50px 50px 50px 50px;
   text-align: center;
 }
+
+.mm-setting {
+  margin: 10px;
+}

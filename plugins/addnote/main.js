@@ -10,11 +10,53 @@ define(function () {
         },
         
         routes: [
-            ["note/:userId", "note", "addNote"]
+            ["note/:courseId/:userId", "note", "addNote"]
         ],
         
-        addNote: function(userId) {
-            MM.panels.show("center", "Not implemented");
+        addNote: function(courseId, userId) {
+            var addNote = MM.lang.s("addnote");
+            
+            var options = {
+                title: addNote,
+                modal: true,
+                buttons: {}
+            };
+            
+            options.buttons[addNote] = function() {
+                
+                var data = {
+                    "notes[0][userid]" : userId,
+                    "notes[0][publishstate]": 'personal',
+                    "notes[0][courseid]": courseId,
+                    "notes[0][text]": $("#addnotetext").val(),
+                    "notes[0][format]": 'text'
+                }
+
+                MM.widgets.dialogClose();
+                MM.moodleWSCall('moodle_notes_create_notes', data, function(r){
+                    return false;    
+                }, {sync: true});
+                
+                // Refresh the hash url for avoid navigation problems.
+                MM.Router.navigate("participant/" + courseId + "/" + userId);
+            };
+            options.buttons[MM.lang.s("cancel")] = function() {
+                MM.Router.navigate("participant/" + courseId + "/" + userId);
+                $( this ).dialog( "close" );   
+            };
+            
+            var rows = 5;
+            var cols = 5;
+            if (MM.deviceType == "tablet") {
+                rows = 15;
+                cols = 50;
+            }
+            
+            var html = '\
+            <textarea id="addnotetext" rows="'+rows+'" cols="'+cols+'"></textarea>\
+            ';
+            
+            MM.widgets.dialog(html, options);
         }
     }
     

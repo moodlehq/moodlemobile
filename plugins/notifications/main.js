@@ -1,6 +1,6 @@
 var templates = [
-    "root/lib/text!root/plugins/participants/participants.html",
-    "root/lib/text!root/plugins/participants/participant.html"
+    "root/lib/text!root/plugins/notifications/notifications.html",
+    "root/lib/text!root/plugins/notifications/notification.html"
 ];
 
 define(templates, function (notifsTpl, notifTpl) {
@@ -30,20 +30,29 @@ define(templates, function (notifsTpl, notifTpl) {
             
             // Fetch all the notifications.
             MM.collections.notifications.fetch();
+            
             // Look for notifications for this site.
-            var notifications = MM.collections.notifications.where({siteid: MM.config.current_site.id}).toJSON();
+            var notificationsFilter = MM.collections.notifications.where({siteid: MM.config.current_site.id});
+            var notifications = [];
+            
+            $.each(notificationsFilter, function(index, el) {
+                notifications.push(el.toJSON());
+            });
             
             var tpl = {notifications: notifications};
             var html = _.template(MM.plugins.notifications.templates.notifications.html, tpl);
             MM.panels.show('center', html);
             // Load the first user
             if (MM.deviceType == "tablet") {
-                MM.plugins.participants.showParticipant(courseId, users.shift().id);
+                MM.plugins.notifications.showNotification(notifications.shift().id);
             }
 
         },
         
         showNotification: function(id) {
+            MM.collections.notifications.fetch();
+            var notification = MM.collections.notifications.get(id).toJSON();;
+            
             var html = _.template(MM.plugins.notifications.templates.notification.html, notification);
             MM.panels.show('right', html);
         },

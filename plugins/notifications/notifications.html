@@ -1,7 +1,7 @@
 <ul class="nav nav-v">
     <% _.each(notifications, function(notification) {%>
     <li class="nav-item">
-        <a href="#notification/" class="menu1"><%= notification.subject %><br>
+        <a href="#notification/<%= notification.id %>" class="menu1"><%= notification.subject %><br>
         &nbsp;&nbsp;&nbsp;&nbsp;<i><%= notification.date %></i></a>
     </li>
     <% }); %>

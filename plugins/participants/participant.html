@@ -15,7 +15,7 @@
         </div>
         <div class="buttons">
             <% _.each(plugins, function(plugin) { %>
-            <div><a href="<%= plugin.menuURL %>/<%= user.id %>"><button><%= MM.lang.s(plugin.name) %></button></a></div>
+            <div><a href="<%= plugin.menuURL %>/<%= courseid %>/<%= user.id %>"><button><%= MM.lang.s(plugin.name) %></button></a></div>
             <% }); %>
         </div>
     </div>

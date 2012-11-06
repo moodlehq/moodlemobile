@@ -10,11 +10,50 @@ define(function () {
         },
         
         routes: [
-            ["message/:userId", "message", "sendMessage"]
+            ["message/:courseId/:userId", "message", "sendMessage"]
         ],
         
-        sendMessage: function(userId) {
-            MM.panels.show("center", "Not implemented");
+        sendMessage: function(courseId, userId) {
+            var sendMessage = MM.lang.s("sendmessage");
+            
+            var options = {
+                title: sendMessage,
+                modal: true,
+                buttons: {}
+            };
+            
+            options.buttons[sendMessage] = function() {
+                
+                var data = {
+                    "messages[0][touserid]" : userId,
+                    "messages[0][text]" : $("#sendmessagetext").val()
+                }
+
+                MM.widgets.dialogClose();
+                MM.moodleWSCall('moodle_message_send_instantmessages', data, function(r){
+                    return false;    
+                }, {sync: true});
+                
+                // Refresh the hash url for avoid navigation problems.
+                MM.Router.navigate("participant/" + courseId + "/" + userId);
+            };
+            options.buttons[MM.lang.s("cancel")] = function() {
+                MM.Router.navigate("participant/" + courseId + "/" + userId);
+                $( this ).dialog( "close" );   
+            };
+            
+            var rows = 5;
+            var cols = 5;
+            if (MM.deviceType == "tablet") {
+                rows = 15;
+                cols = 50;
+            }
+            
+            var html = '\
+            <textarea id="sendmessagetext" rows="'+rows+'" cols="'+cols+'"></textarea>\
+            ';
+            
+            MM.widgets.dialog(html, options);
         }
     }
     

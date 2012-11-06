@@ -63,7 +63,7 @@ define(templates,function (participantsTpl, participantTpl) {
                     }
                 }
                 
-                var tpl = {"user": users.shift(), "plugins": userPlugins};
+                var tpl = {"user": users.shift(), "plugins": userPlugins, "courseid": courseId};
                 var html = _.template(MM.plugins.participants.templates.participant.html, tpl);
                 MM.panels.show('right', html);
             });
