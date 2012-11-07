@@ -105,5 +105,7 @@
 "enabledebugging": "Enable debugging",
 "forceofflinemode": "Force offline mode",
 "addfakenotifications": "Add fake notifications",
-"enableautosync": "Enable auto sync"
+"enableautosync": "Enable auto sync",
+"name": "Name",
+"openinmoodle": "Open this module in Moodle"
 }

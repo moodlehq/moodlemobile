@@ -1,8 +1,9 @@
 var templates = [
-    "root/lib/text!root/plugins/contents/contents.html"
+    "root/lib/text!root/plugins/contents/contents.html",
+    "root/lib/text!root/plugins/contents/content.html"
 ];
 
-define(templates,function (contentsTpl) {
+define(templates,function (contentsTpl, contentTpl) {
     var plugin = {
         settings: {
             name: "contents",
@@ -39,24 +40,46 @@ define(templates,function (contentsTpl) {
             
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
                 var course = MM.collections.courses.get(MM.config.current_site.id + "-" + courseId);
-                console.log(contents);
+                
+                var firstContent = 0;
+                
+                $.each(JSON.parse(JSON.stringify(contents)), function(index, sections){
+                    $.each(sections.modules, function(index, content){
+                        content.contentid = content.id;
+                        content.courseid = courseId;
+                        content.id = MM.config.current_site.id + "-" + content.contentid;
+                        MM.collections.contents.create(content);
+                        if(!firstContent) {
+                            firstContent = content.contentid;
+                        }
+                    });
+                });
+                
                 var tpl = {
                     sections: contents,
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
                 var html = _.template(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('center', html);
+                MM.plugins.contents.viewContent(courseId, firstContent);
             });
         },
 
         viewContent: function(courseId, contentId) {
-            window.alert("take");
+            MM.collections.contents.fetch();
+            console.log(MM.config.current_site.id + "-" + contentId);
+            var content = MM.collections.contents.get(MM.config.current_site.id + "-" + contentId);
+            content = content.toJSON();
+            
+            var html = _.template(MM.plugins.contents.templates.content.html, {content: content});
+            MM.panels.show('right', html);
+            MM.widgets.enhance([{id: "modlink", type: "button"}]);
         },
         
         templates: {
             "content": {
                 model: "content",
-                html: "<h1><%= content.title %></h1>"
+                html: contentTpl
             },
             "contents": {
                 html: contentsTpl

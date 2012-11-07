@@ -1,5 +1,5 @@
 
-<div class="content-index" "="">
+<div class="content-index">
     <header>
         <div class="media">
             <div class="bd">
@@ -14,11 +14,13 @@
         <ul class="nav nav-v">
             <% _.each(section.modules, function(module) { %>
             <li class="nav-item media">
+                <a href="#course/contents/<%= course.courseid%>/view/<%= module.id %>">
                 <div class="img"><img src="img/ico-presentation.png" alt="img"></div>
                 <div class="bd">
-                    <h3><a href="#" class="menu1"><%= module.name %></a></h3>
+                    <h3><%= module.name %></h3>
                     <p>Author: Teacher Moo  Date: 27 Jul 2012 Duration: 30:05</p>
                 </div>
+                </a>
             </li>
             <% }); %>
         </ul>
