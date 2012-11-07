@@ -1,4 +1,4 @@
-{"cache_time" : 300000,
+{"cache_expiration_time" : 300000,
 "lang" : "en",
 "plugins" : ["notifications", "upload", "contents", "participants", "addcontact", "addnote", "sendmessage"],
 "wsservice" : "moodle_mobile_app",

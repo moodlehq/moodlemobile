@@ -101,4 +101,9 @@
 "contents": "Contents",
 "fullname": "Full name",
 "development": "Development",
-"synchronization": "Synchronization"}
+"synchronization": "Synchronization",
+"enabledebugging": "Enable debugging",
+"forceofflinemode": "Force offline mode",
+"addfakenotifications": "Add fake notifications",
+"enableautosync": "Enable auto sync"
+}

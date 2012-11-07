@@ -34,8 +34,13 @@ define(function () {
 
                 MM.widgets.dialogClose();
                 MM.moodleWSCall('moodle_notes_create_notes', data, function(r){
-                    return false;    
-                }, {sync: true});
+                    MM.popMessage(MM.lang.s("noteadded"));    
+                }, {sync: true,
+                    syncData: {
+                        name: addNote,
+                        description: $("#addnotetext").val().substr(0, 30)
+                    }
+                    });
                 
                 // Refresh the hash url for avoid navigation problems.
                 MM.Router.navigate("participant/" + courseId + "/" + userId);

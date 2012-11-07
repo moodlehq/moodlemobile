@@ -513,7 +513,7 @@ ol {
 }
 
 .content-index .nav-item {
-  background: url(../../img/ico-arrowdown.png) no-repeat right center;
+  background: url(../img/ico-arrowdown.png) no-repeat right center;
   padding-right: 40px;
 }
 
@@ -718,4 +718,9 @@ div.jqi button.jqidefaultbutton{
 
 .mm-setting {
   margin: 10px;
+}
+
+.sites-list .img {
+  float: left;
+  margin-right: 10px;
 }

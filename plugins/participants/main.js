@@ -41,7 +41,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 var html = _.template(MM.plugins.participants.templates.participants.html, tpl);
                 MM.panels.show('center', html);
                 // Load the first user
-                if (MM.deviceType == "tablet") {
+                if (MM.deviceType == "tablet" && users.length > 0) {
                     MM.plugins.participants.showParticipant(courseId, users.shift().id);
                 }
             });

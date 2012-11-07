@@ -43,8 +43,10 @@ define(templates, function (notifsTpl, notifTpl) {
             var html = _.template(MM.plugins.notifications.templates.notifications.html, tpl);
             MM.panels.show('center', html);
             // Load the first user
-            if (MM.deviceType == "tablet") {
+            if (MM.deviceType == "tablet" && notifications.length > 0) {
                 MM.plugins.notifications.showNotification(notifications.shift().id);
+            } else {
+                MM.panels.show('right', "");
             }
 
         },
