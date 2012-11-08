@@ -39,7 +39,7 @@ define(templates,function (contentsTpl, contentTpl) {
             data.courseid = courseId;
             
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
-                var course = MM.collections.courses.get(MM.config.current_site.id + "-" + courseId);
+                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 
                 var firstContent = 0;
                 
@@ -59,7 +59,7 @@ define(templates,function (contentsTpl, contentTpl) {
                     sections: contents,
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
-                var html = _.template(MM.plugins.contents.templates.contents.html, tpl);
+                var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('center', html);
 
                 if (MM.deviceType == "tablet" && contents.length > 0) {
@@ -69,12 +69,10 @@ define(templates,function (contentsTpl, contentTpl) {
         },
 
         viewContent: function(courseId, contentId) {
-            MM.collections.contents.fetch();
-            //console.log(MM.config.current_site.id + "-" + contentId);
-            var content = MM.collections.contents.get(MM.config.current_site.id + "-" + contentId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             
-            var html = _.template(MM.plugins.contents.templates.content.html, {content: content});
+            var html = MM.tpl.render(MM.plugins.contents.templates.content.html, {content: content});
             MM.panels.show('right', html);
             MM.widgets.enhance([{id: "modlink", type: "button"}]);
         },

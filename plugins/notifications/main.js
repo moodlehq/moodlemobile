@@ -27,12 +27,9 @@ define(templates, function (notifsTpl, notifTpl) {
             if (MM.deviceType == "tablet") {
                 MM.panels.showLoading('right');
             }
-            
-            // Fetch all the notifications.
-            MM.collections.notifications.fetch();
-            
+
             // Look for notifications for this site.
-            var notificationsFilter = MM.collections.notifications.where({siteid: MM.config.current_site.id});
+            var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
             var notifications = [];
             
             $.each(notificationsFilter, function(index, el) {
@@ -41,7 +38,7 @@ define(templates, function (notifsTpl, notifTpl) {
             
             if (notifications.length > 0) {
                 var tpl = {notifications: notifications};
-                var html = _.template(MM.plugins.notifications.templates.notifications.html, tpl);
+                var html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
             } else {
                 var html = MM.lang.s("therearenotnotificationsyet");
             }
@@ -55,10 +52,9 @@ define(templates, function (notifsTpl, notifTpl) {
         },
         
         showNotification: function(id) {
-            MM.collections.notifications.fetch();
-            var notification = MM.collections.notifications.get(id).toJSON();;
+            var notification = MM.db.get("notifications", id).toJSON();;
             
-            var html = _.template(MM.plugins.notifications.templates.notification.html, notification);
+            var html = MM.tpl.render(MM.plugins.notifications.templates.notification.html, notification);
             MM.panels.show('right', html);
         },
         

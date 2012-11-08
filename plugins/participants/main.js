@@ -38,7 +38,7 @@ define(templates,function (participantsTpl, participantTpl) {
             
             MM.moodleWSCall('moodle_user_get_users_by_courseid', data, function(users) {
                 var tpl = {users: users, deviceType: MM.deviceType, courseId: courseId};
-                var html = _.template(MM.plugins.participants.templates.participants.html, tpl);
+                var html = MM.tpl.render(MM.plugins.participants.templates.participants.html, tpl);
                 MM.panels.show('center', html);
                 // Load the first user
                 if (MM.deviceType == "tablet" && users.length > 0) {
@@ -64,7 +64,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 }
                 
                 var tpl = {"user": users.shift(), "plugins": userPlugins, "courseid": courseId};
-                var html = _.template(MM.plugins.participants.templates.participant.html, tpl);
+                var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
                 MM.panels.show('right', html);
             });
         },
