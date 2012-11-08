@@ -48,7 +48,7 @@ define(templates,function (contentsTpl, contentTpl) {
                         content.contentid = content.id;
                         content.courseid = courseId;
                         content.id = MM.config.current_site.id + "-" + content.contentid;
-                        MM.collections.contents.create(content);
+                        MM.db.insert("contents", content);
                         if(!firstContent) {
                             firstContent = content.contentid;
                         }
