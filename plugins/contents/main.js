@@ -54,20 +54,23 @@ define(templates,function (contentsTpl, contentTpl) {
                         }
                     });
                 });
-                
+
                 var tpl = {
                     sections: contents,
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
                 var html = _.template(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('center', html);
-                MM.plugins.contents.viewContent(courseId, firstContent);
+
+                if (MM.deviceType == "tablet" && contents.length > 0) {
+                    MM.plugins.contents.viewContent(courseId, firstContent);
+                }
             });
         },
 
         viewContent: function(courseId, contentId) {
             MM.collections.contents.fetch();
-            console.log(MM.config.current_site.id + "-" + contentId);
+            //console.log(MM.config.current_site.id + "-" + contentId);
             var content = MM.collections.contents.get(MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             

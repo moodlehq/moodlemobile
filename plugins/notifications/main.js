@@ -39,14 +39,17 @@ define(templates, function (notifsTpl, notifTpl) {
                 notifications.push(el.toJSON());
             });
             
-            var tpl = {notifications: notifications};
-            var html = _.template(MM.plugins.notifications.templates.notifications.html, tpl);
+            if (notifications.length > 0) {
+                var tpl = {notifications: notifications};
+                var html = _.template(MM.plugins.notifications.templates.notifications.html, tpl);
+            } else {
+                var html = MM.lang.s("therearenotnotificationsyet");
+            }
+            
             MM.panels.show('center', html);
             // Load the first user
             if (MM.deviceType == "tablet" && notifications.length > 0) {
                 MM.plugins.notifications.showNotification(notifications.shift().id);
-            } else {
-                MM.panels.show('right', "");
             }
 
         },
