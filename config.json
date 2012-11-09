@@ -6,5 +6,6 @@
 "presets" : {"url": "http://mm.cvaconsulting.com/moodle", "username": "student"},
 "sync_cron": 30,
 "sync_ws" : 300,
+"sync_css" : 3600,
 "sync_lang" : 3600
 }
