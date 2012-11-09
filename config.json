@@ -1,7 +1,10 @@
 {"cache_expiration_time" : 300000,
-"lang" : "en",
+"default_lang" : "en",
 "plugins" : ["notifications", "upload", "contents", "participants", "addcontact", "addnote", "sendmessage"],
 "wsservice" : "moodle_mobile_app",
 "test_enabled" : false,
-"presets" : {"url": "http://mm.cvaconsulting.com/moodle", "username": "student"}
+"presets" : {"url": "http://mm.cvaconsulting.com/moodle", "username": "student"},
+"sync_cron": 30,
+"sync_ws" : 300,
+"sync_lang" : 3600
 }

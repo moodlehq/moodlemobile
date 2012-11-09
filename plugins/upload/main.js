@@ -7,7 +7,10 @@ define(function () {
                 {name: "browsephotoalbums", menuURL: "#upload/browse"},
                 {name: "takepicture", menuURL: "#upload/take"},
                 {name: "recordaudio", menuURL: "#upload/record"}
-            ]
+            ],
+            lang: {
+                component: "core"
+            }
         },
         
         routes: [

@@ -10,7 +10,7 @@ define(templates,function (contentsTpl, contentTpl) {
             type: "course",
             menuURL: "#course/contents/",
             lang: {
-                component: "moodle"
+                component: "core"
             }
         },
 

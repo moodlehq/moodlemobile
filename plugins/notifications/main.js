@@ -8,7 +8,10 @@ define(templates, function (notifsTpl, notifTpl) {
         settings: {
             name: "notifications",
             type: "general",
-            menuURL: "#notifications"
+            menuURL: "#notifications",
+            lang: {
+                component: "core"
+            }
         },
 
         storage: {

@@ -5,7 +5,7 @@ define(function () {
             type: "user",
             menuURL: "#message",
             lang: {
-                component: "moodle"
+                component: "core"
             }
         },
         

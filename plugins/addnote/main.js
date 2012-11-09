@@ -5,7 +5,7 @@ define(function () {
             type: "user",
             menuURL: "#note",
             lang: {
-                component: "moodle"
+                component: "core"
             }
         },
         
