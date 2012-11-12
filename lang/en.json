@@ -31,7 +31,7 @@
 "warning": "Warning",
 "addedtoqueue": "You are offline, your operation has been added to task queue.",
 "sites": "Sites",
-"selectsite": "Select a site",
+"selectsite": "Select site",
 "sitename": "Site Name",
 "updatesite": "Update the site",
 "addsite": "Add a site",
@@ -107,5 +107,12 @@
 "addfakenotifications": "Add fake notifications",
 "enableautosync": "Enable auto sync",
 "name": "Name",
-"openinmoodle": "Open this module in Moodle"
+"openinmoodle": "Open this module in Moodle",
+"select": "Select",
+"siteurl": "Site URL",
+"username": "Username",
+"password": "Password",
+"usernamerequired": "Username required",
+"passwordrequired": "Password required",
+"siteurlrequired": "Site URL required"
 }
