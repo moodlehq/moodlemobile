@@ -724,3 +724,9 @@ div.jqi button.jqidefaultbutton{
   float: left;
   margin-right: 10px;
 }
+
+form div.error {
+  font-style: italic;
+  color: red;
+  display: none;
+}

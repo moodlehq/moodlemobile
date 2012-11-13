@@ -114,5 +114,9 @@
 "password": "Password",
 "usernamerequired": "Username required",
 "passwordrequired": "Password required",
-"siteurlrequired": "Site URL required"
+"siteurlrequired": "Site URL required",
+"siteexists": "This site already exists",
+"enableautosyncws": "Enable synchronization of operations an data",
+"enableautosynccss": "Enable synchronization of additional CSS sytlesheet",
+"enableautosynclang": "Enable synchronization of language files"
 }
