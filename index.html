@@ -74,21 +74,21 @@
             <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink">
-                    <span data-icon="n" aria-hidden="true"></span>
+                    <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
                     <%= MM.lang.s(plugin.name) %>
                 </a>
             </li>
             <% } else { %>
             <li class="nav-item">
                 <a href="" class="toogler">
-                    <span data-icon="u" aria-hidden="true"></span>
+                    <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
                     <%= MM.lang.s(plugin.name) %>
                 </a>
                 <ul class="nav submenu">
                     <% _.each(plugin.subMenus, function(menu) { %>
                     <li class="nav-item">
                         <a href="<%= menu.menuURL %>" class="alink">
-                            <span data-icon="p" aria-hidden="true"></span>
+                            <span class="plugin-ico"><img src="<%= menu.icon %>" border="0"></span>
                             <%= MM.lang.s(menu.name) %>
                         </a>
                     </li>
@@ -105,14 +105,14 @@
                 <% _.each(courses, function(course) { %>
                 <li class="nav-item">
                     <a href="#" class="toogler">
-                        <span data-icon="b" aria-hidden="true"></span>
+                        <span class="course-ico"><img src="img/ico-course.png" border="0"></span>
                         <%= course.fullname %>
                     </a>
                     <ul class="nav submenu">
                         <% _.each(coursePlugins, function(plugin) { %>
                         <li class="nav-item">
                             <a href="<%= plugin.menuURL %><%= course.id %>">
-                                <span data-icon="g" aria-hidden="true"></span>
+                                <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
                                 <%= MM.lang.s(plugin.name) %>
                             </a>
                         </li>
