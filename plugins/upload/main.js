@@ -20,15 +20,72 @@ define(function () {
         ],
         
         browseAlbums: function() {
-            MM.panels.show("center", "Not implemented");
+            navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
+                quality: 50,
+                destinationType: navigator.camera.DestinationType.FILE_URI,
+                sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+            });
         },
 
         takeMedia: function() {
-            MM.panels.show("center", "Not implemented");
+            navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
+                quality: 50,
+                destinationType: navigator.camera.DestinationType.FILE_URI
+            });
         },
         
         recordAudio: function() {
-            MM.panels.show("center", "Not implemented");
+            navigator.device.capture.captureAudio(MM.plugins.upload.recordAudioSuccess, MM.plugins.upload.recordAudioFails, {limit: 1});
+        },
+        
+        photoSuccess: function(uri) {
+            var html = '\
+                <div id="camera-image" style="background-size:100%;min-height:250px"></div>\
+                <button id="bupload" type="button">' + MM.lang.s("upload") + '</button>\
+            ';
+            MM.panels.show("center", html);
+            
+            $('#camera-image').css({
+                'background-image': 'url('+uri+')',
+                'background-size':  '100%'
+            });
+
+            $("#bupload").click(function(){
+                var d = new Date();
+                
+                var options = {};
+                options.fileKey="file";
+                options.fileName="image_"+d.getTime()+".jpg";
+                options.mimeType="image/jpeg";
+                
+                MM.moodleUploadFile(uri, options,
+                                    function(){ MM.popMessage(MM.lang.s("fileuploaded")); },
+                                    function(){ MM.popErrorMessage(MM.lang.s("erroruploading")) }
+                );       
+            });            
+        },
+        
+        photoFails: function() {
+            MM.popErrorMessage(MM.lang.s("errorcamera"));
+        },
+        
+        recordAudioSuccess: function(mediaFiles) {
+            var i, len;
+            for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+                var options = {};
+                options.fileKey = null;
+                options.fileName = mediaFiles[i].name;
+                options.mimeType = null;
+                
+                MM.moodleUploadFile(mediaFiles[i].fullPath, options,
+                                    function(){ MM.popMessage(MM.lang.s("fileuploaded")); },
+                                    function(){ MM.popErrorMessage(MM.lang.s("erroruploading")) }
+                ); 
+            } 
+        },
+        
+        recordAudioFails: function() {
+            MM.popErrorMessage(MM.lang.s("audionotavailable"));
         }
     }
     

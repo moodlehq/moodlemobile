@@ -120,5 +120,7 @@
 "enableautosynccss": "Enable synchronization of additional CSS sytlesheet",
 "enableautosynclang": "Enable synchronization of language files",
 "resetapp": "Reset application",
-"areyousurereset" : "Are you sure you want to reset the application? All of your sites will be deleted."
+"areyousurereset" : "Are you sure you want to reset the application? All of your sites will be deleted.",
+"erroruploading": "Error uploading file",
+"fileuploaded": "File uploaded"
 }
