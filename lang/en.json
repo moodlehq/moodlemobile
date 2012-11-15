@@ -98,6 +98,7 @@
 "yourpassword": "password",
 "requiredfields": "You must fill up all required fields.",
 "notifications": "Notifications",
+"content": "Content",
 "contents": "Contents",
 "fullname": "Full name",
 "development": "Development",
@@ -122,5 +123,7 @@
 "resetapp": "Reset application",
 "areyousurereset" : "Are you sure you want to reset the application? All of your sites will be deleted.",
 "erroruploading": "Error uploading file",
-"fileuploaded": "File uploaded"
+"fileuploaded": "File uploaded",
+"loadcordovaemulator": "Load Cordova emulator",
+"generalsettings": "General settings"
 }

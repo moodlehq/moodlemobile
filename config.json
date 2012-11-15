@@ -7,9 +7,10 @@
 "sync_ws_on" : true,
 "sync_lang_on" : true,
 "sync_css_on" : true,
-"sync_cron": 30,
-"sync_ws" : 300,
-"sync_css" : 3600,
-"sync_lang" : 3600,
-"log_length" : 20
+"sync_cron": 30000,
+"sync_ws" : 10000,
+"sync_css" : 3600000,
+"sync_lang" : 3600000,
+"log_length" : 20,
+"dev_debug": true
 }

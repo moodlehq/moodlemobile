@@ -40,17 +40,52 @@ define(templates,function (contentsTpl, contentTpl) {
             
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+                var courseName = course.get("fullname");
+                
                 
                 var firstContent = 0;
                 
                 $.each(JSON.parse(JSON.stringify(contents)), function(index, sections){
-                    $.each(sections.modules, function(index, content){
+                    $.each(sections.modules, function(index, content){                        
+
                         content.contentid = content.id;
                         content.courseid = courseId;
                         content.id = MM.config.current_site.id + "-" + content.contentid;
-                        MM.db.insert("contents", content);
+
                         if(!firstContent) {
                             firstContent = content.contentid;
+                        }
+                        
+                        // This content is currently in the database.
+                        if (MM.db.get("contents", content.id)) {
+                            return true; // This is a continue;
+                        }
+                        
+                        MM.db.insert("contents", content);
+                        
+                        // Sync content files.
+
+                        if (typeof(content.contents) != "undefined") {
+                            $.each(content.contents, function (index, file) {
+                                var el = {
+                                    id: hex_md5(MM.config.current_site.id + file.fileurl),
+                                    url: file.fileurl,
+                                    mod: {
+                                        id: content.id.replace(MM.config.current_site_id + "-", ""),
+                                        pos: index,
+                                        name: content.modname,
+                                        course: courseId
+                                    },
+                                    syncData: {
+                                        name: MM.lang.s("content") + ": " + courseName + ": " + content.name,
+                                        description: file.fileurl
+                                    },
+                                    siteid: MM.config.current_site.id,
+                                    type: "content"
+                                   };
+                                MM.log("Sync: Adding content: " + el.syncData.name + ": " + el.url);
+                                MM.db.insert("sync", el);
+                            });
                         }
                     });
                 });
