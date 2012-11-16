@@ -1,4 +1,6 @@
-{"cache_expiration_time" : 300000,
+{
+"app_id" : "moodlemobile",
+"cache_expiration_time" : 300000,
 "default_lang" : "en",
 "plugins" : ["notifications", "upload", "contents", "participants", "addcontact", "addnote", "sendmessage"],
 "wsservice" : "moodle_mobile_app",
