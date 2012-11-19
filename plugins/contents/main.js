@@ -71,7 +71,7 @@ define(templates,function (contentsTpl, contentTpl) {
                                     id: hex_md5(MM.config.current_site.id + file.fileurl),
                                     url: file.fileurl,
                                     mod: {
-                                        id: content.id.replace(MM.config.current_site_id + "-", ""),
+                                        id: content.contentid,
                                         pos: index,
                                         name: content.modname,
                                         course: courseId
