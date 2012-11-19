@@ -20,6 +20,7 @@ define(function () {
         ],
         
         browseAlbums: function() {
+            MM.log("Upload: Trying to get a image frr albums");
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
                 destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -28,6 +29,7 @@ define(function () {
         },
 
         takeMedia: function() {
+            MM.log("Upload: Trying to get a image from camera");
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
                 destinationType: navigator.camera.DestinationType.FILE_URI
@@ -35,10 +37,12 @@ define(function () {
         },
         
         recordAudio: function() {
+            MM.log("Upload: Trying to record and Audio");
             navigator.device.capture.captureAudio(MM.plugins.upload.recordAudioSuccess, MM.plugins.upload.recordAudioFails, {limit: 1});
         },
         
         photoSuccess: function(uri) {
+            MM.log("Upload: Photo adquired");
             var html = '\
                 <div id="camera-image" style="background-size:100%;min-height:250px"></div>\
                 <button id="bupload" type="button">' + MM.lang.s("upload") + '</button>\
@@ -53,6 +57,8 @@ define(function () {
             $("#bupload").click(function(){
                 var d = new Date();
                 
+                MM.log("Upload: Uploading an image to Moodle");
+                
                 var options = {};
                 options.fileKey="file";
                 options.fileName="image_"+d.getTime()+".jpg";
@@ -66,10 +72,14 @@ define(function () {
         },
         
         photoFails: function() {
+            MM.log("Upload: Error trying getting a photo");
             MM.popErrorMessage(MM.lang.s("errorcamera"));
         },
         
         recordAudioSuccess: function(mediaFiles) {
+            
+            MM.log("Upload: Auddio sucesfully recorded");
+            
             var i, len;
             for (i = 0, len = mediaFiles.length; i < len; i += 1) {
                 var options = {};

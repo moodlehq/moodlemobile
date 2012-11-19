@@ -394,7 +394,7 @@ ol {
 /* - user-menu
 -------------------------------------------------------------------------- */
 .panel.user-menu {
-  background: #fa8f1c url(../img/orange-bg.png);
+  background-color: #fa8f1c;
   color: #fff;
   font-size: 12px;
   font-size: 0.875rem;
