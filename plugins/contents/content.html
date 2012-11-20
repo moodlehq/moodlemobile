@@ -20,6 +20,9 @@
             <li><strong><% print(MM.lang.s(field)); %>:</strong> <% print(el[field]); %>
             </li>
             <% } %>
+            <% if (el.localpath) { %>
+            <li><a id="modlink" href="<%= content.localpath %>" rel="external" target="_blank"><%= MM.lang.s("openlocalcopy") %></a></li>
+            <% } %>
         <% }); %>
     </ul>
     <% }); %>

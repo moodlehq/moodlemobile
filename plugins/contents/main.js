@@ -67,15 +67,16 @@ define(templates,function (contentsTpl, contentTpl) {
 
                         if (typeof(content.contents) != "undefined") {
                             $.each(content.contents, function (index, file) {
+                                
+                                var paths = MM.plugins.contents.getLocalPaths(courseId, content.contentid, file);
+                                                                
                                 var el = {
                                     id: hex_md5(MM.config.current_site.id + file.fileurl),
                                     url: file.fileurl,
-                                    mod: {
-                                        id: content.contentid,
-                                        pos: index,
-                                        name: content.modname,
-                                        course: courseId
-                                    },
+                                    path: paths.directory,
+                                    newfile: paths.file,
+                                    contentid: content.id,
+                                    index: index,
                                     syncData: {
                                         name: MM.lang.s("content") + ": " + courseName + ": " + content.name,
                                         description: file.fileurl
@@ -110,6 +111,23 @@ define(templates,function (contentsTpl, contentTpl) {
             var html = MM.tpl.render(MM.plugins.contents.templates.content.html, {content: content});
             MM.panels.show('right', html);
             MM.widgets.enhance([{id: "modlink", type: "button"}]);
+            
+        },
+        
+        
+        getLocalPaths: function(courseId, modId, file) {
+
+            var filename = file.fileurl.replace("?forcedownload=1", "");
+            filename = filename.substr(filename.lastIndexOf("/") + 1);
+            // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
+            var path = MM.fs.getRoot() + "/" + MM.config.current_site.id + "/" + courseId + "/" + modId;
+
+            var newfile = path + "/" + filename;
+            
+            return {
+                directory: path,
+                file: newfile
+            }
         },
         
         templates: {
