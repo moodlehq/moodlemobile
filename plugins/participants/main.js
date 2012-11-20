@@ -1,6 +1,6 @@
 var templates = [
-    "root/lib/text!root/plugins/participants/participants.html",
-    "root/lib/text!root/plugins/participants/participant.html"
+    "root/externallib/text!root/plugins/participants/participants.html",
+    "root/externallib/text!root/plugins/participants/participant.html"
 ];
 
 define(templates,function (participantsTpl, participantTpl) {

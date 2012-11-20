@@ -1,6 +1,6 @@
 var templates = [
-    "root/lib/text!root/plugins/notifications/notifications.html",
-    "root/lib/text!root/plugins/notifications/notification.html"
+    "root/externallib/text!root/plugins/notifications/notifications.html",
+    "root/externallib/text!root/plugins/notifications/notification.html"
 ];
 
 define(templates, function (notifsTpl, notifTpl) {

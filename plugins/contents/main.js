@@ -1,6 +1,6 @@
 var templates = [
-    "root/lib/text!root/plugins/contents/contents.html",
-    "root/lib/text!root/plugins/contents/content.html"
+    "root/externallib/text!root/plugins/contents/contents.html",
+    "root/externallib/text!root/plugins/contents/content.html"
 ];
 
 define(templates,function (contentsTpl, contentTpl) {
