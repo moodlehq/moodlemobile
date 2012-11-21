@@ -45,7 +45,12 @@ define(templates,function (contentsTpl, contentTpl) {
                 
                 var firstContent = 0;
                 
-                $.each(JSON.parse(JSON.stringify(contents)), function(index, sections){
+				var contentsStored = [];
+				MM.db.each("contents", function(el){
+					contentsStored.push(el);
+				});
+				
+				$.each(JSON.parse(JSON.stringify(contents)), function(index, sections){
                     $.each(sections.modules, function(index, content){                        
 
                         content.contentid = content.id;
@@ -57,7 +62,7 @@ define(templates,function (contentsTpl, contentTpl) {
                         }
                         
                         // This content is currently in the database.
-                        if (MM.db.get("contents", content.id)) {
+                        if (contentsStored.indexOf(content.id) > -1) {
                             return true; // This is a continue;
                         }
                         
@@ -67,6 +72,10 @@ define(templates,function (contentsTpl, contentTpl) {
 
                         if (typeof(content.contents) != "undefined") {
                             $.each(content.contents, function (index, file) {
+                                
+                                if (file.fileurl.indexOf(MM.config.current_site.siteurl) == -1) {
+                                	return true;
+                                }
                                 
                                 var paths = MM.plugins.contents.getLocalPaths(courseId, content.contentid, file);
                                                                 
@@ -107,6 +116,8 @@ define(templates,function (contentsTpl, contentTpl) {
         viewContent: function(courseId, contentId) {
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
+            
+            console.log(content);
             
             var html = MM.tpl.render(MM.plugins.contents.templates.content.html, {content: content});
             MM.panels.show('right', html);

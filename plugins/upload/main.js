@@ -21,6 +21,8 @@ define(function () {
         
         browseAlbums: function() {
             MM.log("Upload: Trying to get a image frr albums");
+            MM.panels.html("center", "");
+            MM.panels.html("right", "");
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
                 destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -30,6 +32,8 @@ define(function () {
 
         takeMedia: function() {
             MM.log("Upload: Trying to get a image from camera");
+            MM.panels.html("center", "");
+            MM.panels.html("right", "");
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
                 destinationType: navigator.camera.DestinationType.FILE_URI
@@ -38,6 +42,8 @@ define(function () {
         
         recordAudio: function() {
             MM.log("Upload: Trying to record and Audio");
+            MM.panels.html("center", "");
+            MM.panels.html("right", "");
             navigator.device.capture.captureAudio(MM.plugins.upload.recordAudioSuccess, MM.plugins.upload.recordAudioFails, {limit: 1});
         },
         
@@ -48,6 +54,7 @@ define(function () {
                 <button id="bupload" type="button">' + MM.lang.s("upload") + '</button>\
             ';
             MM.panels.show("center", html);
+            MM.panels.html("right", "");
             
             $('#camera-image').css({
                 'background-image': 'url('+uri+')',
