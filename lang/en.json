@@ -125,5 +125,11 @@
 "erroruploading": "Error uploading file",
 "fileuploaded": "File uploaded",
 "loadcordovaemulator": "Load Cordova emulator",
-"generalsettings": "General settings"
+"general": "General",
+"purgecaches": "Purge caches",
+"allcachespurged": "All caches purged",
+"cacheexpirationtime": "Cache expiration time (seconds)",
+"forcelangsync": "Force lang sync now",
+"forcecsssync": "Force css sync now",
+"empty": "empty"
 }
