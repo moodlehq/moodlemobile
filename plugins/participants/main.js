@@ -62,9 +62,13 @@ define(templates,function (participantsTpl, participantTpl) {
                         userPlugins.push(plugin.settings);
                     }
                 }
+
+                var newUser = users.shift();
                 
-                var tpl = {"user": users.shift(), "plugins": userPlugins, "courseid": courseId};
+                var tpl = {"user": newUser, "plugins": userPlugins, "courseid": courseId};
                 var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
+                newUser.id = MM.config.current_site.id + "-" + newUser.id;
+                MM.db.insert("users", newUser);
                 MM.panels.show('right', html);
             });
         },

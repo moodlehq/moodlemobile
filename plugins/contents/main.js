@@ -42,7 +42,6 @@ define(templates,function (contentsTpl, contentTpl) {
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var courseName = course.get("fullname");
                 
-                
                 var firstContent = 0;
                 
 				var contentsStored = [];
