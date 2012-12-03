@@ -131,5 +131,6 @@
 "cacheexpirationtime": "Cache expiration time (seconds)",
 "forcelangsync": "Force lang sync now",
 "forcecsssync": "Force css sync now",
-"empty": "empty"
+"empty": "empty",
+"showall": "Show all"
 }

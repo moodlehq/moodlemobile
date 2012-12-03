@@ -1,9 +1,10 @@
 var templates = [
+    "root/externallib/text!root/plugins/contents/sections.html",
     "root/externallib/text!root/plugins/contents/contents.html",
     "root/externallib/text!root/plugins/contents/content.html"
 ];
 
-define(templates,function (contentsTpl, contentTpl) {
+define(templates,function (sectionsTpl, contentsTpl, contentTpl) {
     var plugin = {
         settings: {
             name: "contents",
@@ -21,12 +22,42 @@ define(templates,function (contentsTpl, contentTpl) {
 
         routes: [
             ["course/contents/:courseid", "course_contents", "viewCourseContents"],
+            ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
             ["course/contents/:courseid/view/:contentid", "course_contents_view", "viewContent"]
         ],
 
         viewCourseContents: function(courseId) {
 
             MM.panels.showLoading('center');
+
+            if (MM.deviceType == "tablet") {
+                MM.panels.showLoading('right');
+            }
+
+            var data = {
+            "options[0][name]" : "",
+            "options[0][value]" : ""
+            };            
+            data.courseid = courseId;
+            
+            MM.moodleWSCall('core_course_get_contents', data, function(contents) {
+                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+
+                var tpl = {
+                    sections: contents,
+                    course: course.toJSON() // Convert a model to a plain javascript object.
+                }
+                var html = MM.tpl.render(MM.plugins.contents.templates.sections.html, tpl);
+                MM.panels.show("center", html);
+                if (MM.deviceType == "tablet" && contents.length > 0) {
+                    // First section.
+                    MM.plugins.contents.viewCourseContentsSection(courseId, 0);
+                }
+            });
+        },
+
+
+        viewCourseContentsSection: function(courseId, sectionId) {
 
             if (MM.deviceType == "tablet") {
                 MM.panels.showLoading('right');
@@ -49,7 +80,17 @@ define(templates,function (contentsTpl, contentTpl) {
 					contentsStored.push(el);
 				});
 				
+                var finalContents = [];
 				$.each(JSON.parse(JSON.stringify(contents)), function(index, sections){
+
+                    // Skip sections deleting contents..
+                    if (sectionId > -1 && sectionId != index) {
+                        // This is a continue.
+                        return true;
+                    }
+                    
+                    finalContents.push(sections);
+                    
                     $.each(sections.modules, function(index, content){                        
 
                         content.contentid = content.id;
@@ -100,28 +141,23 @@ define(templates,function (contentsTpl, contentTpl) {
                 });
 
                 var tpl = {
-                    sections: contents,
+                    sections: finalContents,
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
-                MM.panels.show('center', html);
+                MM.panels.show('right', html);
 
-                if (MM.deviceType == "tablet" && contents.length > 0) {
-                    MM.plugins.contents.viewContent(courseId, firstContent);
-                }
             });
         },
+
 
         viewContent: function(courseId, contentId) {
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
-            
-            console.log(content);
-            
+
             var html = MM.tpl.render(MM.plugins.contents.templates.content.html, {content: content});
             MM.panels.show('right', html);
             MM.widgets.enhance([{id: "modlink", type: "button"}]);
-            
         },
         
         
@@ -147,6 +183,9 @@ define(templates,function (contentsTpl, contentTpl) {
             },
             "contents": {
                 html: contentsTpl
+            },
+            "sections": {
+                html: sectionsTpl
             }
         }
     }
