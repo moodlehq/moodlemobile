@@ -1,9 +1,8 @@
 var templates = [
-    "root/externallib/text!root/plugins/notifications/notifications.html",
-    "root/externallib/text!root/plugins/notifications/notification.html"
+    "root/externallib/text!root/plugins/notifications/notifications.html"
 ];
 
-define(templates, function (notifsTpl, notifTpl) {
+define(templates, function (notifsTpl) {
     var plugin = {
         settings: {
             name: "notifications",
@@ -20,16 +19,12 @@ define(templates, function (notifsTpl, notifTpl) {
         },
 
         routes: [
-            ["notifications", "notifications", "showNotifications"],
-            ["notification/:id", "notification_id", "showNotification"]
+            ["notifications", "notifications", "showNotifications"]
         ],
         
         showNotifications: function() {
             MM.panels.showLoading('center');
-            
-            if (MM.deviceType == "tablet") {
-                MM.panels.showLoading('right');
-            }
+            MM.panels.hide("right", "");
 
             // Look for notifications for this site.
             var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
@@ -46,26 +41,11 @@ define(templates, function (notifsTpl, notifTpl) {
                 var html = MM.lang.s("therearenotnotificationsyet");
             }
             
-            MM.panels.show('center', html);
-            // Load the first user
-            if (MM.deviceType == "tablet" && notifications.length > 0) {
-                MM.plugins.notifications.showNotification(notifications.shift().id);
-            }
+            MM.panels.show('center', html, {hideRight: true});
 
-        },
-        
-        showNotification: function(id) {
-            var notification = MM.db.get("notifications", id).toJSON();;
-            
-            var html = MM.tpl.render(MM.plugins.notifications.templates.notification.html, notification);
-            MM.panels.show('right', html);
-        },
+        },  
         
         templates: {
-            "notification": {
-                model: "notification",
-                html: notifTpl
-            },
             "notifications": {
                 html: notifsTpl
             }
