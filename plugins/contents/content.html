@@ -14,7 +14,7 @@
         <% $.each(content.contents, function(index, el) { %>
 
             <p><strong><% print(el.filename); %></strong>
-            <a class="genericbutton" href="#course/contents/<%= courseId %>/view/<%= contentId %>/file/<%= index %>"><%= MM.lang.s("preview") %></a><br />
+            <a class="genericbutton" href="#course/contents/<%= courseId %>/section/<%= sectionId %>/view/<%= contentId %>/file/<%= index %>"><%= MM.lang.s("preview") %></a><br />
             </p>
             
         <% }); %>

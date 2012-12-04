@@ -25,8 +25,8 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
         routes: [
             ["course/contents/:courseid", "course_contents", "viewCourseContents"],
             ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
-            ["course/contents/:courseid/view/:contentid", "course_contents_view", "viewContent"],
-            ["course/contents/:courseid/view/:contentid/file/:fileIndex", "course_contents_view_file", "viewContent"]
+            ["course/contents/:courseid/section/:sectionId/view/:contentid", "course_contents_view", "viewContent"],
+            ["course/contents/:courseid/section/:sectionId/view/:contentid/file/:fileIndex", "course_contents_view_file", "viewContent"]
         ],
 
         viewCourseContents: function(courseId) {
@@ -145,6 +145,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
 
                 var tpl = {
                     sections: finalContents,
+                    sectionId: sectionId,
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
@@ -154,7 +155,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
         },
 
 
-        viewContent: function(courseId, contentId, fileIndex) {
+        viewContent: function(courseId, sectionId, contentId, fileIndex) {
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             
@@ -168,8 +169,9 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                 content: content,
                 type: "notavailable",
                 courseId: courseId,
+                sectionId: sectionId,
                 contentId: contentId,
-                backLink: "#course/contents/" + courseId
+                backLink: "#course/contents/" + courseId + "/section/" + sectionId
             };
             var tpl = MM.plugins.contents.templates.content.html;
 
@@ -182,7 +184,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                     element.file.download = element.file.fileurl + "&token=" + MM.config.current_token;
                     
                     if(typeof(element.file.localpath) != "undefined") {
-                        element.file.localpath = MM.fs.getRoot() + element.file.localpath;
+                        element.file.localpath = MM.fs.getRoot() + "/" + element.file.localpath;
                     }
                     
                     var extension = element.file.fileurl.replace("?forcedownload=1", "");
@@ -197,7 +199,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                     tpl = MM.plugins.contents.templates.file.html;
                     
                     if (typeof(fileIndex) != "undefined") {
-                        element.backLink = "#course/contents/" + courseId + "/view/" + contentId;
+                        element.backLink = "#course/contents/" + courseId + "/section/" + sectionId + "/view/" + contentId;
                     }
                     
                 } else {

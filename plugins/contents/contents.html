@@ -14,7 +14,7 @@
         <ul class="nav nav-v">
             <% _.each(section.modules, function(module) { %>
             <li class="nav-item media">
-                <a href="#course/contents/<%= course.courseid%>/view/<%= module.contentid %>">
+                <a href="#course/contents/<%= course.courseid%>/section/<%= sectionId %>/view/<%= module.contentid %>">
                 <div class="img"><img src="img/mod/<%= module.modname %>.png" alt="img"></div>
                 <div class="bd">
                     <h3><%= module.name %></h3>

@@ -137,6 +137,9 @@
 "contentyetnotavailable": "This type of activity is not yet available in the mobile app.  Visit the activity in the web site",
 "filenotsyncyet": "File not synchronized yet (not local copy available)",
 "downloadremotefile": "Download remote file",
-"filename" : "File name",
-"fileurl" : "File url"
+"filename":  "File name",
+"fileurl": "File url",
+"author": "Author",
+"license": "License",
+"openlocalcopy": "Open the local copy of the file"
 }
