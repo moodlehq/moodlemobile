@@ -1,10 +1,12 @@
 var templates = [
     "root/externallib/text!root/plugins/contents/sections.html",
     "root/externallib/text!root/plugins/contents/contents.html",
-    "root/externallib/text!root/plugins/contents/content.html"
+    "root/externallib/text!root/plugins/contents/content.html",
+    "root/externallib/text!root/plugins/contents/file.html",
+    "root/externallib/text!root/plugins/contents/mimetypes.json"
 ];
 
-define(templates,function (sectionsTpl, contentsTpl, contentTpl) {
+define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTypes) {
     var plugin = {
         settings: {
             name: "contents",
@@ -23,7 +25,8 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl) {
         routes: [
             ["course/contents/:courseid", "course_contents", "viewCourseContents"],
             ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
-            ["course/contents/:courseid/view/:contentid", "course_contents_view", "viewContent"]
+            ["course/contents/:courseid/view/:contentid", "course_contents_view", "viewContent"],
+            ["course/contents/:courseid/view/:contentid/file/:fileIndex", "course_contents_view_file", "viewContent"]
         ],
 
         viewCourseContents: function(courseId) {
@@ -77,7 +80,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl) {
                 
 				var contentsStored = [];
 				MM.db.each("contents", function(el){
-					contentsStored.push(el);
+					contentsStored.push(el.get("id"));
 				});
 				
                 var finalContents = [];
@@ -151,13 +154,61 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl) {
         },
 
 
-        viewContent: function(courseId, contentId) {
+        viewContent: function(courseId, contentId, fileIndex) {
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
+            
+            // We are looking only for a specific file, we should delete the rest of elements.
+            if (typeof(fileIndex) != "undefined") {
+                var oldContents = content.contents;
+                content.contents = [content.contents[fileIndex]];
+            }
 
-            var html = MM.tpl.render(MM.plugins.contents.templates.content.html, {content: content});
+            var element = {
+                content: content,
+                type: "notavailable",
+                courseId: courseId,
+                contentId: contentId,
+                backLink: "#course/contents/" + courseId
+            };
+            var tpl = MM.plugins.contents.templates.content.html;
+
+            // Now we detect the type of content, for displaying the correct template.            
+            if (typeof(content.contents) != "undefined") {
+                
+                if (content.contents.length == 1) {
+                    element.type == "singlefile";
+                    element.file = content.contents[0];
+                    element.file.download = element.file.fileurl + "&token=" + MM.config.current_token;
+                    
+                    if(typeof(element.file.localpath) != "undefined") {
+                        element.file.localpath = MM.fs.getRoot() + element.file.localpath;
+                    }
+                    
+                    var extension = element.file.fileurl.replace("?forcedownload=1", "");
+                    extension = extension.substr(extension.lastIndexOf(".") + 1);
+
+                    if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
+                        element.file.objectData = element.file.localpath;
+                        element.file.objectType = MM.plugins.contents.templates.mimetypes[extension];
+                        element.file.objectHeight = $(document).innerHeight() - 200;
+                    }
+
+                    tpl = MM.plugins.contents.templates.file.html;
+                    
+                    if (typeof(fileIndex) != "undefined") {
+                        element.backLink = "#course/contents/" + courseId + "/view/" + contentId;
+                    }
+                    
+                } else {
+                    element.type = "multiplefiles";
+                }
+            } 
+
+            var html = MM.tpl.render(tpl, element);
+            
             MM.panels.show('right', html);
-            MM.widgets.enhance([{id: "modlink", type: "button"}]);
+            MM.widgets.enhance([{id: "modlink", type: "button"}, {id: "backbutton", type: "button"}]);
         },
         
         
@@ -166,7 +217,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl) {
             var filename = file.fileurl.replace("?forcedownload=1", "");
             filename = filename.substr(filename.lastIndexOf("/") + 1);
             // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
-            var path = MM.fs.getRoot() + "/" + MM.config.current_site.id + "/" + courseId + "/" + modId;
+            var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
 
             var newfile = path + "/" + filename;
             
@@ -181,12 +232,16 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl) {
                 model: "content",
                 html: contentTpl
             },
+            "file": {
+                html: fileTpl
+            },
             "contents": {
                 html: contentsTpl
             },
             "sections": {
                 html: sectionsTpl
-            }
+            },
+            "mimetypes": JSON.parse(mimeTypes)
         }
     }
 

@@ -1,94 +1,8 @@
-/**
- * Moodle mobile cordova lib
- *
- * @package core
- * @copyright Juan Leyva <juanleyvadelgado@gmail.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+<html>
+<head>
+<script language="javascript">
 
-
-MM.cordova = {
-
-    /**
-     * This function load fake Cordova functions when we are testing in a browser
-     */
-    loadEmulator: function() {
-
-        if(typeof(FileUploadOptions) == "undefined"){
-            window.FileUploadOptions = function(){
-                return {};
-            }
-            MM.log("Cordova fake: FileUploadOptions manager loaded");
-        }
-        if(typeof(FileTransfer)== "undefined"){
-            window.FileTransfer = function() {};
-            window.FileTransfer.prototype.upload = function(filePath, server, successCallback, errorCallback, options, debug) {
-                MM.log("Cordova: Fake FileTransfer Upload");
-                setTimeout(successCallback,3000);
-            }
-            window.FileTransfer.prototype.download = function(url, filePath, successCallback, errorCallback, options, debug) {
-                MM.log("Cordova: Fake FileTransfer Download");
-                setTimeout(successCallback,3000);
-            }
-            MM.log("Cordova fake: FileTransfer manager loaded");
-        }
-        if(typeof(navigator.contacts) == "undefined"){
-            navigator.contacts = {};
-            
-            navigator.contacts.create = function(properties) {
-                var el = {
-                    "save": function(successCallback, errorCallback) {
-                        MM.popMessage("This is a empty function. Nothing is done because you are not using a mobile phone");
-                        setTimeout(successCallback,1000);
-                    }
-                }
-                return el;
-            };
-            
-            window.ContactName = function() { return {}; };
-            window.ContactField = function(type, value, pref) { return {}; };
-            MM.log("Cordova fake: contacts manager loaded");
-        }
-        if(typeof(navigator.device) == "undefined"){
-            navigator.device = {};
-            navigator.device.capture = {};
-            navigator.device.capture.captureAudio = function(captureSuccess, captureError, options){
-                MM.popMessage("This is a empty function. Nothing is done because you are not using a mobile phone");
-                setTimeout(captureError,1000);
-            }
-            MM.log("Cordova fake: captureAudio manager loaded");
-        }
-        
-        if (typeof(window.requestFileSystem) == "undefined") {
-            
-            window.LocalFileSystem = {
-                    PERSISTENT: 1
-            };
-            
-            window.requestFileSystem = function(type, params, successCallback, errorCallback) {
-                var entry = {
-                    root: {
-                        getDirectory: function(path, options, successCallback, errorCallback) {
-                            MM.log("Cordova fake: Cordova: Creating directory: " + path);
-                            successCallback(entry.root);
-                        },
-                        fullPath: "emulator/index.html#/fake_base_path"
-                    }
-                };
-                successCallback(entry);
-            };
-            
-            MM.log("Cordova fake: FileManager loaded");
-        }
-        
-        if (typeof(navigator.camera) == "undefined") {
-            navigator.camera = {};
-            navigator.camera.DestinationType = {}; 
-            navigator.camera.DestinationType.FILE_URI = 1;
-            navigator.camera.PictureSourceType = {};
-            navigator.camera.PictureSourceType.PHOTOLIBRARY = 1;
-            navigator.camera.getPicture = function(captureSuccess, captureError, options) {
-                captureSuccess('data:image/png;base64,'+
+var fakeImage = 'data:image/png;base64,'+
     'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdC'+
     'AK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAZiS0dE'+
     'AAAAAAAA+UO7fwAAAAlwSFlzAAAN1wAADdcBQiibeAAAAAl2cEFnAAAAQAAAAEAA6vP4YAAAFrVJ'+
@@ -196,14 +110,39 @@ MM.cordova = {
     'KhiLd2Tm58ob733GsLIW7W1JC4eLWTn9tzmeHyCWoFiC42IBkqUV/RNm/RkuVk46Wzn7p5z+HxeM'+
     'xr5elSNiAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA5LTE2VDA2OjQxOjAxLTA1OjAw5lN2zwAA'+
     'ACV0RVh0ZGF0ZTptb2RpZnkAMjAxMS0wMS0yOFQwNDo0OTozMC0wNTowMI+8KnEAAAAASUVORK5C'+
-    'YII=');
-            }
-            MM.log("Cordova fake: navigator.camera manager loaded");
-        }
-        
-        $(document).trigger("deviceready");
-        MM.log("Cordova fake: Emulator loaded, fired deviceready");
-        
-    }
+    'YII=';
     
+var fakePDF = 'data:application/pdf;base64,JVBERi0xLjMKMyAwIG9iago8PC9UeXBlIC9QYWdlCi9QYXJlbnQgMSAwIFIKL1Jlc291cmNlcyAyIDAgUgovQ29udGVudHMgNCAwIFI+PgplbmRvYmoKNCAwIG9iago8PC9MZW5ndGggMTY4Pj4Kc3RyZWFtCjAuNTcgdwowIEcKQlQKL0YxIDE2IFRmCjE2IFRMCjAgZwo1Ni42OSA3ODUuMjAgVGQKKEhlbGxvIHdvcmxkISkgVGoKRVQKQlQKL0YxIDE2IFRmCjE2IFRMCjAgZwo1Ni42OSA3NTYuODUgVGQKKFRoaXMgaXMgY2xpZW50LXNpZGUgSmF2YXNjcmlwdCwgcHVtcGluZyBvdXQgYSBQREYuKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCjUgMCBvYmoKPDwvVHlwZSAvUGFnZQovUGFyZW50IDEgMCBSCi9SZXNvdXJjZXMgMiAwIFIKL0NvbnRlbnRzIDYgMCBSPj4KZW5kb2JqCjYgMCBvYmoKPDwvTGVuZ3RoIDc1Pj4Kc3RyZWFtCjAuNTcgdwowIEcKQlQKL0YxIDE2IFRmCjE2IFRMCjAgZwo1Ni42OSA3ODUuMjAgVGQKKERvIHlvdSBsaWtlIHRoYXQ/KSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCjEgMCBvYmoKPDwvVHlwZSAvUGFnZXMKL0tpZHMgWzMgMCBSIDUgMCBSIF0KL0NvdW50IDIKL01lZGlhQm94IFswIDAgNTk1LjI4IDg0MS44OV0KPj4KZW5kb2JqCjcgMCBvYmoKPDwvQmFzZUZvbnQvSGVsdmV0aWNhL1R5cGUvRm9udAovU3VidHlwZS9UeXBlMT4+CmVuZG9iago4IDAgb2JqCjw8L0Jhc2VGb250L0hlbHZldGljYS1Cb2xkL1R5cGUvRm9udAovU3VidHlwZS9UeXBlMT4+CmVuZG9iago5IDAgb2JqCjw8L0Jhc2VGb250L0hlbHZldGljYS1PYmxpcXVlL1R5cGUvRm9udAovU3VidHlwZS9UeXBlMT4+CmVuZG9iagoxMCAwIG9iago8PC9CYXNlRm9udC9IZWx2ZXRpY2EtQm9sZE9ibGlxdWUvVHlwZS9Gb250Ci9TdWJ0eXBlL1R5cGUxPj4KZW5kb2JqCjExIDAgb2JqCjw8L0Jhc2VGb250L0NvdXJpZXIvVHlwZS9Gb250Ci9TdWJ0eXBlL1R5cGUxPj4KZW5kb2JqCjEyIDAgb2JqCjw8L0Jhc2VGb250L0NvdXJpZXItQm9sZC9UeXBlL0ZvbnQKL1N1YnR5cGUvVHlwZTE+PgplbmRvYmoKMTMgMCBvYmoKPDwvQmFzZUZvbnQvQ291cmllci1PYmxpcXVlL1R5cGUvRm9udAovU3VidHlwZS9UeXBlMT4+CmVuZG9iagoxNCAwIG9iago8PC9CYXNlRm9udC9Db3VyaWVyLUJvbGRPYmxpcXVlL1R5cGUvRm9udAovU3VidHlwZS9UeXBlMT4+CmVuZG9iagoxNSAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Sb21hbi9UeXBlL0ZvbnQKL1N1YnR5cGUvVHlwZTE+PgplbmRvYmoKMTYgMCBvYmoKPDwvQmFzZUZvbnQvVGltZXMtQm9sZC9UeXBlL0ZvbnQKL1N1YnR5cGUvVHlwZTE+PgplbmRvYmoKMTcgMCBvYmoKPDwvQmFzZUZvbnQvVGltZXMtSXRhbGljL1R5cGUvRm9udAovU3VidHlwZS9UeXBlMT4+CmVuZG9iagoxOCAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Cb2xkSXRhbGljL1R5cGUvRm9udAovU3VidHlwZS9UeXBlMT4+CmVuZG9iagoyIDAgb2JqCjw8Ci9Qcm9jU2V0IFsvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJXQovRm9udCA8PAovRjEgNyAwIFIKL0YyIDggMCBSCi9GMyA5IDAgUgovRjQgMTAgMCBSCi9GNSAxMSAwIFIKL0Y2IDEyIDAgUgovRjcgMTMgMCBSCi9GOCAxNCAwIFIKL0Y5IDE1IDAgUgovRjEwIDE2IDAgUgovRjExIDE3IDAgUgovRjEyIDE4IDAgUgo+PgovWE9iamVjdCA8PAo+Pgo+PgplbmRvYmoKMTkgMCBvYmoKPDwKL1Byb2R1Y2VyIChqc1BERiAyMDEyMDIyMCkKL0NyZWF0aW9uRGF0ZSAoRDoyMDEyMTIwNDE0MTkzNikKPj4KZW5kb2JqCjIwIDAgb2JqCjw8Ci9UeXBlIC9DYXRhbG9nCi9QYWdlcyAxIDAgUgovT3BlbkFjdGlvbiBbMyAwIFIgL0ZpdEggbnVsbF0KL1BhZ2VMYXlvdXQgL09uZUNvbHVtbgo+PgplbmRvYmoKeHJlZgowIDIxCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDUwNSAwMDAwMCBuIAowMDAwMDAxNDMwIDAwMDAwIG4gCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA4NyAwMDAwMCBuIAowMDAwMDAwMzA0IDAwMDAwIG4gCjAwMDAwMDAzODIgMDAwMDAgbiAKMDAwMDAwMDU5OCAwMDAwMCBuIAowMDAwMDAwNjYyIDAwMDAwIG4gCjAwMDAwMDA3MzEgMDAwMDAgbiAKMDAwMDAwMDgwMyAwMDAwMCBuIAowMDAwMDAwODgwIDAwMDAwIG4gCjAwMDAwMDA5NDMgMDAwMDAgbiAKMDAwMDAwMTAxMSAwMDAwMCBuIAowMDAwMDAxMDgyIDAwMDAwIG4gCjAwMDAwMDExNTcgMDAwMDAgbiAKMDAwMDAwMTIyNCAwMDAwMCBuIAowMDAwMDAxMjkwIDAwMDAwIG4gCjAwMDAwMDEzNTggMDAwMDAgbiAKMDAwMDAwMTY1NiAwMDAwMCBuIAowMDAwMDAxNzM4IDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgMjEKL1Jvb3QgMjAgMCBSCi9JbmZvIDE5IDAgUgo+PgpzdGFydHhyZWYKMTg0MgolJUVPRg==';
+
+var extension = location.href.substr(location.href.lastIndexOf(".") + 1);
+
+if (extension != "html") {
+
+    var rules = {
+        "images": {
+            "extensions": ["jpg","jpeg","png","gif","svg","bmp"],
+            "url" : fakeImage
+        },
+        
+        "pdf": {
+            "extensions": ["pdf"],
+            "url" : fakePDF
+        }
+    };
+    
+    for (var el in rules) {
+        var rule = rules[el];
+        
+        if(rule.extensions.indexOf(extension) > -1) {
+            location.href = rule.url;
+        }
+    }
 }
+
+</script>
+</head>
+<body>
+<h3>Fake HTML content!</h3>
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+</body>
+</html>

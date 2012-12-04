@@ -1,31 +1,24 @@
 
 <div class="content">
-    <ul class="site-data">
-    <% var fields = ["name", "description"]; %>
-    <% _.each(fields, function(field) { %>
-    <% if (content[field]) { %>
-        <li><strong><% print(MM.lang.s(field)); %>:</strong> <% print(content[field]); %>
-        </li>
-    <% } %>
-    <% }); %>
-    </ul>
-    <a id="modlink" href="<%= content.url %>" rel="external" target="_blank"><%= MM.lang.s("openinmoodle") %></a>
+
+    <p><strong><% print(content.name); %></strong></p>
+
+    <p><% print(content.description); %></p>
     
-    <% if (typeof content.contents != "undefined") { %>
-    <% _.each(content.contents, function(el) { %>
-    <ul class="module-content">
-        <% var fields = ["author", "license", "filename", "fileurl"]; %>
-        <% _.each(fields, function(field) { %>
-            <% if (el[field]) { %>
-            <li><strong><% print(MM.lang.s(field)); %>:</strong> <% print(el[field]); %>
-            </li>
-            <% } %>
-            <% if (el.localpath) { %>
-            <li><a id="modlink" href="<%= content.localpath %>" rel="external" target="_blank"><%= MM.lang.s("openlocalcopy") %></a></li>
-            <% } %>
-        <% }); %>
-    </ul>
-    <% }); %>
+    <% if (type == "notavailable") { %>
+        <p><%= MM.lang.s("contentyetnotavailable") %></p>
+        <a id="modlink" href="<%= content.url %>" rel="external" target="_blank"><%= MM.lang.s("openinmoodle") %></a>        
     <% } %>
-    </ul>
+    
+    <% if (type == "multiplefiles") { %>
+        <% $.each(content.contents, function(index, el) { %>
+
+            <p><strong><% print(el.filename); %></strong>
+            <a class="genericbutton" href="#course/contents/<%= courseId %>/view/<%= contentId %>/file/<%= index %>"><%= MM.lang.s("preview") %></a><br />
+            </p>
+            
+        <% }); %>
+    <% } %>
+    
+    <p><a id="backbutton" href="<%= backLink %>"><%= MM.lang.s("back") %></a></p>
 </div>

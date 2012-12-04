@@ -133,5 +133,10 @@
 "forcecsssync": "Force css sync now",
 "empty": "empty",
 "showall": "Show all",
-"uploading": "Uploading"
+"uploading": "Uploading",
+"contentyetnotavailable": "This type of activity is not yet available in the mobile app.  Visit the activity in the web site",
+"filenotsyncyet": "File not synchronized yet (not local copy available)",
+"downloadremotefile": "Download remote file",
+"filename" : "File name",
+"fileurl" : "File url"
 }

@@ -1,0 +1,42 @@
+
+<div class="content">
+
+    <p><strong><% print(content.name); %></strong></p>
+    <p><% print(content.description); %></p>
+    
+    
+    <% if (typeof(file.filename) != "undefined") { %>
+        <p><strong><% print(file.filename); %></strong></p>
+    <% } else { %>
+        <% var fname = file.fileurl.substr(file.fileurl.lastIndexOf("/") + 1); %>
+        <p><strong><% print(fname); %></strong></p>
+    <% } %>
+    
+    <ul>
+    <% var fields = ["author", "license", "filename"]; %>
+    <% _.each(fields, function(field) { %>
+        <% if (file[field]) { %>
+        <li><strong><% print(MM.lang.s(field)); %>:</strong> <% print(file[field]); %>
+        </li>
+        <% } %>
+    <% }); %>    
+    </ul>
+
+    <% if (file.localpath) { %>
+        
+        <% if (typeof(file.objectData) != "undefined") { %>
+            <p><%= MM.lang.s("preview") %></p>
+            <object data="<%= file.objectData %>" type="<%= file.objectType %>" width="95%" height="<%= file.objectHeight %>">
+            </object>
+        <% } %>
+        
+        <a id="modlink" href="<%= file.localpath %>" rel="external" target="_blank"><%= MM.lang.s("openlocalcopy") %></a>
+    <% } else { %>
+        <%= MM.lang.s("filenotsyncyet") %>
+        <p><a id="modlink" href="<%= file.download %>" rel="external" target="_blank"><%= MM.lang.s("downloadremotefile") %></a></p>
+    <% } %>
+    
+    <br />
+    <p><a id="backbutton" href="<%= backLink %>"><%= MM.lang.s("back") %></a></p>
+    
+</div>

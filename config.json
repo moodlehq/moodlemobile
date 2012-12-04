@@ -1,5 +1,5 @@
 {
-"app_id" : "moodlemobile",
+"app_id" : "org.moodle.moodlemobile",
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
 "plugins" : ["notifications", "upload", "contents", "participants", "addcontact", "addnote", "sendmessage"],
