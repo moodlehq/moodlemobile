@@ -176,32 +176,10 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
             var tpl = MM.plugins.contents.templates.content.html;
 
             // Now we detect the type of content, for displaying the correct template.            
-            if (typeof(content.contents) != "undefined") {
-                
+            if (typeof(content.contents) != "undefined") {                
                 if (content.contents.length == 1) {
-                    element.type == "singlefile";
-                    element.file = content.contents[0];
-                    element.file.download = element.file.fileurl + "&token=" + MM.config.current_token;
-                    
-                    if(typeof(element.file.localpath) != "undefined") {
-                        element.file.localpath = MM.fs.getRoot() + "/" + element.file.localpath;
-                    }
-                    
-                    var extension = element.file.fileurl.replace("?forcedownload=1", "");
-                    extension = extension.substr(extension.lastIndexOf(".") + 1);
-
-                    if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
-                        element.file.objectData = element.file.localpath;
-                        element.file.objectType = MM.plugins.contents.templates.mimetypes[extension];
-                        element.file.objectHeight = $(document).innerHeight() - 200;
-                    }
-
-                    tpl = MM.plugins.contents.templates.file.html;
-                    
-                    if (typeof(fileIndex) != "undefined") {
-                        element.backLink = "#course/contents/" + courseId + "/section/" + sectionId + "/view/" + contentId;
-                    }
-                    
+                    MM.plugins.contents.viewFile(courseId, sectionId, contentId, fileIndex, content, element);
+                    return true;                    
                 } else {
                     element.type = "multiplefiles";
                 }
@@ -209,10 +187,75 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
 
             var html = MM.tpl.render(tpl, element);
             
-            MM.panels.show('right', html);
+            MM.panels.html('right', html);
+            $("#panel-right").scrollTop(0);
             MM.widgets.enhance([{id: "modlink", type: "button"}, {id: "backbutton", type: "button"}]);
         },
         
+        viewFile: function(courseId, sectionId, contentId, fileIndex, content, element) {
+            MM.panels.showLoading("right");
+            // We are going to execute the code inside the function in sync or async way, this is the reason we need to encapsulate it in a function.
+            function renderFileView() {
+                element.file.localpath = MM.fs.getRoot() + "/" + element.file.localpath;
+                
+                var extension = element.file.filename.substr(element.file.filename.lastIndexOf(".") + 1);
+                
+                if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
+                    element.file.objectData = element.file.localpath;
+                    element.file.objectType = MM.plugins.contents.templates.mimetypes[extension];
+                    element.file.objectHeight = $(document).innerHeight() - 250;
+                }
+                
+                if (typeof(fileIndex) != "undefined") {
+                    element.backLink = "#course/contents/" + courseId + "/section/" + sectionId + "/view/" + contentId;
+                }
+                
+                var html = MM.tpl.render(tpl, element);
+                
+                MM.panels.html('right', html);
+                $("#panel-right").scrollTop(0);
+                MM.widgets.enhance([{id: "modlink", type: "button"}, {id: "backbutton", type: "button"}]);
+            }
+            
+            var tpl = MM.plugins.contents.templates.file.html;
+            
+            element.type == "singlefile";
+            element.file = content.contents[0];
+            element.file.download = element.file.fileurl + "&token=" + MM.config.current_token;
+            
+            // We check if the file is yet downloaded (the localpath is set only in downloaded files).
+            if(typeof(element.file.localpath) != "undefined") {
+                renderFileView();
+            } else {
+                // Now, we need to download the file.
+                // First we load the file system (is not loaded yet).
+                MM.fs.init(function() {
+                    var fileurl = element.file.fileurl + "&token=" + MM.config.current_token;
+                    var path = MM.plugins.contents.getLocalPaths(courseId, content.contentid, element.file);
+                    MM.log("Content: Starting download of file: " + fileurl);
+                    // All the functions are async, like create dir.
+                    MM.fs.createDir(path.directory, function() {
+                        MM.log("Content: Downloading content to " + path.file + " from URL: " + fileurl);
+                        MM.moodleDownloadFile(fileurl, path.file,
+                            function() {
+                                MM.log("Content: Download of content finished " + path.file + " URL: " + fileurl);
+                                
+                                content = MM.db.get("contents", content.id).toJSON();
+                                var index = 0;
+                                if (typeof(fileIndex) != "undefined") {
+                                    index = fileIndex;
+                                }                                                
+                                content.contents[index].localpath = path.file;
+                                MM.db.insert("contents", content);
+                                renderFileView();
+                            },
+                            function() {
+                               MM.log("Content: Error downloading " + path.file + " URL: " + fileurl);
+                             });
+                    }); 
+                });
+            }
+        },
         
         getLocalPaths: function(courseId, modId, file) {
 

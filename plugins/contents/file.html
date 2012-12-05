@@ -4,16 +4,10 @@
     <p><strong><% print(content.name); %></strong></p>
     <p><% print(content.description); %></p>
     
-    
-    <% if (typeof(file.filename) != "undefined") { %>
-        <p><strong><% print(file.filename); %></strong></p>
-    <% } else { %>
-        <% var fname = file.fileurl.substr(file.fileurl.lastIndexOf("/") + 1); %>
-        <p><strong><% print(fname); %></strong></p>
-    <% } %>
+    <p><strong><%= file.filename %></strong></p>
     
     <ul>
-    <% var fields = ["author", "license", "filename"]; %>
+    <% var fields = ["author", "license"]; %>
     <% _.each(fields, function(field) { %>
         <% if (file[field]) { %>
         <li><strong><% print(MM.lang.s(field)); %>:</strong> <% print(file[field]); %>
