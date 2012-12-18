@@ -1,8 +1,13 @@
-var templates = [
+var requires = [
     "root/externallib/text!root/plugins/notifications/notifications.html"
 ];
 
-define(templates, function (notifsTpl) {
+if (MM.deviceOS == "ios") {
+    // Add the ios push notifications javascript library.
+    requires.push("externallib/PushNotification.js");
+}
+
+define(requires, function (notifsTpl) {
     var plugin = {
         settings: {
             name: "notifications",
@@ -49,9 +54,114 @@ define(templates, function (notifsTpl) {
             "notifications": {
                 html: notifsTpl
             }
-        }
+        },
+        
+        check: function() {
+            if (MM.deviceOS == "ios") {
+                // Display pending notification.
+                var pushNotification = window.plugins.pushNotification;
+                // Check for pending notification
+                pushNotification.getPendingNotifications(function(notifications) {
+                     // notifications format:
+                     // {"notifications":[{"applicationStateActive":"0",
+                     //                    "url":"http://jerome.../message/index.php?user=2&id=402297",
+                     //                    "applicationLaunchNotification":"1",
+                     //                    "aps":{"alert":"the notification text"}}]}
+                     if (notifications.notifications.length > 0) {
+                         MM.plugins.notifications.saveAndDisplay(notifications.notifications[0]);
+                     }
+                });
+            }
+        },
+        
+        registerDevice: function() {
+            if (MM.deviceOS == "ios") {
+                // Request iOS Push Notification and retrieve device token
+                var pushNotification = window.plugins.pushNotification;
+                pushNotification.registerDevice({alert:true, badge:true, sound:true},
+                    function(status) {
+                        // Check the device token is not already known
+                        if (status['deviceToken'] != MM.getConfig("ios_device_token")) {
+                            // Save the device token setting
+                            MM.setConfig('ios_device_token', status['deviceToken']);
+                        }
+                    }
+                );
+            }
+        },
+        
+        listenEvents: function() {
+            if (MM.deviceOS == "ios") {
+                $(document).bind('push-notification', function(event) {
+                    var notification = event.notification;
+                    MM.plugins.notifications.saveAndDisplay(notification);
+                });
+            }
+        },
+        
+        saveAndDisplay: function(notification) {
+            if (MM.deviceOS == "ios") {
+                var pushNotification = window.plugins.pushNotification;
+                MM.popMessage(notification.aps.alert, {title: notification.userfrom});
+                pushNotification.setApplicationIconBadgeNumber(0);
+        
+                // Store the notification in the app.
+                MM.db.insert("notifications", {
+                    siteid: MM.config.current_site.id,
+                    subject: notification.userfrom,
+                    date: notification.date,
+                    fullmessage: notification.aps.alert,
+                    savedmessageid: notification.id,
+                    type: notification.type,
+                    urlparams: unescape(notification.urlparams)
+                });
+        
+                // Refresh pages if we are on the Notification page.
+            }
+        },
+        
+        registerForPushNotification: function() {
+            // iOS case
+            if (MM.getConfig("ios_device_token")) {
+                var data = {
+                    "permissions[0]" : "createtoken"
+                };
+    
+                // Get acces key to add a device token on airnotifier from Moodle site
+                MM.moodleWSCall('message_airnotifier_get_access_key', data, function(result) {
+    
+                    // Add device token to airnotifier
+                    var ajaxURL = MM.config.airnotifier_url + MM.getConfig("ios_device_token");
+                    $.ajax({
+                        type: "POST",
+                        url: ajaxURL,
+                        dataType: 'json',
+                        beforeSend: function(xhr){
+                            xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                            xhr.setRequestHeader('X-AN-APP-KEY', result);
+                            xhr.setRequestHeader('X-AN-APP-NAME', "moodlehtml5app");
+                            xhr.setRequestHeader('Accept', "application/json");
+                        },
+                        success: function(response){
+                            // Finally register the device on the Moodle site
+                            var data = {
+                                "device[appname]":'moodlehtml5app',
+                                "device[devicenotificationtoken]":MM.getConfig("ios_device_token"),
+                                "device[devicename]":window.device.name
+                            };
+                            MM.moodleWSCall('message_airnotifier_add_user_device', data, function(result) {
+                                MM.log("Notifications: Device registered on Airnotifier and the Moodle site");
+                            });
+                        }
+                    });    
+                });
+            }        
+        }        
         
     }
     
     MM.registerPlugin(plugin);
+    
+    // After register the plugin, bind events.
+    $(document).bind('resume', MM.plugins.notifications.check);
 });

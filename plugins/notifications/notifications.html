@@ -2,7 +2,11 @@
     <% _.each(notifications, function(notification) {%>
     <li class="nav-item">
         <%= notification.subject %><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<i><%= notification.date %></i>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <i>
+        	<% notifdate = new Date(notification.date*1000) %>
+    		<%= notifdate.getDate() %> / <%= notifdate.getMonth() + 1 %>  / <%= notifdate.getFullYear() %> 
+		</i>
     </li>
     <% }); %>
 </ul>

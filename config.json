@@ -13,5 +13,6 @@
 "sync_css" : 3600000,
 "sync_lang" : 3600000,
 "log_length" : 20,
-"dev_debug": true
+"dev_debug": true,
+"airnotifier_url": "http://notify.moodle.net:8801/tokens/"
 }
