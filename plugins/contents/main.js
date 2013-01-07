@@ -84,17 +84,15 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
 				});
 				
                 var finalContents = [];
-				$.each(JSON.parse(JSON.stringify(contents)), function(index, sections){
+				$.each(JSON.parse(JSON.stringify(contents)), function(index1, sections){
 
                     // Skip sections deleting contents..
-                    if (sectionId > -1 && sectionId != index) {
+                    if (sectionId > -1 && sectionId != index1) {
                         // This is a continue.
                         return true;
                     }
                     
-                    finalContents.push(sections);
-                    
-                    $.each(sections.modules, function(index, content){                        
+                    $.each(sections.modules, function(index2, content){                        
 
                         content.contentid = content.id;
                         content.courseid = courseId;
@@ -106,6 +104,10 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                         
                         // This content is currently in the database.
                         if (contentsStored.indexOf(content.id) > -1) {
+                            if (typeof(content.contents) != "undefined") {
+                                var c = MM.db.get("contents", content.id);
+                                sections.modules[index2].mainExtension = c.get("mainExtension");
+                            }
                             return true; // This is a continue;
                         }
                         
@@ -114,7 +116,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                         // Sync content files.
 
                         if (typeof(content.contents) != "undefined") {
-                            $.each(content.contents, function (index, file) {
+                            $.each(content.contents, function (index3, file) {
                                 
                                 if (file.fileurl.indexOf(MM.config.current_site.siteurl) == -1) {
                                 	return true;
@@ -128,7 +130,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                                     path: paths.directory,
                                     newfile: paths.file,
                                     contentid: content.id,
-                                    index: index,
+                                    index: index3,
                                     syncData: {
                                         name: MM.lang.s("content") + ": " + courseName + ": " + content.name,
                                         description: file.fileurl
@@ -138,9 +140,21 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                                    };
                                 MM.log("Sync: Adding content: " + el.syncData.name + ": " + el.url);
                                 MM.db.insert("sync", el);
+                                
+                                var extension = file.filename.substr(file.filename.lastIndexOf(".") + 1);
+                                
+                                // Exception for folder type, we use the resource icon.
+                                if (content.modname != "folder" && typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
+                                    sections.modules[index2].mainExtension = MM.plugins.contents.templates.mimetypes[extension]["icon"];
+                                    content.mainExtension = sections.modules[index2].mainExtension;
+                                    MM.db.insert("contents", content);
+                                }
                             });
                         }
                     });
+                    
+                    finalContents.push(sections);
+                    
                 });
 
                 var tpl = {
