@@ -202,7 +202,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                 
                 if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
                     element.file.objectData = element.file.localpath;
-                    element.file.objectType = MM.plugins.contents.templates.mimetypes[extension];
+                    element.file.objectType = MM.plugins.contents.templates.mimetypes[extension]["type"];
                     element.file.objectHeight = $(document).innerHeight() - 250;
                 }
                 
