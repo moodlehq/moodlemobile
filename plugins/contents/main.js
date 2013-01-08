@@ -26,6 +26,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
             ["course/contents/:courseid", "course_contents", "viewCourseContents"],
             ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
             ["course/contents/:courseid/section/:sectionId/view/:contentid", "course_contents_view", "viewContent"],
+            ["course/contents/:courseid/section/:sectionId/download/:contentid", "course_contents_download", "downloadContent"],
             ["course/contents/:courseid/section/:sectionId/view/:contentid/file/:fileIndex", "course_contents_view_file", "viewContent"]
         ],
 
@@ -101,29 +102,55 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                         if(!firstContent) {
                             firstContent = content.contentid;
                         }
-                        
+
                         // This content is currently in the database.
                         if (contentsStored.indexOf(content.id) > -1) {
-                            if (typeof(content.contents) != "undefined") {
-                                var c = MM.db.get("contents", content.id);
-                                sections.modules[index2].mainExtension = c.get("mainExtension");
+                            var c = MM.db.get("contents", content.id);
+                            c = c.toJSON();
+                            sections.modules[index2].mainExtension = c.mainExtension;
+                            sections.modules[index2].webOnly = c.webOnly;
+                            
+                            if (!sections.modules[index2].webOnly) {
+                                var downloaded = false;
+                                if (content.modname != "folder") {
+                                    downloaded = typeof(c.contents[0].localpath) != "undefined";
+                                } else {
+                                    downloaded = true;
+                                    $.each(c.contents, function (index5, filep) {
+                                        if (typeof(filep.localpath) == "undefined") {
+                                            downloaded = false;
+                                        }
+                                    });
+                                }
+                                sections.modules[index2].downloaded = downloaded;
                             }
+                            
                             return true; // This is a continue;
                         }
                         
+                        // The mod url also exports contents but are external contents not downloadable by the app.
+                        var modContents = ["folder","page","resource"];
+
+                        if (modContents.indexOf(content.modname) == -1) {
+                            content.webOnly = true;
+                        } else {
+                            content.webOnly = false;
+                        }
+                        sections.modules[index2].webOnly = content.webOnly;
+
                         MM.db.insert("contents", content);
-                        
+
                         // Sync content files.
 
                         if (typeof(content.contents) != "undefined") {
                             $.each(content.contents, function (index3, file) {
-                                
+
                                 if (file.fileurl.indexOf(MM.config.current_site.siteurl) == -1) {
                                 	return true;
                                 }
-                                
+
                                 var paths = MM.plugins.contents.getLocalPaths(courseId, content.contentid, file);
-                                                                
+
                                 var el = {
                                     id: hex_md5(MM.config.current_site.id + file.fileurl),
                                     url: file.fileurl,
@@ -138,11 +165,13 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                                     siteid: MM.config.current_site.id,
                                     type: "content"
                                    };
-                                MM.log("Sync: Adding content: " + el.syncData.name + ": " + el.url);
-                                MM.db.insert("sync", el);
                                 
+                                // Disabled auto sync temporaly
+                                //MM.log("Sync: Adding content: " + el.syncData.name + ": " + el.url);
+                                //MM.db.insert("sync", el);
+
                                 var extension = file.filename.substr(file.filename.lastIndexOf(".") + 1);
-                                
+
                                 // Exception for folder type, we use the resource icon.
                                 if (content.modname != "folder" && typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
                                     sections.modules[index2].mainExtension = MM.plugins.contents.templates.mimetypes[extension]["icon"];
@@ -160,6 +189,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                 var tpl = {
                     sections: finalContents,
                     sectionId: sectionId,
+                    courseId: courseId,
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
@@ -270,6 +300,40 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                 });
             }
         },
+
+        downloadContent: function(courseId, sectionId, contentId) {
+
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
+            content = content.toJSON();
+            
+            var file = content.contents[0];
+            var downloadURL = file.fileurl + "&token=" + MM.config.current_token;
+            
+            // Now, we need to download the file.
+            // First we load the file system (is not loaded yet).
+            MM.fs.init(function() {
+                var path = MM.plugins.contents.getLocalPaths(courseId, contentId, file);
+                MM.log("Content: Starting download of file: " + downloadURL);
+                // All the functions are async, like create dir.
+                MM.fs.createDir(path.directory, function() {
+                    MM.log("Content: Downloading content to " + path.file + " from URL: " + downloadURL);
+                    $("#download-" + contentId).attr("src", "img/loading.gif");
+                    MM.moodleDownloadFile(downloadURL, path.file,
+                        function() {
+                            MM.log("Content: Download of content finished " + path.file + " URL: " + downloadURL);                                              
+                            content.contents[0].localpath = path.file;
+                            MM.db.insert("contents", content);
+                            $("#download-" + contentId).remove();
+                            $("#link-" + contentId).attr("href", MM.fs.getRoot() + "/" + path.file);
+                        },
+                        function() {
+                           MM.log("Content: Error downloading " + path.file + " URL: " + fileurl);
+                           $("#download-" + contentId).attr("src", "img/download.png");
+                         });
+                }); 
+            });
+        },
+
         
         getLocalPaths: function(courseId, modId, file) {
 

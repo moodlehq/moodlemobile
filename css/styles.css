@@ -489,11 +489,18 @@ ol {
   width: 34px;
   height: auto;
 }
+
+.content-index .content-actions img {
+  width: 16px;
+  height: auto;
+}
+
 .content-index h3,
 .users-index h3 {
   font-size: 12px;
   font-size: 0.75rem;
   margin: 0 0 0.1875rem;
+  padding: 8px;
 }
 .content-index p,
 .users-index p {
@@ -509,11 +516,6 @@ ol {
 .content-index .user-menu,
 .users-index .user-menu {
   list-style: none;
-}
-
-.content-index .nav-item {
-  background: url(../img/ico-arrowright.png) no-repeat right center;
-  padding-right: 40px;
 }
 
 /* - .preview
@@ -733,4 +735,20 @@ form div.error {
 .loading-icon {
   text-align: center;
   margin: auto;
+}
+
+.content-index .content-name {
+  float: left;
+  width: 90%
+}
+
+.content-index .content-name a {
+  display: block;
+}
+
+.content-index .content-actions {
+  width: 10%;
+  min-widht: 40px;
+  float: right;
+  text-align: right;
 }
