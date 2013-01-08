@@ -752,3 +752,34 @@ form div.error {
   float: right;
   text-align: right;
 }
+
+.arrow_box {
+	position: relative;
+	background: #fff;
+	border: 2px solid #ccc;
+    -webkit-border-radius: 8px;
+}
+.arrow_box:after, .arrow_box:before {
+	left: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.arrow_box:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-left-color: #fff;
+	border-width: 8px;
+	top: 20%;
+	margin-top: -5px;
+}
+.arrow_box:before {
+	border-color: rgba(204, 204, 204, 0);
+	border-left-color: #ccc;
+	border-width: 11px;
+	top: 20%;
+	margin-top: -8px;
+}

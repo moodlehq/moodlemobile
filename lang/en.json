@@ -141,5 +141,6 @@
 "fileurl": "File url",
 "author": "Author",
 "license": "License",
-"openlocalcopy": "Open the local copy of the file"
+"openlocalcopy": "Open the local copy of the file",
+"viewableonthisapp": "Viewable on this app"
 }

@@ -27,6 +27,7 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
             ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
             ["course/contents/:courseid/section/:sectionId/view/:contentid", "course_contents_view", "viewContent"],
             ["course/contents/:courseid/section/:sectionId/download/:contentid", "course_contents_download", "downloadContent"],
+            ["course/contents/:courseid/section/:sectionId/info/:contentid", "course_contents_info", "infoContent"],
             ["course/contents/:courseid/section/:sectionId/view/:contentid/file/:fileIndex", "course_contents_view_file", "viewContent"]
         ],
 
@@ -334,6 +335,40 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
             });
         },
 
+        infoContent: function(courseId, sectionId, contentId) {
+
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
+            content = content.toJSON();
+            
+            if (typeof(MM.plugins.contents.infoBox) != "undefined") {
+                MM.plugins.contents.infoBox.remove();
+            }
+            
+            var i = $("#info-" + contentId).offset();
+            
+            var information = '<p><strong>'+content.name+'</strong></p>';
+            if (typeof(content.description) != "undefined") {
+                information += '<p>'+content.description+'</p>';
+            }
+            
+            information += MM.lang.s("viewableonthisapp") + ': ';
+            
+            if (content.webOnly) {
+                information += MM.lang.s("no");
+            } else {
+                information += MM.lang.s("yes");
+            }
+            
+            information += '<p><a href="'+content.url+'" target="_blank" rel="external">'+content.url+'</a></p>';
+            
+            MM.plugins.contents.infoBox = $('<div id="infobox-'+contentId+'">'+information+'</div>').addClass("arrow_box");
+            $('body').append(MM.plugins.contents.infoBox);
+            
+            var width = $("#panel-right").width() / 2;
+            
+            $('#infobox-'+contentId).css("top", i.top - 8).css("left", i.left - width - 16).width(width);
+            
+        },
         
         getLocalPaths: function(courseId, modId, file) {
 
