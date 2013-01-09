@@ -748,7 +748,7 @@ form div.error {
 
 .content-index .content-actions {
   width: 10%;
-  min-widht: 40px;
+  min-width: 40px;
   float: right;
   text-align: right;
 }
@@ -782,4 +782,51 @@ form div.error {
 	border-width: 11px;
 	top: 20%;
 	margin-top: -8px;
+}
+
+.sites-list .nav-item > a {
+  font-weight: normal;
+}
+
+.site-info {
+  float: left;
+  width: 90%
+}
+
+.site-actions {
+  width: 10%;
+  min-width: 20px;
+  float: right;
+  text-align: right;
+  padding-top: 8px;
+}
+
+.site-actions img {
+  width: 32px;
+}
+
+.button-bottom-only {
+  clear: both;
+  background-color: #DEDFE1;
+  width: 100%;
+  text-align: center;
+  padding: 4px;
+}
+
+.button-bottom-only button{
+  margin: auto;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  box-shadow: none;
+  color: #666;
+  text-align: center;
+  font-size: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin: auto;
+  padding: 0.43077rem 1.23077rem 0.30769rem;
+  width: 33%;
+  border-radius: 50px 50px 50px 50px;
+  text-align: center;
 }
