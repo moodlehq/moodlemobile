@@ -466,6 +466,7 @@ ol {
 
 /* - .content-index
 -------------------------------------------------------------------------- */
+.settings-section,
 .content-index h2,
 .users-index h2 {
   background: #ccc;
@@ -805,7 +806,7 @@ form div.error {
   width: 32px;
 }
 
-.button-bottom-only {
+.button-bottom-only, .button-bottom-two {
   clear: both;
   background-color: #DEDFE1;
   width: 100%;
@@ -829,4 +830,25 @@ form div.error {
   width: 33%;
   border-radius: 50px 50px 50px 50px;
   text-align: center;
+}
+
+.button-bottom-two button {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0;
+  box-shadow: none;
+  color: #666;
+  font-size: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.43077rem 1.23077rem 0.30769rem;
+  width: 33%;
+}
+
+.button-bottom-two :nth-child(1) button {
+  border-radius: 50px 0 0 50px;
+}
+.button-bottom-two :nth-child(2) button {
+  border-radius: 0 50px 50px 0;
 }
