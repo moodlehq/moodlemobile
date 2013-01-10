@@ -142,5 +142,7 @@
 "author": "Author",
 "license": "License",
 "openlocalcopy": "Open the local copy of the file",
-"viewableonthisapp": "Viewable on this app"
+"viewableonthisapp": "Viewable on this app",
+"therearentnotificationsyet": "There aren't notifications yet",
+"notificationsnotsupported": "Notifications are not yet supported on Android systems"
 }

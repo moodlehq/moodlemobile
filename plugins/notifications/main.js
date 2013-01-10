@@ -30,22 +30,25 @@ define(requires, function (notifsTpl) {
         showNotifications: function() {
             MM.panels.showLoading('center');
             MM.panels.hide("right", "");
-
-            // Look for notifications for this site.
-            var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
-            var notifications = [];
             
-            $.each(notificationsFilter, function(index, el) {
-                notifications.push(el.toJSON());
-            });
-            
-            if (notifications.length > 0) {
-                var tpl = {notifications: notifications};
-                var html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
+            if (MM.deviceOS == "ios") {
+                // Look for notifications for this site.
+                var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
+                var notifications = [];
+                
+                $.each(notificationsFilter, function(index, el) {
+                    notifications.push(el.toJSON());
+                });
+                
+                if (notifications.length > 0) {
+                    var tpl = {notifications: notifications};
+                    var html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
+                } else {
+                    var html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
+                }
             } else {
-                var html = MM.lang.s("therearenotnotificationsyet");
+                var html = "<p><h3><strong>" + MM.lang.s("notificationsnotsupported") + "</strong></h3></p>";
             }
-            
             MM.panels.show('center', html, {hideRight: true});
 
         },  

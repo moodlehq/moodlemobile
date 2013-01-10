@@ -364,9 +364,14 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
             MM.plugins.contents.infoBox = $('<div id="infobox-'+contentId+'">'+information+'</div>').addClass("arrow_box");
             $('body').append(MM.plugins.contents.infoBox);
             
-            var width = $("#panel-right").width() / 2;
-            
+            var width = $("#panel-right").width() / 2;            
             $('#infobox-'+contentId).css("top", i.top - 8).css("left", i.left - width - 16).width(width);
+            
+            $("#panel-right a").click(function(e) {
+                if (typeof(MM.plugins.contents.infoBox) != "undefined") {
+                    MM.plugins.contents.infoBox.remove();
+                }
+            });
             
         },
         

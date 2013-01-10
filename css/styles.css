@@ -755,6 +755,7 @@ form div.error {
 }
 
 .arrow_box {
+    padding: 8px;
 	position: relative;
 	background: #fff;
 	border: 2px solid #ccc;
