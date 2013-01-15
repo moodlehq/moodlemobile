@@ -296,11 +296,16 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 MM.plugins.contents.infoBox.remove();
             }
             
+            var skipFiles = false;
+            
             if (typeof(index) != "undefined") {
                 var i = $("#info-" + contentId + "-" + index).offset();
             } else {
                 var i = $("#info-" + contentId).offset();
                 index = 0;
+                if (content.modname == "folder") {
+                    skipFiles = true;
+                }
             }
             
             var information = '<p><strong>'+content.name+'</strong></p>';
@@ -308,32 +313,34 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 information += '<p>'+content.description+'</p>';
             }
             
-            var file = content.contents[index];
-            
-            var fileParams = ["author", "license", "timecreated", "timemodified", "filesize"];
-            for (var el in fileParams) {
-                var param = fileParams[el];
-                if (typeof(file[param]) != "undefined") {
-                    information += MM.lang.s(param)+': ';
-                    
-                    var value = file[param];
-
-                    switch(param) {
-                        case "timecreated":
-                        case "timemodified":
-                            var d = new Date(value * 1000);
-                            value = d.toLocaleString();
-                            break;
-                        case "filesize":
-                            value = file[param] / 1024;
-                            // Round to 2 decimals.
-                            value = Math.round(value*100)/100 + " kb"
-                            break;
-                        default:
-                            value = file[param];
+            if (! skipFiles) {
+                var file = content.contents[index];
+                
+                var fileParams = ["author", "license", "timecreated", "timemodified", "filesize"];
+                for (var el in fileParams) {
+                    var param = fileParams[el];
+                    if (typeof(file[param]) != "undefined") {
+                        information += MM.lang.s(param)+': ';
+                        
+                        var value = file[param];
+    
+                        switch(param) {
+                            case "timecreated":
+                            case "timemodified":
+                                var d = new Date(value * 1000);
+                                value = d.toLocaleString();
+                                break;
+                            case "filesize":
+                                value = file[param] / 1024;
+                                // Round to 2 decimals.
+                                value = Math.round(value*100)/100 + " kb"
+                                break;
+                            default:
+                                value = file[param];
+                        }
+                        
+                        information += value + '<br />';
                     }
-                    
-                    information += value + '<br />';
                 }
             }
             
