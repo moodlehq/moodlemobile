@@ -743,6 +743,10 @@ form div.error {
   width: 90%
 }
 
+.content-index .media-folder .content-name {
+  padding-left: 30px;
+}
+
 .content-index .content-name a {
   display: block;
 }

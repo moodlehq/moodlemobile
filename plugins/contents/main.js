@@ -1,12 +1,11 @@
 var templates = [
     "root/externallib/text!root/plugins/contents/sections.html",
     "root/externallib/text!root/plugins/contents/contents.html",
-    "root/externallib/text!root/plugins/contents/content.html",
-    "root/externallib/text!root/plugins/contents/file.html",
+    "root/externallib/text!root/plugins/contents/folder.html",
     "root/externallib/text!root/plugins/contents/mimetypes.json"
 ];
 
-define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTypes) {
+define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
     var plugin = {
         settings: {
             name: "contents",
@@ -25,10 +24,11 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
         routes: [
             ["course/contents/:courseid", "course_contents", "viewCourseContents"],
             ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
-            ["course/contents/:courseid/section/:sectionId/view/:contentid", "course_contents_view", "viewContent"],
+            ["course/contents/:courseid/section/:sectionId/folder/:contentid", "course_contents_folder", "viewFolder"],
             ["course/contents/:courseid/section/:sectionId/download/:contentid", "course_contents_download", "downloadContent"],
             ["course/contents/:courseid/section/:sectionId/info/:contentid", "course_contents_info", "infoContent"],
-            ["course/contents/:courseid/section/:sectionId/view/:contentid/file/:fileIndex", "course_contents_view_file", "viewContent"]
+            ["course/contents/:courseid/section/:sectionId/download/:contentid/:index", "course_contents_download_folder", "downloadContent"],
+            ["course/contents/:courseid/section/:sectionId/info/:contentid/:index", "course_contents_info_folder", "infoContent"],
         ],
 
         viewCourseContents: function(courseId) {
@@ -199,115 +199,22 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
             });
         },
 
+        downloadContent: function(courseId, sectionId, contentId, index) {
 
-        viewContent: function(courseId, sectionId, contentId, fileIndex) {
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             
-            // We are looking only for a specific file, we should delete the rest of elements.
-            if (typeof(fileIndex) != "undefined") {
-                var oldContents = content.contents;
-                content.contents = [content.contents[fileIndex]];
-            }
-
-            var element = {
-                content: content,
-                type: "notavailable",
-                courseId: courseId,
-                sectionId: sectionId,
-                contentId: contentId,
-                backLink: "#course/contents/" + courseId + "/section/" + sectionId
-            };
-            var tpl = MM.plugins.contents.templates.content.html;
-
-            // Now we detect the type of content, for displaying the correct template.            
-            if (typeof(content.contents) != "undefined") {                
-                if (content.contents.length == 1) {
-                    MM.plugins.contents.viewFile(courseId, sectionId, contentId, fileIndex, content, element);
-                    return true;                    
-                } else {
-                    element.type = "multiplefiles";
-                }
-            } 
-
-            var html = MM.tpl.render(tpl, element);
+            var downCssId = "#download-" + contentId;
+            var linkCssId = "#link-" + contentId;
             
-            MM.panels.html('right', html);
-            $("#panel-right").scrollTop(0);
-            MM.widgets.enhance([{id: "modlink", type: "button"}, {id: "backbutton", type: "button"}]);
-        },
-        
-        viewFile: function(courseId, sectionId, contentId, fileIndex, content, element) {
-            MM.panels.showLoading("right");
-            // We are going to execute the code inside the function in sync or async way, this is the reason we need to encapsulate it in a function.
-            function renderFileView() {
-                element.file.localpath = MM.fs.getRoot() + "/" + element.file.localpath;
-                
-                var extension = element.file.filename.substr(element.file.filename.lastIndexOf(".") + 1);
-                
-                if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
-                    element.file.objectData = element.file.localpath;
-                    element.file.objectType = MM.plugins.contents.templates.mimetypes[extension]["type"];
-                    element.file.objectHeight = $(document).innerHeight() - 250;
-                }
-                
-                if (typeof(fileIndex) != "undefined") {
-                    element.backLink = "#course/contents/" + courseId + "/section/" + sectionId + "/view/" + contentId;
-                }
-                
-                var html = MM.tpl.render(tpl, element);
-                
-                MM.panels.html('right', html);
-                $("#panel-right").scrollTop(0);
-                MM.widgets.enhance([{id: "modlink", type: "button"}, {id: "backbutton", type: "button"}]);
-            }
-            
-            var tpl = MM.plugins.contents.templates.file.html;
-            
-            element.type == "singlefile";
-            element.file = content.contents[0];
-            element.file.download = element.file.fileurl + "&token=" + MM.config.current_token;
-            
-            // We check if the file is yet downloaded (the localpath is set only in downloaded files).
-            if(typeof(element.file.localpath) != "undefined") {
-                renderFileView();
+            if (typeof(index) != "undefined") {
+                downCssId = "#download-" + contentId + "-" + index;
+                linkCssId = "#link-" + contentId + "-" + index;
             } else {
-                // Now, we need to download the file.
-                // First we load the file system (is not loaded yet).
-                MM.fs.init(function() {
-                    var fileurl = element.file.fileurl + "&token=" + MM.config.current_token;
-                    var path = MM.plugins.contents.getLocalPaths(courseId, content.contentid, element.file);
-                    MM.log("Content: Starting download of file: " + fileurl);
-                    // All the functions are async, like create dir.
-                    MM.fs.createDir(path.directory, function() {
-                        MM.log("Content: Downloading content to " + path.file + " from URL: " + fileurl);
-                        MM.moodleDownloadFile(fileurl, path.file,
-                            function() {
-                                MM.log("Content: Download of content finished " + path.file + " URL: " + fileurl);
-                                
-                                content = MM.db.get("contents", content.id).toJSON();
-                                var index = 0;
-                                if (typeof(fileIndex) != "undefined") {
-                                    index = fileIndex;
-                                }                                                
-                                content.contents[index].localpath = path.file;
-                                MM.db.insert("contents", content);
-                                renderFileView();
-                            },
-                            function() {
-                               MM.log("Content: Error downloading " + path.file + " URL: " + fileurl);
-                             });
-                    }); 
-                });
+                index = 0;
             }
-        },
-
-        downloadContent: function(courseId, sectionId, contentId) {
-
-            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
-            content = content.toJSON();
             
-            var file = content.contents[0];
+            var file = content.contents[index];
             var downloadURL = file.fileurl + "&token=" + MM.config.current_token;
             
             // Now, we need to download the file.
@@ -318,24 +225,69 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                 // All the functions are async, like create dir.
                 MM.fs.createDir(path.directory, function() {
                     MM.log("Content: Downloading content to " + path.file + " from URL: " + downloadURL);
-                    $("#download-" + contentId).attr("src", "img/loading.gif");
+
+                    $(downCssId).attr("src", "img/loading.gif");
+                    
                     MM.moodleDownloadFile(downloadURL, path.file,
                         function() {
                             MM.log("Content: Download of content finished " + path.file + " URL: " + downloadURL);                                              
-                            content.contents[0].localpath = path.file;
+                            content.contents[index].localpath = path.file;
                             MM.db.insert("contents", content);
-                            $("#download-" + contentId).remove();
-                            $("#link-" + contentId).attr("href", MM.fs.getRoot() + "/" + path.file);
+                            $(downCssId).remove();
+                            $(linkCssId).attr("href", MM.fs.getRoot() + "/" + path.file);
                         },
                         function() {
                            MM.log("Content: Error downloading " + path.file + " URL: " + fileurl);
-                           $("#download-" + contentId).attr("src", "img/download.png");
+                           $(downCssId).attr("src", "img/download.png");
                          });
                 }); 
             });
         },
 
-        infoContent: function(courseId, sectionId, contentId) {
+        viewFolder: function(courseId, sectionId, contentId) {
+
+            var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
+            content = content.toJSON();
+
+            var data = {
+            "options[0][name]" : "",
+            "options[0][value]" : ""
+            };            
+            data.courseid = courseId;
+            
+            var sectionName = "";
+            // Now, we found the section of the content, sectionId may be -1 if we are watching all the contents so it's not a valid clue.
+            // Notice that we will retrieve the info from cache.
+            MM.moodleWSCall('core_course_get_contents', data, function(sections) {
+                $.each(sections, function(index, section) {
+                    $.each(section.modules, function(index2, module) {
+                        if (module.id == contentId) {
+                            sectionName = section.name;
+                            return false;
+                        }
+                    });
+                    if (sectionName) {
+                        return false;
+                    }
+                });
+            });
+
+            var tpl = {
+                    course: course,
+                    sectionId: sectionId,
+                    courseId: courseId,
+                    contentId: contentId,
+                    content: content,
+                    sectionName: sectionName
+                }
+
+            var html = MM.tpl.render(MM.plugins.contents.templates.folder.html, tpl);
+            MM.panels.html('right', html);
+
+        },
+
+        infoContent: function(courseId, sectionId, contentId, index) {
 
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
@@ -344,20 +296,55 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
                 MM.plugins.contents.infoBox.remove();
             }
             
-            var i = $("#info-" + contentId).offset();
+            if (typeof(index) != "undefined") {
+                var i = $("#info-" + contentId + "-" + index).offset();
+            } else {
+                var i = $("#info-" + contentId).offset();
+                index = 0;
+            }
             
             var information = '<p><strong>'+content.name+'</strong></p>';
             if (typeof(content.description) != "undefined") {
                 information += '<p>'+content.description+'</p>';
             }
             
-            information += MM.lang.s("viewableonthisapp") + ': ';
+            var file = content.contents[index];
+            
+            var fileParams = ["author", "license", "timecreated", "timemodified", "filesize"];
+            for (var el in fileParams) {
+                var param = fileParams[el];
+                if (typeof(file[param]) != "undefined") {
+                    information += MM.lang.s(param)+': ';
+                    
+                    var value = file[param];
+
+                    switch(param) {
+                        case "timecreated":
+                        case "timemodified":
+                            var d = new Date(value * 1000);
+                            value = d.toLocaleString();
+                            break;
+                        case "filesize":
+                            value = file[param] / 1024;
+                            // Round to 2 decimals.
+                            value = Math.round(value*100)/100 + " kb"
+                            break;
+                        default:
+                            value = file[param];
+                    }
+                    
+                    information += value + '<br />';
+                }
+            }
+            
+            information += '<p>' + MM.lang.s("viewableonthisapp") + ': ';
             
             if (content.webOnly) {
                 information += MM.lang.s("no");
             } else {
                 information += MM.lang.s("yes");
             }
+            information += "</p>";
             
             information += '<p><a href="'+content.url+'" target="_blank" rel="external">'+content.url+'</a></p>';
             
@@ -391,12 +378,8 @@ define(templates,function (sectionsTpl, contentsTpl, contentTpl, fileTpl, mimeTy
         },
         
         templates: {
-            "content": {
-                model: "content",
-                html: contentTpl
-            },
-            "file": {
-                html: fileTpl
+            "folder": {
+                html: folderTpl
             },
             "contents": {
                 html: contentsTpl

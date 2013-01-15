@@ -16,7 +16,11 @@
             <li class="nav-item media">
                 <div class="content-name">
                     <% if (module.downloaded) { %>
-                        <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" target="_blank" id="link-<%= module.contentid %>">
+                        <% if (module.modname == "folder"){ %>
+                            <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>" id="link-<%= module.contentid %>">
+                        <% } else { %>
+                            <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" target="_blank" id="link-<%= module.contentid %>">
+                        <% }%>
                     <% } else if (module.modname != "label"){ %>
                         <a href="<%= module.url %>" rel="external" target="_blank" id="link-<%= module.contentid %>">
                     <% } %>
@@ -39,7 +43,11 @@
                         <% if (module.webOnly) { %>
                             <img src="img/website.png">
                         <% } else if (!module.downloaded) { %>
-                            <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>
+                            <% if (module.modname == "folder"){ %>
+                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>
+                            <% } else { %>
+                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>
+                            <% } %>
                         <% } %>
                             <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/info/<%= module.contentid %>"><img src="img/info.png" border="0" id="info-<%= module.contentid %>"></a>
                     <% } %>

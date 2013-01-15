@@ -1,0 +1,48 @@
+
+<a href="#course/contents/<%= courseId %>/section/<%= sectionId %>"><img src="img/arrowleft.png" border="0"></a>
+
+<div class="content-index">
+    <section>
+        <h2><%= sectionName %></h2>
+        <ul class="nav nav-v">
+            <li class="nav-item media">
+                <div class="img">
+                    <img src="img/mod/folder.png" alt="img">
+                </div>
+                <div class="bd">
+                    <h3><%= content.name %></h3>
+                </div>
+            </li>
+            <% $.each(content.contents, function(index, file) { %>
+            <li class="nav-item media media-folder">
+                <div class="content-name">
+                <% if (file.localpath) { %>
+                    <a href="<% print(MM.fs.getRoot() + "/" + file.localpath); %>" rel="external" target="_blank" id="link-<%= contentId %>-<%= index %>">
+                <% } else { %>
+                    <a href="<% print(file.fileurl + "&token=" + MM.config.current_token); %>" rel="external" target="_blank" id="link-<%= contentId %>-<%= index %>">
+                <% } %>
+                        <div class="img">
+                        <% var extension = file.filename.substr(file.filename.lastIndexOf(".") + 1); %>
+                        <% if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") { %>
+                            <img src="img/files/<%= MM.plugins.contents.templates.mimetypes[extension]["icon"] %>-64.png" alt="img">
+                        <% } else { %>
+                            <img src="img/files/unknown-64.png" alt="img">
+                        <% } %>
+                        </div>
+                        
+                        <div class="bd">
+                            <h3><%= file.filename %></h3>
+                        </div>
+                    </a>
+                </div>
+                <div class="content-actions">
+                    <% if (typeof(file.localpath) == "undefined") { %>
+                        <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>"><img src="img/download.png" border="0" id="download-<%= contentId %>-<%= index %>"></a>
+                    <% } %>
+                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/info/<%= contentId %>/<%= index %>"><img src="img/info.png" border="0" id="info-<%= contentId %>-<%= index %>"></a>                
+                </div>
+            </li>
+            <% }); %>
+        </ul>
+    </section>
+</div>

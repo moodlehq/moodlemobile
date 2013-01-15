@@ -144,5 +144,8 @@
 "openlocalcopy": "Open the local copy of the file",
 "viewableonthisapp": "Viewable on this app",
 "therearentnotificationsyet": "There aren't notifications yet",
-"notificationsnotsupported": "Notifications are not yet supported on Android systems"
+"notificationsnotsupported": "Notifications are not yet supported on Android systems",
+"timecreated": "Date added",
+"timemodified": "Last modified",
+"filesize": "Size"
 }
