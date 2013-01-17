@@ -147,5 +147,8 @@
 "notificationsnotsupported": "Notifications are not yet supported on Android systems",
 "timecreated": "Date added",
 "timemodified": "Last modified",
-"filesize": "Size"
+"filesize": "Size",
+"settings": "Settings",
+"help": "Help",
+"website": "Website"
 }

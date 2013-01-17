@@ -126,20 +126,24 @@
                 </li>
                 <% }); %>
             </ul>
-            <ul class="nav user-options">
-                <li class="nav-item no-submenu network">
-                    <a href="<%= siteurl%>" rel="external" target="_blank" class="ir">
-                        Network
+            <h2></h2>
+            <ul class="nav nav-v js-accordion">
+                <li class="nav-item no-submenu">
+                    <a href="#settings">
+                        <span class="course-ico"><img src="img/ico-settings.png" border="0"></span>
+                        <%= MM.lang.s("settings") %>
                     </a>
                 </li>
-                <li class="nav-item no-submenu help">
-                    <a href="http://docs.moodle.org/" rel="external" target="_blank" class="ir">
-                        Help
+                <li class="nav-item no-arrow">
+                    <a href="http://docs.moodle.org/" rel="external" target="_blank">
+                        <span class="course-ico"><img src="img/ico-help.png" border="0"></span>
+                        <%= MM.lang.s("help") %>
                     </a>
                 </li>
-                <li class="nav-item no-submenu settings">
-                    <a href="#settings" class="ir">
-                        settings
+                <li class="nav-item no-arrow">                    
+                    <a href="<%= siteurl%>" rel="external" target="_blank">
+                        <span class="course-ico"><img src="img/ico-network.png" border="0"></span>
+                        <%= MM.lang.s("website") %>
                     </a>
                 </li>
             </ul>
