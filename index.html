@@ -4,7 +4,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title></title>
     <meta name="viewport" content="width=device-width">
-    <script src="http://debug.phonegap.com/target/target-script-min.js#moodlemobilejleyva"></script>
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.9.1.custom.css">
@@ -80,14 +79,14 @@
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink">
                     <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
-                    <%= MM.lang.s(plugin.name) %>
+                    <%= MM.lang.pluginName(plugin.name) %>
                 </a>
             </li>
             <% } else { %>
             <li class="nav-item">
                 <a href="" class="toogler">
                     <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
-                    <%= MM.lang.s(plugin.name) %>
+                    <%= MM.lang.pluginName(plugin.name) %>
                 </a>
                 <ul class="nav submenu">
                     <% _.each(plugin.subMenus, function(menu) { %>
@@ -118,7 +117,7 @@
                         <li class="nav-item">
                             <a href="<%= plugin.menuURL %><%= course.id %>">
                                 <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
-                                <%= MM.lang.s(plugin.name) %>
+                                <%= MM.lang.pluginName(plugin.name) %>
                             </a>
                         </li>
                         <% }); %>
