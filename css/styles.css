@@ -440,6 +440,10 @@ ol {
 
 /* - .content-index
 -------------------------------------------------------------------------- */
+.content-index {
+  width: 100%;
+}
+
 .settings-section,
 .content-index h2,
 .users-index h2 {
