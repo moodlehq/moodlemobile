@@ -308,6 +308,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 }
             }
             
+            if (typeof(content.contents) == "undefined" || !content.contents[index]) {
+                skipFiles = true;
+            }
+            
             var information = '<p><strong>'+content.name+'</strong></p>';
             if (typeof(content.description) != "undefined") {
                 information += '<p>'+content.description+'</p>';
@@ -355,13 +359,13 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             
             information += '<p><a href="'+content.url+'" target="_blank" rel="external">'+content.url+'</a></p>';
             
-            MM.plugins.contents.infoBox = $('<div id="infobox-'+contentId+'">'+information+'</div>').addClass("arrow_box");
+            MM.plugins.contents.infoBox = $('<div id="infobox-'+contentId+'"><div class="arrow-box-contents">'+information+'</div></div>').addClass("arrow_box");
             $('body').append(MM.plugins.contents.infoBox);
             
             var width = $("#panel-right").width() / 2;            
-            $('#infobox-'+contentId).css("top", i.top - 8).css("left", i.left - width - 16).width(width);
+            $('#infobox-'+contentId).css("top", i.top - 30).css("left", i.left - width - 35).width(width);
             
-            $("#panel-right a").click(function(e) {
+            $("a").click(function(e) {
                 if (typeof(MM.plugins.contents.infoBox) != "undefined") {
                     MM.plugins.contents.infoBox.remove();
                 }

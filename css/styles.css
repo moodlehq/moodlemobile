@@ -930,3 +930,9 @@ button {
 .plugin-name {
   padding-right: 15px;
 }
+
+.arrow-box-contents {
+  width: 100%;
+  padding-right: 10px;
+  word-wrap: break-word;
+}
