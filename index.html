@@ -79,21 +79,21 @@
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink">
                     <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
-                    <%= MM.lang.pluginName(plugin.name) %>
+                    <span class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></span>
                 </a>
             </li>
             <% } else { %>
             <li class="nav-item">
                 <a href="" class="toogler">
                     <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
-                    <%= MM.lang.pluginName(plugin.name) %>
+                    <span class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></span>
                 </a>
                 <ul class="nav submenu">
                     <% _.each(plugin.subMenus, function(menu) { %>
                     <li class="nav-item">
                         <a href="<%= menu.menuURL %>" class="alink">
                             <span class="plugin-ico"><img src="<%= menu.icon %>" border="0"></span>
-                            <%= MM.lang.s(menu.name) %>
+                            <span class="plugin-name"><%= MM.lang.s(menu.name) %></span>
                         </a>
                     </li>
                     <% }); %>
@@ -110,14 +110,14 @@
                 <li class="nav-item">
                     <a href="#" class="toogler">
                         <span class="course-ico"><img src="img/ico-course.png" border="0"></span>
-                        <%= course.fullname %>
+                        <span class="plugin-name"><%= course.fullname %></span>
                     </a>
                     <ul class="nav submenu">
                         <% _.each(coursePlugins, function(plugin) { %>
                         <li class="nav-item">
                             <a href="<%= plugin.menuURL %><%= course.id %>">
                                 <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
-                                <%= MM.lang.pluginName(plugin.name) %>
+                                <span class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></span>
                             </a>
                         </li>
                         <% }); %>

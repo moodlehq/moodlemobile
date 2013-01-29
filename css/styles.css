@@ -926,3 +926,7 @@ button {
   padding-left: 10px;
   padding-top: 15px;
 }
+
+.plugin-name {
+  padding-right: 15px;
+}
