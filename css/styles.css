@@ -928,7 +928,19 @@ button {
 }
 
 .plugin-name {
+  margin-right: 15px;
   padding-right: 15px;
+  padding-top: 4px;
+}
+
+.course-ico {
+ float: left;
+ padding-right: 4px;
+}
+
+.plugin-ico {
+ float: left;
+ padding-right: 4px;
 }
 
 .arrow-box-contents {

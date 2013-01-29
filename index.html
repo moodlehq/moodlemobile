@@ -78,22 +78,22 @@
             <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink">
-                    <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
-                    <span class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></span>
+                    <div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
+                    <div class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></div>
                 </a>
             </li>
             <% } else { %>
             <li class="nav-item">
                 <a href="" class="toogler">
-                    <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
-                    <span class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></span>
+                    <div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
+                    <div class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></div>
                 </a>
                 <ul class="nav submenu">
                     <% _.each(plugin.subMenus, function(menu) { %>
                     <li class="nav-item">
                         <a href="<%= menu.menuURL %>" class="alink">
-                            <span class="plugin-ico"><img src="<%= menu.icon %>" border="0"></span>
-                            <span class="plugin-name"><%= MM.lang.s(menu.name) %></span>
+                            <div class="plugin-ico"><img src="<%= menu.icon %>" border="0"></div>
+                            <div class="plugin-name"><%= MM.lang.s(menu.name) %></div>
                         </a>
                     </li>
                     <% }); %>
@@ -109,15 +109,15 @@
                 <% _.each(courses, function(course) { %>
                 <li class="nav-item">
                     <a href="#" class="toogler">
-                        <span class="course-ico"><img src="img/ico-course.png" border="0"></span>
-                        <span class="plugin-name"><%= course.fullname %></span>
+                        <div class="course-ico"><img src="img/ico-course.png" border="0"></div>
+                        <div class="plugin-name"><%= course.fullname %></div>
                     </a>
                     <ul class="nav submenu">
                         <% _.each(coursePlugins, function(plugin) { %>
                         <li class="nav-item">
                             <a href="<%= plugin.menuURL %><%= course.id %>">
-                                <span class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></span>
-                                <span class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></span>
+                                <div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
+                                <div class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></div>
                             </a>
                         </li>
                         <% }); %>
@@ -129,19 +129,19 @@
             <ul class="nav nav-v js-accordion">
                 <li class="nav-item no-arrow">                    
                     <a href="<%= siteurl%>" rel="external" target="_blank">
-                        <span class="course-ico"><img src="img/ico-network.png" border="0"></span>
+                        <span><img src="img/ico-network.png" border="0"></span>
                         <%= MM.lang.s("website") %>
                     </a>
                 </li>
                 <li class="nav-item no-arrow">
                     <a href="http://docs.moodle.org/" rel="external" target="_blank">
-                        <span class="course-ico"><img src="img/ico-help.png" border="0"></span>
+                        <span><img src="img/ico-help.png" border="0"></span>
                         <%= MM.lang.s("help") %>
                     </a>
                 </li>                
                 <li class="nav-item no-submenu">
                     <a href="#settings">
-                        <span class="course-ico"><img src="img/ico-settings.png" border="0"></span>
+                        <span><img src="img/ico-settings.png" border="0"></span>
                         <%= MM.lang.s("settings") %>
                     </a>
                 </li>                
