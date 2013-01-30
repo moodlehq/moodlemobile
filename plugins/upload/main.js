@@ -22,10 +22,15 @@ define(function () {
         browseAlbums: function() {
             MM.log("Upload: Trying to get a image frr albums");
             MM.panels.show("center", "", {hideRight: true});
+            
+            // iPad popOver, see https://tracker.moodle.org/browse/MOBILE-208
+            var popover = new CameraPopoverOptions(10, 10, $('#panel-center').width() - 50, $('#panel-center').height() - 50, Camera.PopoverArrowDirection.ARROW_ANY);
+            
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
                 destinationType: navigator.camera.DestinationType.FILE_URI,
-                sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+                sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+                popoverOptions : popover
             });
         },
 
