@@ -79,9 +79,9 @@ define(function () {
             });            
         },
         
-        photoFails: function() {
+        photoFails: function(message) {
             MM.log("Upload: Error trying getting a photo");
-            MM.popErrorMessage(MM.lang.s("errorcamera"));
+            MM.popErrorMessage(message);
         },
         
         recordAudioSuccess: function(mediaFiles) {
@@ -103,7 +103,7 @@ define(function () {
         },
         
         recordAudioFails: function() {
-            MM.popErrorMessage(MM.lang.s("audionotavailable"));
+            MM.popErrorMessage(MM.lang.s("errorcapturingaudio"));
         }
     }
     

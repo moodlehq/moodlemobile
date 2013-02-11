@@ -30,6 +30,7 @@
 "description": "Description",
 "details": "Details",
 "development": "Development",
+"errorcapturingaudio": "Error capturing audio",
 "dodeletesite": "Yes, delete this site completely.",
 "donotdeletesite": "Oops, don't do it!",
 "downloadremotefile": "Download remote file",
