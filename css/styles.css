@@ -848,6 +848,16 @@ form div.error {
   float: right;
 }
 
+.checkbox-tic-s {
+  position: relative;
+  float: right;
+}
+
+.checkbox-tic-s input{
+  width: 25px;
+  height: 25px;
+}
+
 .checkbox-tic input[type="checkbox"] {
   visibility: hidden;
 }
@@ -919,12 +929,23 @@ button {
   padding: 4px;
 }
 
+.checkbox-setting-s {
+  text-align: left;
+  height: 40px;
+  padding: 4px;
+  overflow: auto;
+}
+
 
 .checkbox-label {
   float: left;
   text-align: left;
 }
 
+.checkbox-label-s {
+  float: left;
+  text-align: left;
+}
 
 .checkbox-setting span{
   padding-left: 10px;
