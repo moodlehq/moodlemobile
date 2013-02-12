@@ -11,10 +11,9 @@
     <% _.each(sections, function(section) { %>
     <section>
         <h2><%= section.name %></h2>
-        <!--<ul class="nav nav-v">-->
+        <ul class="nav nav-v">
             <% _.each(section.modules, function(module) { %>
-            <!--<li class="nav-item media">-->
-            <div style="clear: both; padding: 6px; border-top: 1px solid #f4f4f4; border-bottom: 1px solid #e0e0e0; overflow: auto">
+            <li class="nav-item media">
                 <div class="content-name">
                     <% if (module.downloaded) { %>
                         <% if (module.modname == "folder"){ %>
@@ -25,7 +24,7 @@
                     <% } else if (module.modname != "label"){ %>
                         <a href="<%= module.url %>" rel="external" target="_blank" id="link-<%= module.contentid %>">
                     <% } %>
-                        <div class="img" style="float: left">
+                        <div class="img">
                         <% if (typeof(module.mainExtension) != "undefined") { %>
                             <img src="img/files/<%= module.mainExtension %>-64.png" alt="img">
                         <% } else { %>
@@ -39,7 +38,7 @@
                     </a>
                     <% } %>
                 </div>
-                <div class="content-actions" style="padding-right: 2px">
+                <div class="content-actions">
                     <% if (module.modname != "label"){ %>
                         <% if (module.webOnly) { %>
                             <img src="img/website.png">
@@ -53,10 +52,9 @@
                             <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/info/<%= module.contentid %>"><img src="img/info.png" border="0" id="info-<%= module.contentid %>"></a>
                     <% } %>
                 </div>
-            </div>
-            <!--</li>-->
+            </li>
             <% }); %>
-        <!--</ul>-->
+        </ul>
     </section>
     <% }); %>
 </div>
