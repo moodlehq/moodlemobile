@@ -36,7 +36,7 @@ body {
  width: 100%;
  top: 40px;
  overflow: auto;
-
+ padding-right: 50px;
 }
 
 #panel-left.animate {
@@ -79,6 +79,7 @@ body {
     #panel-right{
 		left: 33%;
 		width: 67%;
+		padding: 0px;
     }
 
 	.header-wrapper {

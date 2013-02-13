@@ -195,6 +195,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('right', html);
+                // Ugly fix - See MOBILE-201
+                $('#panel-right .content-index').css('width', $(document).innerWidth() - 10);
 
             });
         },

@@ -442,6 +442,7 @@ ol {
 -------------------------------------------------------------------------- */
 .content-index {
   width: 100%;
+  position: relative;
 }
 
 .settings-section,
