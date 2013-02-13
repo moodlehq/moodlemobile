@@ -197,6 +197,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 $('#panel-right').css('width', $(document).innerWidth());
                 MM.panels.show('right', html);
                 // Ugly fix - See MOBILE-201
+                $('#panel-right .content-index').css('width', $(document).innerWidth() - 5);
+                setTimeout(function() { $('#panel-right').css('padding-right', '49px'); }, 500);
+
             });
         },
 
