@@ -194,12 +194,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
-                $('#panel-right').css('width', $(document).innerWidth());
                 MM.panels.show('right', html);
-                // Ugly fix - See MOBILE-201
-                $('#panel-right .content-index').css('width', $(document).innerWidth() - 5);
-                setTimeout(function() { $('#panel-right').css('padding-right', '49px'); }, 500);
-
             });
         },
 
