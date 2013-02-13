@@ -2,7 +2,7 @@ var requires = [
     "root/externallib/text!root/plugins/notifications/notifications.html"
 ];
 
-if (MM.deviceOS == "ios") {
+if (MM.deviceOS == "ios" && !MM.inComputer) {
     // Add the ios push notifications javascript library.
     requires.push("externallib/PushNotification.js");
 }
@@ -31,7 +31,7 @@ define(requires, function (notifsTpl) {
             MM.panels.showLoading('center');
             MM.panels.hide("right", "");
             
-            if (MM.deviceOS == "ios") {
+            if (MM.deviceOS == "ios" && !MM.inComputer) {
                 // Look for notifications for this site.
                 var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
                 var notifications = [];
@@ -60,7 +60,7 @@ define(requires, function (notifsTpl) {
         },
         
         check: function() {
-            if (MM.deviceOS == "ios") {
+            if (MM.deviceOS == "ios" && !MM.inComputer) {
                 // Display pending notification.
                 var pushNotification = window.plugins.pushNotification;
                 // Check for pending notification
@@ -78,7 +78,7 @@ define(requires, function (notifsTpl) {
         },
         
         registerDevice: function() {
-            if (MM.deviceOS == "ios") {
+            if (MM.deviceOS == "ios" && !MM.inComputer) {
                 // Request iOS Push Notification and retrieve device token
                 var pushNotification = window.plugins.pushNotification;
                 pushNotification.registerDevice({alert:true, badge:true, sound:true},
@@ -94,7 +94,7 @@ define(requires, function (notifsTpl) {
         },
         
         listenEvents: function() {
-            if (MM.deviceOS == "ios") {
+            if (MM.deviceOS == "ios" && !MM.inComputer) {
                 $(document).bind('push-notification', function(event) {
                     var notification = event.notification;
                     MM.plugins.notifications.saveAndDisplay(notification);
@@ -103,7 +103,7 @@ define(requires, function (notifsTpl) {
         },
         
         saveAndDisplay: function(notification) {
-            if (MM.deviceOS == "ios") {
+            if (MM.deviceOS == "ios" && !MM.inComputer) {
                 var pushNotification = window.plugins.pushNotification;
                 MM.popMessage(notification.aps.alert, {title: notification.userfrom});
                 pushNotification.setApplicationIconBadgeNumber(0);
