@@ -243,7 +243,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                     navigator.app.loadUrl($(this).attr('href'), { openExternal:true } );
                                 });
                             }
-                            
                         },
                         function() {
                            MM.log("Content: Error downloading " + path.file + " URL: " + fileurl);
