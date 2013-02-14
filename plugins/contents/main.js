@@ -328,10 +328,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             if (! skipFiles) {
                 var file = content.contents[index];
                 
-                var fileParams = ["author", "license", "timecreated", "timemodified", "filesize"];
+                var fileParams = ["author", "license", "timecreated", "timemodified", "filesize", "localpath"];
                 for (var el in fileParams) {
                     var param = fileParams[el];
-                    if (typeof(file[param]) != "undefined") {
+                    if (typeof(file[param]) != "undefined" && file[param]) {
                         information += MM.lang.s(param)+': ';
                         
                         var value = file[param];
@@ -346,6 +346,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 value = file[param] / 1024;
                                 // Round to 2 decimals.
                                 value = Math.round(value*100)/100 + " kb"
+                                break;
+                            case "localpath":
+                                var url = MM.fs.getRoot() + '/' + value;
+                                value = '<a href="' + url + '" target="_blank">' +url + '</a>';
                                 break;
                             default:
                                 value = file[param];
@@ -372,13 +376,23 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             
             var width = $("#panel-right").width() / 2;            
             $('#infobox-'+contentId).css("top", i.top - 30).css("left", i.left - width - 35).width(width);
+
+            // Android, open in new browser
+            if(typeof(navigator.app) != "undefined" && typeof(navigator.app.loadUrl) != "undefined") {
+                $('#infobox-'+contentId+' a').click(function(e) {
+                    e.preventDefault();
+                    navigator.app.loadUrl($(this).attr('href'), { openExternal:true } );
+                    if (typeof(MM.plugins.contents.infoBox) != "undefined") {
+                        MM.plugins.contents.infoBox.remove();
+                    }
+                });
+            }
             
-            $("a").click(function(e) {
+            $('#infobox-'+contentId+', a').click(function(e) {
                 if (typeof(MM.plugins.contents.infoBox) != "undefined") {
                     MM.plugins.contents.infoBox.remove();
                 }
             });
-            
         },
         
         getLocalPaths: function(courseId, modId, file) {
