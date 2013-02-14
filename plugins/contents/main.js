@@ -234,6 +234,16 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             MM.db.insert("contents", content);
                             $(downCssId).remove();
                             $(linkCssId).attr("href", MM.fs.getRoot() + "/" + path.file);
+                            $(linkCssId).attr("target", "_blank");
+                            $(linkCssId).attr("rel", "external");
+                            // Android, open in new browser
+                            if(typeof(navigator.app) != "undefined" && typeof(navigator.app.loadUrl) != "undefined") {
+                                $(linkCssId).click(function(e) {
+                                    e.preventDefault();
+                                    navigator.app.loadUrl($(this).attr('href'), { openExternal:true } );
+                                });
+                            }
+                            
                         },
                         function() {
                            MM.log("Content: Error downloading " + path.file + " URL: " + fileurl);
