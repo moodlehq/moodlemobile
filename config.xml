@@ -24,6 +24,7 @@
     <preference name="orientation"      value="default" />
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
+    <preference name="stay-in-webview"  value="false" />
 
     <icon src="icon.png" />
     <icon src="img/icon/android/icon-36-ldpi.png"   gap:platform="android"    gap:density="ldpi" />
