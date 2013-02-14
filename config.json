@@ -4,7 +4,7 @@
 "default_lang" : "en",
 "plugins" : ["notifications", "upload", "contents", "participants", "addcontact", "addnote", "sendmessage"],
 "wsservice" : "moodle_mobile_app",
-"presets" : {},
+"presets" : {"url": "http://mm.cvaconsulting.com/moodle", "username": "student"},
 "sync_ws_on" : true,
 "sync_lang_on" : true,
 "sync_css_on" : true,
@@ -13,6 +13,6 @@
 "sync_css" : 3600000,
 "sync_lang" : 3600000,
 "log_length" : 20,
-"dev_debug": false,
+"dev_debug": true,
 "airnotifier_url": "http://notify.moodle.net:8801/tokens/"
 }
