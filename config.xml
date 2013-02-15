@@ -25,6 +25,8 @@
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
     <preference name="stay-in-webview"  value="false" />
+    
+    <gap:plugin name="ChildBrowser" /> <!-- latest release -->
 
     <icon src="icon.png" />
     <icon src="img/icon/android/icon-36-ldpi.png"   gap:platform="android"    gap:density="ldpi" />

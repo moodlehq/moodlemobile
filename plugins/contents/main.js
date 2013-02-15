@@ -234,15 +234,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             MM.db.insert("contents", content);
                             $(downCssId).remove();
                             $(linkCssId).attr("href", MM.fs.getRoot() + "/" + path.file);
-                            $(linkCssId).attr("target", "_blank");
                             $(linkCssId).attr("rel", "external");
                             // Android, open in new browser
-                            if(typeof(navigator.app) != "undefined" && typeof(navigator.app.loadUrl) != "undefined") {
-                                $(linkCssId).bind(MM.clickType, function(e) {
-                                    e.preventDefault();
-                                    navigator.app.loadUrl($(this).attr('href'), { openExternal:true } );
-                                });
-                            }
+                            MM.handleExternalLinks(linkCssId);
+                            MM.handleFiles(linkCssId);
                         },
                         function() {
                            MM.log("Content: Error downloading " + path.file + " URL: " + fileurl);
@@ -349,7 +344,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 break;
                             case "localpath":
                                 var url = MM.fs.getRoot() + '/' + value;
-                                value = '<a href="' + url + '">' +url + '</a>';
+                                value = '<a href="' + url + '" rel="external">' +url + '</a>';
                                 break;
                             default:
                                 value = file[param];
@@ -369,7 +364,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             }
             information += "</p>";
             
-            information += '<p><a href="'+content.url+'" target="_blank" rel="external">'+content.url+'</a></p>';
+            information += '<p><a href="'+content.url+'" target="_blank">'+content.url+'</a></p>';
             
             MM.plugins.contents.infoBox = $('<div id="infobox-'+contentId+'"><div class="arrow-box-contents">'+information+'</div></div>').addClass("arrow_box");
             $('body').append(MM.plugins.contents.infoBox);
@@ -378,18 +373,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             $('#infobox-'+contentId).css("top", i.top - 30).css("left", i.left - width - 35).width(width);
 
             // Android, open in new browser
-            if(typeof(navigator.app) != "undefined" && typeof(navigator.app.loadUrl) != "undefined") {
-                $('#infobox-'+contentId+' a[target="_blank"]').bind(MM.clickType, function(e) {
-                    e.preventDefault();
-                    navigator.app.loadUrl($(this).attr('href'), { openExternal:true } );
-                    if (typeof(MM.plugins.contents.infoBox) != "undefined") {
-                        MM.plugins.contents.infoBox.remove();
-                    }
-                });
-            }
-            
+            MM.handleExternalLinks('#infobox-'+contentId+' a[target="_blank"]');
+            MM.handleFiles('#infobox-'+contentId+' a[rel="external"]');
+
             // Hide the infobox on click in any link or inside itselfs
-            $('#infobox-'+contentId+', a').bind(MM.clickType, function(e) {
+            $('#infobox-'+contentId+', a').bind('click', function(e) {
                 if (typeof(MM.plugins.contents.infoBox) != "undefined") {
                     MM.plugins.contents.infoBox.remove();
                 }
