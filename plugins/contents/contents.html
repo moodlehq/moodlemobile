@@ -53,7 +53,7 @@
                                 <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>
                             <% } %>
                         <% } %>
-                            <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/info/<%= module.contentid %>"><img src="img/info.png" border="0" id="info-<%= module.contentid %>"></a>
+                            <a href="javascript: MM.plugins.contents.infoContent('<%= courseId %>','<%= sectionId %>','<%= module.contentid %>');"><img src="img/info.png" border="0" id="info-<%= module.contentid %>"></a>
                     <% } %>
                 </div>
             </li>

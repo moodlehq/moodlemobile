@@ -62,7 +62,7 @@ define(function () {
                 'background-size':  '100%'
             });
 
-            $("#bupload").click(function(){
+            $("#bupload").bind(MM.clickType,function(){
                 var d = new Date();
                 
                 MM.log("Upload: Uploading an image to Moodle");

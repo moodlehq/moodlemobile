@@ -238,7 +238,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             $(linkCssId).attr("rel", "external");
                             // Android, open in new browser
                             if(typeof(navigator.app) != "undefined" && typeof(navigator.app.loadUrl) != "undefined") {
-                                $(linkCssId).click(function(e) {
+                                $(linkCssId).bind(MM.clickType, function(e) {
                                     e.preventDefault();
                                     navigator.app.loadUrl($(this).attr('href'), { openExternal:true } );
                                 });
@@ -349,7 +349,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 break;
                             case "localpath":
                                 var url = MM.fs.getRoot() + '/' + value;
-                                value = '<a href="' + url + '" target="_blank">' +url + '</a>';
+                                value = '<a href="' + url + '">' +url + '</a>';
                                 break;
                             default:
                                 value = file[param];
@@ -379,7 +379,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             // Android, open in new browser
             if(typeof(navigator.app) != "undefined" && typeof(navigator.app.loadUrl) != "undefined") {
-                $('#infobox-'+contentId+' a').click(function(e) {
+                $('#infobox-'+contentId+' a[target="_blank"]').bind(MM.clickType, function(e) {
                     e.preventDefault();
                     navigator.app.loadUrl($(this).attr('href'), { openExternal:true } );
                     if (typeof(MM.plugins.contents.infoBox) != "undefined") {
@@ -388,11 +388,20 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 });
             }
             
-            $('#infobox-'+contentId+', a').click(function(e) {
+            // Hide the infobox on click in any link or inside itselfs
+            $('#infobox-'+contentId+', a').bind(MM.clickType, function(e) {
                 if (typeof(MM.plugins.contents.infoBox) != "undefined") {
                     MM.plugins.contents.infoBox.remove();
                 }
             });
+            
+            // Hide the infobox on scroll.
+            $("#panel-right").bind("touchmove", function(){
+                if (typeof(MM.plugins.contents.infoBox) != "undefined") {
+                    MM.plugins.contents.infoBox.remove();
+                }
+            });
+            
         },
         
         getLocalPaths: function(courseId, modId, file) {
