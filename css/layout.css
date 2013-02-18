@@ -65,8 +65,20 @@ body {
 	width: 100%;
 }
 
+#add-site h1,
+#add-site form {
+  margin: 0 auto;
+  width: 90%;
+}
+
 @media	only screen and (min-width: 768px)	and (-webkit-min-device-pixel-ratio: 1) {
     
+	#add-site h1,
+	#add-site form {
+	  margin: 0 auto;
+	  width: 70%;
+	}
+
     #panel-left{
         width: 30%;
     }
