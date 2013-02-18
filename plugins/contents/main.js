@@ -110,6 +110,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             c = c.toJSON();
                             sections.modules[index2].mainExtension = c.mainExtension;
                             sections.modules[index2].webOnly = c.webOnly;
+                            if (c.contents && c.contents[0] && typeof(c.contents[0].localpath) != "undefined") {
+                                sections.modules[index2].contents[0].localpath = c.contents[0].localpath;
+                            }
                             
                             if (!sections.modules[index2].webOnly) {
                                 var downloaded = false;

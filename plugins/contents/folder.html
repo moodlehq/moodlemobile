@@ -17,9 +17,9 @@
             <li class="nav-item media media-folder">
                 <div class="content-name">
                 <% if (file.localpath) { %>
-                    <a href="<% print(MM.fs.getRoot() + "/" + file.localpath); %>" rel="external" target="_blank" id="link-<%= contentId %>-<%= index %>">
+                    <a href="<% print(MM.fs.getRoot() + "/" + file.localpath); %>" rel="external" id="link-<%= contentId %>-<%= index %>">
                 <% } else { %>
-                    <a href="<% print(file.fileurl + "&token=" + MM.config.current_token); %>" rel="external" target="_blank" id="link-<%= contentId %>-<%= index %>">
+                    <a href="<% print(file.fileurl + "&token=" + MM.config.current_token); %>" target="_blank" id="link-<%= contentId %>-<%= index %>">
                 <% } %>
                         <div class="img">
                         <% var extension = file.filename.substr(file.filename.lastIndexOf(".") + 1); %>
