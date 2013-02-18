@@ -108,4 +108,5 @@ define(function () {
     }
     
     MM.registerPlugin(plugin);
+
 });
