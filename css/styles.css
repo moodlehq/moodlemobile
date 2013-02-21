@@ -970,3 +970,8 @@ button {
   padding-right: 10px;
   word-wrap: break-word;
 }
+
+.back-row a {
+  display: block;
+  padding: 15px;
+}
