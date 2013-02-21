@@ -77,6 +77,7 @@
 "networkerror": "Network not reachable",
 "networkerrormsg": "Network not enabled or not working.",
 "no": "No",
+"notaskstobesynchronized": "No tasks to be synchronized",
 "noteadded": "Note added",
 "notifications": "Notifications",
 "notificationsnotsupported": "Notifications are not yet supported on Android systems.",
