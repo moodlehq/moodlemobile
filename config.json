@@ -15,5 +15,5 @@
 "log_length" : 100,
 "dev_debug": true,
 "airnotifier_url": "http://notify.moodle.net:8801/tokens/",
-"extra_js": ["http://debug.phonegap.com/target/target-script-min.js#moodlemobilejleyva"]
+"extra_js": []
 }
