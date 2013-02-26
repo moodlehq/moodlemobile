@@ -975,3 +975,9 @@ button {
   display: block;
   padding: 15px;
 }
+
+.selected-row {
+  background-image: url(../img/list-rightarrow.png);
+  background-repeat: no-repeat;
+  background-position: 95% 50%;
+}
