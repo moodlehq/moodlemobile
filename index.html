@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.9.1.custom.css">
 	<script src="cordova.js"></script>
     <script src="childbrowser.js"></script>
+    <script src="webintent.js"></script>
     <script src="externallib/jquery-1.8.1.min.js"></script>
     <script src="externallib/jquery-ui-1.9.1.custom.min.js"></script>
     <script src="externallib/jquery.touchSwipe.min.js"></script>
@@ -30,6 +31,19 @@
     <script src="lib/mm.cordova.js"></script>
     <script src="lib/mm.fs.js"></script>
     <script data-main="lib/app.js" src="externallib/require.js"></script>
+	<script language="javascript">
+        // We should wait to phonegap, if not, we get errors like:
+        // http://rickluna.com/wp/2012/04/solving-the-connection-to-the-server-was-unsuccessful-error-in-androidphonegap/
+        $(document).bind('deviceready', function() {
+            MM.log('MM: Deviceready fired');
+            MM.deviceReady = true;
+            // Disable the back button, exists the app.
+            document.addEventListener("backbutton", function() {
+                navigator.app.exitApp();    
+            }, false);
+            MM.fs.init();
+        });	
+	</script>
     <style id="mobilecssurl"></style>
 </head>
 <body>
