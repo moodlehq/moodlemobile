@@ -239,7 +239,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             $(linkCssId).attr("href", MM.fs.getRoot() + "/" + path.file);
                             $(linkCssId).attr("rel", "external");
                             // Android, open in new browser
-                            MM.handleExternalLinks(linkCssId);
                             MM.handleFiles(linkCssId);
                         },
                         function() {

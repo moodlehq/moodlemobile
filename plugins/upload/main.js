@@ -53,7 +53,9 @@ define(function () {
             MM.log("Upload: Photo adquired");
             var html = '\
                 <div id="camera-image" style="background-size:100%;min-height:250px"></div>\
+                <div class="centered">\
                 <button id="bupload" type="button">' + MM.lang.s("upload") + '</button>\
+                </div>\
             ';
             MM.panels.html("center", html);
             
