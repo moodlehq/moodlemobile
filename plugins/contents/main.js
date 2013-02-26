@@ -55,7 +55,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 var html = MM.tpl.render(MM.plugins.contents.templates.sections.html, tpl);
                 MM.panels.show("center", html);
                 if (MM.deviceType == "tablet" && contents.length > 0) {
-                    // First section.
+					$("#panel-center li:eq(1)").addClass("selected-row");
+					// First section.
                     MM.plugins.contents.viewCourseContentsSection(courseId, 0);
                 }
             });

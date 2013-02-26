@@ -42,6 +42,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 MM.panels.show('center', html);
                 // Load the first user
                 if (MM.deviceType == "tablet" && users.length > 0) {
+                    $("#panel-center li:eq(0)").addClass("selected-row");
                     MM.plugins.participants.showParticipant(courseId, users.shift().id);
                 }
             });
