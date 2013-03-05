@@ -341,9 +341,7 @@ ol {
   padding: 0;
   height: 40px;
 }
-.header-main .nav-item.home {
-  background-image: url(../img/header-home.png);
-}
+
 .header-main .nav-item.content {
   background-image: url(../img/header-content.png);
 }
@@ -980,4 +978,12 @@ button {
   background-image: url(../img/list-rightarrow.png);
   background-repeat: no-repeat;
   background-position: 95% 50%;
+}
+
+.menu-home {
+  background-image: url(../img/header-home.png);
+}
+
+.menu-back {
+  background-image: url(../img/menu-back.png);
 }
