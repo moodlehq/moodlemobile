@@ -714,14 +714,9 @@ form div.error {
 }
 
 .content-index .content-table {
-  display: table;
-  position: relative;
   width: 100%;
 }
 
-.content-index .content-name {
-  display: table-cell;
-}
 
 .content-index .media-folder .content-name {
   padding-left: 30px;
@@ -732,9 +727,9 @@ form div.error {
 }
 
 .content-index .content-actions {
-  display: table-cell;
+  padding-top: 4px;
+  float: right;
   width: 80px;
-  text-align: right;
 }
 
 .content-index .content-actions a{

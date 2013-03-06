@@ -15,6 +15,20 @@
             <% _.each(section.modules, function(module) { %>
             <li class="nav-item media">
                 <div class="content-table">
+                    <div class="content-actions">
+                        <% if (module.modname != "label"){ %>
+                            <% if (module.webOnly) { %>
+                                <a href="<%= module.url %>" target="_blank" id="link-<%= module.contentid %>"><img src="img/website.png"></a>&nbsp;
+                            <% } else if (!module.downloaded) { %>
+                                <% if (module.modname == "folder"){ %>
+                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
+                                <% } else { %>
+                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
+                                <% } %>
+                            <% } %>
+                                <a href="javascript: MM.plugins.contents.infoContent('<%= courseId %>','<%= sectionId %>','<%= module.contentid %>');"><img src="img/info.png" border="0" id="info-<%= module.contentid %>"></a>
+                        <% } %>
+                    </div>                    
                     <div class="content-name">
                         <% if (module.downloaded) { %>
                             <% if (module.modname == "folder"){ %>
@@ -41,20 +55,6 @@
                             </div>
                         <% if (module.modname != "label"){ %>    
                         </a>
-                        <% } %>
-                    </div>
-                    <div class="content-actions">
-                        <% if (module.modname != "label"){ %>
-                            <% if (module.webOnly) { %>
-                                <a href="<%= module.url %>" target="_blank" id="link-<%= module.contentid %>"><img src="img/website.png"></a>&nbsp;
-                            <% } else if (!module.downloaded) { %>
-                                <% if (module.modname == "folder"){ %>
-                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
-                                <% } else { %>
-                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
-                                <% } %>
-                            <% } %>
-                                <a href="javascript: MM.plugins.contents.infoContent('<%= courseId %>','<%= sectionId %>','<%= module.contentid %>');"><img src="img/info.png" border="0" id="info-<%= module.contentid %>"></a>
                         <% } %>
                     </div>
                 </div>
