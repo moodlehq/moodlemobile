@@ -741,6 +741,10 @@ form div.error {
   padding: 6px;
 }
 
+.content-index li {
+  width: 100%;
+}
+
 .arrow_box {
     padding: 8px;
 	position: relative;
