@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "org.moodle.moodlemobile"
+        id        = "com.moodle.moodlemobile"
         version   = "1.2.0">
     <name>Moodle Mobile</name>
 
@@ -9,7 +9,7 @@
         Moodle Mobile official app
     </description>
 
-    <author href="http://moodle.org" email="jleyva@cvaconsulting.com">
+    <author href="http://moodle.com" email="jleyva@cvaconsulting.com">
         Juan Leyva
     </author>
 
