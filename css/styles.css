@@ -715,6 +715,7 @@ form div.error {
 
 .content-index .content-table {
   display: table;
+  position: relative;
   width: 100%;
 }
 
