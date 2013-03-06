@@ -722,6 +722,10 @@ form div.error {
   padding-left: 30px;
 }
 
+.content-index .content-name{
+  margin-right: 80px;
+}
+
 .content-index .content-name a {
   display: block;
 }
