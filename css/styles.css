@@ -713,9 +713,13 @@ form div.error {
   margin: auto;
 }
 
+.content-index .content-table {
+  display: table;
+  width: 100%;
+}
+
 .content-index .content-name {
-  float: left;
-  width: 90%
+  display: table-cell;
 }
 
 .content-index .media-folder .content-name {
@@ -727,10 +731,13 @@ form div.error {
 }
 
 .content-index .content-actions {
-  width: 10%;
-  min-width: 40px;
-  float: right;
+  display: table-cell;
+  width: 80px;
   text-align: right;
+}
+
+.content-index .content-actions a{
+  padding: 6px;
 }
 
 .arrow_box {
