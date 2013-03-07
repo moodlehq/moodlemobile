@@ -20,8 +20,7 @@ define(function () {
         ],
         
         browseAlbums: function() {
-            MM.log("Upload: Trying to get a image frr albums");
-            MM.panels.show("center", "", {hideRight: true});
+            MM.log("Upload: Trying to get a image from albums");
             
             // iPad popOver, see https://tracker.moodle.org/browse/MOBILE-208
             var popover = new CameraPopoverOptions(10, 10, $('#panel-center').width() - 50, $('#panel-center').height() - 50, Camera.PopoverArrowDirection.ARROW_ANY);
@@ -36,7 +35,7 @@ define(function () {
 
         takeMedia: function() {
             MM.log("Upload: Trying to get a image from camera");
-            MM.panels.show("center", "", {hideRight: true});
+
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
                 destinationType: navigator.camera.DestinationType.FILE_URI
@@ -45,11 +44,11 @@ define(function () {
         
         recordAudio: function() {
             MM.log("Upload: Trying to record and Audio");
-            MM.panels.show("center", "", {hideRight: true});
             navigator.device.capture.captureAudio(MM.plugins.upload.recordAudioSuccess, MM.plugins.upload.recordAudioFails, {limit: 1});
         },
         
         photoSuccess: function(uri) {
+            
             MM.log("Upload: Photo adquired");
             var html = '\
                 <div id="camera-image" style="background-size:100%;min-height:250px"></div>\
@@ -57,14 +56,15 @@ define(function () {
                 <button id="bupload" type="button">' + MM.lang.s("upload") + '</button>\
                 </div>\
             ';
-            MM.panels.html("center", html);
+            
+            MM.panels.show("center", html, {hideRight: true});
             
             $('#camera-image').css({
                 'background-image': 'url('+uri+')',
                 'background-size':  '100%'
             });
 
-            $("#bupload").bind(MM.clickType,function(){
+            $("#bupload").bind(MM.clickType, function(e){
                 var d = new Date();
                 
                 MM.log("Upload: Uploading an image to Moodle");
@@ -84,6 +84,7 @@ define(function () {
         photoFails: function(message) {
             MM.log("Upload: Error trying getting a photo");
             MM.popErrorMessage(message);
+            MM.panels.goBack();
         },
         
         recordAudioSuccess: function(mediaFiles) {
@@ -98,8 +99,13 @@ define(function () {
                 options.mimeType = null;
                 
                 MM.moodleUploadFile(mediaFiles[i].fullPath, options,
-                                    function(){ MM.popMessage(MM.lang.s("fileuploaded")); },
-                                    function(){ MM.popErrorMessage(MM.lang.s("erroruploading")) }
+                                    function(){
+                                        MM.popMessage(MM.lang.s("fileuploaded"));
+                                        MM.panels.goBack();
+                                    },
+                                    function(){
+                                        MM.popErrorMessage(MM.lang.s("erroruploading"))
+                                    }
                 ); 
             } 
         },
