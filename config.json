@@ -15,5 +15,6 @@
 "log_length" : 100,
 "dev_debug": true,
 "airnotifier_url": "http://notify.moodle.net:8801/tokens/",
-"extra_js": []
+"extra_js": [],
+"demo_sites": [{"key": "student", "url": "http://school.demo.moodle.net", "username": "student", "password": "moodle"}, {"key": "cva", "url": "http://mm.cvaconsulting.com/moodle", "username": "student", "password": "student"}]
 }
