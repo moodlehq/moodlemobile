@@ -75,7 +75,7 @@ define(function () {
                 options.mimeType="image/jpeg";
                 
                 MM.moodleUploadFile(uri, options,
-                                    function(){ MM.popMessage(MM.lang.s("fileuploaded")); },
+                                    function(){ MM.popMessage(MM.lang.s("imagestored")); },
                                     function(){ MM.popErrorMessage(MM.lang.s("erroruploading")) }
                 );       
             });            
@@ -100,7 +100,7 @@ define(function () {
                 
                 MM.moodleUploadFile(mediaFiles[i].fullPath, options,
                                     function(){
-                                        MM.popMessage(MM.lang.s("fileuploaded"));
+                                        MM.popMessage(MM.lang.s("recordstored"));
                                         MM.panels.goBack();
                                     },
                                     function(){
