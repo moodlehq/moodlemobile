@@ -71,6 +71,7 @@
 "license": "License",
 "loadcordovaemulator": "Load Cordova emulator",
 "loading": "Loading",
+"lostconnection": "We lost connection you need to reconnect. Your token is now invalid",
 "location": "Location",
 "localpath": "Local path",
 "message": "Message",
