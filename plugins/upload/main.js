@@ -21,6 +21,7 @@ define(function () {
         
         browseAlbums: function() {
             MM.log("Upload: Trying to get a image from albums");
+            MM.Router.navigate("");
             
             // iPad popOver, see https://tracker.moodle.org/browse/MOBILE-208
             var popover = new CameraPopoverOptions(10, 10, $('#panel-center').width() - 50, $('#panel-center').height() - 50, Camera.PopoverArrowDirection.ARROW_ANY);
@@ -35,6 +36,7 @@ define(function () {
 
         takeMedia: function() {
             MM.log("Upload: Trying to get a image from camera");
+            MM.Router.navigate("");
 
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
@@ -43,6 +45,7 @@ define(function () {
         },
         
         recordAudio: function() {
+            MM.Router.navigate("");
             MM.log("Upload: Trying to record and Audio");
             navigator.device.capture.captureAudio(MM.plugins.upload.recordAudioSuccess, MM.plugins.upload.recordAudioFails, {limit: 1});
         },
