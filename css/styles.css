@@ -321,7 +321,7 @@ ol {
 }
 
 .header-main {
-  background: #fa8f1c url(../img/orange-bg.png);
+  background-color: #fa8f1c;
   box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3) inset;
   color: #FFF;
   height: 40px;
