@@ -43,6 +43,7 @@
                                 <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>" id="link-<%= module.contentid %>">
                             <% } %>
                         <% } %>
+                        <% if (module.modname != "label"){ %>    
                             <div class="img">
                             <% if (typeof(module.mainExtension) != "undefined") { %>
                                 <img src="img/files/<%= module.mainExtension %>-64.png" alt="img">
@@ -53,8 +54,9 @@
                             <div class="bd">
                                 <h3><%= module.name %></h3>
                             </div>
-                        <% if (module.modname != "label"){ %>    
                         </a>
+                        <% } else { %>
+                            <h3><%= module.name %></h3>
                         <% } %>
                     </div>
                 </div>
