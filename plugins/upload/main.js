@@ -86,7 +86,9 @@ define(function () {
         
         photoFails: function(message) {
             MM.log("Upload: Error trying getting a photo");
-            MM.popErrorMessage(message);
+            if (message.toLowerCase().indexOf("error") > -1 || message.toLowerCase().indexOf("unable") > -1) {
+                MM.popErrorMessage(message);
+            }
             MM.panels.goBack();
         },
         
