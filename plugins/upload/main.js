@@ -115,8 +115,10 @@ define(function () {
             } 
         },
         
-        recordAudioFails: function() {
-            MM.popErrorMessage(MM.lang.s("errorcapturingaudio"));
+        recordAudioFails: function(error) {
+            if (error.code != CaptureError.CAPTURE_NO_MEDIA_FILES) {
+                MM.popErrorMessage(MM.lang.s("errorcapturingaudio"));
+            }
         }
     }
     
