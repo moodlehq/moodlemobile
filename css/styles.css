@@ -734,6 +734,7 @@ form div.error {
   padding-top: 4px;
   float: right;
   width: 80px;
+  text-align: right;
 }
 
 .content-index .content-actions a{
@@ -997,4 +998,8 @@ button {
 
 .menu-back {
   background-image: url(../img/menu-back.png);
+}
+
+.overflow-scroll {
+  -webkit-overflow-scrolling: touch;
 }
