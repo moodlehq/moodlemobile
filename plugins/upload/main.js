@@ -51,37 +51,20 @@ define(function () {
         },
         
         photoSuccess: function(uri) {
-            
-            MM.log("Upload: Photo adquired");
-            var html = '\
-                <div id="camera-image" style="background-size:100%;min-height:250px"></div>\
-                <div class="centered">\
-                <button id="bupload" type="button">' + MM.lang.s("upload") + '</button>\
-                </div>\
-            ';
-            
-            MM.panels.show("center", html, {hideRight: true});
-            
-            $('#camera-image').css({
-                'background-image': 'url('+uri+')',
-                'background-size':  '100%'
-            });
 
-            $("#bupload").bind(MM.clickType, function(e){
-                var d = new Date();
-                
-                MM.log("Upload: Uploading an image to Moodle");
-                
-                var options = {};
-                options.fileKey="file";
-                options.fileName="image_"+d.getTime()+".jpg";
-                options.mimeType="image/jpeg";
-                
-                MM.moodleUploadFile(uri, options,
-                                    function(){ MM.popMessage(MM.lang.s("imagestored")); },
-                                    function(){ MM.popErrorMessage(MM.lang.s("erroruploading")) }
-                );       
-            });            
+            MM.log("Upload: Uploading an image to Moodle");
+            var d = new Date();
+
+            var options = {};
+            options.fileKey="file";
+            options.fileName="image_"+d.getTime()+".jpg";
+            options.mimeType="image/jpeg";
+            
+            MM.moodleUploadFile(uri, options,
+                                function(){ MM.popMessage(MM.lang.s("imagestored")); },
+                                function(){ MM.popErrorMessage(MM.lang.s("erroruploading")) }
+            );       
+                       
         },
         
         photoFails: function(message) {
