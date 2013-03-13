@@ -153,7 +153,7 @@ define(requires, function (notifsTpl) {
                                 "device[devicename]":window.device.name
                             };
                             MM.moodleWSCall('message_airnotifier_add_user_device', data, function(result) {
-                                MM.log("Notifications: Device registered on Airnotifier and the Moodle site");
+                                MM.log('Device registered on Airnotifier and the Moodle site', 'Notifications');
                             });
                         }
                     });    

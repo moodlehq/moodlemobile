@@ -20,7 +20,7 @@ define(function () {
         ],
         
         browseAlbums: function() {
-            MM.log("Upload: Trying to get a image from albums");
+            MM.log('Trying to get a image from albums', 'Upload');
             MM.Router.navigate("");
             
             // iPad popOver, see https://tracker.moodle.org/browse/MOBILE-208
@@ -35,7 +35,7 @@ define(function () {
         },
 
         takeMedia: function() {
-            MM.log("Upload: Trying to get a image from camera");
+            MM.log('Trying to get a image from camera', 'Upload');
             MM.Router.navigate("");
 
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
@@ -46,13 +46,13 @@ define(function () {
         
         recordAudio: function() {
             MM.Router.navigate("");
-            MM.log("Upload: Trying to record and Audio");
+            MM.log('Trying to record and Audio', 'Upload');
             navigator.device.capture.captureAudio(MM.plugins.upload.recordAudioSuccess, MM.plugins.upload.recordAudioFails, {limit: 1});
         },
         
         photoSuccess: function(uri) {
 
-            MM.log("Upload: Uploading an image to Moodle");
+            MM.log('Uploading an image to Moodle', 'Upload');
             var d = new Date();
 
             var options = {};
@@ -68,7 +68,7 @@ define(function () {
         },
         
         photoFails: function(message) {
-            MM.log("Upload: Error trying getting a photo");
+            MM.log('Error trying getting a photo', 'Upload');
             if (message.toLowerCase().indexOf("error") > -1 || message.toLowerCase().indexOf("unable") > -1) {
                 MM.popErrorMessage(message);
             }
@@ -77,7 +77,7 @@ define(function () {
         
         recordAudioSuccess: function(mediaFiles) {
             
-            MM.log("Upload: Auddio sucesfully recorded");
+            MM.log('Auddio sucesfully recorded', 'Upload');
             
             var i, len;
             for (i = 0, len = mediaFiles.length; i < len; i += 1) {
