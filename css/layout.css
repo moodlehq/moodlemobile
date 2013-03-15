@@ -20,7 +20,6 @@ body {
 #panel-left {
  left: 0;
  width: 100%;
- overflow: auto;
 
 }
 
@@ -28,14 +27,12 @@ body {
  left: 100%;
  width: 100%;
  top: 40px;
- overflow: auto;
 }
 
 #panel-right {
  left: 100%;
  width: 100%;
  top: 40px;
- overflow: auto;
  padding-right: 50px;
 }
 

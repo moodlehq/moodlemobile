@@ -1000,6 +1000,29 @@ button {
   background-image: url(../img/menu-back.png);
 }
 
-.overflow-scroll {
+.touch-overflow-scroll {
   -webkit-overflow-scrolling: touch;
+}
+
+.dialog-no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+.dialog-close .ui-dialog-titlebar-close {
+  display: block;
+}
+
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.no-overflow {
+  height: auto;
+  overflow: visible;
+}
+
+.header-fixed {
+  top: 0px;
+  position: fixed;
+  margin-bottom: 40px;
 }
