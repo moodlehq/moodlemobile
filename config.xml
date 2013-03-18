@@ -2,8 +2,8 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.moodle.moodlemobile"
-        version   = "1.2.0">
-    <name>Moodle Mobile</name>
+        version   = "1.2.0.1">
+    <name>Moodle Mobile Beta</name>
 
     <description>
         Moodle Mobile official app
