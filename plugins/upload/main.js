@@ -23,8 +23,11 @@ define(function () {
             MM.log('Trying to get a image from albums', 'Upload');
             MM.Router.navigate("");
             
+            var width  =  $(document).innerWidth()  - 100;
+            var height =  $(document).innerHeight() - 100;
+            
             // iPad popOver, see https://tracker.moodle.org/browse/MOBILE-208
-            var popover = new CameraPopoverOptions(10, 10, $('#panel-center').width() - 50, $('#panel-center').height() - 50, Camera.PopoverArrowDirection.ARROW_ANY);
+            var popover = new CameraPopoverOptions(10, 10, width, height, Camera.PopoverArrowDirection.ARROW_ANY);
             
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
