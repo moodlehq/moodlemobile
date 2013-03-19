@@ -1026,3 +1026,11 @@ button {
   position: fixed;
   margin-bottom: 40px;
 }
+
+.welcome {
+  width: 100%;
+  text-align: center;
+  padding-top: 30px;
+  font-size: 14px;
+  font-weight: bold;
+}
