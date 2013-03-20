@@ -102,6 +102,10 @@ define(function () {
         },
         
         recordAudioFails: function(error) {
+            if (!error) {
+                error = { code: 0};
+            }
+            
             MM.log('Error trying recording an audio ' + error.code, 'Upload');
             if (error.code != CaptureError.CAPTURE_NO_MEDIA_FILES) {
                 MM.popErrorMessage(MM.lang.s("errorcapturingaudio"));
