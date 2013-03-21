@@ -243,7 +243,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             MM.handleFiles(linkCssId);
                         },
                         function() {
-                           MM.log("Content: Error downloading " + path.file + " URL: " + fileurl);
+                           MM.log("Content: Error downloading " + path.file + " URL: " + downloadURL);
                            $(downCssId).attr("src", "img/download.png");
                          });
                 }); 
