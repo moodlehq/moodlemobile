@@ -390,14 +390,11 @@ ol {
   border: 0;
 }
 .panel.user-menu .nav-item > a {
-  background: url(../img/ico-userarrowdown.png) no-repeat right center;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   color: #fff;
 }
-.panel.user-menu .no-submenu > a {
-  background-image: url(../img/ico-userarrowright.png);
-}
+
 
 .panel.user-menu .no-arrow > a {
   background-image: none;
@@ -412,7 +409,6 @@ ol {
   padding-left: 1.23077rem;
 }
 .user-menu .submenu .nav-item > a {
-  background-image: url(../img/ico-userarrowright.png);
   border: 0;
 }
 
@@ -990,6 +986,16 @@ button {
   background-image: url(../img/list-rightarrow.png);
   background-repeat: no-repeat;
   background-position: 95% 50%;
+}
+
+.loading-row {
+  background-image: url(../img/loading.gif);
+  background-repeat: no-repeat;
+  background-position: 95% 50%;
+}
+
+.loading-menu {
+  background-image: url(../img/loading.gif);
 }
 
 .menu-home {
