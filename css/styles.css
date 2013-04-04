@@ -247,6 +247,7 @@ ol {
   overflow: hidden;
   *overflow: visible;
   zoom: 1;
+  height: 70px;
 }
 .media .img {
   float: left;
@@ -385,6 +386,7 @@ ol {
   font-size: 0.875rem;
   margin: 0;
   padding: 0.61538rem 0 0.61538rem 0.61538rem;
+  min-height: 32px;
 }
 .panel.user-menu .nav-item {
   border: 0;
@@ -957,11 +959,13 @@ button {
 .course-ico {
  float: left;
  padding-right: 4px;
+ margin-right: 10px;
 }
 
 .plugin-ico {
  float: left;
  padding-right: 4px;
+ margin-right: 10px;
 }
 
 .arrow-box-contents {
@@ -1037,18 +1041,26 @@ button {
 .collapse {
   background-image: url(../img/collapse.png);
   background-position-x: 95%;
-  background-position-y: 5px;
+  background-position-y: 10px;
   background-repeat: no-repeat;
 }
 
 .expand {
   background-image: url(../img/expand.png);
   background-position-x: 95%;
-  background-position-y: 5px;
+  background-position-y: 10px;
   background-repeat: no-repeat;
 }
 
 #page-title {
   font-weight: bold;
   font-size: 1.2em;
+}
+
+.touch-row {
+  min-height: 42px;
+}
+
+#general-menu a > span {
+  margin-right: 10px;
 }
