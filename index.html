@@ -40,7 +40,7 @@
             MM.deviceReady = true;
             // Disable the back button, exists the app.
             document.addEventListener("backbutton", function() {
-                navigator.app.exitApp();    
+                MM.panels.goBack();
             }, false);
             MM.fs.init();
         });	
