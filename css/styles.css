@@ -404,13 +404,6 @@ ol {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
-.user-menu .submenu .nav-item {
-  border: 0;
-  padding-left: 1.23077rem;
-}
-.user-menu .submenu .nav-item > a {
-  border: 0;
-}
 
 .user-menu .user-options .nav-item {
   width: 33.333333%;

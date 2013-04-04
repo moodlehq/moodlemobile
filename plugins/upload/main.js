@@ -77,7 +77,6 @@ define(function () {
             if (message.toLowerCase().indexOf("error") > -1 || message.toLowerCase().indexOf("unable") > -1) {
                 MM.popErrorMessage(message);
             }
-            MM.panels.goBack();
         },
         
         recordAudioSuccess: function(mediaFiles) {
@@ -94,7 +93,6 @@ define(function () {
                 MM.moodleUploadFile(mediaFiles[i].fullPath, options,
                                     function(){
                                         MM.popMessage(MM.lang.s("recordstored"));
-                                        MM.panels.goBack();
                                     },
                                     function(){
                                         MM.popErrorMessage(MM.lang.s("erroruploading"))
