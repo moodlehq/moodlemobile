@@ -329,13 +329,13 @@ ol {
 }
 .header-main .nav-main {
   float: left;
-  width: 120px;
+  width: 100%;
 }
 .header-main .nav-item {
   background-repeat: no-repeat;
   background-position: center center;
   border: 0;
-  width: 33.33333333%;
+  width: 50px;
 }
 .header-main .nav-item > a {
   padding: 0;
@@ -1033,4 +1033,9 @@ button {
   padding-top: 30px;
   font-size: 14px;
   font-weight: bold;
+}
+
+#page-title {
+  font-weight: bold;
+  font-size: 1.2em;
 }

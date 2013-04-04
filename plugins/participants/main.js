@@ -39,7 +39,11 @@ define(templates,function (participantsTpl, participantTpl) {
             MM.moodleWSCall('moodle_user_get_users_by_courseid', data, function(users) {
                 var tpl = {users: users, deviceType: MM.deviceType, courseId: courseId};
                 var html = MM.tpl.render(MM.plugins.participants.templates.participants.html, tpl);
-                MM.panels.show('center', html);
+                
+                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+                var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                
+                MM.panels.show('center', html, {title: pageTitle});
                 // Load the first user
                 if (MM.deviceType == "tablet" && users.length > 0) {
                     $("#panel-center li:eq(0)").addClass("selected-row");
@@ -67,11 +71,14 @@ define(templates,function (participantsTpl, participantTpl) {
 
                 var newUser = users.shift();
                 
+                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+                var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                
                 var tpl = {"user": newUser, "plugins": userPlugins, "courseid": courseId};
                 var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
                 newUser.id = MM.config.current_site.id + "-" + newUser.id;
                 MM.db.insert("users", newUser);
-                MM.panels.show('right', html);
+                MM.panels.show('right', html, {title: pageTitle});
             });
         },
 

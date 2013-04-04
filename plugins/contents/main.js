@@ -53,7 +53,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.sections.html, tpl);
-                MM.panels.show("center", html);
+                
+				pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
+				
+				MM.panels.show("center", html, {title: pageTitle});
                 if (MM.deviceType == "tablet" && contents.length > 0) {
 					$("#panel-center li:eq(1)").addClass("selected-row");
 					// First section.
@@ -197,8 +200,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     courseId: courseId,
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
+				
+				var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
+				
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
-                MM.panels.show('right', html);
+                MM.panels.show('right', html, {title: pageTitle});
             });
         },
 
