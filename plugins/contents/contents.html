@@ -17,12 +17,10 @@
                 <div class="content-table">
                     <div class="content-actions">
                         <% if (module.modname != "label"){ %>
-                            <% if (module.webOnly) { %>
-                                <a href="<%= module.url %>" target="_blank" id="link-<%= module.contentid %>"><img src="img/website.png"></a>&nbsp;
-                            <% } else if (!module.downloaded) { %>
+                            <% if (!module.downloaded) { %>
                                 <% if (module.modname == "folder"){ %>
                                     <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
-                                <% } else { %>
+                                <% } else if (!module.webOnly) { %>
                                     <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
                                 <% } %>
                             <% } %>
@@ -36,9 +34,11 @@
                             <% } else { %>
                                 <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" id="link-<%= module.contentid %>">
                             <% }%>
-                        <% } else if (module.modname != "label" && !module.webOnly){ %>
+                        <% } else if (module.modname != "label"){ %>
                              <% if (module.modname == "folder"){ %>
                                 <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>" id="link-<%= module.contentid %>">
+                            <% } else if(module.webOnly){ %>
+                                <a href="<%= module.url %>" target="_blank" id="link-<%= module.contentid %>">
                             <% } else { %>
                                 <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>" id="link-<%= module.contentid %>">
                             <% } %>
