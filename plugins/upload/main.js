@@ -3,14 +3,16 @@ define(function () {
         settings: {
             name: "upload",
             type: "general",
+            icon: "plugins/upload/icon.png",
             subMenus: [
-                {name: "browsephotoalbums", menuURL: "#upload/browse", icon: "plugins/upload/browse.png"},
-                {name: "takepicture", menuURL: "#upload/take", icon: "plugins/upload/take.png"},
-                {name: "recordaudio", menuURL: "#upload/record", icon: "plugins/upload/record.png"}
+                {name: "browsephotoalbums", menuURL: "#upload/browse", icon: ""},
+                {name: "takepicture", menuURL: "#upload/take", icon: ""},
+                {name: "recordaudio", menuURL: "#upload/record", icon: ""}
             ],
             lang: {
                 component: "core"
-            }
+            },
+            toogler: false
         },
         
         routes: [

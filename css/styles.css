@@ -1041,6 +1041,20 @@ button {
   font-weight: bold;
 }
 
+.collapse {
+  background-image: url(../img/collapse.png);
+  background-position-x: 95%;
+  background-position-y: 5px;
+  background-repeat: no-repeat;
+}
+
+.expand {
+  background-image: url(../img/expand.png);
+  background-position-x: 95%;
+  background-position-y: 5px;
+  background-repeat: no-repeat;
+}
+
 #page-title {
   font-weight: bold;
   font-size: 1.2em;

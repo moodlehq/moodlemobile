@@ -13,7 +13,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             menuURL: "#course/contents/",
             lang: {
                 component: "core"
-            }
+            },
+			icon: ""
         },
 
         storage: {

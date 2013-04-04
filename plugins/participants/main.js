@@ -11,7 +11,8 @@ define(templates,function (participantsTpl, participantTpl) {
             menuURL: "#participants/",
             lang: {
                 component: "core"
-            }
+            },
+            icon: ""
         },
 
         storage: {

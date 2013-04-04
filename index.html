@@ -95,21 +95,35 @@
             <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink">
+					<% if (plugin.icon) { %>
                     <div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
+					<% } %>
                     <div class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></div>
                 </a>
             </li>
             <% } else { %>
             <li class="nav-item">
-                <a class="toogler">
+				<% if (plugin.toogler) { %>
+                <a class="toogler expand">
+				<% } else { %>
+				<a>
+				<% }  %>
+					<% if (plugin.icon) { %>
                     <div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
+					<% } %>
                     <div class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></div>
                 </a>
+				<% if (plugin.toogler) { %>
                 <ul class="nav submenu">
+				<% } else { %>
+				<ul class="nav">
+				<% }  %>
                     <% _.each(plugin.subMenus, function(menu) { %>
                     <li class="nav-item">
                         <a href="<%= menu.menuURL %>" class="alink">
+							<% if (menu.icon) { %>
                             <div class="plugin-ico"><img src="<%= menu.icon %>" border="0"></div>
+							<% } %>
                             <div class="plugin-name"><%= MM.lang.s(menu.name) %></div>
                         </a>
                     </li>
@@ -125,7 +139,7 @@
             <ul class="nav nav-v js-accordion">
                 <% _.each(courses, function(course) { %>
                 <li class="nav-item">
-                    <a href="#" class="toogler">
+                    <a href="#" class="toogler expand">
                         <div class="course-ico"><img src="img/ico-course.png" border="0"></div>
                         <div class="plugin-name"><%= course.fullname %></div>
                     </a>
@@ -133,7 +147,9 @@
                         <% _.each(coursePlugins, function(plugin) { %>
                         <li class="nav-item">
                             <a href="<%= plugin.menuURL %><%= course.id %>">
-                                <div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
+                                <% if (plugin.icon) { %>
+								<div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
+								<% } %>
                                 <div class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></div>
                             </a>
                         </li>
