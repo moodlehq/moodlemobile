@@ -186,20 +186,20 @@
     <div class="settings-list">
         <ul class="nav nav-v">
             <li class="nav-item">
-                <a href="#settings/sites/" class="menu1"><%= MM.lang.s("sites") %><br></a>
+                <a href="#settings/sites/" class="menu1 touch-row"><%= MM.lang.s("sites") %><br></a>
             </li>
             <li class="nav-item">
-                <a href="#settings/sync/" class="menu1"><%= MM.lang.s("synchronization") %><br></a>
+                <a href="#settings/sync/" class="menu1 touch-row"><%= MM.lang.s("synchronization") %><br></a>
             </li>
             <li class="nav-item">
-                <a href="#settings/development/" class="menu1"><%= MM.lang.s("development") %><br></a>
+                <a href="#settings/development/" class="menu1 touch-row"><%= MM.lang.s("development") %><br></a>
             </li>
 			<li class="nav-item">
-                <a href="#settings/reportbug/" class="menu1"><%= MM.lang.s("reportabug") %><br></a>
+                <a href="#settings/reportbug/" class="menu1 touch-row"><%= MM.lang.s("reportabug") %><br></a>
             </li>
             <% _.each(plugins, function(plugin) { %>
             <li class="nav-item">
-                <a href="#settings/plugin.menuURL" class="menu1"><%= MM.lang.s(plugin.name) %><br></a>
+                <a href="#settings/plugin.menuURL" class="menu1 touch-row"><%= MM.lang.s(plugin.name) %><br></a>
             </li>          
             <% }); %>
         </ul>
