@@ -12,7 +12,7 @@ define(function () {
             lang: {
                 component: "core"
             },
-            toogler: false
+            toogler: true
         },
         
         routes: [
