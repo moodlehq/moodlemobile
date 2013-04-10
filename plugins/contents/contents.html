@@ -9,6 +9,7 @@
         </div>
     </header>
     <% _.each(sections, function(section) { %>
+    <% if (section.modules && section.modules.length >0) { %>
     <section>
         <h2><%= section.name %></h2>
         <ul class="nav nav-v">
@@ -64,5 +65,6 @@
             <% }); %>
         </ul>
     </section>
+    <% } %>
     <% }); %>
 </div>
