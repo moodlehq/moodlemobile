@@ -1064,3 +1064,8 @@ button {
 #general-menu a > span {
   margin-right: 10px;
 }
+
+*:not(input):not(textarea) {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; /* Disable selection/Copy of UIWebView */
+}
