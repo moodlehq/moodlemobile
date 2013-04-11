@@ -665,21 +665,6 @@ div.jqi button.jqidefaultbutton{
   padding-top: 20px;
 }
 
-.user-card .buttons button {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  box-shadow: none;
-  color: #666;
-  text-align: center;
-  font-size: 12px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  margin: auto;
-  padding: 0.43077rem 1.23077rem 0.30769rem;
-  width: 33%;
-  border-radius: 50px 50px 50px 50px;
-  text-align: center;
-}
 
 .mm-setting {
   margin: 10px;
@@ -896,19 +881,14 @@ form div.error {
 }
 
 button {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  box-shadow: none;
-  color: #666;
-  text-align: center;
-  font-size: 12px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  margin: auto;
-  padding: 0.43077rem 1.23077rem 0.30769rem;
+  padding-left: 13pt;
+  padding-right: 13pt;
+  background: -webkit-linear-gradient(top, #FEFEFE, #E7E7E7);
+  border-radius: 4pt;
+  border: 1pt solid #CCC;
+  border-bottom: #B3B3B3;
+  height: 30pt;
   width: 40%;
-  border-radius: 50px 50px 50px 50px;
-  text-align: center;
 }
 
 .phone button {
