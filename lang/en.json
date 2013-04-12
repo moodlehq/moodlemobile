@@ -34,6 +34,7 @@
 "details": "Details",
 "development": "Development",
 "disablerdebugger": "Disable remote debugging",
+"enablecss3transitions": "Enable CSS3 Transitions",
 "errorcapturingaudio": "Error capturing audio",
 "dodeletesite": "Yes, delete this site completely.",
 "donotdeletesite": "Oops, don't do it!",
