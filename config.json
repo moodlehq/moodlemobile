@@ -4,7 +4,7 @@
 "versionname" : "1.2.0.2",
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
-"plugins" : ["upload", "contents", "participants", "addcontact", "addnote", "sendmessage"],
+"plugins" : ["upload", "contents", "participants", "addcontact", "addnote", "sendmessage", "notifications"],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
 "sync_ws_on" : true,

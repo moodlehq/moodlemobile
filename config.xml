@@ -34,6 +34,7 @@
     <preference name="load-url-timeout" value="60000" />
 
     <gap:plugin name="ChildBrowser" /> <!-- latest release -->
+    <gap:plugin name="PushPlugin" />
 
     <icon src="icon.png" />
     <icon src="img/icon/android/icon-36-ldpi.png"   gap:platform="android"    gap:density="ldpi" />

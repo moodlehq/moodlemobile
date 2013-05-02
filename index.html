@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.9.1.custom.css">
 	<script src="cordova.js"></script>
     <script src="childbrowser.js"></script>
+    <script src="PushNotification.js"></script>
     <script src="webintent.js"></script>
     <script src="externallib/jquery-1.8.1.min.js"></script>
     <script src="externallib/jquery-ui-1.9.1.custom.min.js"></script>
@@ -46,6 +47,12 @@
             MM.fs.init();
         });	
 	</script>
+    <!-- Uncomment to display errors in xcode -->
+    <!--script type="text/javascript">
+        window.onerror = function(message, url, lineNumber) {
+            console.log("Error: "+message+" in "+url+" at line "+lineNumber);
+        }
+    </script-->
     <style id="mobilecssurl"></style>
 </head>
 <body>
