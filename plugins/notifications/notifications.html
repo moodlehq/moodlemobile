@@ -1,11 +1,10 @@
 <ul class="nav nav-v">
     <% _.each(notifications, function(notification) {%>
     <li class="nav-item">
-        <%= notification.subject %><br>
+        <%= notification.subject %> : notification.fullmessage <br>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <i>
-        	<% notifdate = new Date(notification.date*1000) %>
-    		<%= notifdate.getDate() %> / <%= notifdate.getMonth() + 1 %>  / <%= notifdate.getFullYear() %> 
+        	<%= notification.date %>
 		</i>
     </li>
     <% }); %>

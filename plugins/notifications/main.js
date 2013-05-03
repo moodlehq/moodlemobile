@@ -32,25 +32,24 @@ define(requires, function (notifsTpl) {
         showNotifications: function() {
             MM.panels.showLoading('center');
             MM.panels.hide("right", "");
+            MM.Router.navigate('');
             
-            if (MM.deviceOS == "ios" && !MM.inComputer && !MM.webApp) {
-                // Look for notifications for this site.
-                var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
-                var notifications = [];
-                
-                $.each(notificationsFilter, function(index, el) {
-                    notifications.push(el.toJSON());
-                });
-                
-                if (notifications.length > 0) {
-                    var tpl = {notifications: notifications};
-                    var html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
-                } else {
-                    var html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
-                }
+            // Look for notifications for this site.
+            var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
+            var notifications = [];
+            
+            $.each(notificationsFilter, function(index, el) {
+                // Iterate backwards.
+                notifications.unshift(el.toJSON());
+            });
+            
+            if (notifications.length > 0) {
+                var tpl = {notifications: notifications};
+                var html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
             } else {
-                var html = "<p><h3><strong>" + MM.lang.s("notificationsnotsupported") + "</strong></h3></p>";
+                var html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
             }
+
             MM.panels.show('center', html, {hideRight: true});
 
         },  
@@ -64,6 +63,7 @@ define(requires, function (notifsTpl) {
         check: function() {
             // Display pending notification.
             var pushNotification = window.plugins.pushNotification;
+            MM.log("Checking for pending notifications (not yet implemented)", "Notifications");
             // Check for pending notification
             //TODO: pending notification not supported by the current JS (it seems that the objective-c PushPlugin.m code can return it though)
             /*pushNotification.getPendingNotifications(function(notifications) {
@@ -87,7 +87,9 @@ define(requires, function (notifsTpl) {
                     if (token != MM.getConfig("ios_device_token")) {
                         // Save the device token setting
                         MM.setConfig('ios_device_token', token);
-                        MM.log("Device registered in Apple Push: " + token.substring(0, 3), "Notifications");
+                        MM.log("Device registered in Apple Push: ..." + token.substring(0, 3), "Notifications");
+                    } else {
+                        MM.log("Device is yet registered in Apple Push: ..." + token.substring(0, 3), "Notifications");
                     }
                 },
                 function(error) {
@@ -98,15 +100,23 @@ define(requires, function (notifsTpl) {
         },
         
         listenEvents: function() {
-            $(document).bind('push-notification', function(event) {
-                var notification = event.notification;
+            $(document).bind('push-notification', function(event, fakeNotification) {
+                
+                if (event.notification) {
+                    var notification = event.notification;
+                } else if (fakeNotification) {
+                    var notification = fakeNotification;
+                }
+                MM.log("Push notification received: " + notification.aps.alert, "Notifications");
                 MM.plugins.notifications.saveAndDisplay(notification);
             });
         },
         
         saveAndDisplay: function(notification) {
             var pushNotification = window.plugins.pushNotification;
-            MM.popMessage(notification.aps.alert, {title: notification.userfrom});
+
+            MM.popMessage(notification.aps.alert, {title: notification.userfrom, autoclose: 4000, resizable: false});
+
             pushNotification.setApplicationIconBadgeNumber(function(){},0);
 
             // Store the notification in the app.
