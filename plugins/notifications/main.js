@@ -59,24 +59,7 @@ define(requires, function (notifsTpl) {
                 html: notifsTpl
             }
         },
-        
-        check: function() {
-            // Display pending notification.
-            var pushNotification = window.plugins.pushNotification;
-            MM.log("Checking for pending notifications (not yet implemented)", "Notifications");
-            // Check for pending notification
-            //TODO: pending notification not supported by the current JS (it seems that the objective-c PushPlugin.m code can return it though)
-            /*pushNotification.getPendingNotifications(function(notifications) {
-                 // notifications format:
-                 // {"notifications":[{"applicationStateActive":"0",
-                 //                    "url":"http://jerome.../message/index.php?user=2&id=402297",
-                 //                    "applicationLaunchNotification":"1",
-                 //                    "aps":{"alert":"the notification text"}}]}
-                 if (notifications.notifications.length > 0) {
-                     MM.plugins.notifications.saveAndDisplay(notifications.notifications[0]);
-                 }
-            });*/
-        },
+
 
         registerDevice: function() {
             // Request iOS Push Notification and retrieve device token
@@ -95,27 +78,30 @@ define(requires, function (notifsTpl) {
                 function(error) {
                     MM.log("ERROR DURING DEVICE TOKEN REQUEST: " + error);
                 },
-                {alert:"true", badge:"true", sound:"true"}
+                {alert:"true", badge:"true", sound:"true", ecb: "saveAndDisplay"}
             );
         },
-        
-        listenEvents: function() {
-            $(document).bind('push-notification', function(event, fakeNotification) {
-                
-                if (event.notification) {
-                    var notification = event.notification;
-                } else if (fakeNotification) {
-                    var notification = fakeNotification;
-                }
-                MM.log("Push notification received: " + notification.aps.alert, "Notifications");
-                MM.plugins.notifications.saveAndDisplay(notification);
-            });
-        },
-        
-        saveAndDisplay: function(notification) {
+
+        saveAndDisplay: function(event) {
+            var notification  = event.notification;
+
+            MM.log("Push notification received: " + JSON.stringify(event), "Notifications");
             var pushNotification = window.plugins.pushNotification;
 
             MM.popMessage(notification.aps.alert, {title: notification.userfrom, autoclose: 4000, resizable: false});
+
+            if (event.alert) {
+                navigator.notification.alert(event.alert);
+            }
+        
+            if (event.sound) {
+                var snd = new Media(event.sound);
+                snd.play();
+            }
+        
+            if (event.badge) {
+                pushNotification.setApplicationIconBadgeNumber(successHandler, event.badge);
+            }
 
             pushNotification.setApplicationIconBadgeNumber(function(){},0);
 
