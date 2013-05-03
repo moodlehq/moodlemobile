@@ -45,6 +45,8 @@
                 MM.panels.goBack();
             }, false);
             MM.fs.init();
+			// Register the device in the notifications server, retrieve tokens
+            MM.plugins.notifications.registerDevice();
         });	
 	</script>
     <!-- Uncomment to display errors in xcode -->

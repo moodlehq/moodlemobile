@@ -118,6 +118,11 @@ define(requires, function (notifsTpl) {
         },
         
         registerForPushNotification: function() {
+            
+            if (MM.getConfig("notifications_device_registered_site", false, true)) {
+                return;
+            }
+            
             // iOS case
             if (MM.getConfig("ios_device_token")) {
                 var data = {
@@ -125,10 +130,9 @@ define(requires, function (notifsTpl) {
                 };
 
                 // TODO: need to check that the site support message_airnotifier_get_access_key
-
                 // Get acces key to add a device token on airnotifier from Moodle site
                 MM.moodleWSCall('message_airnotifier_get_access_key', data, function(result) {
-                    MM.log('Acces key retrieved', 'Notifications');
+                    MM.log('Acces key retrieved from Moodle', 'Notifications');
                     // Add device token to airnotifier
                     var ajaxURL = MM.config.airnotifier_url + MM.getConfig("ios_device_token");
                     $.ajax({
@@ -149,6 +153,7 @@ define(requires, function (notifsTpl) {
                                 "device[devicename]": window.device.name
                             };
                             MM.moodleWSCall('message_airnotifier_add_user_device', data, function(result) {
+                                MM.setConfig("notifications_device_registered_site", true, true);
                                 MM.log('Device registered on Airnotifier and the Moodle site', 'Notifications');
                             });
                         }
