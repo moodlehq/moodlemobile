@@ -76,7 +76,7 @@ define(requires, function (notifsTpl) {
                     }
                 },
                 function(error) {
-                    MM.log("ERROR DURING DEVICE TOKEN REQUEST: " + error);
+                    MM.log("Error during device token request: " + error, "Notifications");
                 },
                 {alert:"true", badge:"true", sound:"true", ecb: "saveAndDisplay"}
             );
@@ -124,7 +124,7 @@ define(requires, function (notifsTpl) {
             }
             
             // iOS case
-            if (MM.getConfig("ios_device_token")) {
+            if (MM.config.current_site && MM.getConfig("ios_device_token")) {
                 var data = {
                     "permissions[0]" : "createtoken"
                 };
