@@ -39,14 +39,18 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             if (MM.deviceType == "tablet") {
                 MM.panels.showLoading('right');
             }
+            // Adding loading icon.
+            $('a[href="#course/contents/' +courseId+ '"]').addClass('loading-row');
 
             var data = {
             "options[0][name]" : "",
             "options[0][value]" : ""
-            };            
+            };
             data.courseid = courseId;
-            
+
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
+                // Removing loading icon.
+                $('a[href="#course/contents/' +courseId+ '"]').removeClass('loading-row');
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
 
                 var tpl = {
@@ -54,9 +58,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.sections.html, tpl);
-                
+
 				pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
-				
+
 				MM.panels.show("center", html, {title: pageTitle});
                 if (MM.deviceType == "tablet" && contents.length > 0) {
 					$("#panel-center li:eq(1)").addClass("selected-row");
@@ -76,20 +80,20 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var data = {
             "options[0][name]" : "",
             "options[0][value]" : ""
-            };            
+            };
             data.courseid = courseId;
-            
+
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var courseName = course.get("fullname");
-                
+
                 var firstContent = 0;
-                
+
 				var contentsStored = [];
 				MM.db.each("contents", function(el){
 					contentsStored.push(el.get("id"));
 				});
-				
+
                 var finalContents = [];
 				$.each(JSON.parse(JSON.stringify(contents)), function(index1, sections){
 
@@ -98,8 +102,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         // This is a continue.
                         return true;
                     }
-                    
-                    $.each(sections.modules, function(index2, content){                        
+
+                    $.each(sections.modules, function(index2, content){
 
                         content.contentid = content.id;
                         content.courseid = courseId;
@@ -118,7 +122,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             if (c.contents && c.contents[0] && typeof(c.contents[0].localpath) != "undefined") {
                                 sections.modules[index2].contents[0].localpath = c.contents[0].localpath;
                             }
-                            
+
                             if (!sections.modules[index2].webOnly) {
                                 var downloaded = false;
                                 if (content.modname != "folder") {
@@ -133,10 +137,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 }
                                 sections.modules[index2].downloaded = downloaded;
                             }
-                            
+
                             return true; // This is a continue;
                         }
-                        
+
                         // The mod url also exports contents but are external contents not downloadable by the app.
                         var modContents = ["folder","page","resource"];
 
@@ -174,7 +178,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                     siteid: MM.config.current_site.id,
                                     type: "content"
                                    };
-                                
+
                                 // Disabled auto sync temporaly
                                 //MM.log("Sync: Adding content: " + el.syncData.name + ": " + el.url);
                                 //MM.db.insert("sync", el);
@@ -190,9 +194,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             });
                         }
                     });
-                    
+
                     finalContents.push(sections);
-                    
+
                 });
 
                 var tpl = {
@@ -201,9 +205,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     courseId: courseId,
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
-				
+
 				var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
-				
+
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('right', html, {title: pageTitle});
             });
@@ -213,20 +217,20 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
-            
+
             var downCssId = "#download-" + contentId;
             var linkCssId = "#link-" + contentId;
-            
+
             if (typeof(index) != "undefined") {
                 downCssId = "#download-" + contentId + "-" + index;
                 linkCssId = "#link-" + contentId + "-" + index;
             } else {
                 index = 0;
             }
-            
+
             var file = content.contents[index];
             var downloadURL = file.fileurl + "&token=" + MM.config.current_token;
-            
+
             // Now, we need to download the file.
             // First we load the file system (is not loaded yet).
             MM.fs.init(function() {
@@ -236,11 +240,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 MM.fs.createDir(path.directory, function() {
                     MM.log("Content: Downloading content to " + path.file + " from URL: " + downloadURL);
 
-                    $(downCssId).attr("src", "img/loading.gif");
-                    
+                    $(downCssId).attr("src", "img/loadingblack.gif");
+
                     MM.moodleDownloadFile(downloadURL, path.file,
                         function() {
-                            MM.log("Content: Download of content finished " + path.file + " URL: " + downloadURL);                                              
+                            MM.log("Content: Download of content finished " + path.file + " URL: " + downloadURL);
                             content.contents[index].localpath = path.file;
                             MM.db.insert("contents", content);
                             $(downCssId).remove();
@@ -253,7 +257,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                            MM.log("Content: Error downloading " + path.file + " URL: " + downloadURL);
                            $(downCssId).attr("src", "img/download.png");
                          });
-                }); 
+                });
             });
         },
 
@@ -266,9 +270,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var data = {
             "options[0][name]" : "",
             "options[0][value]" : ""
-            };            
+            };
             data.courseid = courseId;
-            
+
             var sectionName = "";
             // Now, we found the section of the content, sectionId may be -1 if we are watching all the contents so it's not a valid clue.
             // Notice that we will retrieve the info from cache.
@@ -304,13 +308,13 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
-            
+
             if (typeof(MM.plugins.contents.infoBox) != "undefined") {
                 MM.plugins.contents.infoBox.remove();
             }
-            
+
             var skipFiles = false;
-            
+
             if (typeof(index) != "undefined") {
                 var i = $("#info-" + contentId + "-" + index).offset();
             } else {
@@ -320,27 +324,27 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     skipFiles = true;
                 }
             }
-            
+
             if (typeof(content.contents) == "undefined" || !content.contents[index]) {
                 skipFiles = true;
             }
-            
+
             var information = '<p><strong>'+content.name+'</strong></p>';
             if (typeof(content.description) != "undefined") {
                 information += '<p>'+content.description+'</p>';
             }
-            
+
             if (! skipFiles) {
                 var file = content.contents[index];
-                
+
                 var fileParams = ["author", "license", "timecreated", "timemodified", "filesize", "localpath"];
                 for (var el in fileParams) {
                     var param = fileParams[el];
                     if (typeof(file[param]) != "undefined" && file[param]) {
                         information += MM.lang.s(param)+': ';
-                        
+
                         var value = file[param];
-    
+
                         switch(param) {
                             case "timecreated":
                             case "timemodified":
@@ -359,27 +363,27 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             default:
                                 value = file[param];
                         }
-                        
+
                         information += value + '<br />';
                     }
                 }
             }
-            
+
             information += '<p>' + MM.lang.s("viewableonthisapp") + ': ';
-            
+
             if (content.webOnly) {
                 information += MM.lang.s("no");
             } else {
                 information += MM.lang.s("yes");
             }
             information += "</p>";
-            
+
             information += '<p><a href="'+content.url+'" target="_blank">'+content.url+'</a></p>';
-            
+
             MM.plugins.contents.infoBox = $('<div id="infobox-'+contentId+'"><div class="arrow-box-contents">'+information+'</div></div>').addClass("arrow_box");
             $('body').append(MM.plugins.contents.infoBox);
-            
-            var width = $("#panel-right").width() / 2;            
+
+            var width = $("#panel-right").width() / 2;
             $('#infobox-'+contentId).css("top", i.top - 30).css("left", i.left - width - 35).width(width);
 
             // Android, open in new browser
@@ -392,16 +396,16 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     MM.plugins.contents.infoBox.remove();
                 }
             });
-            
+
             // Hide the infobox on scroll.
             $("#panel-right").bind("touchmove", function(){
                 if (typeof(MM.plugins.contents.infoBox) != "undefined") {
                     MM.plugins.contents.infoBox.remove();
                 }
             });
-            
+
         },
-        
+
         getLocalPaths: function(courseId, modId, file) {
 
             var filename = file.fileurl.replace("?forcedownload=1", "");
@@ -410,13 +414,13 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
 
             var newfile = path + "/" + filename;
-            
+
             return {
                 directory: path,
                 file: newfile
             }
         },
-        
+
         templates: {
             "folder": {
                 html: folderTpl

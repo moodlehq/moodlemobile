@@ -966,13 +966,13 @@ button {
 }
 
 .loading-row {
-  background-image: url(../img/loading.gif);
+  background-image: url(../img/loadingwhite.gif);
   background-repeat: no-repeat;
   background-position: 95% 50%;
 }
 
 .loading-menu {
-  background-image: url(../img/loading.gif);
+  background-image: url(../img/loadingblack.gif);
 }
 
 .menu-home {

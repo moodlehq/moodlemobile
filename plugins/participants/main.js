@@ -28,22 +28,26 @@ define(templates,function (participantsTpl, participantTpl) {
 
         showParticipants: function(courseId) {
             MM.panels.showLoading('center');
-            
+
             if (MM.deviceType == "tablet") {
                 MM.panels.showLoading('right');
             }
-    
+            // Adding loading icon.
+            $('a[href="#participants/' +courseId+ '"]').addClass('loading-row');
+
             var data = {
                 "courseid" : courseId
             };
-            
+
             MM.moodleWSCall('moodle_user_get_users_by_courseid', data, function(users) {
+                // Removing loading icon.
+                $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
                 var tpl = {users: users, deviceType: MM.deviceType, courseId: courseId};
                 var html = MM.tpl.render(MM.plugins.participants.templates.participants.html, tpl);
-                
+
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
-                
+
                 MM.panels.show('center', html, {title: pageTitle});
                 // Load the first user
                 if (MM.deviceType == "tablet" && users.length > 0) {
@@ -61,7 +65,7 @@ define(templates,function (participantsTpl, participantTpl) {
             }
             MM.moodleWSCall('moodle_user_get_course_participants_by_id', data, function(users) {
                 // Load the active user plugins.
-                
+
                 var userPlugins = [];
                 for (var el in MM.plugins) {
                     var plugin = MM.plugins[el];
@@ -71,10 +75,10 @@ define(templates,function (participantsTpl, participantTpl) {
                 }
 
                 var newUser = users.shift();
-                
+
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
-                
+
                 var tpl = {"user": newUser, "plugins": userPlugins, "courseid": courseId};
                 var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
                 newUser.id = MM.config.current_site.id + "-" + newUser.id;
@@ -83,7 +87,7 @@ define(templates,function (participantsTpl, participantTpl) {
             });
         },
 
-        
+
         templates: {
             "participant": {
                 model: "participant",
