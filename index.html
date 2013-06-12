@@ -54,7 +54,7 @@
 					MM.plugins.notifications.registerForPushNotification();
 				}, 10000);
             }
-        });	
+        });
 	</script>
     <!-- Uncomment to display errors in xcode -->
     <!--script type="text/javascript">
@@ -99,7 +99,8 @@
 <script type="text/template" id="menu_template">
 <header>
         <div class="media">
-                <div class="img"><img src="<%= user.profileimageurl %>"></div>
+                <div class="refresh"><a href="#refresh"><img width="16" height="16" src="img/reload.png" border="0"></a></div>
+                <div class="img"><img src="<%= user.profileimageurl %>" border="0"></div>
                 <div class="bd">
                     <h1><%= user.fullname %></h1>
                 </div>
@@ -177,7 +178,7 @@
             </ul>
             <h2></h2>
             <ul id="general-menu" class="nav nav-v js-accordion">
-                <li class="nav-item no-arrow">                    
+                <li class="nav-item no-arrow">
                     <a href="<%= siteurl%>" target="_blank" class="touch-row">
                         <span><img src="img/ico-network.png" border="0"></span>
                         <%= MM.lang.s("website") %>
@@ -188,13 +189,13 @@
                         <span><img src="img/ico-help.png" border="0"></span>
                         <%= MM.lang.s("help") %>
                     </a>
-                </li>                
+                </li>
                 <li class="nav-item no-submenu">
                     <a href="#settings" class="touch-row">
                         <span><img src="img/ico-settings.png" border="0"></span>
                         <%= MM.lang.s("settings") %>
                     </a>
-                </li>                
+                </li>
             </ul>
         </div>
 </script>
@@ -217,7 +218,7 @@
             <% _.each(plugins, function(plugin) { %>
             <li class="nav-item">
                 <a href="#settings/plugin.menuURL" class="menu1 touch-row"><%= MM.lang.s(plugin.name) %><br></a>
-            </li>          
+            </li>
             <% }); %>
         </ul>
     </div>
@@ -238,7 +239,7 @@
         <p>
             <input type="submit" name="add" id="addsitebutton" value="<%= MM.lang.s("add") %>">
         </p>
-        </form>    
+        </form>
 </script>
 </body>
 </html>

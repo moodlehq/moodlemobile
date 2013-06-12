@@ -159,7 +159,7 @@ ol {
 
 /* =2 - MODULES
 ----------------------------------------------------------------------------*/
-/* =2.1 - HELPERS 
+/* =2.1 - HELPERS
 --------------------------------------------------------*/
 /* ICONS */
 
@@ -272,7 +272,7 @@ ol {
 .panel header {
   border-bottom: 1px solid #e0e0e0;
 }
-.panel header img {
+.panel header .img img{
   width: 55px;
   height: 55px;
 }
@@ -1048,4 +1048,10 @@ button {
 *:not(input):not(textarea) {
     -webkit-touch-callout: none;
     -webkit-user-select: none; /* Disable selection/Copy of UIWebView */
+}
+
+.refresh {
+  float: right;
+  width: 20px;
+  margin: 4px;
 }
