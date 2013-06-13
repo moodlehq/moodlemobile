@@ -414,6 +414,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             content = content.toJSON();
             $("#link-" + contentId + " h3").html(content.description);
             $("#link-" + contentId).attr("href", $("#link-" + contentId).attr("href").replace("label", "hidelabel"));
+            $("#link-" + contentId).toggleClass("collapse-label expand-label");
         },
 
         hideLabel: function(courseId, sectionId, contentId) {
@@ -422,6 +423,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             content = content.toJSON();
             $("#link-" + contentId + " h3").html(content.name);
             $("#link-" + contentId).attr("href", $("#link-" + contentId).attr("href").replace("hidelabel", "label"));
+            $("#link-" + contentId).toggleClass("collapse-label expand-label");
         },
 
         getLocalPaths: function(courseId, modId, file) {

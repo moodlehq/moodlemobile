@@ -711,6 +711,11 @@ form div.error {
 
 .content-index .content-name a {
   display: block;
+  min-height: 70px;
+}
+
+.content-index .content-name.mod-label{
+  margin-right: 0px;
 }
 
 .content-index .content-actions {
@@ -1035,6 +1040,20 @@ button {
 .expand {
   background-image: url(../img/expand.png);
   background-position-x: 95%;
+  background-position-y: 10px;
+  background-repeat: no-repeat;
+}
+
+.expand-label {
+  background-image: url(../img/expandgrey.png);
+  background-position-x: 100%;
+  background-position-y: 10px;
+  background-repeat: no-repeat;
+}
+
+.collapse-label {
+  background-image: url(../img/collapsegrey.png);
+  background-position-x: 100%;
   background-position-y: 10px;
   background-repeat: no-repeat;
 }

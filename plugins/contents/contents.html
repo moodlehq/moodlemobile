@@ -16,8 +16,8 @@
             <% _.each(section.modules, function(module) { %>
             <li class="nav-item media mod-<%= module.modname %>">
                 <div class="content-table">
-                    <div class="content-actions">
-                        <% if (module.modname != "label"){ %>
+                    <% if (module.modname != "label"){ %>
+                        <div class="content-actions">
                             <% if (!module.downloaded) { %>
                                 <% if (module.modname == "folder"){ %>
                                     <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
@@ -26,9 +26,9 @@
                                 <% } %>
                             <% } %>
                                 <a href="javascript: MM.plugins.contents.infoContent('<%= courseId %>','<%= sectionId %>','<%= module.contentid %>');"><img src="img/info.png" border="0" id="info-<%= module.contentid %>"></a>
-                        <% } %>
-                    </div>
-                    <div class="content-name">
+                        </div>
+                    <% } %>
+                    <div class="content-name mod-<%= module.modname %>">
                         <% if (module.downloaded) { %>
                             <% if (module.modname == "folder"){ %>
                                 <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>" id="link-<%= module.contentid %>">
@@ -56,7 +56,7 @@
                                 <h3><%= module.name %></h3>
                             </div>
                         <% } else { %>
-                            <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/label/<%= module.contentid %>" id="link-<%= module.contentid %>">
+                            <a class="expand-label" href="#course/contents/<%= courseId %>/section/<%= sectionId %>/label/<%= module.contentid %>" id="link-<%= module.contentid %>">
                             <h3><%= module.name %></h3>
                         <% } %>
                         </a>
