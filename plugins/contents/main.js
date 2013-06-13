@@ -409,7 +409,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         },
 
         showLabel: function(courseId, sectionId, contentId) {
-            console.log("Show label");
+            if (!content.description) {
+                return;
+            }
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             $("#link-" + contentId + " h3").html(content.description);
@@ -418,7 +420,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         },
 
         hideLabel: function(courseId, sectionId, contentId) {
-            console.log("Show label");
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             $("#link-" + contentId + " h3").html(content.name);

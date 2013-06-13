@@ -3,7 +3,7 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.moodle.moodlemobile"
         version   = "1.2.0.1">
-    <name>Moodle Mobile Beta</name>
+    <name>Moodle Mobile</name>
 
     <description>
         Moodle Mobile official app
