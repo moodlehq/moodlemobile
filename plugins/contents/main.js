@@ -409,12 +409,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         },
 
         showLabel: function(courseId, sectionId, contentId) {
-            if (!content.description) {
-                return;
-            }
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
-            $("#link-" + contentId + " h3").html(content.description);
+            if (content.description) {
+                $("#link-" + contentId + " h3").html(content.description);
+            }
             $("#link-" + contentId).attr("href", $("#link-" + contentId).attr("href").replace("label", "hidelabel"));
             $("#link-" + contentId).toggleClass("collapse-label expand-label");
         },
