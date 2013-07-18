@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.9.1.custom.css">
+    <script type="text/javascript">
+        // Support for Node Webkit.
+        window.requireNode = window.require;
+        window.require = undefined;
+    </script>
 	<script src="cordova.js"></script>
     <script src="childbrowser.js"></script>
     <script src="PushNotification.js"></script>
