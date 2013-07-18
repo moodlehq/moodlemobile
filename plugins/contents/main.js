@@ -428,7 +428,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
         getLocalPaths: function(courseId, modId, file) {
 
-            var filename = file.fileurl.replace("?forcedownload=1", "");
+            var filename = file.fileurl;
+            var paramsPart = filename.lastIndexOf("?");
+            if (paramsPart) {
+                filename = filename.substring(0, paramsPart);
+            }
             filename = filename.substr(filename.lastIndexOf("/") + 1);
             // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
             var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
