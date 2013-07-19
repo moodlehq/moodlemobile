@@ -18,6 +18,7 @@ define(function () {
 
             var options = {
                 title: sendMessage,
+                width: "90%",
                 buttons: {}
             };
 

@@ -1097,9 +1097,9 @@ button {
     pointer-events: none;
 }
 #app-dialog > div {
-    width: auto;
+    width: 90%;
     position: relative;
-    margin: 10% auto;
+    margin: 15% auto;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;

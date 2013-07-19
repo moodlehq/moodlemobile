@@ -18,6 +18,7 @@ define(function () {
 
             var options = {
                 title: addNote,
+                width: "90%",
                 buttons: {}
             };
 

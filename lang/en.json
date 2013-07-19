@@ -19,6 +19,7 @@
 "cannotconnect": "Cannot connect: the site must use Moodle 2.4 or later.",
 "cannotsendmessage": "Network not reachable. Your message has been saved in task queue; you can resend it once you are online.",
 "city": "City",
+"close": "Close",
 "completed": "Completed",
 "contact": "Contact",
 "contactadd": "Contact added to your phone contacts list",
