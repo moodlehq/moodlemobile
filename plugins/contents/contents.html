@@ -49,7 +49,7 @@
                             <% if (typeof(module.mainExtension) != "undefined") { %>
                                 <img src="img/files/<%= module.mainExtension %>-64.png" alt="img">
                             <% } else { %>
-                                <img src="img/mod/<%= module.modname %>.png" alt="img">
+                                <img src="<%= MM.plugins.contents.getModuleIcon(module.modname) %>" alt="img">
                             <% } %>
                             </div>
                             <div class="bd">

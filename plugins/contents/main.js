@@ -445,6 +445,20 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             }
         },
 
+        getModuleIcon: function(moduleName) {
+            var mods = ["assign", "assignment", "book", "chat", "choice",
+            "data", "database", "date", "external-tool", "feedback", "file",
+            "folder", "forum", "glossary", "ims", "imscp", "label", "lesson",
+            "lti", "page", "quiz", "resource", "scorm", "survey", "url", "wiki", "workshop"
+            ];
+
+            if (mods.indexOf(moduleName) < 0) {
+                moduleName = "external-tool";
+            }
+
+            return "img/mod/" + moduleName + ".png";
+        },
+
         templates: {
             "folder": {
                 html: folderTpl
