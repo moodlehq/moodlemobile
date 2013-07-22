@@ -55,6 +55,9 @@ define(templates,function (participantsTpl, participantTpl) {
                     MM.plugins.participants.showParticipant(courseId, users.shift().id);
                     $("#panel-center li:eq(0)").addClass("selected-row");
                 }
+            }, null, function(m) {
+                // Removing loading icon.
+                $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
             });
         },
 

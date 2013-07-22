@@ -69,6 +69,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 					// First section.
                     MM.plugins.contents.viewCourseContentsSection(courseId, 0);
                 }
+            }, null, function(m) {
+                // Error callback.
+                // Removing loading icon.
+                $('a[href="#course/contents/' +courseId+ '"]').removeClass('loading-row');
             });
         },
 
