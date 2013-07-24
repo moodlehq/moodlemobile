@@ -45,9 +45,8 @@ html {
 body {
   color: #666666;
   font-family: Helvetica, sans-serif;
-  font-size: 12px;
-  font-size: 0.75rem;
-  line-height: 1.3;
+  font-size: 14px;
+  line-height: 24px;
   margin: 0;
 }
 
@@ -443,14 +442,15 @@ ol {
 
 .settings-section,
 .content-index h2,
+.user-card h2,
 .users-index h2 {
   background: #ccc;
   color: #fff;
-  font-size: 12px;
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: 14px;
+  line-height: 24px;
   margin-bottom: 0;
   padding-left: 1rem;
+  height: 22px;
 }
 .content-index .media,
 .users-index .media {
@@ -901,6 +901,7 @@ button {
   border-bottom: #B3B3B3;
   height: 30pt;
   width: 40%;
+  color: #666;
 }
 
 .phone button {
@@ -1144,4 +1145,48 @@ button {
 #helplogin a{
   color: white;
   font-size: 1.4em;
+}
+
+.users-index-list li{
+  height: 44px;
+}
+
+.users-index-list .nav-item > a {
+  padding-top: 6px;
+  padding-left: 10px;
+}
+
+.users-index-list .nav-item > a h3{
+  font-weight: normal;
+  font-size: 14px;
+  color: #666;
+}
+
+.users-index-list .media .img {
+  min-width: 30px;
+}
+.user-card .content {
+  padding: 0px;
+}
+
+.user-card .user-data li{
+  border-bottom: 1px solid #eee;
+  padding: 5px;
+  padding-left: 10px;
+}
+
+.user-card .user-picture {
+  margin: 10px;
+}
+
+.user-card .user-picture img{
+  vertical-align: text-bottom;
+}
+
+.user-card .user-description {
+  margin-left: 10px;
+}
+
+hr {
+  border: 1px solid #eee;
 }

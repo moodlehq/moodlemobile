@@ -1,16 +1,20 @@
     <div class="user-card">
         <div class="content">
-            <figure class="imagen">
-                <img src="<%= MM.fixPluginfile(user.profileimageurl) %>" alt="" />
-            </figure>
+            <div class="user-picture">
+                <img src="<%= MM.fixPluginfile(user.profileimageurl) %>" alt="<% print( MM.util.formatText(user.fullname)); %>" />
+                &nbsp;&nbsp;<strong><% print( MM.util.formatText(user.fullname)); %></strong>
+            </div>
+
+            <h2><%= MM.lang.s("contact") %></h2>
+
             <ul class="user-data">
-            <% var fields = ["fullname", "email", "address", "city", "country", "phone1", "phone2", "description"]; %>
+            <% var fields = ["email", "address", "city", "country", "phone1", "phone2"]; %>
             <% _.each(fields, function(field) { %>
             <% if (user[field]) { %>
-                <li><strong><% print(MM.lang.s(field)); %>:</strong>
+                <li><% print(MM.lang.s(field)); %>:
                 <% if (field == "phone1" || field == "phone2") { %>
                     <a href="tel:<% print(user[field]); %>"><% print(user[field]); %></a>
-                
+
                 <% } else if (field == "address") { %>
                     <% var add = user[field]; %>
                     <% add += (user["city"]) ? "," + user["city"] : ""; %>
@@ -22,7 +26,7 @@
                     <% } else { %>
                         <a href="http://maps.google.com?q=<% print(add); %>" target="_blank"><% print(user[field]); %></a>
                     <% }  %>
-                    
+
                 <% } else { %>
                     <% print( MM.util.formatText(user[field])); %>
                 <% } %>
@@ -30,6 +34,13 @@
             <% } %>
             <% }); %>
             </ul>
+
+            <% if (user.description) { %>
+                <h2><%= MM.lang.s("description") %></h2>
+                <div class="user-description"><% print( MM.util.formatText(user.description)); %></div>
+            <% } %>
+            <hr>
+
         </div>
         <div class="buttons">
             <% _.each(plugins, function(plugin) { %>
