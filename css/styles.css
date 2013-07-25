@@ -1165,6 +1165,11 @@ button {
 .users-index-list .media .img {
   min-width: 30px;
 }
+
+.users-index-list .media {
+  height: 42px;
+}
+
 .user-card .content {
   padding: 0px;
 }
@@ -1173,6 +1178,10 @@ button {
   border-bottom: 1px solid #eee;
   padding: 5px;
   padding-left: 10px;
+}
+
+.user-card .user-data li:last-child{
+  border-bottom: none;
 }
 
 .user-card .user-picture {
