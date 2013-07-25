@@ -1,7 +1,7 @@
     <div class="user-card">
         <div class="content">
             <div class="user-picture">
-                <img src="<%= MM.fixPluginfile(user.profileimageurl) %>" alt="<% print( MM.util.formatText(user.fullname)); %>" />
+                <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" alt="<% print( MM.util.formatText(user.fullname)); %>" />
                 &nbsp;&nbsp;<strong><% print( MM.util.formatText(user.fullname)); %></strong>
             </div>
 
