@@ -249,18 +249,18 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     $(downCssId).attr("src", "img/loadingblack.gif");
 
                     MM.moodleDownloadFile(downloadURL, path.file,
-                        function() {
-                            MM.log("Content: Download of content finished " + path.file + " URL: " + downloadURL);
+                        function(fullpath) {
+                            MM.log("Content: Download of content finished " + fullpath + " URL: " + downloadURL);
                             content.contents[index].localpath = path.file;
                             MM.db.insert("contents", content);
                             $(downCssId).remove();
-                            $(linkCssId).attr("href", MM.fs.getRoot() + "/" + path.file);
+                            $(linkCssId).attr("href", fullpath);
                             $(linkCssId).attr("rel", "external");
                             // Android, open in new browser
                             MM.handleFiles(linkCssId);
                         },
-                        function() {
-                           MM.log("Content: Error downloading " + path.file + " URL: " + downloadURL);
+                        function(fullpath) {
+                           MM.log("Content: Error downloading " + fullpath + " URL: " + downloadURL);
                            $(downCssId).attr("src", "img/download.png");
                          });
                 });
