@@ -35,6 +35,7 @@
 
     <gap:plugin name="com.phonegap.plugins.childbrowser" /> <!-- latest release -->
     <gap:plugin name="com.adobe.plugins.pushplugin" />
+    <gap:plugin name="com.borismus.webintent" />
 
     <icon src="icon.png" />
     <icon src="img/icon/android/icon-36-ldpi.png"   gap:platform="android"    gap:density="ldpi" />
