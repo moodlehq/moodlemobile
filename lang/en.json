@@ -81,6 +81,7 @@
 "lostconnection": "We lost connection you need to reconnect. Your token is now invalid",
 "location": "Location",
 "localpath": "Local path",
+"logout": "Logout",
 "message": "Message",
 "messagesent": "Message sent",
 "moodlehelp": "Help",
