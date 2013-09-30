@@ -1100,7 +1100,9 @@ button {
 #app-dialog > div {
     width: 90%;
     position: relative;
-    margin: 15% auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
