@@ -204,9 +204,6 @@ describe("MM", function() {
                 'purge' : 'Purge Cache Function'
             };
 
-            MM.refresh = 'Some refresh function';
-            MM.showLog = 'Some logging function';
-
             var MMSyncLangFunction = function() {
                 MM.lang.sync(true);
             };
@@ -219,6 +216,9 @@ describe("MM", function() {
 
             // Overwrite the currently instantiated Router
             MM.Router = new myBackboneRouter();
+
+            spyOn(MM, 'showLog').andReturn('Some logging function');
+            spyOn(MM, 'refresh').andReturn('Some refresh function');
 
             // Set the spy on our new router
             spyOn(MM.Router, 'route').andCallThrough();
@@ -841,7 +841,7 @@ describe("MM", function() {
 
             spyOn(MM, 'saveSite').andReturn();
             spyOn(MM, 'validateURL').andReturn(false);
-            spyOn(MM, 'popErrorMessage').andCallThrough();
+            spyOn(MM, 'popErrorMessage').andReturn();
 
             var e = {
                 preventDefault:function(){}
@@ -900,7 +900,7 @@ describe("MM", function() {
 
             spyOn(MM, 'saveSite').andReturn();
             spyOn(MM, 'validateURL').andReturn(true);
-            spyOn(MM, 'popErrorMessage').andCallThrough();
+            spyOn(MM, 'popErrorMessage').andReturn();
 
             var e = {
                 preventDefault:function(){}
@@ -959,7 +959,7 @@ describe("MM", function() {
 
             spyOn(MM, 'saveSite').andReturn();
             spyOn(MM, 'validateURL').andReturn(true);
-            spyOn(MM, 'popErrorMessage').andCallThrough();
+            spyOn(MM, 'popErrorMessage').andReturn();
 
             var e = {
                 preventDefault:function(){}
@@ -1018,7 +1018,7 @@ describe("MM", function() {
 
             spyOn(MM, 'saveSite').andReturn();
             spyOn(MM, 'validateURL').andReturn(false);
-            spyOn(MM, 'popErrorMessage').andCallThrough();
+            spyOn(MM, 'popErrorMessage').andReturn();
 
             var e = {
                 preventDefault:function(){}
@@ -1047,8 +1047,9 @@ describe("MM", function() {
         spyOn(MM.lang, 's').andReturn("Something");
         spyOn($, 'ajax').andReturn();
 
-        MM.saveSite("AUsername", "APassword", "SomeSiteURL");
+        var result = MM.saveSite("AUsername", "APassword", "SomeSiteURL");
 
+        expect(result).toEqual(false);
         expect(MM.showModalLoading).toHaveBeenCalledWith("Something");
         expect(MM.lang.s).toHaveBeenCalledWith("authenticating");
         expect(MM.siteurl).toEqual("SomeSiteURL");
@@ -1064,6 +1065,736 @@ describe("MM", function() {
             success:    MM.loginSuccessHandler,
             error:      MM.loginErrorHandler            
         });
+    });
+
+    it("can register a plugin", function() {
+        var testPlugin = {
+            settings: {
+                name:'Test Plugin',
+                lang:{
+                    component:'non-core',
+                    strings:'{"a":"one","b":"two","c":"three"}'
+                }
+            },
+            routes:{
+                'route_one':['route_one_part_one', 'route_one_part_two', 'route_one_part_three'],
+                'route_two':['route_two_part_one', 'route_two_part_two', 'route_two_part_three']
+            },
+            sync:'someSyncFunction',
+            route_two_part_three:'hello_world',
+            route_one_part_three:'world_hello',
+            storage:'someStorage'
+        };
+
+        var testRouter = {
+            route:function(){}
+        };
+
+        MM.plugins = {};
+        MM.Router = testRouter;
+        MM.lang = {
+            loadPluginLang:function(){}
+        };
+        MM.sync = {
+            registerHook:function(){}
+        };
+
+        spyOn(MM.Router, 'route').andReturn();
+        spyOn(MM, 'loadModels').andReturn();
+        spyOn(MM.lang, 'loadPluginLang').andReturn();
+        spyOn(MM.sync, 'registerHook').andReturn();
+
+        MM.registerPlugin(testPlugin);
+
+        expect(MM.Router.route).toHaveBeenCalledSequentiallyWith([
+            ['route_one_part_one', 'route_one_part_two', 'world_hello'],
+            ['route_two_part_one', 'route_two_part_two', 'hello_world']
+        ]);
+        expect(MM.loadModels).toHaveBeenCalledWith('someStorage');
+        expect(MM.lang.loadPluginLang).toHaveBeenCalledWith('Test Plugin', {a:"one",b:"two",c:"three"});
+        expect(MM.sync.registerHook).toHaveBeenCalledWith('Test Plugin', 'someSyncFunction');
+    });
+
+    describe("can load models", function() {
+        it("when given a model", function() {
+            var elements = {
+                'testModel':{
+                    type:'model'
+                }
+            };
+
+            MM.models = {};
+
+            spyOn(Backbone.Model, 'extend').andReturn();
+            MM.loadModels(elements);
+            expect(Backbone.Model.extend).toHaveBeenCalledWith({});
+        });
+        it("when given a collection", function() {
+            var elements = {
+                'testCollection':{
+                    type:'collection',
+                    model:'testModel',
+                    bbproperties:{
+                        name:'testcollection'
+                    }
+                }
+            };
+
+            MM.models = {
+                'testModel':{}
+            };
+
+            MM.collections = {};
+
+            spyOn(MM, '_createNewStore').andReturn({});
+            spyOn(Backbone.Collection, 'extend').andCallThrough();
+
+            MM.loadModels(elements);
+
+            expect(MM._createNewStore).toHaveBeenCalledWith('testCollection');
+            expect(Backbone.Collection.extend).toHaveBeenCalledWith(elements['testCollection'].bbproperties);
+            expect(MM.collections['testCollection'].name).toEqual('testcollection');
+        });
+        it("When given a model and then a collection", function() {
+            var elements = {
+                'testModel':{
+                    type:'model'
+                },                
+                'testCollection':{
+                    type:'collection',
+                    model:'testModel',
+                    bbproperties:{
+                        name:'testcollection'
+                    }
+                }
+            };
+            MM.models = {};
+            MM.collections = {};
+
+            spyOn(Backbone.Model, 'extend').andReturn({'name':'backbone extended model'});
+            spyOn(MM, '_createNewStore').andReturn({});
+            spyOn(Backbone.Collection, 'extend').andCallThrough();
+
+            MM.loadModels(elements);
+
+            expect(MM._createNewStore).toHaveBeenCalledWith('testCollection');
+            expect(Backbone.Collection.extend).toHaveBeenCalledWith(elements['testCollection'].bbproperties);
+            expect(MM.collections['testCollection'].name).toEqual('testcollection');
+            expect(MM.collections['testCollection'].model).toEqual({'name':'backbone extended model'});
+        });
+        it("Errors when given a collection and then a model", function() {
+            var elements = {
+                'testCollection':{
+                    type:'collection',
+                    model:'testModel',
+                    bbproperties:{
+                        name:'testcollection'
+                    }
+                },
+                'testModel':{
+                    type:'model'
+                }                
+            };
+            MM.models = {};
+            MM.collections = {};
+
+            spyOn(Backbone.Model, 'extend').andReturn({'name':'backbone extended model'});
+            spyOn(MM, '_createNewStore').andReturn({});
+            spyOn(Backbone.Collection, 'extend').andCallThrough();
+
+            MM.loadModels(elements);
+
+            expect(MM._createNewStore).toHaveBeenCalledWith('testCollection');
+            expect(Backbone.Collection.extend).toHaveBeenCalledWith(elements['testCollection'].bbproperties);
+            expect(MM.collections['testCollection'].name).toEqual('testcollection');
+            expect(MM.collections['testCollection'].model).toBeUndefined();
+        });
+    });
+
+    it("can display settings", function() {
+        // DOM elements required
+        $(document.body).append(
+            $("<div>").attr('id', 'testElements').append(
+                $("<div>").html(
+                    "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                )
+            ).append(
+               $("<div>").attr({'id':'settings_template'}).html('hello world')
+            )
+        );
+
+        MM.plugins = {
+            'first':{
+                settings:{
+                    type:'setting',
+                    name:'first_thing'
+                }
+            },
+            'second':{
+                settings:{
+                    type:'not-setting',
+                    name:'second_thing'
+                }
+            }
+        }
+
+        MM.tpl = {
+            render:function(){}
+        };
+        MM.panels = {
+            show:function(){}
+        };
+
+        spyOn(MM.tpl, 'render').andReturn("hello world");
+        spyOn(MM.panels, 'show').andReturn();
+
+        MM.displaySettings();
+
+        expect(MM.tpl.render).toHaveBeenCalledWith(
+            'hello world', 
+            {
+                plugins:[
+                    {type:'setting',name:'first_thing'}
+                ]
+            }
+        );
+        expect(MM.panels.show).toHaveBeenCalledWith('center', 'hello world');
+        $("#testElements").remove();
+    });
+
+    describe("can retrieve configuration", function() {
+        beforeEach(function() {
+            MM.config = {};
+        });
+
+        it("when nothing is provided", function() {
+            var response = MM.getConfig();
+            expect(response).toBeUndefined();
+        });
+        it("when just a name is provided but doesn't exist", function() {
+            var response = MM.getConfig("testField");
+            expect(response).toBeUndefined();
+        });
+        it("when just a name is provided and it does exist", function() {
+            MM.config['testField'] = "This is a test field";
+            var response = MM.getConfig("testField");
+            expect(response).toEqual("This is a test field");
+        });
+        it("when a name and optional have been provided and name exists", function() {
+            MM.config['testField'] = "This is a test field";
+            var response = MM.getConfig("testField", "optionalResponse");
+            expect(response).toEqual("This is a test field");
+        });
+        it("when a name and optional have been provided and name doesn't exist", function() {
+            var response = MM.getConfig("testField", "optionalResponse");
+            expect(response).toEqual("optionalResponse");
+        });
+        it("when a name and site have been provided", function() {
+            MM.config.current_site = {'id':1};
+            MM.config['1-testField'] = "This is a test field for site One";
+            var response = MM.getConfig("testField", undefined, true);
+            expect(response).toEqual("This is a test field for site One");
+        });
+        it("when optional and site are provided", function() {
+            MM.config.current_site = {'id':1};
+            var response = MM.getConfig("", "optionalResponse", true);
+            expect(response).toEqual("optionalResponse");
+        });
+        it("when name, optional and site are all provided and name exists", function() {
+            MM.config.current_site = {'id':1};
+            MM.config['1-testField'] = "This is a test field for site One";
+            var response = MM.getConfig("testField", "optionalResponse", true);
+            expect(response).toEqual("This is a test field for site One");
+        });
+        it("when name, optional and site are all provided and name doesn't exists", function() {
+            MM.config.current_site = {'id':1};
+            var response = MM.getConfig("testField", "optionalResponse", true);
+            expect(response).toEqual("optionalResponse");
+        });        
+    });
+
+    it("can set config", function() {
+        MM.config = {
+            current_site : {
+                id:1
+            }
+        };
+        MM.db = {
+            insert:function(){}
+        };
+        spyOn(MM.db, 'insert').andReturn();
+        MM.setConfig('testName', 'testValue', true);
+        expect(MM.db.insert).toHaveBeenCalledWith('settings', {id:'1-testName',name:'testName',value:'testValue'});
+    });
+
+    it("can fix plugin file", function() {
+        MM.config = {
+            current_token:'testToken'
+        };
+        var response = MM.fixPluginfile("A.URL/pluginfile");
+        expect(response).toEqual("A.URL/webservice/pluginfile?token=testToken");
+    });
+
+    describe("can log information", function() {
+        it("except when dev_debug is not set", function() {
+            spyOn(MM, 'getConfig').andReturn(false);
+            var response = MM.log("foo");
+            expect(response).toBeUndefined();
+        });
+        
+        it("specifying Component:Core when not set", function() {
+            MM.config.log_length = 20000;
+            MM.logData = [];
+            spyOn(MM, 'getConfig').andReturn(true);
+
+            // Stops any calls to window.console from working.
+            spyOn(window.console, 'log').andReturn();
+            MM.log("foo");
+            expect(MM.logData[0]).toMatch(
+                /\d{1,2}\/\d{1,2}\/\d{2,4} \d{1,2}:\d{1,2}:\d{1,2} Core: foo/
+            );
+        });
+        it("and clears the log queue when it's too large", function() {
+            MM.config.log_length = 2;
+            MM.logData = ["x", "y"];
+            spyOn(MM, 'getConfig').andReturn(true);
+
+            // Stops any calls to window.console from working.
+            spyOn(window.console, 'log').andReturn(false);
+
+            MM.log("foo", "AnotherComponent");
+            expect(MM.logData[0]).toMatch(
+                /\d{1,2}\/\d{1,2}\/\d{2,4} \d{1,2}:\d{1,2}:\d{1,2} AnotherComponent: foo/
+            );
+            expect(MM.logData.length).toEqual(2);
+            expect(MM.logData[1]).toEqual("x");
+        });
+    });
+
+    describe("can show formatted log information", function() {
+        beforeEach(function() {
+            MM.logData = [
+                "log entry number one",
+                "testFilter: log entry number two",
+                "log entry number three",
+                "testFilter: log entry number four",
+                "testFilter: log entry duplicate",
+                "testFilter: log entry duplicate",
+                "testFilter: log entry duplicate",
+                "log entry number five for testFilter",
+                "log entry containing testFilter within the string",
+            ];
+        });
+        it("except when dev_debug is not set", function() {
+            spyOn(MM, 'getConfig').andReturn(false);
+            var response = MM.getFormattedLog("testFilter");
+            expect(response).toEqual("");
+        });
+        it("when filter is not a string", function() {
+            spyOn(MM, 'getConfig').andReturn(true);
+            var response = MM.getFormattedLog(123);
+            var expected = "log entry number one<br />";
+            expected += "testFilter: log entry number two<br />";
+            expected += "log entry number three<br />";
+            expected += "testFilter: log entry number four<br />";
+            expected += "testFilter: log entry duplicate<br />";
+            expected += "log entry number five for testFilter<br />";
+            expected += "log entry containing testFilter within the string<br />";            
+            expect(response).toEqual(expected);
+        });
+        it("when filter is a string", function() {
+            spyOn(MM, 'getConfig').andReturn(true);
+            var response = MM.getFormattedLog("testFilter");
+            var expected = "testFilter: log entry number two<br />";
+            expected += "testFilter: log entry number four<br />";
+            expected += "testFilter: log entry duplicate<br />";
+            expected += "log entry number five for testFilter<br />";
+            expected += "log entry containing testFilter within the string<br />";            
+            expect(response).toEqual(expected);
+        });        
+    });
+
+    it("can show log information for everyone", function() {
+        // DOM elements required
+        $(document.body).append(
+            $("<div>").attr('id', 'testElements').append(
+                $("<div>").html(
+                    "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                )
+            ).append(
+               $("<input>").attr({'id':'logfilter', 'value':'testbutton'})
+            )
+        );
+
+        MM.panels = {
+            html:function(){}
+        };
+        MM.config = {
+            current_site:{
+                username:'AUsername'
+            }
+        }
+        MM.lang = {
+            s:function(field) {
+                return "Field:field";
+            }
+        }
+
+        var expected = "testFilter: log entry number two<br />";
+        expected += "testFilter: log entry number four<br />";
+        expected += "testFilter: log entry duplicate<br />";
+        expected += "log entry number five for testFilter<br />";
+        expected += "log entry containing testFilter within the string<br />";
+        spyOn(MM.lang, 's').andCallThrough();
+        spyOn(MM, 'getFormattedLog').andReturn(expected);
+        spyOn(MM.panels, 'html').andReturn();
+        spyOn(MM, 'showLog').andCallThrough();
+        spyOn($.fn, 'keyup').andCallThrough();
+
+        var expectedPanelHTML = '<input id="logfilter" type="text" placeholder="Filter"> ';
+        expectedPanelHTML += '<a href="javascript: MM.showLog()">Clear</a><br/><br/>';
+        expectedPanelHTML += 'testFilter: log entry number two<br />';
+        expectedPanelHTML += 'testFilter: log entry number four<br />';
+        expectedPanelHTML += 'testFilter: log entry duplicate<br />';
+        expectedPanelHTML += 'log entry number five for testFilter<br />';
+        expectedPanelHTML += 'log entry containing testFilter within the string<br />';
+        expectedPanelHTML += '<div class="centered">';
+        expectedPanelHTML += '<a href="mailto:AUsername?subject=MMLog&body=testFilter%3A%20log%20entry%20number%20two%0AtestFilter%3A%20log%20entry%20number%20four%0AtestFilter%3A%20log%20entry%20duplicate%0Alog%20entry%20number%20five%20for%20testFilter%0Alog%20entry%20containing%20testFilter%20within%20the%20string%0A">';
+        expectedPanelHTML += '<button>Field:field</button></a></div>';
+
+        // Puts the log into the panels
+        MM.showLog("testFilter");
+
+        // Triggers the showLog function because the listener is removed each call.
+        var e = {keyCode:13};
+        $("#logfilter").trigger('keyup', e);
+        expect(MM.lang.s).toHaveBeenCalledWith('email');
+        expect(MM.panels.html).toHaveBeenCalledWith('right', expectedPanelHTML);
+        expect(MM.showLog.callCount).toEqual(1);
+        expect($.fn.keyup.callCount).toEqual(1);
+
+        $("#testElements").remove();
+    });
+
+    describe("can show an error message", function() {
+        it("unless the message is blank", function(){
+            MM.Router = {
+                navigate:function(){}
+            };
+            spyOn(MM.Router, 'navigate').andReturn("");
+
+            MM.popErrorMessage("");
+            expect(MM.Router.navigate).not.toHaveBeenCalled();
+        });
+        it("when there's a message to show", function() {
+            MM.Router = {
+                navigate:function(){}
+            };
+            MM.lang = {
+                s:function(){}
+            };
+            spyOn(MM.lang, 's').andReturn("hello world");
+            spyOn(MM, 'popMessage').andReturn();
+            
+            MM.popErrorMessage("An error message");
+            expect(MM.lang.s).toHaveBeenCalledWith('error');
+            expect(MM.popMessage).toHaveBeenCalledWith('An error message', {
+                title:'hello world',
+                autoclose:4000
+            });
+        });
+    });
+
+    describe("can display a message", function() {
+        it("with custom options", function() {
+            MM.widgets = {
+                dialog:function(){}
+            };
+            spyOn(MM.widgets, 'dialog').andReturn();
+            MM.popMessage("Some text", {autoclose:20});
+            expect(MM.widgets.dialog).toHaveBeenCalledWith('Some text', {autoclose:20});
+        });
+        it("without custom options", function() {
+            MM.widgets = {
+                dialog:function(){}
+            };
+            spyOn(MM.widgets, 'dialog').andReturn();
+            MM.popMessage("Some text");
+            expect(MM.widgets.dialog).toHaveBeenCalledWith('Some text', {autoclose:4000});
+        });
+    });
+
+    it("can display a confirmation window", function() {
+        MM.lang = {
+            s:function(text) {
+                if (text == 'yes') {
+                    return 'Da';
+                } else if (text == 'no') {
+                    return 'Nyet';
+                }
+            }
+        };
+        MM.widgets = {
+            dialogClose:'hello world'
+        };
+        spyOn(MM, 'popMessage').andReturn();
+        var callBackFunction = function(){};
+        MM.popConfirm('some text', callBackFunction);
+        expect(MM.popMessage).toHaveBeenCalledWith('some text', {
+            'buttons':{
+                'Da':callBackFunction,
+                'Nyet':'hello world'
+            }
+        });
+    });
+
+    it("can handle external links", function() {
+        MM.clickType = 'aClick';
+        MM.backup.externalLinkClickHandler = MM.externalLinkClickHandler;
+        MM.externalLinkClickHandler = 'externalLinkClickHandler';
+        spyOn(MM, 'setExternalLinksHREF').andReturn();
+        spyOn($.fn, 'bind').andReturn();
+        MM.handleExternalLinks("ASelector");
+        expect(MM.setExternalLinksHREF).toHaveBeenCalledWith('ASelector');
+        expect($.fn.bind).toHaveBeenCalledWith('aClick', 'externalLinkClickHandler');
+        MM.externalLinkClickHandler = MM.backup.externalLinkClickHandler;
+    });
+
+    describe("can set external link hrefs", function() {
+        it("except when the clickType is not click", function() {
+            spyOn($.fn, 'bind').andReturn();
+            MM.clickType = 'click';
+            MM.setExternalLinksHREF("aSelector");
+            expect($.fn.bind).not.toHaveBeenCalled();
+        });
+        it("when clickType is click and href is not #", function() {
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<a>").attr({'id':'testLink', 'href':'some.url/place'})
+                )
+            );            
+
+            MM.Router = {
+                navigate:function(){}
+            };
+
+            MM.clickType = 'tap';
+
+            spyOn($("#testLink"), 'bind').andReturn();
+            spyOn(MM.Router, 'navigate').andReturn();
+            
+            MM.setExternalLinksHREF("#testLink");
+            $("#testLink").click();
+
+            expect(MM.Router.navigate).toHaveBeenCalled();
+
+            var link = $("#testLink");
+            expect(link.attr('href')).toEqual('#');
+            expect(link.attr('data-link')).toEqual('some.url/place');
+            expect(link.attr('target')).toEqual('_self');
+
+            $("#testElements").remove();
+        });
+        it("when clickType is click and href is #", function() {
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<a>").attr({'id':'testLink', 'href':'#'})
+                )
+            );            
+
+            MM.Router = {
+                navigate:function(){}
+            };
+
+            MM.clickType = 'tap';
+
+            spyOn($("#testLink"), 'bind').andReturn();
+            spyOn(MM.Router, 'navigate').andReturn();
+            
+            MM.setExternalLinksHREF("#testLink");
+            $("#testLink").click();
+
+            expect(MM.Router.navigate).not.toHaveBeenCalled();
+
+            $("#testElements").remove();
+        });
+    });
+
+    describe("can handle external link click handler", function() {
+        beforeEach(function() {
+            var e = {
+                preventDefault:function(){}
+            };
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<a>").attr(
+                        {'id':'testLink', 'href':'some.url/place'}
+                    ).on(
+                        'click', MM.externalLinkClickHandler
+                    )
+                ).append(
+                    $("<div>").addClass('infoBox')
+                )
+            );
+            if (typeof(window.plugins) == 'undefined') {
+                window.plugins = {
+                    childBrowser:{
+                        showWebPage:function(){}
+                    }
+                };
+            }
+            if (typeof(window.plugins.childBrowser) == 'undefined') {
+                window.plugins.childBrowser = {
+                    showWebPage:function(){}
+                };
+            }
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+        it("when MM.touchMoving is true", function() {
+            MM.touchMoving = true;
+            MM.plugins = {
+                contents:{
+                    infoBox:$(".infoBox")
+                }
+            }
+            $("#testLink").click();
+        });
+        it("when MM.touchMoving is false and we should display in a child browser", function() {
+            MM.touchMoving = false;
+            MM.plugins = {
+                contents:{
+                    infoBox:$(".infoBox")
+                }
+            }
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_canUseChildBrowser').andReturn(true);
+            spyOn(window.plugins.childBrowser, 'showWebPage').andReturn();
+
+            $("#testLink").click();
+            expect(MM.log).toHaveBeenCalledWith('Launching childBrowser');
+            expect(MM._canUseChildBrowser).toHaveBeenCalled();
+            expect(window.plugins.childBrowser.showWebPage).toHaveBeenCalledWith(
+                'some.url/place',
+                {
+                    showLocationBar:true,
+                    showAddress:false
+                }
+            );
+        });
+        it("when MM.touchMoving is false and we should display in a child browser + EXCEPTION", function() {
+            MM.touchMoving = false;
+            MM.plugins = {
+                contents:{
+                    infoBox:$(".infoBox")
+                }
+            }
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_canUseChildBrowser').andReturn(true);
+            spyOn(window.plugins.childBrowser, 'showWebPage').andCallFake(function() {
+                throw 'exception';
+            });
+            spyOn('window', open).andReturn();
+
+            $("#testLink").click();
+            expect(MM.log).toHaveBeenCalledSequentiallyWith([
+                ['Launching childBrowser'],
+                ['Launching childBrowser failed!, opening as standard link']
+            ]);
+            expect(MM._canUseChildBrowser).toHaveBeenCalled();
+            expect(window.plugins.childBrowser.showWebPage).toHaveBeenCalledWith(
+                'some.url/place',
+                {
+                    showLocationBar:true,
+                    showAddress:false
+                }
+            );
+            expect(window.open).toHaveBeenCalledWith('some.url/place', '_blank');
+        });        
+        it("when MM.touchMoving is false and we should use navigator.app", function() {
+            MM.touchMoving = false;
+            MM.plugins = {
+                contents:{
+                    infoBox:$(".infoBox")
+                }
+            }
+
+            var navigatorExisted = true;
+            if (typeof(navigator.app) == 'undefined') {
+                navigatorExisted = false;
+                navigator.app = {
+                    loadUrl: function(){}
+                };
+            }
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_canUseChildBrowser').andReturn(false);
+            spyOn(navigator.app, 'loadUrl').andReturn();
+
+            $("#testLink").click();
+            expect(MM.log).toHaveBeenCalledWith('Opening external link using navigator.app');
+            expect(MM._canUseChildBrowser).toHaveBeenCalled();
+            expect(navigator.app.loadUrl).toHaveBeenCalledWith('some.url/place', {openExternal:true});
+
+            // reset that navigator 
+            if (!navigatorExisted) {
+                navigator.app = undefined;
+            }
+        });
+        it("when MM.touchMoving is false and we should use window.open based on href", function() {
+            MM.touchMoving = false;
+            MM.plugins = {
+                contents:{
+                    infoBox:$(".infoBox")
+                }
+            }
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_canUseChildBrowser').andReturn(false);
+            spyOn(window, 'open').andReturn();
+
+            $("#testLink").click();
+            expect(MM.log).toHaveBeenCalledWith('Opening external link using window.open');
+            expect(MM._canUseChildBrowser).toHaveBeenCalled();
+            expect(window.open).toHaveBeenCalledWith('some.url/place', '_blank');
+        });        
+        it("when MM.touchMoving is false and we should use window.open based on data-link", function() {
+            MM.touchMoving = false;
+            MM.plugins = {
+                contents:{
+                    infoBox:$(".infoBox")
+                }
+            }
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_canUseChildBrowser').andReturn(false);
+            spyOn(window, 'open').andReturn();
+
+            $("#testLink").attr({
+                'data-link': $("#testLink").attr('href'),
+                'href':'#'
+            });
+            $("#testLink").click();
+            expect(MM.log).toHaveBeenCalledWith('Opening external link using window.open');
+            expect(MM._canUseChildBrowser).toHaveBeenCalled();
+            expect(window.open).toHaveBeenCalledWith('some.url/place', '_blank');
+        });        
     });
 /*
     describe("loadSite", function() {
