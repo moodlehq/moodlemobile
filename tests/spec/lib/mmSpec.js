@@ -280,11 +280,6 @@ describe("MM", function() {
         });
 
         it("reports state correctly when disconnected", function() {
-            // Required by the test.
-            $(document.body).append(
-                $("<div>").attr('id', 'main-wrapper').css('display', 'block')
-            );
-
             // Mock network states and test connection is reported correctly 
             spyOn(MM, 'deviceConnected').andCallThrough();
             spyOn(MM, '_getNetwork').andCallFake(function() {
@@ -294,6 +289,7 @@ describe("MM", function() {
                 return true;
             });
             spyOn(MM, 'log').andCallThrough();
+            spyOn($.fn, 'css').andReturn("block");
             MM.init({});
             var result = MM.deviceConnected();
             expect(MM.deviceConnected).toHaveBeenCalled();
@@ -304,42 +300,772 @@ describe("MM", function() {
                     ['Returning not connected (forced by settings)']
                 ]
             );
+        });
+    });
 
-            // Remove the DOM element
-            $("#main-wrapper").remove();
+    describe("loadLayout", function() {
+        beforeEach(function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<div>").attr('id', 'add-site_template')
+                ).append(
+                    $("<div>").attr('id', 'add-site')
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'})
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'})
+                ).append(
+                    $("<div>").attr('id', 'panel-left')
+                ).append(
+                    $("<div>").attr('id', 'panel-right')
+                ).append(
+                    $("<div>").attr('id', 'panel-center')
+                )
+            );
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+        it("sets up overflow scrolling as tablet with early return", function() {
+            // Set up bolt-ons for MM object
+            MM.config = {
+                presets: {
+                    url:'hello world',
+                    username:'defaultUsername'
+                }
+            };
+            MM.tpl = {
+                render:function(){}
+            };
+            MM.db = {
+                get:function(){}
+            };
+            MM.util = {
+                isTouchDevice:function(){},
+                overflowScrollingSupported:function(){}
+            }
+
+            matchMediaResponse = {
+                addListener: function() {},
+                matches:true
+            };
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM.tpl, 'render').andReturn($("<form>"));
+            spyOn(Backbone.history, 'start').andReturn(true);
+            spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
+            spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn($.fn, 'innerHeight').andReturn(123);
+            spyOn(MM.util, 'isTouchDevice').andReturn(true);
+            spyOn(MM.util, 'overflowScrollingSupported').andReturn(true);
+            spyOn(MM, 'setUpOverflowScrolling').andReturn(true);
+            spyOn(MM, 'getConfig').andReturn({id:1});
+            spyOn(MM.db, 'get').andReturn(true);
+            spyOn(MM, 'loadSite').andReturn(true);
+            spyOn(MM, 'loadExtraJs').andReturn(true);
+            spyOn(MM, 'setUpTabletModeLayout').andCallThrough();
+
+            MM.loadLayout();
+            expect(MM.tpl.render).toHaveBeenCalledWith("");
+            expect($("#add-site").html()).toEqual("<form></form>");
+            expect($("#url").val()).toEqual("hello world");
+            expect($("#username").val()).toEqual("defaultUsername");
+            expect(matchMediaResponse.addListener).toHaveBeenCalled();
+            expect(MM.setUpTabletModeLayout).toHaveBeenCalled();
+            expect($("#add-site").css('height')).toEqual('123px');
+            expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
+            expect(MM.setUpOverflowScrolling).toHaveBeenCalled();
+            expect(MM.getConfig).toHaveBeenCalledWith('current_site');
+            expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
+            expect(MM.loadSite).toHaveBeenCalledWith(1);
+            expect(MM.loadExtraJs).toHaveBeenCalled();
+            expect(MM.loadExtraJs.callCount).toEqual(1);
+        });
+
+        it("sets up overflow scrolling as tablet without early return", function() {
+            // Set up bolt-ons for MM object
+            MM.config = {
+                presets: {
+                    url:'hello world',
+                    username:'defaultUsername'
+                }
+            };
+            MM.tpl = {
+                render:function(){}
+            };
+            MM.db = {
+                get:function(){}
+            };
+            MM.util = {
+                isTouchDevice:function(){},
+                overflowScrollingSupported:function(){}
+            }
+
+            matchMediaResponse = {
+                addListener: function() {},
+                matches:true
+            };
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM.tpl, 'render').andReturn($("<form>"));
+            spyOn(Backbone.history, 'start').andReturn(true);
+            spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
+            spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn($.fn, 'innerHeight').andReturn(123);
+            spyOn(MM.util, 'isTouchDevice').andReturn(true);
+            spyOn(MM.util, 'overflowScrollingSupported').andReturn(true);
+            spyOn(MM, 'setUpOverflowScrolling').andReturn(true);
+            spyOn(MM, 'getConfig').andReturn({});
+            spyOn(MM, 'loadExtraJs').andReturn(true);
+            spyOn(MM.db, 'get').andReturn(true);
+            spyOn(MM, 'setUpTabletModeLayout').andCallThrough();
+
+            MM.loadLayout();
+            expect(MM.tpl.render).toHaveBeenCalledWith("");
+            expect($("#add-site").html()).toEqual("<form></form>");
+            expect($("#url").val()).toEqual("hello world");
+            expect($("#username").val()).toEqual("defaultUsername");
+            expect(matchMediaResponse.addListener).toHaveBeenCalled();
+            expect(MM.setUpTabletModeLayout).toHaveBeenCalled();
+            expect($("#add-site").css('height')).toEqual('123px');
+            expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
+            expect(MM.setUpOverflowScrolling).toHaveBeenCalled();
+            expect(MM.getConfig).toHaveBeenCalledWith('current_site');
+            expect(MM.db.get).not.toHaveBeenCalled();
+            expect(MM.loadSite).not.toHaveBeenCalled;
+            expect(MM.loadExtraJs).toHaveBeenCalled();
+            expect(MM.loadExtraJs.callCount).toEqual(1);
+            expect($('#add-site').css('display')).toEqual('block');
+        });
+
+        it("sets up overflow scrolling as phone", function() {
+            // Set up bolt-ons for MM object
+            MM.config = {
+                presets: {
+                    url:'hello world',
+                    username:'defaultUsername'
+                }
+            };
+            MM.tpl = {
+                render:function(){}
+            };
+            MM.db = {
+                get:function(){}
+            };
+            MM.util = {
+                isTouchDevice:function(){},
+                overflowScrollingSupported:function(){}
+            }
+
+            matchMediaResponse = {
+                addListener: function() {},
+                matches:false
+            };
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM.tpl, 'render').andReturn($("<form>"));
+            spyOn(Backbone.history, 'start').andReturn(true);
+            spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
+            spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn($.fn, 'innerHeight').andReturn(123);
+            spyOn(MM.util, 'isTouchDevice').andReturn(true);
+            spyOn(MM.util, 'overflowScrollingSupported').andReturn(true);
+            spyOn(MM, 'setUpOverflowScrolling').andReturn(true);
+            spyOn(MM, 'getConfig').andReturn({});
+            spyOn(MM, 'loadExtraJs').andReturn(true);
+            spyOn(MM.db, 'get').andReturn(true);
+            spyOn(MM, 'setUpTabletModeLayout').andReturn(true);
+            spyOn(MM, 'setUpPhoneModeLayout').andReturn(true);
+
+            MM.loadLayout();
+            expect(MM.tpl.render).toHaveBeenCalledWith("");
+            expect($("#add-site").html()).toEqual("<form></form>");
+            expect($("#url").val()).toEqual("hello world");
+            expect($("#username").val()).toEqual("defaultUsername");
+            expect(matchMediaResponse.addListener).toHaveBeenCalled();
+            expect(MM.setUpTabletModeLayout).not.toHaveBeenCalled();
+            expect(MM.setUpPhoneModeLayout).toHaveBeenCalled();
+            expect($("#add-site").css('height')).toEqual('123px');
+            expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
+            expect(MM.setUpOverflowScrolling).toHaveBeenCalled();
+            expect(MM.getConfig).toHaveBeenCalledWith('current_site');
+            expect(MM.db.get).not.toHaveBeenCalled();
+            expect(MM.loadSite).not.toHaveBeenCalled;
+            expect(MM.loadExtraJs).toHaveBeenCalled();
+            expect(MM.loadExtraJs.callCount).toEqual(1);
+            expect($('#add-site').css('display')).toEqual('block');
+        });
+
+        it("sets up native scrolling", function() {
+            // Set up bolt-ons for MM object
+            MM.config = {
+                presets: {
+                    url:'hello world',
+                    username:'defaultUsername'
+                }
+            };
+            MM.tpl = {
+                render:function(){}
+            };
+            MM.db = {
+                get:function(){}
+            };
+            MM.util = {
+                isTouchDevice:function(){},
+                overflowScrollingSupported:function(){}
+            };
+            MM.deviceType = 'phone';
+
+            matchMediaResponse = {
+                addListener: function() {},
+                matches:false
+            };
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM.tpl, 'render').andReturn($("<form>"));
+            spyOn(Backbone.history, 'start').andReturn(true);
+            spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
+            spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn($.fn, 'innerHeight').andReturn(123);
+            spyOn(MM.util, 'isTouchDevice').andReturn(true);
+            spyOn(MM.util, 'overflowScrollingSupported').andReturn(false);
+            spyOn(MM, 'setUpOverflowScrolling').andReturn(false);
+            spyOn(MM, 'setUpNativeScrolling').andReturn(true);
+            spyOn(MM, 'getConfig').andReturn({id:1});
+            spyOn(MM.db, 'get').andReturn(true);
+            spyOn(MM, 'loadSite').andReturn(true);
+            spyOn(MM, 'loadExtraJs').andReturn(true);
+
+            MM.loadLayout();
+            expect(MM.tpl.render).toHaveBeenCalledWith("");
+            expect($("#add-site").html()).toEqual("<form></form>");
+            expect($("#url").val()).toEqual("hello world");
+            expect($("#username").val()).toEqual("defaultUsername");
+            expect(matchMediaResponse.addListener).toHaveBeenCalled();
+            expect($("#add-site").css('height')).toEqual('123px');
+            expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
+            expect(MM.setUpOverflowScrolling).not.toHaveBeenCalled();
+            expect(MM.setUpNativeScrolling).toHaveBeenCalled();
+            expect(MM.getConfig).toHaveBeenCalledWith('current_site');
+            expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
+            expect(MM.loadSite).toHaveBeenCalledWith(1);
+            expect(MM.loadExtraJs).toHaveBeenCalled();
+            expect(MM.loadExtraJs.callCount).toEqual(1);
+        });
+
+        it("sets up javascript scrolling", function() {
+            // Set up bolt-ons for MM object
+            MM.config = {
+                presets: {
+                    url:'hello world',
+                    username:'defaultUsername'
+                }
+            };
+            MM.tpl = {
+                render:function(){}
+            };
+            MM.db = {
+                get:function(){}
+            };
+            MM.util = {
+                isTouchDevice:function(){},
+                overflowScrollingSupported:function(){}
+            };
+            MM.deviceType = 'computer'; // can be anything except 'phone'
+
+            matchMediaResponse = {
+                addListener: function() {},
+                matches:false
+            };
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM.tpl, 'render').andReturn($("<form>"));
+            spyOn(Backbone.history, 'start').andReturn(true);
+            spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
+            spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn($.fn, 'innerHeight').andReturn(123);
+            spyOn(MM.util, 'isTouchDevice').andReturn(true);
+            spyOn(MM.util, 'overflowScrollingSupported').andReturn(false);
+            spyOn(MM, 'setUpOverflowScrolling').andReturn(false);
+            spyOn(MM, 'setUpNativeScrolling').andReturn(false);
+            spyOn(MM, 'setUpJavascriptScrolling').andReturn(true);
+            spyOn(MM, 'getConfig').andReturn({id:1});
+            spyOn(MM.db, 'get').andReturn(true);
+            spyOn(MM, 'loadSite').andReturn(true);
+            spyOn(MM, 'loadExtraJs').andReturn(true);
+
+            MM.loadLayout();
+            expect(MM.tpl.render).toHaveBeenCalledWith("");
+            expect($("#add-site").html()).toEqual("<form></form>");
+            expect($("#url").val()).toEqual("hello world");
+            expect($("#username").val()).toEqual("defaultUsername");
+            expect(matchMediaResponse.addListener).toHaveBeenCalled();
+            expect($("#add-site").css('height')).toEqual('123px');
+            expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
+            expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
+            expect(MM.setUpOverflowScrolling).not.toHaveBeenCalled();
+            expect(MM.setUpNativeScrolling).not.toHaveBeenCalled();
+            expect(MM.setUpJavascriptScrolling).toHaveBeenCalled();
+            expect(MM.getConfig).toHaveBeenCalledWith('current_site');
+            expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
+            expect(MM.loadSite).toHaveBeenCalledWith(1);
+            expect(MM.loadExtraJs).toHaveBeenCalled();
+            expect(MM.loadExtraJs.callCount).toEqual(1);               
+        });
+    });
+
+    it("can load a site given an id", function() {
+        var site = {
+            get:function(userid) {
+                return 999;
+            }
+        };
+
+        MM.db = {
+            get:function(name, value) {
+                return site;
+            }
+        };
+        MM.loadCourses = function(){};
+        MM.showAddSitePanel = function(){};
+
+        spyOn(MM, 'log').andReturn();
+        spyOn(MM.db, 'get').andCallThrough();
+        spyOn(MM.sync, 'init').andReturn();
+        spyOn(MM, 'setUpConfig').andReturn();
+        spyOn(MM, 'setUpLanguages').andReturn();
+        spyOn(MM, 'moodleWSCall').andReturn();
+        MM.loadSite(1);
+        expect(MM.log).toHaveBeenCalledWith('Loading site');
+        expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
+        expect(MM.sync.init).toHaveBeenCalled();
+        expect(MM.setUpConfig).toHaveBeenCalled();
+        expect(MM.setUpLanguages).toHaveBeenCalled();
+        expect(MM.moodleWSCall).toHaveBeenCalledWith(
+            'moodle_enrol_get_users_courses',
+            {userid:999},
+            MM.loadCourses,
+            {omitExpires:true},
+            MM.showAddSitePanel
+        );
+    });
+
+    describe("Can add a site", function() {
+        it("can add a site when url and password is missing", function() {
+            var url = "";
+            var username = "       LeadingSpacesUsername";
+            var password = "";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            }
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(true);
+
+            var e = {
+                preventDefault:function(){}
+            };
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith("https://CUrl");
+            expect(MM.saveSite).toHaveBeenCalledWith("CUsername", "CPassword", 'https://CUrl');
+            $("#testElements").remove();
+        });
+
+        it("can add a site when the data is sensible", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       LeadingSpacesUsername";
+            var password = "PasswordNoSpaces";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            }
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(true);
+
+            var e = {
+                preventDefault:function(){}
+            };
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
+            expect(MM.saveSite).toHaveBeenCalledWith("LeadingSpacesUsername", "PasswordNoSpaces", 'https://' + $.trim(url.toLowerCase()));
+            $("#testElements").remove();
+        });
+
+        it("continues if the site is localhost", function() {
+            var url = "http://localhost/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       LeadingSpacesUsername";
+            var password = "PasswordNoSpaces";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            }
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(true);
+
+            var e = {
+                preventDefault:function(){}
+            };
+            MM.addSite(e);
+            expect(MM.validateURL).not.toHaveBeenCalled(); // lazy conditional statement
+            expect(MM.saveSite).toHaveBeenCalledWith("LeadingSpacesUsername", "PasswordNoSpaces", $.trim(url.toLowerCase()));
+            $("#testElements").remove();
+        });
+
+        it("errors if the site isn't localhost and url doesn't validate", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       LeadingSpacesUsername";
+            var password = "PasswordNoSpaces";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            MM.lang = {
+                s:function(field) {
+                    if (field == 'siteurlrequired') {
+                        return "site needed";
+                    }
+                    if (field == 'usernamerequired') {
+                        return "username needed";
+                    }
+                    if (field == 'passwordrequired') {
+                        return "password needed";
+                    }
+                }
+            };
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(false);
+            spyOn(MM, 'popErrorMessage').andCallThrough();
+
+            var e = {
+                preventDefault:function(){}
+            };
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
+            expect(MM.saveSite).not.toHaveBeenCalled();
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("site needed<br/>");
+            $("#testElements").remove();
+        });
+
+        it("errors when username isn't provided", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       ";
+            var password = "PasswordNoSpaces";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            MM.lang = {
+                s:function(field) {
+                    if (field == 'siteurlrequired') {
+                        return "site needed";
+                    }
+                    if (field == 'usernamerequired') {
+                        return "username needed";
+                    }
+                    if (field == 'passwordrequired') {
+                        return "password needed";
+                    }
+                }
+            };
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(true);
+            spyOn(MM, 'popErrorMessage').andCallThrough();
+
+            var e = {
+                preventDefault:function(){}
+            };
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
+            expect(MM.saveSite).not.toHaveBeenCalled();
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("username needed<br/>");
+            $("#testElements").remove();
+        });
+
+        it("errors when password isn't provided", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       LeadingSpacesUsername";
+            var password = "";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            MM.lang = {
+                s:function(field) {
+                    if (field == 'siteurlrequired') {
+                        return "site needed";
+                    }
+                    if (field == 'usernamerequired') {
+                        return "username needed";
+                    }
+                    if (field == 'passwordrequired') {
+                        return "password needed";
+                    }
+                }
+            };
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(true);
+            spyOn(MM, 'popErrorMessage').andCallThrough();
+
+            var e = {
+                preventDefault:function(){}
+            };
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
+            expect(MM.saveSite).not.toHaveBeenCalled();
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("password needed");
+            $("#testElements").remove();
+        });
+
+        it("errors completely when site, username and password wrong", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       ";
+            var password = "";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            MM.lang = {
+                s:function(field) {
+                    if (field == 'siteurlrequired') {
+                        return "site needed";
+                    }
+                    if (field == 'usernamerequired') {
+                        return "username needed";
+                    }
+                    if (field == 'passwordrequired') {
+                        return "password needed";
+                    }
+                }
+            };
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(false);
+            spyOn(MM, 'popErrorMessage').andCallThrough();
+
+            var e = {
+                preventDefault:function(){}
+            };
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
+            expect(MM.saveSite).not.toHaveBeenCalled();
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("site needed<br/>username needed<br/>password needed");
+            $("#testElements").remove();
+        });
+    });
+
+    it("can save sites", function() {
+        MM.lang = {
+            s:function(field) {}
+        };
+
+        MM.config = {
+            wsservice:"SomeService"
+        };
+
+        MM.loginSuccessHandler = function() {};
+        MM.loginErrorHandler = function() {};
+
+        spyOn(MM, 'showModalLoading').andReturn();
+        spyOn(MM.lang, 's').andReturn("Something");
+        spyOn($, 'ajax').andReturn();
+
+        MM.saveSite("AUsername", "APassword", "SomeSiteURL");
+
+        expect(MM.showModalLoading).toHaveBeenCalledWith("Something");
+        expect(MM.lang.s).toHaveBeenCalledWith("authenticating");
+        expect(MM.siteurl).toEqual("SomeSiteURL");
+        expect($.ajax).toHaveBeenCalledWith({
+            url:        "SomeSiteURL" + "/login/token.php",
+            type:       'POST',
+            data:       {
+                username: "AUsername",
+                password: "APassword",
+                service: "SomeService"
+            },
+            dataType:   "json",
+            success:    MM.loginSuccessHandler,
+            error:      MM.loginErrorHandler            
         });
     });
 /*
-    describe("loadLayout", function() {
-        it("starts backbone history", function() {
-        });
-
-        it("adds event handlers", function() {
-        });
-
-        it("displays the page", function() {
-        });
-
-        it("calls MM.loadExtraJs", function() {
-        });
-
-        it("handles orientation changes", function() {
-            // Mock various heights & widths, test calculations
-        });
-
-        it("handles media query changes", function() {
-            // Mock various MQs, test that the page is reloaded accordingly
-        });
-
-        it("sets tablet or phone layout appropriately", function() {
-            // Mock device type, test correct layout function is called
-        });
-
-        it("sets correct scrolling type", function() {
-            // Mock device types, test correct scrolling setup function is called
-        });
-    });
-
     describe("loadSite", function() {
         it("calls MM.sync.init", function() {
         });
