@@ -45,6 +45,17 @@ describe("MM", function() {
         MM.backup.config = _.clone(MM.config);
     });
 
+    /**
+     * Tests the init function.
+     * @covers init
+     * @covers setEventType
+     * @covers setDeviceType
+     * @covers setDeviceOS
+     * @covers loadBackboneRouter
+     * @covers checkAjax
+     * @covers loadCoreModels
+     * @covers loadRoutes
+     */
     describe("init", function() {
         describe("MM.config has been set", function() {
             it("has the correct config", function() {
@@ -245,6 +256,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests deviceConnected
+     * @covers deviceConnected
+     */
     describe("deviceConnected", function() {
         it("reports state correctly when connected", function() {
             var myTestNetwork = {
@@ -303,6 +318,59 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests _defaultErrorFunction
+     * @covers _defaultErrorFunction
+     */
+    describe("has a default error function", function() {
+        beforeEach(function(){
+            MM.lang = {
+                s:function(field){
+                    if (field == 'cannotconnect') {
+                        return "Cannot Connect";
+                    } else if (field == 'invalidscheme') {
+                        return "Invalid Scheme";
+                    } else {
+                        return "Invalid Field";
+                    }
+                }
+            };            
+        });
+        it("when we have a 404 error", function() {
+            spyOn(MM.lang, 's').andCallThrough();
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            var xhr = {
+                status:404
+            };
+            MM._defaultErrorFunction(xhr);
+
+            expect(MM.lang.s).toHaveBeenCalledSequentiallyWith([
+                ['cannotconnect'],
+                ['invalidscheme']
+            ]);
+            expect(MM.lang.s.callCount).toEqual(2);
+            expect(MM.popErrorMessage).toHaveBeenCalledWith('Invalid Scheme');
+        });
+        it("when we have a different error", function() {
+            spyOn(MM.lang, 's').andCallThrough();
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            var xhr = {
+                status:123
+            };
+            MM._defaultErrorFunction(xhr);
+
+            expect(MM.lang.s).toHaveBeenCalledWith('cannotconnect');
+            expect(MM.lang.s.callCount).toEqual(1);
+            expect(MM.popErrorMessage).toHaveBeenCalledWith('Cannot Connect');
+        });
+    });
+
+    /**
+     * Tests loadLayout
+     * @covers loadLayout
+     */
     describe("loadLayout", function() {
         beforeEach(function() {
             // Create required page elements
@@ -628,6 +696,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests loadSite
+     * @covers loadSite
+     */
     it("can load a site given an id", function() {
         var site = {
             get:function(userid) {
@@ -664,6 +736,162 @@ describe("MM", function() {
         );
     });
 
+    /**
+     * Tests setUpConfig
+     * @covers setUpConfig
+     */
+    it("can set up config", function() {
+        MM.site = new Backbone.Model({
+            id:1,
+            token:'mytoken'
+        });
+        MM.config = {
+            current_site: {
+                id: 2
+            }
+        };
+        spyOn(MM, 'setConfig');
+        var MMSiteJSON = {id:1, token:'mytoken'};
+        spyOn(MM.site, 'toJSON').andReturn(MMSiteJSON);
+        MM.setUpConfig();
+        expect(MM.setConfig).toHaveBeenCalledSequentiallyWith([
+            ['current_site', MMSiteJSON],
+            ['current_token', 'mytoken']
+        ]);
+        expect(MM.setConfig.callCount).toBe(2);
+    });
+
+    /**
+     * Tests setUpLanguages
+     * @covers setUpLanguages
+     */ 
+    it("can set up languages", function() {
+        MM.lang = {
+            setup: function(){},
+            sync:function(){}
+        };
+        MM.config = {
+            plugins:{
+                'plugin_one':'plugin_one_idx',
+                'plugin_two':'plugin_two_idx',
+                'plugin_three':'plugin_three_idx',
+            }
+        };
+        MM.plugins = {
+            'plugin_one_idx':{
+                settings:{
+                    lang:{
+                        component:'core'
+                    },
+                    name:'Plugin One'
+                }
+            },
+            'plugin_two_idx':{
+                settings:{
+                    lang:{
+                        component:'not-core'
+                    },
+                    name:'Plugin Two'
+                }
+            }
+        };
+        spyOn(MM.lang, 'setup').andReturn();
+        spyOn(MM.lang, 'sync').andReturn();
+        MM.setUpLanguages();
+        expect(MM.lang.setup).toHaveBeenCalledWith('Plugin Two');
+        expect(MM.lang.sync).toHaveBeenCalled();
+    });
+
+    /**
+     * Tests showAddSitePanel
+     * @covers showAddSitePanel
+     */
+    it("can show a site panel", function() {
+        // DOM elements required
+        $(document.body).append(
+            $("<div>").attr('id', 'testElements').append(
+                $("<div>").html(
+                    "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                )
+            ).append(
+               $("<div>").attr({'id':'add-site'})
+            )
+        );
+
+        spyOn($("#add-site"), 'css');
+        MM.showAddSitePanel();
+        expect($("#add-site").css('display')).toEqual('block');
+        $("#testElements").remove();
+    });
+
+    // TODO - fix this.
+    describe("has a login error handler", function() {
+        it("returns if the site is https", function() {
+            MM.siteurl = "https://some.site/url";
+            spyOn(MM, 'saveSite').andReturn();
+            MM.loginErrorHandler();
+
+        });
+        it("pops an error message otherwise", function() {
+            MM.loginErrorHandler();
+        });
+    });
+
+    /**
+     * Tests loadCachedRemoteCSS
+     * @covers loadCachedRemoteCSS
+     */
+    describe("can load cached remote CSS", function(){
+        beforeEach(function() {
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<div>").attr({'id':'mobilecssurl'})
+                )
+            );
+
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+        it("and displays when we have remote CSS", function(){
+            MM.cache = {
+                getElement:function(){}
+            };
+            MM.deviceOS = 'ios';
+            spyOn(MM, 'setConfig').andReturn();
+            spyOn(MM.cache, 'getElement').andReturn("hello world");
+            spyOn(MM.sync, 'css');
+            MM.loadCachedRemoteCSS();
+            expect(MM.setConfig).toHaveBeenCalledWith('dev_css3transitions', true);
+            expect(MM.cache.getElement).toHaveBeenCalledWith('css', true);
+            expect($("#mobilecssurl").html()).toEqual("hello world");
+            expect(MM.sync.css).toHaveBeenCalled();
+        });
+        it("and does not display when we don't have remote CSS", function() {
+            MM.cache = {
+                getElement:function(){}
+            };            
+            MM.deviceOS = 'ios';
+            spyOn(MM, 'setConfig').andReturn();
+            spyOn(MM.cache, 'getElement').andReturn(false);
+            spyOn(MM.sync, 'css');
+            MM.loadCachedRemoteCSS();
+            expect(MM.setConfig).toHaveBeenCalledWith('dev_css3transitions', true);
+            expect(MM.cache.getElement).toHaveBeenCalledWith('css', true);
+            expect($("#mobilecssurl").html()).toEqual("");
+            expect(MM.sync.css).toHaveBeenCalled();
+        });
+    });
+
+    /**
+     * Tests addSite
+     * @covers addSite
+     */
     describe("Can add a site", function() {
         it("can add a site when url and password is missing", function() {
             var url = "";
@@ -1031,6 +1259,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests saveSite
+     * @covers saveSite
+     */
     it("can save sites", function() {
         MM.lang = {
             s:function(field) {}
@@ -1067,6 +1299,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests registerPlugin
+     * @covers registerPlugin
+     */
     it("can register a plugin", function() {
         var testPlugin = {
             settings: {
@@ -1115,6 +1351,10 @@ describe("MM", function() {
         expect(MM.sync.registerHook).toHaveBeenCalledWith('Test Plugin', 'someSyncFunction');
     });
 
+    /**
+     * Tests loadModels
+     * @covers loadModels
+     */
     describe("can load models", function() {
         it("when given a model", function() {
             var elements = {
@@ -1211,6 +1451,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests displaySettings
+     * @covers displaySettings
+     */
     it("can display settings", function() {
         // DOM elements required
         $(document.body).append(
@@ -1262,6 +1506,10 @@ describe("MM", function() {
         $("#testElements").remove();
     });
 
+    /**
+     * Tests getConfig
+     * @covers getConfig
+     */
     describe("can retrieve configuration", function() {
         beforeEach(function() {
             MM.config = {};
@@ -1313,6 +1561,10 @@ describe("MM", function() {
         });        
     });
 
+    /**
+     * Tests setConfig
+     * @covers setConfig
+     */
     it("can set config", function() {
         MM.config = {
             current_site : {
@@ -1327,6 +1579,10 @@ describe("MM", function() {
         expect(MM.db.insert).toHaveBeenCalledWith('settings', {id:'1-testName',name:'testName',value:'testValue'});
     });
 
+    /**
+     * Tests fixPluginfile
+     * @covers fixPluginfile
+     */
     it("can fix plugin file", function() {
         MM.config = {
             current_token:'testToken'
@@ -1335,6 +1591,10 @@ describe("MM", function() {
         expect(response).toEqual("A.URL/webservice/pluginfile?token=testToken");
     });
 
+    /**
+     * Tests log
+     * @covers log
+     */
     describe("can log information", function() {
         it("except when dev_debug is not set", function() {
             spyOn(MM, 'getConfig').andReturn(false);
@@ -1371,6 +1631,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests getFormattedLog
+     * @covers getFormattedLog
+     */
     describe("can show formatted log information", function() {
         beforeEach(function() {
             MM.logData = [
@@ -1414,6 +1678,10 @@ describe("MM", function() {
         });        
     });
 
+    /**
+     * Tests showLog
+     * @covers showLog
+     */
     it("can show log information for everyone", function() {
         // DOM elements required
         $(document.body).append(
@@ -1476,6 +1744,10 @@ describe("MM", function() {
         $("#testElements").remove();
     });
 
+    /**
+     * Tests popErrorMessage
+     * @covers popErrorMessage
+     */
     describe("can show an error message", function() {
         it("unless the message is blank", function(){
             MM.Router = {
@@ -1505,6 +1777,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests popMessage
+     * @covers popMessage
+     */
     describe("can display a message", function() {
         it("with custom options", function() {
             MM.widgets = {
@@ -1524,6 +1800,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests popConfirm
+     * @covers popConfirm
+     */
     it("can display a confirmation window", function() {
         MM.lang = {
             s:function(text) {
@@ -1548,6 +1828,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests handleExternalLinks
+     * @covers handleExternalLinks
+     */
     it("can handle external links", function() {
         MM.clickType = 'aClick';
         MM.backup.externalLinkClickHandler = MM.externalLinkClickHandler;
@@ -1560,6 +1844,10 @@ describe("MM", function() {
         MM.externalLinkClickHandler = MM.backup.externalLinkClickHandler;
     });
 
+    /**
+     * Tests setExternalLinksHREF
+     * @covers setExternalLinksHREF
+     */
     describe("can set external link hrefs", function() {
         it("except when the clickType is not click", function() {
             spyOn($.fn, 'bind').andReturn();
@@ -1630,6 +1918,11 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests externalLinkClickHandler by creating a button and calling its
+     * click event
+     * @covers externalLinkClickHandler
+     */
     describe("can handle external link click handler", function() {
         beforeEach(function() {
             var e = {
@@ -1660,7 +1953,9 @@ describe("MM", function() {
             }
             if (typeof(window.plugins.childBrowser) == 'undefined') {
                 window.plugins.childBrowser = {
-                    showWebPage:function(){}
+                    showWebPage:function(){
+                        console.log("throwing original");
+                    }
                 };
             }
         });
@@ -1710,7 +2005,7 @@ describe("MM", function() {
             spyOn(window.plugins.childBrowser, 'showWebPage').andCallFake(function() {
                 throw 'exception';
             });
-            spyOn('window', open).andReturn();
+            spyOn(window, 'open').andReturn();
 
             $("#testLink").click();
             expect(MM.log).toHaveBeenCalledSequentiallyWith([
@@ -1796,417 +2091,124 @@ describe("MM", function() {
             expect(window.open).toHaveBeenCalledWith('some.url/place', '_blank');
         });        
     });
-/*
-    describe("loadSite", function() {
-        it("calls MM.sync.init", function() {
+
+    /**
+     * Tests loadExtraJS
+     * @covers loadExtraJS
+     */
+    it("can load extra js files", function() {
+        MM.config = {
+            extra_js:["a.js", "b.js"]
+        };
+
+        spyOn(MM, 'deviceConnected').andReturn(true);
+        spyOn($, 'each').andCallThrough();
+        spyOn($, 'ajax').andCallFake(function(options){
+            options.success();
         });
+        spyOn(MM, 'log').andReturn();
 
-        it("calls setUpConfig", function() {
+        MM.loadExtraJs();
+
+        expect(MM.deviceConnected).toHaveBeenCalled();
+        expect(MM.log).toHaveBeenCalledSequentiallyWith(
+            [
+                ["MM: Loading additional javascript file a.js"],
+                ["MM: Loading additional javascript file b.js"],
+                ["MM: Loaded additional javascript file a.js"],
+                ["MM: Loaded additional javascript file b.js"]
+            ]
+        );
+        expect($.each).toHaveBeenCalled();
+        expect($.ajax).toHaveBeenCalled();
+        expect($.ajax.callCount).toEqual(2);
+    });
+
+    /**
+     * Tests getOS
+     * @covers getOS
+     */
+    describe("can get the OS type", function() {
+        beforeEach(function() {
+            var backupDevice = undefined;
+            if (typeof(window.device) != 'undefined') {
+                backupDevice = window.device;
+                window.device = undefined;
+            }
         });
-
-        it("calls setUpLanguages", function() {
+        afterEach(function() {
+            if (typeof(backupDevice) != 'undefined') {
+                window.device = backupDevice;    
+            }
         });
-        
-        it("calls loadCachedRemoteCSS", function() {
+        it("when window.device doesn't exist", function() {
+            MM.deviceOS = "myOS";
+            var os = MM.getOS();
+            expect(os).toEqual("myos");
         });
-
-        describe("setUpConfig", function() {
-            it("calls setConfig for current_site and current_token", function() {
-            });
-        });
-
-        describe("setUpLanguages", function() {
-            it ("calls MM.lang.setup for each plugin", function() {
-            });
-
-            it("calls MM.lang.sync", function() {
-            });
-        });
-
-        describe("loadCachedRemoteCSS", function() {
-            it("sets CSS URL appropriately", function() {
-                // Mock cache element, test that CSS URL is set accordingly.
-            });
-
-            it("calls MM.lang.sync", function() {
-            });
+        it("when window.device does exist", function() {
+            window.device = {
+                platform : "myPlatform"
+            };
+            MM.deviceOS = "myOS";
+            var os = MM.getOS();
+            expect(os).toEqual("myplatform");
         });
     });
 
-    describe("addSite", function() {
-        it("calls MM.saveSite if input is valid", function() {
-        });
-
-        it("doesn't call MM.saveSite if input is invalid", function() {
-        });
+    /**
+     * Tests showModalLoading
+     * @covers showModalLoading
+     */
+    it("can show modal loading window", function() {
+        MM.widgets = {
+            dialog:function(){}
+        };
+        spyOn(MM.widgets, 'dialog').andReturn();
+        MM.showModalLoading("aTitle", "some Text");
+        expect(MM.widgets.dialog).toHaveBeenCalledWith(
+            '<div class="centered"><img src="img/loadingblack.gif"><br />some Text</div>', 
+            { title : 'aTitle' }
+        );
     });
 
-    describe("saveSite", function() {
-        it("handles successful login attempts", function() {
-        });
-
-        it("handles unsuccessful login attempts", function() {
-        });
+    /**
+     * Tests closeModalLoading
+     * @covers closeModalLoading
+     */
+    it("can close modal loading windows", function() {
+        MM.widgets = {
+            dialogClose:function(){}
+        };
+        spyOn(MM.widgets, 'dialogClose').andReturn();
+        MM.closeModalLoading();
+        expect(MM.widgets.dialogClose).toHaveBeenCalled();
     });
 
-    describe("registerPlugin", function() {
-        it("adds the plugin to this.plugins", function() {
-        });
+    /**
+     * Tests refresh
+     * @covers refresh
+     */
+    it("can refresh itself", function() {
+        MM.Router = {
+            navigate:function(){}
+        };
+        MM.cache = {
+            purge:function(){}
+        };
+        MM.config = {
+            current_site:{
+                id:1
+            }
+        };
+        spyOn(MM.Router, 'navigate').andReturn();
+        spyOn(MM.cache, 'purge').andReturn();
+        spyOn(MM, 'loadSite').andReturn();
 
-        it("adds the plugin's routes to the router", function() {
-        });
+        MM.refresh();
 
-        it("calls loadModels", function() {
-        });
-
-        it("calls MM.lang.loadPluginLang", function() {
-        });
-
-        it("calls MM.sync.registerHook if plugin.sync is defined", function() {
-        });
+        expect(MM.Router.navigate).toHaveBeenCalledWith("");
+        expect(MM.cache.purge).toHaveBeenCalled();
+        expect(MM.loadSite).toHaveBeenCalledWith(1);
     });
-
-    describe("loadModels", function() {
-        it("sets this.models for objects of type model", function() {
-        });
-        
-        it("sets this.collections for objects of type collection", function() {
-        });
-        
-        it("sets obj.bbproperties", function() {
-        }); 
-    });
-
-    describe("moodleWSCall", function() {
-        it("calls addOperationToQueue when device is offline", function() {
-        });
-
-        it("calls getDataFromCache when presets.cache is set", function() {
-        });
-
-        it("handles successful webservice calls", function() {
-        });
-
-        it("handles unsuccessful webservice calls", function() {
-        });
-
-        describe("addOperationToQueue", function() {
-            it("adds the operation to the queue", function() {
-            });
-
-        });
-
-        describe("getDataFromCache", function() {
-            it("gets data from the cache", function() {
-            });
-        });
-    });
-
-    describe("moodleUploadFile", function() {
-        it("calls ft.upload", function() {
-        });
-
-        it("handles disconnections", function() {
-        });
-
-        it("handles successful uploads", function() {
-        });
-
-        it("handles unsuccessful uploads", function() {
-        });
-    });
-
-    describe("moodleDownloadFile", function() {
-        it("handles successful downloads", function() {
-        });
-
-        it("handles unsuccessful downloads", function() {
-        });
-    });
-
-    describe("wsSync", function() {
-        it("logs a warning if sync process is disabled", function() {
-        });
-
-        it("exits cleanly if sync process is disabled", function() {
-        });
-
-        it("exits cleanly if device is not connected", function() {
-        });
-
-        it("calls the correct sync function for the given type", function() {
-        });
-
-        describe("wsSyncWebService", function() {
-            it("makes a web service call", function() {
-            });
-
-            describe("when the web service call is successful", function() {
-                it("adds an entry to the log", function() {
-                });
-
-                it("removes the sync object from the database", function() {
-                });
-            });
-
-            describe("when the web service call is unsuccessful", function() {
-                it("exits silently", function() {
-                });
-            });
-        });
-
-        describe("wsSyncUpload", function() {
-            it("creates a FileTransfer object", function() {
-            });
-
-            it("calls the FileTransfer object's upload method with the appropriate args", function() {
-            });
-
-            describe("when the upload is successful", function() {
-                it("adds an entry to the log", function() {
-                });
-
-                it("removes the sync object from the database", function() {
-                });
-            });
-
-            describe("when the upload is unsuccessful", function() {
-                it("adds an entry to the log", function() {
-                });
-            });
-        });
-
-        describe("wsSyncDownload", function() {
-            it("exits cleanly if the sync objects site is not the current site", function() {
-            });
-
-            it("creates a directory for the download", function() {
-            });
-
-            it("calls moodleDownloadFile", function() {
-            });
-
-            describe("when the download is successful", function() {
-                it("adds an entry to the log", function() {
-                });
-
-                it("stores the content in the database", function() {
-                });
-
-                it("removes the sync object from the database", function() {
-                });
-            });
-
-            describe("when the download is unsuccessful", function() {
-                it("adds an entry to the log", function() {
-                });
-            });
-        });
-    });
-
-    describe("displaySettings", function() {
-        it("shows the panel", function() {
-        });
-
-        it("includes all plugins", function() {
-        });
-    });
-
-    describe("getConfig", function() {
-        it("returns the setting if available", function() {
-        });
-
-        it("returns the default value if the setting isn't available", function() {
-        });
-
-        it("returns a site-specific settings if the site argument is passed", function() {
-        }); 
-    });
-
-    describe("setConfig", function() {
-        it("adds the setting to the database", function() {
-        });
-
-        it("adds a site-specific setting if the site argument is passed", function() {
-        });
-    });
-
-    describe("fixPluginFile", function() {
-        it("adds the tonken to the URL", function() {
-        });
-        
-        it("removes the webservice part of the URL", function() {
-        });
-    });
-
-    describe("log", function() {
-        it("exits cleanly if the dev_debug setting is not set", function() {
-        });
-
-        it("logs against the 'Core' component if no component is specified", function() {
-        });
-
-        it("it logs to the console if window.console is available", function() {
-        });
-
-        it("removes the last entry from MM.logData if the length is too long", function() {
-        });
-    });
-
-    describe("getFormattedLog", function() {
-        it("exits cleanly if the dev_debug setting is not set", function() {
-        });
-
-        it("returns the contents of MM.logData", function() {
-        });
-    });
-
-    describe("showLog", function() {
-        it("puts the log info in the right panel", function() {
-        });
-
-        it("recursively calls itself when a filter is entered", function() {
-        });
-    });
-
-    describe("popErrorMessage", function() {
-        it("resets routing", function() {
-        });
-
-        it("calls this.popMessage with the passed message", function() {
-        });
-    });
-
-    describe("popMessage", function() {
-        it("calls MM.widgets.dialog with the appropriate args", function() {
-        });
-    });
-
-    describe("popConfirm", function() {
-        it("calls popMessage with the appropriate args", function() {
-        });
-    });
-
-    describe("handleExternalLinks", function() {
-        it("calls MM.setExternalLinksHREF with the given selector", function() {
-        });
-
-        it("binds the click handler", function() {
-        });
-
-
-        describe("setExternalLinksHREF", function() {
-            it("exits cleanly if MM.clickType is not 'click'", function() {
-            });
-
-            it("binds the click/touchstart handler", function() {
-            });
-
-            describe("when the click/touchstart event fires", function() {
-                it("resets the routing", function() {
-                });
-
-                it("sets the link attributes", function() {
-                });
-            });
-        });
-
-        describe("externalLinkClickHandler", function() {
-            it("calls preventDefault", function() {
-            });
-
-            describe("when touchMoving", function() {
-                it("sets touchMoving to false", function() {
-                });
-
-                it("exits cleanly", function() {
-                });
-            });
-
-            describe("when not touchMoving", function() {
-                it("opens the link", function() {
-                    // This will need expanding upon somewhat
-                });
-            });
-        });
-    });
-
-    describe("handleFiles", function() {
-        it("calls MM.setFileLinksHREF with the given selector", function() {
-        });
-
-        it("binds the click handler", function() {
-        });
-
-
-        describe("setFileLinksHREF", function() {
-            it("exits cleanly if MM.clickType is not 'click'", function() {
-            });
-
-            it("binds the click/touchstart handler", function() {
-            });
-
-            describe("when the click/touchstart event fires", function() {
-                it("resets the routing", function() {
-                });
-
-                it("sets the link attributes", function() {
-                });
-            });
-        });
-
-        describe("fileLinkClickHandler", function() {
-            it("calls preventDefault", function() {
-            });
-
-            describe("when touchMoving", function() {
-                it("sets touchMoving to false", function() {
-                });
-
-                it("exits cleanly", function() {
-                });
-            });
-
-            describe("when not touchMoving", function() {
-                it("opens the link", function() {
-                    // This will need expanding upon somewhat
-                });
-            });
-        });
-    });
-
-    describe("loadExtraJs", function() {
-        it("exits cleanly if the device is not connected", function() {
-        });
-
-        it("loads the etra JS specified in the config", function() {
-        });
-    });
-
-    describe("getOS", function() {
-        it("returns the device platform in lower case", function() {
-        });
-    });
-    
-    describe("showModalLoading", function() {
-        it("calls MM.widgets.dialog with the passed title & text", function() {
-        });
-    });
-
-    describe("closeModalLoading", function() {
-        it("calls MM.widgets.dialogCLose", function() {
-        });
-    });
-
-    describe("refresh", function() {
-        it("resets the routing", function() {
-        });
-
-        it("purges the cache", function() {
-        });
-
-        it("reloads the site", function() {
-        });
-    });
-*/    
 });
