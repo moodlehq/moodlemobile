@@ -1537,6 +1537,10 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Test covers loadCourses
+     * @covers loadCourses
+     */
     describe("can load courses", function() {
         beforeEach(function() {
             // DOM elements required
