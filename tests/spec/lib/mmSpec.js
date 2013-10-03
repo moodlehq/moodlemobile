@@ -103,7 +103,7 @@ describe("MM", function() {
             it("Sets the device to a phone", function() {
                 var matchMediaResponse = {
                     matches: false
-                };                
+                };
                 MM.mq = {'hello':'world'};
                 spyOn(window, "matchMedia").andReturn(matchMediaResponse);
                 MM.init({});
@@ -128,7 +128,7 @@ describe("MM", function() {
                 spyOn(MM, "_getUserAgent").andReturn("12345 ipad abcdef");
                 MM.init({});
                 expect(MM.deviceOS).toEqual('ios');
-            });            
+            });
 
             // Mock navigator.userAgent to be the string Android
             // test this.deviceOS is android
@@ -136,7 +136,7 @@ describe("MM", function() {
                 spyOn(MM, "_getUserAgent").andReturn("12345 android abcdef");
                 MM.init({});
                 expect(MM.deviceOS).toEqual('android');
-            });            
+            });
 
             // Mock navigator.userAgent to be the string foo
             // test this.deviceOS is 'null'
@@ -144,7 +144,7 @@ describe("MM", function() {
                 spyOn(MM, "_getUserAgent").andReturn("12345 some other user agent abcdef");
                 MM.init({});
                 expect(MM.deviceOS).toEqual('null');
-            });            
+            });
 
             // Mock navigator.userAgent to be the string iPhone Android
             // test this.deviceOS is ios
@@ -152,7 +152,7 @@ describe("MM", function() {
                 spyOn(MM, "_getUserAgent").andReturn("12345 android iphone abcdef");
                 MM.init({});
                 expect(MM.deviceOS).toEqual('ios');
-            });            
+            });
         });
 
         it("calls loadBackboneRouter", function() {
@@ -198,7 +198,7 @@ describe("MM", function() {
             };
 
             // We don't want the Router doing anything in the background
-            // so use our harmless one.            
+            // so use our harmless one.
             spyOn(Backbone.Router, 'extend').andReturn(myBackboneRouter);
 
             MM.util.helpMeLogin = 'Help Me Login Text';
@@ -273,7 +273,7 @@ describe("MM", function() {
                 'UNKNOWN':'unknown connection'
             };
 
-            // Mock network states and test connection is reported correctly 
+            // Mock network states and test connection is reported correctly
             spyOn(MM, 'deviceConnected').andCallThrough();
             spyOn(MM, '_getNetwork').andCallFake(function() {
                 return myTestNetwork;
@@ -291,11 +291,11 @@ describe("MM", function() {
                     ['Initializating app'],
                     ['Internet connection checked ' + true]
                 ]
-            );            
+            );
         });
 
         it("reports state correctly when disconnected", function() {
-            // Mock network states and test connection is reported correctly 
+            // Mock network states and test connection is reported correctly
             spyOn(MM, 'deviceConnected').andCallThrough();
             spyOn(MM, '_getNetwork').andCallFake(function() {
                 return;
@@ -334,7 +334,7 @@ describe("MM", function() {
                         return "Invalid Field";
                     }
                 }
-            };            
+            };
         });
         it("when we have a 404 error", function() {
             spyOn(MM.lang, 's').andCallThrough();
@@ -692,7 +692,7 @@ describe("MM", function() {
             expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
             expect(MM.loadSite).toHaveBeenCalledWith(1);
             expect(MM.loadExtraJs).toHaveBeenCalled();
-            expect(MM.loadExtraJs.callCount).toEqual(1);               
+            expect(MM.loadExtraJs.callCount).toEqual(1);
         });
     });
 
@@ -712,8 +712,6 @@ describe("MM", function() {
                 return site;
             }
         };
-        MM.loadCourses = function(){};
-        MM.showAddSitePanel = function(){};
 
         spyOn(MM, 'log').andReturn();
         spyOn(MM.db, 'get').andCallThrough();
@@ -721,6 +719,9 @@ describe("MM", function() {
         spyOn(MM, 'setUpConfig').andReturn();
         spyOn(MM, 'setUpLanguages').andReturn();
         spyOn(MM, 'moodleWSCall').andReturn();
+        spyOn(MM, 'loadCourses').andReturn();
+        spyOn(MM, 'showAddSitePanel').andReturn();
+
         MM.loadSite(1);
         expect(MM.log).toHaveBeenCalledWith('Loading site');
         expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
@@ -764,7 +765,7 @@ describe("MM", function() {
     /**
      * Tests setUpLanguages
      * @covers setUpLanguages
-     */ 
+     */
     it("can set up languages", function() {
         MM.lang = {
             setup: function(){},
@@ -824,19 +825,6 @@ describe("MM", function() {
         $("#testElements").remove();
     });
 
-    // TODO - fix this.
-    describe("has a login error handler", function() {
-        it("returns if the site is https", function() {
-            MM.siteurl = "https://some.site/url";
-            spyOn(MM, 'saveSite').andReturn();
-            MM.loginErrorHandler();
-
-        });
-        it("pops an error message otherwise", function() {
-            MM.loginErrorHandler();
-        });
-    });
-
     /**
      * Tests loadCachedRemoteCSS
      * @covers loadCachedRemoteCSS
@@ -875,7 +863,7 @@ describe("MM", function() {
         it("and does not display when we don't have remote CSS", function() {
             MM.cache = {
                 getElement:function(){}
-            };            
+            };
             MM.deviceOS = 'ios';
             spyOn(MM, 'setConfig').andReturn();
             spyOn(MM.cache, 'getElement').andReturn(false);
@@ -1285,18 +1273,6 @@ describe("MM", function() {
         expect(MM.showModalLoading).toHaveBeenCalledWith("Something");
         expect(MM.lang.s).toHaveBeenCalledWith("authenticating");
         expect(MM.siteurl).toEqual("SomeSiteURL");
-        expect($.ajax).toHaveBeenCalledWith({
-            url:        "SomeSiteURL" + "/login/token.php",
-            type:       'POST',
-            data:       {
-                username: "AUsername",
-                password: "APassword",
-                service: "SomeService"
-            },
-            dataType:   "json",
-            success:    MM.loginSuccessHandler,
-            error:      MM.loginErrorHandler            
-        });
     });
 
     /**
@@ -1399,7 +1375,7 @@ describe("MM", function() {
             var elements = {
                 'testModel':{
                     type:'model'
-                },                
+                },
                 'testCollection':{
                     type:'collection',
                     model:'testModel',
@@ -1433,7 +1409,7 @@ describe("MM", function() {
                 },
                 'testModel':{
                     type:'model'
-                }                
+                }
             };
             MM.models = {};
             MM.collections = {};
@@ -1495,7 +1471,7 @@ describe("MM", function() {
         MM.displaySettings();
 
         expect(MM.tpl.render).toHaveBeenCalledWith(
-            'hello world', 
+            'hello world',
             {
                 plugins:[
                     {type:'setting',name:'first_thing'}
@@ -1558,7 +1534,233 @@ describe("MM", function() {
             MM.config.current_site = {'id':1};
             var response = MM.getConfig("testField", "optionalResponse", true);
             expect(response).toEqual("optionalResponse");
-        });        
+        });
+    });
+
+    describe("can load courses", function() {
+        beforeEach(function() {
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<div>").attr({'id':'menu_template'})
+                ).append(
+                    $("<div>").addClass('submenu')
+                ).append(
+                    $("<div>").addClass('submenu')
+                ).append(
+                    $("<div>").attr('id', 'add-site')
+                ).append(
+                    $("<div>").attr('id', 'main-wrapper')
+                ).append(
+                    $("<div>").addClass('toogler')
+                )
+            );
+
+            MM.config = {
+                plugins:{
+                    'plugin_one':'plugin_one_idx',
+                    'plugin_two':'plugin_two_idx',
+                    'plugin_three':'plugin_three_idx'
+                },
+                current_site:{
+                    id:123
+                }
+            };
+            MM.plugins = {
+                'plugin_one_idx':{
+                    settings: {
+                        type:'general'
+                    }
+                },
+                'plugin_two_idx':{
+                    settings: {
+                        type:'course'
+                    }
+                }
+            };
+            MM.site = {
+                get:function(field){
+                    if (field == 'fullname') {
+                        return "A Full Name";
+                    } else if (field == 'userpictureurl') {
+                        return "User Picture Url";
+                    } else if (field == 'siteurl') {
+                        return "Site URL";
+                    } else {
+                        return "Invalid Field";
+                    }
+                }
+            }
+            MM.tpl = {
+                render:function() {}
+            };
+            MM.panels = {
+                html:function(){},
+                menuShow:function(){},
+                hide:function(){}
+            };
+            MM.db = {
+                insert:function(){}
+            };
+            MM.lang = {
+                s:function() {}
+            };
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+        it("can load general plugins with touchMoving = true", function() {
+            var expectedCourse = [
+                {id:'123-1', courseid:1},
+                {id:'123-2', courseid:2}
+            ];
+
+            MM.clickType = 'myTestClickType';
+            MM.touchMoving = true;
+            MM.deviceType = 'tablet';
+
+            spyOn(MM.site, 'get').andCallThrough();
+            spyOn(MM.tpl, 'render').andReturn('hello world');
+            spyOn(MM.panels, 'html').andReturn();
+            spyOn(MM.panels, 'menuShow').andReturn();
+            spyOn(MM.panels, 'hide').andReturn();
+            spyOn(MM.lang, 's').andReturn("Welcome Text");
+            spyOn(MM.db, 'insert').andCallFake(function(x, y) {
+                if (y.courseid == 1) {
+                    return expectedCourse[0];
+                } else if (y.courseid == 2) {
+                    return expectedCourse[1];
+                }
+            });
+
+            var arguments = {
+                'course_one':{
+                    id:1
+                },
+                'course_two':{
+                    id:2
+                }
+            };
+
+            MM.loadCourses(arguments);
+            $(".toogler").trigger(MM.clickType);
+
+            expect(MM.touchMoving).toEqual(false);
+            expect(MM.tpl.render).toHaveBeenCalledWith(
+                "",
+                {
+                    user : {
+                        fullname : 'A Full Name',
+                        profileimageurl : 'User Picture Url'
+                    },
+                    siteurl : 'Site URL',
+                    coursePlugins : [
+                        { type : 'course' }
+                    ],
+                    courses : {
+                        course_one : { id : 1 },
+                        course_two : { id : 2 }
+                    },
+                    plugins : [
+                        { type : 'general' }
+                    ]
+                }
+            );
+            expect(MM.panels.html).toHaveBeenCalledSequentiallyWith([
+                ['left', 'hello world'],
+                ['center', '<div class="welcome">Welcome Text</div>']
+            ]);
+            expect(MM.db.insert).toHaveBeenCalledSequentiallyWith([
+                ['courses', expectedCourse[0]],
+                ['courses', expectedCourse[1]]
+            ]);
+            expect($("#add-site").css('display')).toEqual('none');
+            expect($("#main-wrapper").css('display')).toEqual('block');
+            expect(MM.panels.menuShow).toHaveBeenCalledWith(true, {animate:false});
+            expect(MM.panels.hide).toHaveBeenCalledWith('right', '');
+        });
+        it("can load course plugins with touchMoving = false", function() {
+            var expectedCourse = [
+                {id:'123-1', courseid:1},
+                {id:'123-2', courseid:2}
+            ];
+
+            MM.clickType = 'myTestClickType';
+            MM.touchMoving = false;
+            MM.deviceType = 'tablet';
+
+            spyOn(MM.site, 'get').andCallThrough();
+            spyOn(MM.tpl, 'render').andReturn('hello world');
+            spyOn(MM.panels, 'html').andReturn();
+            spyOn(MM.panels, 'menuShow').andReturn();
+            spyOn(MM.panels, 'hide').andReturn();
+            spyOn(MM.lang, 's').andReturn("Welcome Text");
+            spyOn(MM.db, 'insert').andCallFake(function(x, y) {
+                if (y.courseid == 1) {
+                    return expectedCourse[0];
+                } else if (y.courseid == 2) {
+                    return expectedCourse[1];
+                }
+            });
+            var jQueryNextResponse = {
+                slideToggle:function(){}
+            };
+            spyOn($.fn, 'next').andReturn(jQueryNextResponse);
+            spyOn(jQueryNextResponse, 'slideToggle').andReturn();
+            spyOn($.fn, 'toggleClass').andReturn();
+
+            var arguments = {
+                'course_one':{
+                    id:1
+                },
+                'course_two':{
+                    id:2
+                }
+            };
+
+            MM.loadCourses(arguments);
+            $(".toogler").trigger(MM.clickType);
+
+            expect($.fn.next).toHaveBeenCalled();
+            expect(jQueryNextResponse.slideToggle).toHaveBeenCalledWith(300);
+            expect($.fn.toggleClass).toHaveBeenCalledWith("collapse expand");
+            expect(MM.tpl.render).toHaveBeenCalledWith(
+                "",
+                {
+                    user : {
+                        fullname : 'A Full Name',
+                        profileimageurl : 'User Picture Url'
+                    },
+                    siteurl : 'Site URL',
+                    coursePlugins : [
+                        { type : 'course' }
+                    ],
+                    courses : {
+                        course_one : { id : 1 },
+                        course_two : { id : 2 }
+                    },
+                    plugins : [
+                        { type : 'general' }
+                    ]
+                }
+            );
+            expect(MM.panels.html).toHaveBeenCalledSequentiallyWith([
+                ['left', 'hello world'],
+                ['center', '<div class="welcome">Welcome Text</div>']
+            ]);
+            expect(MM.db.insert).toHaveBeenCalledSequentiallyWith([
+                ['courses', expectedCourse[0]],
+                ['courses', expectedCourse[1]]
+            ]);
+            expect($("#add-site").css('display')).toEqual('none');
+            expect($("#main-wrapper").css('display')).toEqual('block');
+            expect(MM.panels.menuShow).toHaveBeenCalledWith(true, {animate:false});
+            expect(MM.panels.hide).toHaveBeenCalledWith('right', '');
+        });
     });
 
     /**
@@ -1601,7 +1803,7 @@ describe("MM", function() {
             var response = MM.log("foo");
             expect(response).toBeUndefined();
         });
-        
+
         it("specifying Component:Core when not set", function() {
             MM.config.log_length = 20000;
             MM.logData = [];
@@ -1663,7 +1865,7 @@ describe("MM", function() {
             expected += "testFilter: log entry number four<br />";
             expected += "testFilter: log entry duplicate<br />";
             expected += "log entry number five for testFilter<br />";
-            expected += "log entry containing testFilter within the string<br />";            
+            expected += "log entry containing testFilter within the string<br />";
             expect(response).toEqual(expected);
         });
         it("when filter is a string", function() {
@@ -1673,9 +1875,9 @@ describe("MM", function() {
             expected += "testFilter: log entry number four<br />";
             expected += "testFilter: log entry duplicate<br />";
             expected += "log entry number five for testFilter<br />";
-            expected += "log entry containing testFilter within the string<br />";            
+            expected += "log entry containing testFilter within the string<br />";
             expect(response).toEqual(expected);
-        });        
+        });
     });
 
     /**
@@ -1767,7 +1969,7 @@ describe("MM", function() {
             };
             spyOn(MM.lang, 's').andReturn("hello world");
             spyOn(MM, 'popMessage').andReturn();
-            
+
             MM.popErrorMessage("An error message");
             expect(MM.lang.s).toHaveBeenCalledWith('error');
             expect(MM.popMessage).toHaveBeenCalledWith('An error message', {
@@ -1865,7 +2067,7 @@ describe("MM", function() {
                 ).append(
                    $("<a>").attr({'id':'testLink', 'href':'some.url/place'})
                 )
-            );            
+            );
 
             MM.Router = {
                 navigate:function(){}
@@ -1875,7 +2077,7 @@ describe("MM", function() {
 
             spyOn($("#testLink"), 'bind').andReturn();
             spyOn(MM.Router, 'navigate').andReturn();
-            
+
             MM.setExternalLinksHREF("#testLink");
             $("#testLink").click();
 
@@ -1898,7 +2100,7 @@ describe("MM", function() {
                 ).append(
                    $("<a>").attr({'id':'testLink', 'href':'#'})
                 )
-            );            
+            );
 
             MM.Router = {
                 navigate:function(){}
@@ -1908,7 +2110,7 @@ describe("MM", function() {
 
             spyOn($("#testLink"), 'bind').andReturn();
             spyOn(MM.Router, 'navigate').andReturn();
-            
+
             MM.setExternalLinksHREF("#testLink");
             $("#testLink").click();
 
@@ -2021,7 +2223,7 @@ describe("MM", function() {
                 }
             );
             expect(window.open).toHaveBeenCalledWith('some.url/place', '_blank');
-        });        
+        });
         it("when MM.touchMoving is false and we should use navigator.app", function() {
             MM.touchMoving = false;
             MM.plugins = {
@@ -2047,7 +2249,7 @@ describe("MM", function() {
             expect(MM._canUseChildBrowser).toHaveBeenCalled();
             expect(navigator.app.loadUrl).toHaveBeenCalledWith('some.url/place', {openExternal:true});
 
-            // reset that navigator 
+            // reset that navigator
             if (!navigatorExisted) {
                 navigator.app = undefined;
             }
@@ -2068,7 +2270,7 @@ describe("MM", function() {
             expect(MM.log).toHaveBeenCalledWith('Opening external link using window.open');
             expect(MM._canUseChildBrowser).toHaveBeenCalled();
             expect(window.open).toHaveBeenCalledWith('some.url/place', '_blank');
-        });        
+        });
         it("when MM.touchMoving is false and we should use window.open based on data-link", function() {
             MM.touchMoving = false;
             MM.plugins = {
@@ -2089,7 +2291,7 @@ describe("MM", function() {
             expect(MM.log).toHaveBeenCalledWith('Opening external link using window.open');
             expect(MM._canUseChildBrowser).toHaveBeenCalled();
             expect(window.open).toHaveBeenCalledWith('some.url/place', '_blank');
-        });        
+        });
     });
 
     /**
@@ -2138,7 +2340,7 @@ describe("MM", function() {
         });
         afterEach(function() {
             if (typeof(backupDevice) != 'undefined') {
-                window.device = backupDevice;    
+                window.device = backupDevice;
             }
         });
         it("when window.device doesn't exist", function() {
@@ -2167,7 +2369,7 @@ describe("MM", function() {
         spyOn(MM.widgets, 'dialog').andReturn();
         MM.showModalLoading("aTitle", "some Text");
         expect(MM.widgets.dialog).toHaveBeenCalledWith(
-            '<div class="centered"><img src="img/loadingblack.gif"><br />some Text</div>', 
+            '<div class="centered"><img src="img/loadingblack.gif"><br />some Text</div>',
             { title : 'aTitle' }
         );
     });

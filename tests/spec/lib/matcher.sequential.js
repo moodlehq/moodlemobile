@@ -1,12 +1,12 @@
 /**
- * Matcher that checks to see if the actual, a Jasmine spy, was called with a 
+ * Matcher that checks to see if the actual, a Jasmine spy, was called with a
  * set of parameters for each expected call.
  *
  * @augments jasmine.Matchers
  * @example toHaveBeenCalledSequentiallyWith(
  *     [
- *         [CallOneArgOne, CallOneArgTwo], 
- *         [CallTwoArgOne, CallTwoArgTwo], 
+ *         [CallOneArgOne, CallOneArgTwo],
+ *         [CallTwoArgOne, CallTwoArgTwo],
  *         ...
  *     ]
  * )
@@ -28,13 +28,13 @@ jasmine.Matchers.prototype.toHaveBeenCalledSequentiallyWith = function() {
         positiveMessage = "Expected spy " + this.actual.identity;
         positiveMessage += " to have been called " + expectedArgs.length;
         positiveMessage += " times but it was only called " + actualArgs.length + " times.";
-        response = false;            
+        response = false;
     } else if (actualArgs.length > expectedArgs.length) {
         // Function called more times than expected
         positiveMessage = "Expected spy " + this.actual.identity;
         positiveMessage += " to have been called " + expectedArgs.length;
         positiveMessage += " time but it was actually called " + actualArgs.length + " times.";
-        response = false;            
+        response = false;
     } else {
         // For each actual arguments used in the function
         for (var i = 0, length = actualArgs.length; i < length; i++) {
@@ -46,12 +46,19 @@ jasmine.Matchers.prototype.toHaveBeenCalledSequentiallyWith = function() {
                 if (typeof(actualArgs[i][j]) === typeof(expectedArgs)) {
                     if (typeof(actualArgs) == 'function') {
                         continue;
+                    } else if (typeof(actualArgs[i][j]) == 'object' && typeof(expectedArgs[i][j]) == 'object') {
+                        if (JSON.stringify(actualArgs[i][j]) != JSON.stringify(expectedArgs[i][j])) {
+                            response = response && false;
+                            positiveMessage = "Expected argument set " + i + " part " + j;
+                            positiveMessage += " to be object: " + JSON.stringify(actualArgs[i][j]);
+                            positiveMessage += " but got: " + JSON.stringify(expectedArgs[i][j]);
+                        }
                     } else if (actualArgs[i][j] !== expectedArgs[i][j]) {
                         response = response && false;
                         positiveMessage = "Expected argument set " + i + " part " + j;
                         positiveMessage += " to be " + expectedArgs[i][j];
                         positiveMessage += " but got: " + actualArgs[i][j];
-                        break;                        
+                        break;
                     }
                 }
             }
@@ -64,8 +71,8 @@ jasmine.Matchers.prototype.toHaveBeenCalledSequentiallyWith = function() {
     }
 
     this.message = function() {
-        var invertedMessage = "Expected spy " + this.actual.identity + 
-            " not to have been called with " + jasmine.pp(expectedArgs) + 
+        var invertedMessage = "Expected spy " + this.actual.identity +
+            " not to have been called with " + jasmine.pp(expectedArgs) +
             " but it was.";
 
         if (this.actual.callCount === 0) {
