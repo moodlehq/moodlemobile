@@ -3033,6 +3033,11 @@ describe("MM", function() {
         });
     });
 
+    /**
+     * Tests fileLinkClickHandler by creating a link and assigning it as a click
+     * handler, then calling the links click() method.
+     * @covers fileLinkClickHandler
+     */
     describe("has a file link click handler", function() {
         beforeEach(function() {
             // Create required page elements
