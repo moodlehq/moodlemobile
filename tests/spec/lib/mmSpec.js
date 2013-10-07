@@ -53,6 +53,9 @@ describe("MM", function() {
      * @covers loadCordova
      * @covers loadSettings
      * @covers _getNetwork
+     * @covers _canUseChildBrowser
+     * @covers _createNewStore
+     * @covers mediaQueryChangeHandler
      */
     describe("untestable", function() {
         it("gets the user agent", function(){});
@@ -60,6 +63,15 @@ describe("MM", function() {
         it("loads cordova", function(){});
         it("loads settings from the db", function() {});
         it("gets the current network", function() {});
+        it("can work out whether to use a child browser", function() {});
+        it("can create a new store", function() {});
+        it("can redirect based on device type", function() {});
+        it("detects left swipe on panels in tablet mode", function() {});
+        it("detects right swipe on panels in tablet mode", function() {});
+        it("detects click on panels in tablet mode", function(){});
+        it("detects left swipe on panels in phone mode", function() {});
+        it("detects right swipe on panels in phone mode", function() {});
+        it("detects click on panels in phone mode", function() {});
     });
 
     /**
@@ -274,6 +286,247 @@ describe("MM", function() {
     });
 
     /**
+     * Tests orientationChangeHandler
+     * @covers orientationChangeHandler
+     */
+    describe("can handle orientation changes", function() {
+        beforeEach(function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<div>").attr('id', 'main-wrapper')
+                ).append(
+                    $("<div>").attr('id', 'panel-left')
+                ).append(
+                    $("<div>").addClass('header-wrapper')
+                ).append(
+                    $("<div>").attr('id', 'panel-right').append(
+                        $("<div>").addClass('content-index')
+                    )
+                )
+            );
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+
+        it("works when the device type is a phone", function() {
+            spyOn(MM, 'log').andReturn();
+            spyOn($.fn, 'css').andCallThrough();
+
+            MM.deviceType = 'phone';
+
+            MM.orientationChangeHandler();
+
+            expect(MM.log.callCount).toBe(2);
+            expect($.fn.css.callCount).toBe(5);
+        });
+        it("works when the device isn't a phone", function() {
+            spyOn(MM, 'log').andReturn();
+            spyOn($.fn, 'css').andCallThrough();
+            spyOn(MM.panels, 'resizePanels').andReturn();
+
+            MM.deviceType = 'not-a-phone';
+
+            MM.orientationChangeHandler();
+
+            expect(MM.log.callCount).toBe(2);
+            expect($.fn.css.callCount).toBe(3);
+            expect(MM.panels.resizePanels).toHaveBeenCalled();
+        });
+    });
+
+    /**
+     * Partially tests setUpTabletModeLayout
+     * @covers setUpTabletModeLayout
+     */
+    describe("can be set up for tablets", function() {
+        beforeEach(function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<div>").attr('id', 'mainmenu')
+                )
+            );
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+
+        it("binds the main menu element", function() {
+            var e = {
+                preventDefault:function(){},
+                stopPropagation:function(){},
+                type:'someEventTrigger'
+            };
+
+            MM.panels = {
+                calculatePanelsSizes:function(){},
+                fixPanelsSize:function(){},
+                menuShow:function(){}
+            };
+
+            spyOn(MM.panels, 'calculatePanelsSizes').andReturn();
+            spyOn(MM.panels, 'fixPanelsSize').andReturn();
+            spyOn(MM.panels, 'menuShow').andReturn();
+            spyOn(e, 'preventDefault').andReturn();
+            spyOn(e, 'stopPropagation').andReturn();
+
+            MM.quickClick = 'someEventTrigger';
+
+            MM.setUpTabletModeLayout();
+            $("#mainmenu").trigger(e);
+
+            expect(MM.panels.calculatePanelsSizes).toHaveBeenCalled();
+            expect(MM.panels.fixPanelsSize).toHaveBeenCalled();
+            expect(MM.panels.menuShow).toHaveBeenCalled();
+            expect(e.preventDefault).toHaveBeenCalled();
+            expect(e.stopPropagation).toHaveBeenCalled();
+        });
+    });
+
+    /**
+     * Tests setUpOverflowScrolling
+     * @covers setUpOverflowScrolling
+     */
+    it("sets up overflow scrolling correctly", function() {
+        // Create required page elements
+        $(document.body).append(
+            $("<div>").attr('id', 'testElements').append(
+                $("<div>").html(
+                    "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                )
+            ).append(
+                $("<div>").attr('id', 'panel-center')
+            )
+        );
+
+        spyOn(MM, 'log').andReturn();
+        spyOn(MM.util, 'setPanelsScreenHeight').andReturn();
+        MM.touchMoving = false;
+        MM.setUpOverflowScrolling();
+        expect(MM.log).toHaveBeenCalledWith('Overflow supported');
+        expect(MM.util.setPanelsScreenHeight).toHaveBeenCalled();
+        $("#panel-center").trigger('touchmove');
+        expect(MM.touchMoving).toBe(true);
+        $("#panel-center").trigger('touchend');
+        expect(MM.touchMoving).toBe(false);
+
+        $("#testElements").remove();
+    });
+
+    /**
+     * Tests setUpNativeScrolling
+     * @covers setUpNativeScrolling
+     */
+    it("sets up native scrolling", function() {
+        // Create required page elements
+        $(document.body).append(
+            $("<div>").attr('id', 'testElements').append(
+                $("<div>").html(
+                    "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                )
+            ).append(
+                $("<div>").attr('id', 'main-wrapper')
+            ).append(
+                $("<div>").attr('id', 'panel-left')
+            ).append(
+                $("<div>").addClass('header-wrapper')
+            )
+        );
+
+        spyOn(MM, 'log').andReturn();
+        spyOn(MM.util, 'setPanelsMinScreenHeight').andReturn();
+        spyOn(MM.util, 'avoidHorizontalScrolling').andReturn();
+        spyOn($.fn, 'css').andCallThrough();
+        spyOn($.fn, 'addClass').andCallThrough();
+
+        MM.setUpNativeScrolling();
+
+        expect(MM.log).toHaveBeenCalledWith('Omitting using overflow scroll');
+        expect(MM.util.setPanelsMinScreenHeight).toHaveBeenCalled();
+        expect(MM.util.avoidHorizontalScrolling).toHaveBeenCalled();
+        expect($("#main-wrapper").css('overflow')).toEqual('visible');
+        expect($.fn.addClass.callCount).toEqual(2);
+        expect($("#panel-left").hasClass('no-overflow')).toBe(true);
+        expect($(".header-wrapper").hasClass('header-fixed')).toBe(true);
+
+        $("#testElements").remove();
+    });
+
+    /**
+     * Tests setUpJavascriptScrolling
+     * @covers setUpJavascriptScrolling
+     */
+    it("sets up javascript scrolling", function() {
+        MM.scrollType = 'testScrollType';
+
+        spyOn(MM.util, 'setPanelsScreenHeight').andReturn();
+        spyOn(MM.util, 'touchScroll').andReturn();
+
+        MM.setUpJavascriptScrolling();
+
+        expect(MM.scrollType).toEqual('Javascript scrolling');
+        expect(MM.util.setPanelsScreenHeight).toHaveBeenCalled();
+        expect(MM.util.touchScroll).toHaveBeenCalledSequentiallyWith([
+            ['left'],
+            ['center'],
+            ['right']
+        ]);
+    });
+
+    /**
+     * Partially tests setUpPhoneModeLayout()
+     * @covers setUpPhoneModeLayout
+     */
+    describe("can be set up for phones", function() {
+        beforeEach(function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<div>").attr('id', 'mainmenu')
+                )
+            );
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+        it("binds the main menu element", function() {
+            var e = {
+                preventDefault:function(){},
+                type:'someEventTrigger'
+            };
+
+            MM.panels = {
+                goBack:function(){}
+            };
+
+            spyOn(MM.panels, 'goBack').andReturn();
+            spyOn(e, 'preventDefault').andReturn();
+
+            MM.quickClick = 'someEventTrigger';
+
+            MM.setUpPhoneModeLayout();
+            $("#mainmenu").trigger(e);
+
+            expect(MM.panels.goBack).toHaveBeenCalled();
+            expect(e.preventDefault).toHaveBeenCalled();
+        });
+    });
+
+    /**
      * Tests deviceConnected
      * @covers deviceConnected
      */
@@ -433,13 +686,19 @@ describe("MM", function() {
             MM.util = {
                 isTouchDevice:function(){},
                 overflowScrollingSupported:function(){}
-            }
+            };
+            MM.panels = {
+                calculatePanelsSizes:function(){},
+                fixPanelsSize:function(){}
+            };
 
             matchMediaResponse = {
                 addListener: function() {},
                 matches:true
             };
 
+            spyOn(MM.panels, 'calculatePanelsSizes').andReturn();
+            spyOn(MM.panels, 'fixPanelsSize').andReturn();
             spyOn(MM, 'log').andReturn(false);
             spyOn(MM.tpl, 'render').andReturn($("<form>"));
             spyOn(Backbone.history, 'start').andReturn(true);
