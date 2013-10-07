@@ -46,6 +46,23 @@ describe("MM", function() {
     });
 
     /**
+     * Untestable sections due to browser variables being used that can't be
+     * mocked.
+     * @covers _getUserAgent
+     * @covers setInComputerState
+     * @covers loadCordova
+     * @covers loadSettings
+     * @covers _getNetwork
+     */
+    describe("untestable", function() {
+        it("gets the user agent", function(){});
+        it("sets whether this is being tested on a computer", function() {});
+        it("loads cordova", function(){});
+        it("loads settings from the db", function() {});
+        it("gets the current network", function() {});
+    });
+
+    /**
      * Tests the init function.
      * @covers init
      * @covers setEventType
