@@ -3322,4 +3322,208 @@ describe("MM", function() {
             window.plugins = _.clone(backup);
         });
     });
+
+    /**
+     * Tests moodleDownloadFile
+     * @covers moodleDownloadFile
+     */
+    describe("can download a moodle file and end with:", function() {
+        it("success", function() {
+            var url = 'url';
+            var path = 'some/path';
+            var testObject = {
+                successCallBack:function(path) {},
+                errorCallBack:function(path){}
+            };
+            var fileTransfer = {
+                download:function(){}
+            };
+
+            spyOn(MM.fs, 'getRoot').andReturn("some.root");
+            spyOn(testObject, 'successCallBack').andReturn();
+            spyOn(testObject, 'errorCallBack').andReturn();
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransfer);
+            spyOn(fileTransfer, 'download').andCallFake(
+                function(url, path, success, failure) {
+                    success();
+                }
+            );
+            MM.moodleDownloadFile(
+                url, path, testObject.successCallBack, testObject.errorCallBack
+            );
+            expect(testObject.successCallBack).toHaveBeenCalledWith('some.root/some/path');
+        });
+        it("failure", function() {
+            var url = 'url';
+            var path = 'some/path';
+            var testObject = {
+                successCallBack:function(path) {},
+                errorCallBack:function(path){}
+            };
+            var fileTransfer = {
+                download:function(){}
+            };
+
+            spyOn(MM.fs, 'getRoot').andReturn("some.root");
+            spyOn(testObject, 'successCallBack').andReturn();
+            spyOn(testObject, 'errorCallBack').andReturn();
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransfer);
+            spyOn(fileTransfer, 'download').andCallFake(
+                function(url, path, success, failure) {
+                    failure();
+                }
+            );
+            MM.moodleDownloadFile(
+                url, path, testObject.successCallBack, testObject.errorCallBack
+            );
+
+            expect(testObject.errorCallBack).toHaveBeenCalledWith('some.root/some/path');
+        });
+    });
+
+    /**
+     * Tests handlesDisconnectedFileUpload
+     * @covers handlesDisconnectedFileUpload
+     */
+    it("can handle a disconnected file upload", function() {
+        data = {
+            hello:'world'
+        };
+        fileOptions = {
+            fileName:'aFileName'
+        };
+        MM.lang = {
+            s:function(word) {
+                return word.toUpperCase();
+            }
+        };
+        MM.config = {
+            current_site:{
+                siteurl:'example.com',
+                id:123
+            }
+        };
+        MM.db = {
+            insert:function(){}
+        };
+
+        spyOn(MM.db, 'insert').andReturn();
+        spyOn(MM, 'popMessage').andReturn();
+        var result = MM.handleDisconnectedFileUpload(data, fileOptions);
+        expect(result).toBe(true);
+        expect(MM.db.insert.callCount).toBe(1);
+    });
+
+    /**
+     * Tests moodleUploadFile
+     * @covers moodleUploadFile
+     */
+    describe("can handle a moodle file upload and", function() {
+        it("succeed", function() {
+            var data = {
+                length:9876
+            };
+            var fileOptions = {};
+            var testObject = {
+                success:function(){},
+                failure:function(){}
+            }
+            var presets = {};
+            var fileUploadOptionsObject = {};
+            var fileTransferObject = {
+                upload:function(){}
+            };
+            MM.lang = {
+                s:function(word) {
+                    return word.toUpperCase();
+                }
+            };
+            MM.config = {
+                current_site:{
+                    siteurl:'hello.world'
+                }
+            };
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, 'deviceConnected').andReturn(false);
+            spyOn(MM, 'handleDisconnectedFileUpload').andReturn();
+            spyOn(MM, '_wsGetFileUploadOptions').andReturn(fileUploadOptionsObject);
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransferObject);
+            spyOn(fileTransferObject, 'upload').andCallFake(
+                function(data, url, success, failure) {
+                    success();
+                }
+            );
+            spyOn(MM, 'closeModalLoading').andReturn();
+            spyOn(testObject, 'success').andReturn();
+            spyOn(testObject, 'failure').andReturn();
+            spyOn(MM, 'showModalLoading').andReturn();
+            MM.moodleUploadFile(
+                data, fileOptions, testObject.success, testObject.failure, presets
+            );
+            expect(MM.log).toHaveBeenCalledSequentiallyWith([
+                ['Trying to upload file (x chars)', 'Sync'],
+                ['Initializing uploader'],
+                ['Uploading']
+            ]);
+            expect(MM.closeModalLoading).toHaveBeenCalled();
+            expect(testObject.success).toHaveBeenCalled();
+            expect(MM.showModalLoading).toHaveBeenCalledWith(
+                'UPLOADING', 'UPLOADINGTOPRIVATEFILES'
+            );
+        });
+        it("fail", function() {
+            var data = {
+                length:9876
+            };
+            var fileOptions = {};
+            var testObject = {
+                success:function(){},
+                failure:function(){}
+            }
+            var presets = {};
+            var fileUploadOptionsObject = {};
+            var fileTransferObject = {
+                upload:function(){}
+            };
+            MM.lang = {
+                s:function(word) {
+                    return word.toUpperCase();
+                }
+            };
+            MM.config = {
+                current_site:{
+                    siteurl:'hello.world'
+                }
+            };
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, 'deviceConnected').andReturn(false);
+            spyOn(MM, 'handleDisconnectedFileUpload').andReturn();
+            spyOn(MM, '_wsGetFileUploadOptions').andReturn(fileUploadOptionsObject);
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransferObject);
+            spyOn(fileTransferObject, 'upload').andCallFake(
+                function(data, url, success, failure) {
+                    failure();
+                }
+            );
+            spyOn(MM, 'closeModalLoading').andReturn();
+            spyOn(testObject, 'success').andReturn();
+            spyOn(testObject, 'failure').andReturn();
+            spyOn(MM, 'showModalLoading').andReturn();
+            MM.moodleUploadFile(
+                data, fileOptions, testObject.success, testObject.failure, presets
+            );
+            expect(MM.log).toHaveBeenCalledSequentiallyWith([
+                ['Trying to upload file (x chars)', 'Sync'],
+                ['Initializing uploader'],
+                ['Uploading']
+            ]);
+            expect(MM.closeModalLoading).toHaveBeenCalled();
+            expect(testObject.failure).toHaveBeenCalled();
+            expect(MM.showModalLoading).toHaveBeenCalledWith(
+                'UPLOADING', 'UPLOADINGTOPRIVATEFILES'
+            );
+        });
+    })
 });
