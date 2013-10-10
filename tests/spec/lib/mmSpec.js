@@ -53,6 +53,9 @@ describe("MM", function() {
      * @covers loadCordova
      * @covers loadSettings
      * @covers _getNetwork
+     * @covers _canUseChildBrowser
+     * @covers _createNewStore
+     * @covers mediaQueryChangeHandler
      */
     describe("untestable", function() {
         it("gets the user agent", function(){});
@@ -60,6 +63,16 @@ describe("MM", function() {
         it("loads cordova", function(){});
         it("loads settings from the db", function() {});
         it("gets the current network", function() {});
+        it("can work out whether to use a child browser", function() {});
+        it("can create a new store", function() {});
+        it("can redirect based on device type", function() {});
+        it("detects left swipe on panels in tablet mode", function() {});
+        it("detects right swipe on panels in tablet mode", function() {});
+        it("detects click on panels in tablet mode", function(){});
+        it("detects left swipe on panels in phone mode", function() {});
+        it("detects right swipe on panels in phone mode", function() {});
+        it("detects click on panels in phone mode", function() {});
+        it("calls moodleDownloadFile", function() {});
     });
 
     /**
@@ -274,6 +287,247 @@ describe("MM", function() {
     });
 
     /**
+     * Tests orientationChangeHandler
+     * @covers orientationChangeHandler
+     */
+    describe("can handle orientation changes", function() {
+        beforeEach(function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<div>").attr('id', 'main-wrapper')
+                ).append(
+                    $("<div>").attr('id', 'panel-left')
+                ).append(
+                    $("<div>").addClass('header-wrapper')
+                ).append(
+                    $("<div>").attr('id', 'panel-right').append(
+                        $("<div>").addClass('content-index')
+                    )
+                )
+            );
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+
+        it("works when the device type is a phone", function() {
+            spyOn(MM, 'log').andReturn();
+            spyOn($.fn, 'css').andCallThrough();
+
+            MM.deviceType = 'phone';
+
+            MM.orientationChangeHandler();
+
+            expect(MM.log.callCount).toBe(2);
+            expect($.fn.css.callCount).toBe(5);
+        });
+        it("works when the device isn't a phone", function() {
+            spyOn(MM, 'log').andReturn();
+            spyOn($.fn, 'css').andCallThrough();
+            spyOn(MM.panels, 'resizePanels').andReturn();
+
+            MM.deviceType = 'not-a-phone';
+
+            MM.orientationChangeHandler();
+
+            expect(MM.log.callCount).toBe(2);
+            expect($.fn.css.callCount).toBe(3);
+            expect(MM.panels.resizePanels).toHaveBeenCalled();
+        });
+    });
+
+    /**
+     * Partially tests setUpTabletModeLayout
+     * @covers setUpTabletModeLayout (partially)
+     */
+    describe("can be set up for tablets", function() {
+        beforeEach(function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<div>").attr('id', 'mainmenu')
+                )
+            );
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+
+        it("binds the main menu element", function() {
+            var e = {
+                preventDefault:function(){},
+                stopPropagation:function(){},
+                type:'someEventTrigger'
+            };
+
+            MM.panels = {
+                calculatePanelsSizes:function(){},
+                fixPanelsSize:function(){},
+                menuShow:function(){}
+            };
+
+            spyOn(MM.panels, 'calculatePanelsSizes').andReturn();
+            spyOn(MM.panels, 'fixPanelsSize').andReturn();
+            spyOn(MM.panels, 'menuShow').andReturn();
+            spyOn(e, 'preventDefault').andReturn();
+            spyOn(e, 'stopPropagation').andReturn();
+
+            MM.quickClick = 'someEventTrigger';
+
+            MM.setUpTabletModeLayout();
+            $("#mainmenu").trigger(e);
+
+            expect(MM.panels.calculatePanelsSizes).toHaveBeenCalled();
+            expect(MM.panels.fixPanelsSize).toHaveBeenCalled();
+            expect(MM.panels.menuShow).toHaveBeenCalled();
+            expect(e.preventDefault).toHaveBeenCalled();
+            expect(e.stopPropagation).toHaveBeenCalled();
+        });
+    });
+
+    /**
+     * Tests setUpOverflowScrolling
+     * @covers setUpOverflowScrolling
+     */
+    it("sets up overflow scrolling correctly", function() {
+        // Create required page elements
+        $(document.body).append(
+            $("<div>").attr('id', 'testElements').append(
+                $("<div>").html(
+                    "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                )
+            ).append(
+                $("<div>").attr('id', 'panel-center')
+            )
+        );
+
+        spyOn(MM, 'log').andReturn();
+        spyOn(MM.util, 'setPanelsScreenHeight').andReturn();
+        MM.touchMoving = false;
+        MM.setUpOverflowScrolling();
+        expect(MM.log).toHaveBeenCalledWith('Overflow supported');
+        expect(MM.util.setPanelsScreenHeight).toHaveBeenCalled();
+        $("#panel-center").trigger('touchmove');
+        expect(MM.touchMoving).toBe(true);
+        $("#panel-center").trigger('touchend');
+        expect(MM.touchMoving).toBe(false);
+
+        $("#testElements").remove();
+    });
+
+    /**
+     * Tests setUpNativeScrolling
+     * @covers setUpNativeScrolling
+     */
+    it("sets up native scrolling", function() {
+        // Create required page elements
+        $(document.body).append(
+            $("<div>").attr('id', 'testElements').append(
+                $("<div>").html(
+                    "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                )
+            ).append(
+                $("<div>").attr('id', 'main-wrapper')
+            ).append(
+                $("<div>").attr('id', 'panel-left')
+            ).append(
+                $("<div>").addClass('header-wrapper')
+            )
+        );
+
+        spyOn(MM, 'log').andReturn();
+        spyOn(MM.util, 'setPanelsMinScreenHeight').andReturn();
+        spyOn(MM.util, 'avoidHorizontalScrolling').andReturn();
+        spyOn($.fn, 'css').andCallThrough();
+        spyOn($.fn, 'addClass').andCallThrough();
+
+        MM.setUpNativeScrolling();
+
+        expect(MM.log).toHaveBeenCalledWith('Omitting using overflow scroll');
+        expect(MM.util.setPanelsMinScreenHeight).toHaveBeenCalled();
+        expect(MM.util.avoidHorizontalScrolling).toHaveBeenCalled();
+        expect($("#main-wrapper").css('overflow')).toEqual('visible');
+        expect($.fn.addClass.callCount).toEqual(2);
+        expect($("#panel-left").hasClass('no-overflow')).toBe(true);
+        expect($(".header-wrapper").hasClass('header-fixed')).toBe(true);
+
+        $("#testElements").remove();
+    });
+
+    /**
+     * Tests setUpJavascriptScrolling
+     * @covers setUpJavascriptScrolling
+     */
+    it("sets up javascript scrolling", function() {
+        MM.scrollType = 'testScrollType';
+
+        spyOn(MM.util, 'setPanelsScreenHeight').andReturn();
+        spyOn(MM.util, 'touchScroll').andReturn();
+
+        MM.setUpJavascriptScrolling();
+
+        expect(MM.scrollType).toEqual('Javascript scrolling');
+        expect(MM.util.setPanelsScreenHeight).toHaveBeenCalled();
+        expect(MM.util.touchScroll).toHaveBeenCalledSequentiallyWith([
+            ['left'],
+            ['center'],
+            ['right']
+        ]);
+    });
+
+    /**
+     * Partially tests setUpPhoneModeLayout()
+     * @covers setUpPhoneModeLayout (partially)
+     */
+    describe("can be set up for phones", function() {
+        beforeEach(function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<div>").attr('id', 'mainmenu')
+                )
+            );
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+        it("binds the main menu element", function() {
+            var e = {
+                preventDefault:function(){},
+                type:'someEventTrigger'
+            };
+
+            MM.panels = {
+                goBack:function(){}
+            };
+
+            spyOn(MM.panels, 'goBack').andReturn();
+            spyOn(e, 'preventDefault').andReturn();
+
+            MM.quickClick = 'someEventTrigger';
+
+            MM.setUpPhoneModeLayout();
+            $("#mainmenu").trigger(e);
+
+            expect(MM.panels.goBack).toHaveBeenCalled();
+            expect(e.preventDefault).toHaveBeenCalled();
+        });
+    });
+
+    /**
      * Tests deviceConnected
      * @covers deviceConnected
      */
@@ -433,13 +687,19 @@ describe("MM", function() {
             MM.util = {
                 isTouchDevice:function(){},
                 overflowScrollingSupported:function(){}
-            }
+            };
+            MM.panels = {
+                calculatePanelsSizes:function(){},
+                fixPanelsSize:function(){}
+            };
 
             matchMediaResponse = {
                 addListener: function() {},
                 matches:true
             };
 
+            spyOn(MM.panels, 'calculatePanelsSizes').andReturn();
+            spyOn(MM.panels, 'fixPanelsSize').andReturn();
             spyOn(MM, 'log').andReturn(false);
             spyOn(MM.tpl, 'render').andReturn($("<form>"));
             spyOn(Backbone.history, 'start').andReturn(true);
@@ -2507,4 +2767,835 @@ describe("MM", function() {
             });
         });
     });
+
+     * Tests wsSync
+     * @covers wsSync
+     */
+    describe("can sync when appropriate", function() {
+        it("when there's no data", function() {
+            MM.db = {
+                'each':function(){}
+            };
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, 'getConfig').andReturn(false);
+            spyOn(MM.db, 'each').andReturn();
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            MM.wsSync();
+            expect(MM.log).toHaveBeenCalledSequentiallyWith([
+                ['Executing WS sync process', 'Sync'],
+                ['WS sync process is disabled', 'Sync']
+            ]);
+            expect(MM.getConfig).toHaveBeenCalledWith('sync_ws_on');
+            expect(MM.getConfig.callCount).toBe(1);
+        });
+        it("when there is data", function() {
+            MM.db = {
+                'each':function(){}
+            };
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, 'getConfig').andReturn([1, 2, 3]);
+            spyOn(MM.db, 'each').andReturn();
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            MM.wsSync();
+            expect(MM.log).toHaveBeenCalledWith(
+                'Executing WS sync process', 'Sync'
+            );
+            expect(MM.getConfig).toHaveBeenCalledWith('sync_ws_on');
+            expect(MM.getConfig.callCount).toBe(1);
+        });
+    });
+
+    /**
+     * Tests _wsSyncType
+     * @covers _wsSyncType
+     */
+    describe("Syncs based on type", function() {
+        it("when type = ws", function() {
+            var sync = {
+                toJSON:function() {
+                    return {type:'ws'}
+                }
+            };
+            MM.syncWebService = function(){};
+
+            spyOn(MM, 'syncWebService').andReturn();
+            MM._wsSyncType(sync);
+            expect(MM.syncWebService).toHaveBeenCalled();
+            expect(MM.syncWebService.callCount).toBe(1);
+        });
+        it("when type = upload", function() {
+            var sync = {
+                toJSON:function() {
+                    return {type:'upload'}
+                }
+            };
+            MM.syncUpload = function(){};
+            spyOn(MM, 'syncUpload').andReturn();
+            MM._wsSyncType(sync);
+            expect(MM.syncUpload).toHaveBeenCalled();
+            expect(MM.syncUpload.callCount).toBe(1);
+        });
+        it("when type = content", function() {
+            var sync = {
+                toJSON:function() {
+                    return {type:'content'}
+                }
+            };
+            MM.syncDownload = function(){};
+            spyOn(MM, 'syncDownload').andReturn();
+            MM._wsSyncType(sync);
+            expect(MM.syncDownload).toHaveBeenCalled();
+            expect(MM.syncDownload.callCount).toBe(1);
+        });
+    });
+
+    /**
+     * Tests wsSyncWebService
+     * @covers wsSyncWebService
+     */
+    it("can attempt to sync via webservice", function() {
+        var sync = {
+            syncData:[1,2,3],
+            url:'some.url.place/with/method?and=arguments',
+            data:{
+                wsfunction:'some.web.service.function'
+            }
+        };
+        spyOn(MM, 'log').andReturn();
+        spyOn(MM, 'moodleWSCall').andReturn();
+
+        MM.wsSyncWebService(sync);
+        expect(MM.log).toHaveBeenCalledWith(
+            "Executing WS sync operation:[1,2,3] url:some.url.place/with/method?and=arguments",
+            "Sync"
+        );
+        expect(MM.moodleWSCall).toHaveBeenCalled();
+        expect(MM.moodleWSCall.callCount).toBe(1);
+    });
+
+    /**
+     * Tests wsSyncUpload
+     * @covers wsSyncUpload
+     */
+    describe("can attempt to sync via file upload", function() {
+        it("when successful", function() {
+            MM.config = {
+                current_token:"mytoken",
+                current_site: {
+                    siteurl:'some.site.url'
+                }
+            };
+            MM.db = {
+                remove:function(){}
+            };
+            var fileTransfer = {
+                upload:function(){}
+            };
+            var fileUploadOptions = {
+
+            };
+            var sync = {
+                options:{
+                    fileKey:'fileKey',
+                    fileName:'fileName',
+                    mimeType:'mimeType'
+                },
+                data:'',
+                id:1
+            };
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransfer);
+            spyOn(MM, '_wsGetFileUploadOptions').andReturn(fileUploadOptions);
+            spyOn(fileTransfer, 'upload').andCallFake(
+                function(data, url, success, failure, options) {
+                    success();
+                }
+            );
+            spyOn(MM.db, 'remove').andReturn();
+            MM.wsSyncUpload(sync);
+            expect(MM.db.remove).toHaveBeenCalledWith('sync', 1);
+            expect(MM.log).toHaveBeenCalledSequentiallyWith([
+                ['Starting upload', 'Sync'],
+                ['Executing Upload sync operation FINISHED:' + sync.options.fileName, 'Sync']
+            ]);
+            expect(MM._wsGetFileTransfer).toHaveBeenCalled();
+            expect(MM._wsGetFileTransfer.callCount).toBe(1);
+            expect(MM._wsGetFileUploadOptions).toHaveBeenCalled();
+            expect(MM._wsGetFileUploadOptions.callCount).toBe(1);
+        });
+        it("when not successful", function() {
+            MM.config = {
+                current_token:"mytoken",
+                current_site: {
+                    siteurl:'some.site.url'
+                }
+            };
+            var fileTransfer = {
+                upload:function(){}
+            };
+            var fileUploadOptions = {
+
+            };
+            var sync = {
+                options:{
+                    fileKey:'',
+                    fileName:'',
+                    mimeType:''
+                },
+                data:'syncData'
+            };
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransfer);
+            spyOn(MM, '_wsGetFileUploadOptions').andReturn(fileUploadOptions);
+            spyOn(fileTransfer, 'upload').andCallFake(
+                function(data, url, success, failure, options) {
+                    failure();
+                }
+            );
+            MM.wsSyncUpload(sync);
+            expect(MM.log).toHaveBeenCalledSequentiallyWith([
+                ['Starting upload', 'Sync'],
+                ['Error uploading', 'Sync']
+            ]);
+            expect(MM._wsGetFileTransfer).toHaveBeenCalled();
+            expect(MM._wsGetFileTransfer.callCount).toBe(1);
+            expect(MM._wsGetFileUploadOptions).toHaveBeenCalled();
+            expect(MM._wsGetFileUploadOptions.callCount).toBe(1);
+        });
+    });
+
+    /**
+     * Partially tests wsSyncDownload
+     * @covers wsSyncDownload (partially)
+     */
+    describe("can attempt to sync via file download", function() {
+        it("doesn't sync if site id isn't the current site", function() {
+            MM.config = {
+                current_site: {
+                    id:2
+                }
+            };
+            var sync = {
+                siteid:1
+            };
+            spyOn(MM, 'log').andReturn();
+            MM.wsSyncDownload(sync);
+            expect(MM.log).not.toHaveBeenCalled();
+        });
+        it("calls create directory otherwise", function() {
+            MM.config = {
+                current_site: {
+                    id:1
+                },
+                current_token:'mytoken'
+            };
+            var sync = {
+                siteid: 1,
+                url:'some.base.url',
+                newfile:'newFilename'
+            };
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM.fs, 'createDir').andReturn();
+            MM.wsSyncDownload(sync);
+            expect(MM.log).toHaveBeenCalledWith(
+                "Sync: Starting download of some.base.url&token=mytoken to newFilename"
+            );
+            expect(MM.fs.createDir).toHaveBeenCalled();
+        });
+    });
+
+    /**
+     * Tests handleFiles
+     * @covers handleFiles
+     */
+    it("can handle files", function() {
+        // Create required page elements
+        $(document.body).append(
+            $("<div>").attr('id', 'testElements').append(
+                $("<div>").html(
+                    "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                )
+            ).append(
+                $("<div>").attr('id', 'mySelector')
+            )
+        );
+
+        var selector = "#mySelector";
+        MM.clickType = 'myCustomClickType';
+        spyOn(MM, 'fileLinkClickHandler').andReturn();
+        spyOn(MM, 'setFileLinksHREF').andReturn();
+        MM.fileLinkClickHandler
+        MM.handleFiles(selector);
+        $("#mySelector").trigger('myCustomClickType');
+
+        expect(MM.setFileLinksHREF).toHaveBeenCalledWith(selector);
+        expect(MM.fileLinkClickHandler).toHaveBeenCalled();
+
+        $("#testElements").remove();
+    });
+
+    /**
+     * Tests setFileLinksHREF
+     * @covers setFileLinksHREF
+     */
+    describe("can set file links href", function() {
+        it("when the click type is not click and href != #", function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<a>").attr({'id':'mySelector','href':'foo'})
+                )
+            );
+
+            var selector = "#mySelector";
+            MM.clickType = 'myCustomClickType';
+
+            spyOn(MM.Router, 'navigate').andReturn();
+
+            MM.setFileLinksHREF(selector);
+            $("#mySelector").click();
+
+            expect(MM.Router.navigate).toHaveBeenCalledWith("");
+            expect($("#mySelector").attr('data-link')).toBe('foo');
+            expect($("#mySelector").attr('href')).toBe('#');
+            expect($("#mySelector").attr('target')).toBe('_self');
+
+            $("#testElements").remove();
+        });
+
+        it("when the click type is not click and href != #", function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<a>").attr({'id':'mySelector','href':'#'})
+                )
+            );
+
+            var selector = "#mySelector";
+            MM.clickType = 'myCustomClickType';
+
+            spyOn(MM.Router, 'navigate').andReturn();
+
+            MM.setFileLinksHREF(selector);
+            $("#mySelector").click();
+
+            expect(MM.Router.navigate).not.toHaveBeenCalled();
+
+            $("#testElements").remove();
+        });
+
+        it("unless the click type is click", function() {
+            MM.clickType = 'click';
+            var selector = '#mySelector';
+            spyOn($.fn, 'bind');
+            MM.setFileLinksHREF(selector);
+            expect($.fn.bind).not.toHaveBeenCalled();
+        });
+    });
+
+    /**
+     * Tests fileLinkClickHandler by creating a link and assigning it as a click
+     * handler, then calling the links click() method.
+     * @covers fileLinkClickHandler
+     */
+    describe("has a file link click handler", function() {
+        beforeEach(function() {
+            // Create required page elements
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                    $("<a>").attr({'id':'mySelector','href':'some.place.extension'})
+                )
+            );
+            $("#mySelector").on('click', MM.fileLinkClickHandler);
+        });
+        afterEach(function() {
+            $("#testElements").remove();
+        });
+        it("that doesn't do anything if touchMoving is true", function() {
+            MM.touchMoving = true;
+            MM.plugins = {
+                contents: {
+                    infoBox: {
+                        remove:function(){}
+                    }
+                }
+            };
+
+            spyOn(MM, 'setFileLinksHREF').andReturn();
+            spyOn(MM.plugins.contents.infoBox, 'remove').andReturn();
+
+            $("#mySelector").click();
+            expect(MM.setFileLinksHREF).toHaveBeenCalled();
+            expect(MM.plugins.contents.infoBox.remove).toHaveBeenCalled();
+        });
+        it("that can access window.plugins.intents and be successful", function() {
+            // If plugins already exist, clone them and store them
+            var backup = undefined;
+            if (window.plugins != undefined) {
+                backup = _.clone(window.plugins);
+            } else {
+                window.plugins = {};
+                backup = undefined;
+            }
+
+            MM.plugins = {
+                contents: {
+                    templates: {
+                        mimetypes: {
+                            'extension':{
+                                type:'someExtension'
+                            }
+                        }
+                    }
+                }
+            };
+
+            window.plugins.webintent = {
+                startActivity:function(){}
+            };
+
+            MM.touchMoving = false;
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, 'setFileLinksHREF').andReturn();
+            spyOn(window.plugins.webintent, 'startActivity').andCallFake(
+                function(options, success, failure) {
+                    var action = options.action;
+                    var url = options.url;
+                    var type = options;
+                    success();
+                }
+            );
+            $("#mySelector").click();
+            expect(MM.setFileLinksHREF).toHaveBeenCalled();
+            expect(MM.log).toHaveBeenCalledWith('Intent launched');
+
+            // Put the original plugins back.
+            window.plugins = _.clone(backup);
+        });
+        it("that can access window.plugins.intents and fail", function() {
+            // If plugins already exist, clone them and store them
+            var backup = undefined;
+            if (window.plugins != undefined) {
+                backup = _.clone(window.plugins);
+            } else {
+                window.plugins = {};
+                backup = undefined;
+            }
+
+            MM.plugins = {
+                contents: {
+                    templates: {
+                        mimetypes: {
+                            'extension':{
+                                type:'someExtension'
+                            }
+                        }
+                    }
+                }
+            };
+
+            window.plugins.webintent = {
+                startActivity:function(){}
+            };
+
+            MM.touchMoving = false;
+            spyOn(MM, 'setFileLinksHREF').andReturn();
+            spyOn(window, 'open').andReturn();
+            spyOn(MM, 'log').andReturn();
+            spyOn(window.plugins.webintent, 'startActivity').andCallFake(
+                function(options, success, failure) {
+                    var action = options.action;
+                    var url = options.url;
+                    var type = options;
+                    failure();
+                }
+            );
+            $("#mySelector").click();
+            expect(MM.setFileLinksHREF).toHaveBeenCalled();
+            expect(MM.log).toHaveBeenCalledWith('Intent launching failed');
+            expect(window.open).toHaveBeenCalledWith('some.place.extension', '_blank');
+
+            // Put the original plugins back.
+            window.plugins = _.clone(backup);
+        });
+
+        it("that can access the childbrowser and succeed", function() {
+            // If plugins already exist, clone them and store them
+            var backup = undefined;
+            if (window.plugins != undefined) {
+                backup = _.clone(window.plugins);
+            } else {
+                window.plugins = {};
+                backup = undefined;
+            }
+
+            MM.plugins = {
+                contents: {
+                    templates: {
+                        mimetypes: {
+                            'extension':{
+                                type:'someExtension'
+                            }
+                        }
+                    }
+                }
+            };
+
+            window.plugins.webintent = undefined;
+            window.plugins.childBrowser = {
+                showWebPage:function(){}
+            };
+
+            MM.touchMoving = false;
+            spyOn(MM, 'setFileLinksHREF').andReturn();
+            spyOn(window, 'open').andReturn();
+            spyOn(MM, 'log').andReturn();
+            spyOn(window.plugins.childBrowser, 'showWebPage').andCallFake(
+                function(link, options) {
+                    // Do nothing
+                }
+            );
+            spyOn(MM, '_canUseChildBrowser').andReturn(true);
+            $("#mySelector").click();
+            expect(MM.setFileLinksHREF).toHaveBeenCalled();
+            expect(MM.log).toHaveBeenCalledWith('Launching childBrowser');
+
+            // Put the original plugins back.
+            window.plugins = _.clone(backup);
+        });
+
+        it("that can access the childbrowser and fail", function() {
+            // If plugins already exist, clone them and store them
+            var backup = undefined;
+            if (window.plugins != undefined) {
+                backup = _.clone(window.plugins);
+            } else {
+                window.plugins = {};
+                backup = undefined;
+            }
+
+            MM.plugins = {
+                contents: {
+                    templates: {
+                        mimetypes: {
+                            'extension':{
+                                type:'someExtension'
+                            }
+                        }
+                    }
+                }
+            };
+
+            window.plugins.webintent = undefined;
+            window.plugins.childBrowser = {
+                showWebPage:function(){}
+            };
+
+            MM.touchMoving = false;
+            spyOn(MM, 'setFileLinksHREF').andReturn();
+            spyOn(window, 'open').andReturn();
+            spyOn(MM, 'log').andReturn();
+            spyOn(window.plugins.childBrowser, 'showWebPage').andCallFake(
+                function(link, options) {
+                    throw "testing exception handling";
+                }
+            );
+            spyOn(MM, '_canUseChildBrowser').andReturn(true);
+            $("#mySelector").click();
+            expect(MM.setFileLinksHREF).toHaveBeenCalled();
+            expect(MM.log).toHaveBeenCalledSequentiallyWith([
+                ['Launching childBrowser'],
+                ['Launching childBrowser failed!, opening as standard link']
+            ]);
+            expect(window.open).toHaveBeenCalledWith('some.place.extension', '_blank');
+
+            // Put the original plugins back.
+            window.plugins = _.clone(backup);
+        });
+
+        it("that can access neither webintent or childbrowser", function() {
+            // If plugins already exist, clone them and store them
+            var backup = undefined;
+            if (window.plugins != undefined) {
+                backup = _.clone(window.plugins);
+            } else {
+                window.plugins = {};
+                backup = undefined;
+            }
+
+            MM.plugins = {
+                contents: {
+                    templates: {
+                        mimetypes: {
+                            'extension':{
+                                type:'someExtension'
+                            }
+                        }
+                    }
+                }
+            };
+
+            window.plugins.webintent = undefined;
+            window.plugins.childBrowser = undefined;
+
+            MM.touchMoving = false;
+            spyOn(MM, 'setFileLinksHREF').andReturn();
+            spyOn(window, 'open').andReturn();
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_canUseChildBrowser').andReturn(false);
+            $("#mySelector").click();
+            expect(MM.setFileLinksHREF).toHaveBeenCalled();
+            expect(MM.log).toHaveBeenCalledWith('Open external file using window.open');
+            expect(window.open).toHaveBeenCalledWith('some.place.extension', '_blank');
+
+            // Put the original plugins back.
+            window.plugins = _.clone(backup);
+        });
+
+        it("that doesn't have access to window.plugins", function() {
+            // If plugins already exist, clone them and store them
+            var backup = undefined;
+            if (window.plugins != undefined) {
+                backup = _.clone(window.plugins);
+            } else {
+                window.plugins = {};
+                backup = undefined;
+            }
+
+            window.plugins = undefined;
+
+            MM.touchMoving = false;
+            spyOn(MM, 'setFileLinksHREF').andReturn();
+            spyOn(window, 'open').andReturn();
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_canUseChildBrowser').andReturn(false);
+            $("#mySelector").click();
+            expect(MM.setFileLinksHREF).toHaveBeenCalled();
+            expect(MM.log).toHaveBeenCalledWith('Open external file using window.open');
+            expect(window.open).toHaveBeenCalledWith('some.place.extension', '_blank');
+
+            // Put the original plugins back.
+            window.plugins = _.clone(backup);
+        });
+    });
+
+    /**
+     * Tests moodleDownloadFile
+     * @covers moodleDownloadFile
+     */
+    describe("can download a moodle file and end with:", function() {
+        it("success", function() {
+            var url = 'url';
+            var path = 'some/path';
+            var testObject = {
+                successCallBack:function(path) {},
+                errorCallBack:function(path){}
+            };
+            var fileTransfer = {
+                download:function(){}
+            };
+
+            spyOn(MM.fs, 'getRoot').andReturn("some.root");
+            spyOn(testObject, 'successCallBack').andReturn();
+            spyOn(testObject, 'errorCallBack').andReturn();
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransfer);
+            spyOn(fileTransfer, 'download').andCallFake(
+                function(url, path, success, failure) {
+                    success();
+                }
+            );
+            MM.moodleDownloadFile(
+                url, path, testObject.successCallBack, testObject.errorCallBack
+            );
+            expect(testObject.successCallBack).toHaveBeenCalledWith('some.root/some/path');
+        });
+        it("failure", function() {
+            var url = 'url';
+            var path = 'some/path';
+            var testObject = {
+                successCallBack:function(path) {},
+                errorCallBack:function(path){}
+            };
+            var fileTransfer = {
+                download:function(){}
+            };
+
+            spyOn(MM.fs, 'getRoot').andReturn("some.root");
+            spyOn(testObject, 'successCallBack').andReturn();
+            spyOn(testObject, 'errorCallBack').andReturn();
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransfer);
+            spyOn(fileTransfer, 'download').andCallFake(
+                function(url, path, success, failure) {
+                    failure();
+                }
+            );
+            MM.moodleDownloadFile(
+                url, path, testObject.successCallBack, testObject.errorCallBack
+            );
+
+            expect(testObject.errorCallBack).toHaveBeenCalledWith('some.root/some/path');
+        });
+    });
+
+    /**
+     * Tests handlesDisconnectedFileUpload
+     * @covers handlesDisconnectedFileUpload
+     */
+    it("can handle a disconnected file upload", function() {
+        data = {
+            hello:'world'
+        };
+        fileOptions = {
+            fileName:'aFileName'
+        };
+        MM.lang = {
+            s:function(word) {
+                return word.toUpperCase();
+            }
+        };
+        MM.config = {
+            current_site:{
+                siteurl:'example.com',
+                id:123
+            }
+        };
+        MM.db = {
+            insert:function(){}
+        };
+
+        spyOn(MM.db, 'insert').andReturn();
+        spyOn(MM, 'popMessage').andReturn();
+        var result = MM.handleDisconnectedFileUpload(data, fileOptions);
+        expect(result).toBe(true);
+        expect(MM.db.insert.callCount).toBe(1);
+    });
+
+    /**
+     * Tests moodleUploadFile
+     * @covers moodleUploadFile
+     */
+    describe("can handle a moodle file upload and", function() {
+        it("succeed", function() {
+            var data = {
+                length:9876
+            };
+            var fileOptions = {};
+            var testObject = {
+                success:function(){},
+                failure:function(){}
+            }
+            var presets = {};
+            var fileUploadOptionsObject = {};
+            var fileTransferObject = {
+                upload:function(){}
+            };
+            MM.lang = {
+                s:function(word) {
+                    return word.toUpperCase();
+                }
+            };
+            MM.config = {
+                current_site:{
+                    siteurl:'hello.world'
+                }
+            };
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, 'deviceConnected').andReturn(false);
+            spyOn(MM, 'handleDisconnectedFileUpload').andReturn();
+            spyOn(MM, '_wsGetFileUploadOptions').andReturn(fileUploadOptionsObject);
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransferObject);
+            spyOn(fileTransferObject, 'upload').andCallFake(
+                function(data, url, success, failure) {
+                    success();
+                }
+            );
+            spyOn(MM, 'closeModalLoading').andReturn();
+            spyOn(testObject, 'success').andReturn();
+            spyOn(testObject, 'failure').andReturn();
+            spyOn(MM, 'showModalLoading').andReturn();
+            MM.moodleUploadFile(
+                data, fileOptions, testObject.success, testObject.failure, presets
+            );
+            expect(MM.log).toHaveBeenCalledSequentiallyWith([
+                ['Trying to upload file (x chars)', 'Sync'],
+                ['Initializing uploader'],
+                ['Uploading']
+            ]);
+            expect(MM.closeModalLoading).toHaveBeenCalled();
+            expect(testObject.success).toHaveBeenCalled();
+            expect(MM.showModalLoading).toHaveBeenCalledWith(
+                'UPLOADING', 'UPLOADINGTOPRIVATEFILES'
+            );
+        });
+        it("fail", function() {
+            var data = {
+                length:9876
+            };
+            var fileOptions = {};
+            var testObject = {
+                success:function(){},
+                failure:function(){}
+            }
+            var presets = {};
+            var fileUploadOptionsObject = {};
+            var fileTransferObject = {
+                upload:function(){}
+            };
+            MM.lang = {
+                s:function(word) {
+                    return word.toUpperCase();
+                }
+            };
+            MM.config = {
+                current_site:{
+                    siteurl:'hello.world'
+                }
+            };
+
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, 'deviceConnected').andReturn(false);
+            spyOn(MM, 'handleDisconnectedFileUpload').andReturn();
+            spyOn(MM, '_wsGetFileUploadOptions').andReturn(fileUploadOptionsObject);
+            spyOn(MM, '_wsGetFileTransfer').andReturn(fileTransferObject);
+            spyOn(fileTransferObject, 'upload').andCallFake(
+                function(data, url, success, failure) {
+                    failure();
+                }
+            );
+            spyOn(MM, 'closeModalLoading').andReturn();
+            spyOn(testObject, 'success').andReturn();
+            spyOn(testObject, 'failure').andReturn();
+            spyOn(MM, 'showModalLoading').andReturn();
+            MM.moodleUploadFile(
+                data, fileOptions, testObject.success, testObject.failure, presets
+            );
+            expect(MM.log).toHaveBeenCalledSequentiallyWith([
+                ['Trying to upload file (x chars)', 'Sync'],
+                ['Initializing uploader'],
+                ['Uploading']
+            ]);
+            expect(MM.closeModalLoading).toHaveBeenCalled();
+            expect(testObject.failure).toHaveBeenCalled();
+            expect(MM.showModalLoading).toHaveBeenCalledWith(
+                'UPLOADING', 'UPLOADINGTOPRIVATEFILES'
+            );
+        });
+    })
 });
