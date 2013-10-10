@@ -2434,4 +2434,77 @@ describe("MM", function() {
         expect(MM.cache.purge).toHaveBeenCalled();
         expect(MM.loadSite).toHaveBeenCalledWith(1);
     });
+
+    /**
+     * Tests moodleWSCall
+     * @covers moodleWSCall
+     */
+    describe("moodleWSCall", function() {
+        beforeEach(function(){
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            }
+            MM.lang = {
+                s:function(field){
+                    switch (field) {
+                        case 'addedtoqueue':
+                            return 'Added to queue';
+                        default:
+                            return field;
+                    }
+                }
+            };            
+        });
+
+        describe("when device is offline", function() {
+            var presets;
+
+            beforeEach(function() {
+                MM._verifyPresets = function(x) { return x };
+                MM.popMessage = function() {};
+                presets = { 
+                    siteurl: 'http://fake.example.com',
+                    syncData: {
+                        name: 'jack'
+                    }
+                }
+                spyOn(MM, "deviceConnected").andReturn(false);
+            });
+
+            describe("when presets.sync is truthy", function() {
+                beforeEach(function() {
+                    presets['sync'] = true;
+                });
+
+                it("queues the operation", function() {
+                    spyOn(MM.db, 'insert');
+                    MM.moodleWSCall(null, {}, null, presets, null);
+                    expect(MM.db.insert).toHaveBeenCalled();
+                });
+
+                it("pops up an 'added to queue'", function() {
+                    spyOn(MM, 'popMessage');
+                    MM.moodleWSCall(null, {}, null, presets, null);
+                    expect(MM.popMessage).toHaveBeenCalledWith(
+                        'Added to queue', {title: 'jack'}
+                    );
+                });
+            });
+
+            describe("when presets.sync is falsey", function() {
+                beforeEach(function() {
+                    presets['sync'] = false;
+                    MM.moodleWSCall(null, {}, null, presets, null);
+                });
+
+                it("doesn't queue the operation", function() {
+                });
+
+                it("doesn't pop up an 'added to queue' message", function() {
+                });
+            });
+        });
+    });
 });
