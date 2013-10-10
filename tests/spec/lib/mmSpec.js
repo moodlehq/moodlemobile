@@ -2696,16 +2696,275 @@ describe("MM", function() {
     });
 
     /**
+     * Tests _getDataFromCache
+     * @covers _getDataFromCache
+     */
+    describe("can get data from the cache and", function() {
+        it("returns false if cache is false", function() {
+            var preSets = {
+                cache:false
+            };
+            var myCallBack = {
+                error:function(){},
+                success:function(){}
+            };
+            var result = MM._getDataFromCache(preSets, {}, myCallBack.success, myCallBack.error);
+            expect(result).toBe(false);
+        });
+
+        it("calls the success callback if data is not false, and returns true", function() {
+            var preSets = {
+                cache:true,
+                omitExpires:true
+            };
+            var myCallBack = {
+                error:function(){},
+                success:function(){}
+            };
+            MM.cache = {
+                getWSCall:function(){}
+            };
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(MM.cache, 'getWSCall').andReturn(true);
+            spyOn(myCallBack, 'success').andReturn();
+            var result = MM._getDataFromCache(preSets, {}, myCallBack.success, myCallBack.error);
+            expect(result).toBe(true);
+            expect(myCallBack.success).toHaveBeenCalledWith(true);
+        });
+
+        it("calls the error callback if data is false and device isn't connected and returns true", function() {
+            var preSets = {
+                cache:true,
+                omitExpires:true
+            };
+            var myCallBack = {
+                error:function(){},
+                success:function(){}
+            };
+            MM.cache = {
+                getWSCall:function(){}
+            };
+            spyOn(MM, 'deviceConnected').andReturn(false);
+            spyOn(MM.cache, 'getWSCall').andReturn(false);
+            spyOn(myCallBack, 'error').andReturn();
+            var result = MM._getDataFromCache(preSets, {}, myCallBack.success, myCallBack.error);
+            expect(result).toBe(true);
+            expect(myCallBack.error).toHaveBeenCalled();
+        });
+
+        it("calls the popErrorMessage if a callback isn't provided and returns true", function() {
+            var preSets = {
+                cache:true,
+                omitExpires:true
+            };
+            var myCallBack = {
+                error:function(){},
+                success:function(){}
+            };
+            MM.cache = {
+                getWSCall:function(){}
+            };
+            MM.lang = {
+                s:function(){}
+            };
+            spyOn(MM, 'deviceConnected').andReturn(false);
+            spyOn(MM.cache, 'getWSCall').andReturn(false);
+            spyOn(myCallBack, 'error').andReturn();
+            spyOn(MM, 'popErrorMessage').andReturn();
+            spyOn(MM.lang, 's').andReturn("some string");
+            var result = MM._getDataFromCache(preSets, {}, myCallBack.success, false);
+            expect(result).toBe(true);
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("some string");
+            expect(MM.lang.s).toHaveBeenCalledWith("networkerrormsg");
+        });
+    });
+
+    /**
+     * Tests _verifyPresets
+     * @covers _verifyPresets
+     */
+    describe("can verify presets", function() {
+        it("returns false if wstoken is undefined", function() {
+            MM.config = {
+                current_token:false
+            };
+            MM.lang = {
+                s:function(){}
+            };
+            spyOn(MM.lang, 's').andReturn("hello world");
+            spyOn(MM, 'popErrorMessage').andReturn();
+            var preSets = {};
+            var result = MM._verifyPresets(preSets);
+            expect(result).toBe(false);
+            expect(MM.lang.s).toHaveBeenCalledWith('unexpectederror');
+            expect(MM.popErrorMessage).toHaveBeenCalledWith('hello world');
+        });
+        it("returns false if siteurl is undefined", function() {
+            MM.config = {
+                current_token:'something',
+                current_site: {
+                    siteurl:false
+                }
+            };
+            MM.lang = {
+                s:function(){}
+            };
+            spyOn(MM.lang, 's').andReturn("hello world");
+            spyOn(MM, 'popErrorMessage').andReturn();
+            var preSets = {};
+            var result = MM._verifyPresets(preSets);
+            expect(result).toBe(false);
+            expect(MM.lang.s).toHaveBeenCalledWith('unexpectederror');
+            expect(MM.popErrorMessage).toHaveBeenCalledWith('hello world');
+        });
+        it("returns correct presets if everything is ok", function() {
+            MM.config = {
+                current_token:'something',
+                current_site: {
+                    siteurl:'something else'
+                }
+            };
+            var preSets = {};
+            var result = MM._verifyPresets(preSets);
+            expect(result.cache).toBe(1);
+            expect(result.sync).toBe(0);
+            expect(result.silently).toBe(false);
+            expect(result.omitExpires).toBe(false);
+            expect(result.wstoken).toBe('something');
+            expect(result.siteurl).toBe('something else');
+        });
+    });
+
+    describe("can validate a url", function() {
+        it("fails when given rubbish", function() {
+            var result = MM.validateURL("hello world, I'm not a URL");
+            expect(result).toBe(false);
+        });
+        describe("expects either http, https or ftp as a schema", function() {
+            it("with http", function() {
+                var url = "http://www.example.com";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("with https", function() {
+                var url = "https://www.example.com";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("with ftp", function() {
+                var url = "ftp://www.example.com";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("with imaginary schema", function() {
+                var url = "wrong://www.example.com";
+                var result = MM.validateURL(url);
+                expect(result).toBe(false);
+            });
+        });
+        describe("can optionally have basic auth", function() {
+            it("just username", function() {
+                var url = "http://a@www.example.com";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("just password", function() {
+                var url = "http://:b@www.example.com";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("both username and password", function() {
+                var url = "http://a:b@www.example.com";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+        });
+        describe("correctly parses an ip address", function() {
+            it("correct ip address", function() {
+                var url = "http://1.199.204.255";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("bad ip address", function() {
+                var url = "http://123.456.789.123";
+                var result = MM.validateURL(url);
+                expect(result).toBe(false);
+            });
+        });
+        describe("correctly parses the patten subdomain.domain.tld", function() {
+            var url = "http://subdomain_one.subdomain_two.example.com";
+            var result = MM.validateURL(url);
+            expect(result).toBe(true);
+        });
+        describe("correctly parses an optional port number", function() {
+            it("numeric port number", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:123";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("no port number", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("bad port number", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:hello";
+                var result = MM.validateURL(url);
+                expect(result).toBe(false);
+            });
+        });
+        describe("works with a controller/method pattern", function() {
+            it("just controller", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:123/controller";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("just method", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:123//method";
+                var result = MM.validateURL(url);
+                expect(result).toBe(false);
+            });
+            it("both controller and method", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:123/controller/method";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+        });
+        describe("works with arguments and anchor tags", function() {
+            it("just arguments", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:123/controller/method?arg1=val1";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("just anchor tags", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:123/controller/method#anchor1";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("anchor before argument", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:123/controller/method#anchor1?arg1=val1";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+            it("argument before anchor", function() {
+                var url = "http://subdomain_one.subdomain_two.example.com:123/controller/method?arg1=val1#anchor1";
+                var result = MM.validateURL(url);
+                expect(result).toBe(true);
+            });
+        });
+        it("works with the url of the site used to aid in testing the regex", function() {
+            var url = "http://www.regexper.com/#%5E(https%3F%7Cftp)%3A%5C%2F%5C%2F((((%5Ba-z%5D%7C%5Cd%7C-%7C%5C.%7C_%7C~%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)%7C(%25%5B%5Cda-f%5D%7B2%7D)%7C%5B!%5C%24%26'%5C(%5C)%5C*%5C%2B%2C%3B%3D%5D%7C%3A)*%40)%3F(((%5Cd%7C%5B1-9%5D%5Cd%7C1%5Cd%5Cd%7C2%5B0-4%5D%5Cd%7C25%5B0-5%5D)%5C.(%5Cd%7C%5B1-9%5D%5Cd%7C1%5Cd%5Cd%7C2%5B0-4%5D%5Cd%7C25%5B0-5%5D)%5C.(%5Cd%7C%5B1-9%5D%5Cd%7C1%5Cd%5Cd%7C2%5B0-4%5D%5Cd%7C25%5B0-5%5D)%5C.(%5Cd%7C%5B1-9%5D%5Cd%7C1%5Cd%5Cd%7C2%5B0-4%5D%5Cd%7C25%5B0-5%5D))%7C(((%5Ba-z%5D%7C%5Cd%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)%7C((%5Ba-z%5D%7C%5Cd%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)(%5Ba-z%5D%7C%5Cd%7C-%7C%5C.%7C_%7C~%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)*(%5Ba-z%5D%7C%5Cd%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)))%5C.)%2B((%5Ba-z%5D%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)%7C((%5Ba-z%5D%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)(%5Ba-z%5D%7C%5Cd%7C-%7C%5C.%7C_%7C~%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)*(%5Ba-z%5D%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D))))(%3A%5Cd*)%3F)(%5C%2F(((%5Ba-z%5D%7C%5Cd%7C-%7C%5C.%7C_%7C~%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)%7C(%25%5B%5Cda-f%5D%7B2%7D)%7C%5B!%5C%24%26'%5C(%5C)%5C*%5C%2B%2C%3B%3D%5D%7C%3A%7C%40)%2B(%5C%2F((%5Ba-z%5D%7C%5Cd%7C-%7C%5C.%7C_%7C~%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)%7C(%25%5B%5Cda-f%5D%7B2%7D)%7C%5B!%5C%24%26'%5C(%5C)%5C*%5C%2B%2C%3B%3D%5D%7C%3A%7C%40)*)*)%3F)%3F(%5C%3F(((%5Ba-z%5D%7C%5Cd%7C-%7C%5C.%7C_%7C~%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)%7C(%25%5B%5Cda-f%5D%7B2%7D)%7C%5B!%5C%24%26'%5C(%5C)%5C*%5C%2B%2C%3B%3D%5D%7C%3A%7C%40)%7C%5B%5CuE000-%5CuF8FF%5D%7C%5C%2F%7C%5C%3F)*)%3F(%5C%23(((%5Ba-z%5D%7C%5Cd%7C-%7C%5C.%7C_%7C~%7C%5B%5Cu00A0-%5CuD7FF%5CuF900-%5CuFDCF%5CuFDF0-%5CuFFEF%5D)%7C(%25%5B%5Cda-f%5D%7B2%7D)%7C%5B!%5C%24%26'%5C(%5C)%5C*%5C%2B%2C%3B%3D%5D%7C%3A%7C%40)%7C%5C%2F%7C%5C%3F)*)%3F%24";
+            var result = MM.validateURL(url);
+            expect(result).toBe(true);
+        });
+    });
+
+    /**
      * Tests moodleWSCall
      * @covers moodleWSCall
      */
-    describe("moodleWSCall", function() {
+    describe("can use moodleWSCall and", function() {
         beforeEach(function(){
-            MM.config = {
-                current_site: {
-                    id: 1
-                }
-            }
             MM.lang = {
                 s:function(field){
                     switch (field) {
@@ -2715,59 +2974,556 @@ describe("MM", function() {
                             return field;
                     }
                 }
-            };            
+            };
         });
 
-        describe("when device is offline", function() {
-            var presets;
-
-            beforeEach(function() {
-                MM._verifyPresets = function(x) { return x };
-                MM.popMessage = function() {};
-                presets = { 
-                    siteurl: 'http://fake.example.com',
-                    syncData: {
-                        name: 'jack'
-                    }
+        it("returns true if presets.sync && device is offline", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
                 }
-                spyOn(MM, "deviceConnected").andReturn(false);
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:true,
+                syncData:{
+                    name:'jack'
+                }
+            };
+            MM.db = {
+                insert:function(){}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, 'deviceConnected').andReturn(false);
+            spyOn(MM.db, 'insert').andReturn();
+            spyOn(MM, 'popMessage').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, null);
+
+            expect(result).toBe(true);
+            expect(MM.db.insert).toHaveBeenCalled();
+            expect(MM.popMessage).toHaveBeenCalledWith(
+                'Added to queue', {title: 'jack'}
+            );
+        });
+
+        it("returns true if we have data from the cache", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false
+            };
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(true);
+
+            var result = MM.moodleWSCall(null, {}, null, presets, null);
+
+            expect(result).toBe(true);
+        });
+
+        it("returns true if device isn't connected and we don't have an error callback", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(true);
+            spyOn(MM, 'deviceConnected').andReturn(false);
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, false);
+
+            expect(result).toBe(true);
+        });
+
+        it("calls our errorCallback before returning true if device isn't connected", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(false);
+            spyOn(myErrorCallback, 'error').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, myErrorCallback.error);
+
+            expect(result).toBe(true);
+            expect(myErrorCallback.error).toHaveBeenCalled();
+        });
+
+        it("returns if the ajax request succeeds but returns no data with a popErrorMessage", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = false;
+                options.success(data);
             });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popErrorMessage').andReturn();
 
-            describe("when presets.sync is truthy", function() {
-                beforeEach(function() {
-                    presets['sync'] = true;
-                });
+            var result = MM.moodleWSCall(null, {}, null, presets, false);
 
-                it("queues the operation", function() {
-                    spyOn(MM.db, 'insert');
-                    MM.moodleWSCall(null, {}, null, presets, null);
-                    expect(MM.db.insert).toHaveBeenCalled();
-                });
+            expect(result).toBe(undefined);
+            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("cannotconnect");
+        });
 
-                it("pops up an 'added to queue'", function() {
-                    spyOn(MM, 'popMessage');
-                    MM.moodleWSCall(null, {}, null, presets, null);
-                    expect(MM.popMessage).toHaveBeenCalledWith(
-                        'Added to queue', {title: 'jack'}
-                    );
-                });
+        it("returns if the ajax request succeeds but returns no data with an error callback", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = false;
+                options.success(data);
             });
+            spyOn(MM, 'showModalLoading').andReturn();
 
-            describe("when presets.sync is falsey", function() {
-                beforeEach(function() {
-                    presets['sync'] = false;
-                    MM.moodleWSCall(null, {}, null, presets, null);
-                });
+            var result = MM.moodleWSCall(null, {}, null, presets, myErrorCallback.error);
 
-                it("doesn't queue the operation", function() {
-                });
+            expect(result).toBe(undefined);
+            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
+            expect(myErrorCallback.error).toHaveBeenCalled();
+        });
 
-                it("doesn't pop up an 'added to queue' message", function() {
-                });
+        it("returns if data.errorcode is invalidtoken", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = {
+                    exception:{},
+                    errorcode:'invalidtoken'
+                };
+                options.success(data);
             });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popMessage').andReturn();
+            spyOn(window, 'setTimeout').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, false);
+
+            expect(result).toBe(undefined);
+            expect(window.setTimeout).toHaveBeenCalled();
+            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
+            expect(MM.popMessage).toHaveBeenCalledWith("lostconnection");
+        });
+
+        it("returns if data.errorcode is accessexception", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = {
+                    exception:{},
+                    errorcode:'accessexception'
+                };
+                options.success(data);
+            });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popMessage').andReturn();
+            spyOn(window, 'setTimeout').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, false);
+
+            expect(result).toBe(undefined);
+            expect(window.setTimeout).toHaveBeenCalled();
+            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
+            expect(MM.popMessage).toHaveBeenCalledWith("lostconnection");
+        });
+
+        it("returns if data.exception is not undefined with popErrorMessage", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = {
+                    exception:{},
+                    errorcode:'someothererror',
+                    message:'some other error'
+                };
+                options.success(data);
+            });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, false);
+
+            expect(result).toBe(undefined);
+            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("Error. some other error");
+        });
+
+        it("returns if data.exception is not undefined with an error callback", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = {
+                    exception:{},
+                    errorcode:'someothererror',
+                    message:'some other error'
+                };
+                options.success(data);
+            });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, myErrorCallback.error);
+
+            expect(result).toBe(undefined);
+            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
+            expect(myErrorCallback.error).toHaveBeenCalledWith('Error. some other error');
+        });
+
+        it("returns if data.debuginfo is not undefined with popErrorMessage", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = {
+                    debuginfo: {}
+                };
+                options.success(data);
+            });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popErrorMessage').andReturn();
+            spyOn(MM, 'closeModalLoading').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, false);
+
+            expect(result).toBe(undefined);
+            expect(MM.closeModalLoading).toHaveBeenCalled();
+            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("unexpectederror");
+        });
+
+        it("returns if data.debuginfo is not undefined with an error callback", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = {
+                    debuginfo:{}
+                };
+                options.success(data);
+            });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, myErrorCallback.error);
+
+            expect(result).toBe(undefined);
+            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
+            expect(myErrorCallback.error).toHaveBeenCalledWith('unexpectederror');
+        });
+
+        it("calls our success callback otherwise", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            MM.cache = {
+                addWSCall:function(){}
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true,
+                cache:true
+            };
+
+            var myCallback = {
+                error:function() {},
+                success:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myCallback, 'error').andReturn();
+            spyOn(myCallback, 'success').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = {
+                    length:123
+                };
+                options.success(data);
+            });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popErrorMessage').andReturn();
+            spyOn(MM, 'closeModalLoading').andReturn();
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM.cache, 'addWSCall').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, myCallback.success, presets, false);
+
+            expect(result).toBe(undefined);
+            expect(MM.log).toHaveBeenCalledWith("WS: Data number of elements 123");
+            expect(MM.closeModalLoading).toHaveBeenCalled();
+            expect(MM.closeModalLoading.callCount).toBe(1);
+            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
+            expect(MM.cache.addWSCall).toHaveBeenCalled();
+            expect(myCallback.success).toHaveBeenCalled();
+        });
+
+        it("calls our error callback if the ajax request fails and presets.silently is false", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:false,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = {
+                    exception:{},
+                    errorcode:'someothererror',
+                    message:'some other error'
+                };
+                options.error({status:404});
+            });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            var result = MM.moodleWSCall(null, {}, null, presets, myErrorCallback.error);
+
+            expect(result).toBe(undefined);
+            expect(myErrorCallback.error).toHaveBeenCalled();
+        });
+
+        it("calls our error callback if the ajax request fails and presets.silently is true", function() {
+            MM.config = {
+                current_site: {
+                    id: 1
+                }
+            };
+            var presets = {
+                wstoken:'token',
+                siteurl:'some.site.url',
+                sync:false,
+                silently:true,
+                showModalLoading:true
+            };
+
+            var myErrorCallback = {
+                error:function() {}
+            };
+
+            spyOn(MM, '_verifyPresets').andReturn(presets);
+            spyOn(MM, '_getDataFromCache').andReturn(false);
+            spyOn(MM, 'deviceConnected').andReturn(true);
+            spyOn(myErrorCallback, 'error').andReturn();
+            spyOn($, 'ajax').andCallFake(function(options) {
+                var data = {
+                    exception:{},
+                    errorcode:'someothererror',
+                    message:'some other error'
+                };
+                options.error({status:404});
+            });
+            spyOn(MM, 'showModalLoading').andReturn();
+            spyOn(MM, 'popErrorMessage').andReturn();
+            spyOn(MM, 'log').andReturn();
+
+            var result = MM.moodleWSCall(
+                'mymethod', {}, null, presets, myErrorCallback.error
+            );
+
+            expect(result).toBe(undefined);
+            expect(myErrorCallback.error).toHaveBeenCalled();
+            expect(MM.log).toHaveBeenCalledWith('WS: error on mymethod error: invalidscheme');
         });
     });
 
+    /**
      * Tests wsSync
      * @covers wsSync
      */
