@@ -2,7 +2,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.moodle.moodlemobile"
-        version   = "1.3">
+        version   = "1.3.1">
     <name>Moodle Mobile</name>
 
     <description>
@@ -43,7 +43,26 @@
     <icon src="img/icon/android/icon-96-xhdpi.png"  gap:platform="android"    gap:density="xhdpi" />
     <icon src="img/icon/ios/icon-57.png"            gap:platform="ios"        width="57" height="57" />
     <icon src="img/icon/ios/icon-72.png"            gap:platform="ios"        width="72" height="72" />
+    <icon src="img/icon/ios/icon-76.png"            gap:platform="ios"        width="76" height="76" />
+    <icon src="img/icon/ios/icon-120.png"           gap:platform="ios"        width="120" height="120" />
+    <icon src="img/icon/ios/icon-152.png"           gap:platform="ios"        width="152" height="152" />
     <icon src="img/icon/ios/icon-57-2x.png"         gap:platform="ios"        width="114" height="114" />
     <icon src="img/icon/ios/icon-72-2x.png"         gap:platform="ios"        width="144" height="144" />
+
+    <gap:splash src="img/splash/android/android_ldpi_portrait.png.png" gap:platform="android" gap:density="ldpi"/>
+    <gap:splash src="img/splash/android/android_mdpi_portrait.png" gap:platform="android" gap:density="mdpi"/>
+    <gap:splash src="img/splash/android/android_hdpi_portrait.png" gap:platform="android" gap:density="hdpi"/>
+    <gap:splash src="img/splash/android/android_xhdpi_portrait.png" gap:platform="android" gap:density="xhdpi"/>
+
+    <gap:splash src="img/splash/ios/iphone_portrait.png" gap:platform="ios" width="320" height="480"/>
+    <gap:splash src="img/splash/ios/iphone_retina_portrait.png" gap:platform="ios" width="640" height="960"/>
+
+    <gap:splash src="img/splash/ios/ipad_portrait.png" gap:platform="ios" width="768" height="1004"/>
+    <gap:splash src="img/splash/ios/ipad_landscape.png" gap:platform="ios" width="1024" height="748"/>
+    <gap:splash src="img/splash/ios/ipad_retina_portrait.png" gap:platform="ios" width="1536" height="2008"/>
+    <gap:splash src="img/splash/ios/ipad_retina_landscape.png" gap:platform="ios" width="2048" height="1496"/>
+
+    <gap:platform name="ios" />
+    <gap:platform name="android" />
 
 </widget>

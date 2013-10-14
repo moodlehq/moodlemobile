@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.9.1.custom.css">
     <script type="text/javascript">
         // Support for Node Webkit.
         window.requireNode = window.require;
@@ -14,8 +13,8 @@
     </script>
 	<script src="cordova.js"></script>
     <script src="childbrowser.js"></script>
-    <script src="PushNotification.js"></script>
     <script src="webintent.js"></script>
+    <script src="PushNotification.js"></script>
     <script src="externallib/jquery-1.8.1.min.js"></script>
     <script src="externallib/jquery.touchSwipe.min.js"></script>
     <script src="externallib/md5.js"></script>
@@ -39,7 +38,7 @@
     <script src="lib/mm.fs.js"></script>
     <script src="lib/mm.navigation.js"></script>
     <script data-main="lib/app.js" src="externallib/require.js"></script>
-	<script language="javascript" id='mainjsstart'>
+	<script language="javascript">
         // We should wait to phonegap, if not, we get errors like:
         // http://rickluna.com/wp/2012/04/solving-the-connection-to-the-server-was-unsuccessful-error-in-androidphonegap/
         $(document).bind('deviceready', function() {
@@ -211,39 +210,39 @@
                                 </div>
                             </a>
                         </li>
-                    <% }); %>
-                </ul>
-            </li>
-        <% }); %>
-    </ul>
-    <h2></h2><!-- Used as a blank space in the menu -->
-    <ul id="general-menu" class="nav nav-v js-accordion">
-        <li class="nav-item no-arrow">
-            <a href="<%= siteurl%>" target="_blank" class="touch-row">
-                <span>
-                    <img src="img/ico-network.png" border="0">
-                </span>
-                <%= MM.lang.s("website") %>
-            </a>
-        </li>
-        <li class="nav-item no-arrow">
-            <a href="<%= MM.lang.s("docsurl") %>" target="_blank" class="touch-row">
-                <span>
-                    <img src="img/ico-help.png" border="0">
-                </span>
-                <%= MM.lang.s("help") %>
-            </a>
-        </li>
-        <li class="nav-item no-submenu">
-            <a href="#settings" class="touch-row">
-                <span>
-                    <img src="img/ico-settings.png" border="0">
-                </span>
-                <%= MM.lang.s("settings") %>
-            </a>
-        </li>
-    </ul>
-</div>
+                        <% }); %>
+                    </ul>
+                </li>
+                <% }); %>
+            </ul>
+            <h2></h2>
+            <ul id="general-menu" class="nav nav-v js-accordion">
+                <li class="nav-item no-arrow">
+                    <a href="<%= siteurl%>" target="_blank" class="touch-row">
+                        <span><img src="img/ico-network.png" border="0"></span>
+                        <%= MM.lang.s("website") %>
+                    </a>
+                </li>
+                <li class="nav-item no-arrow">
+                    <a href="<%= MM.lang.s("docsurl") %>" target="_blank" class="touch-row">
+                        <span><img src="img/ico-help.png" border="0"></span>
+                        <%= MM.lang.s("help") %>
+                    </a>
+                </li>
+                <li class="nav-item no-submenu">
+                    <a href="#settings" class="touch-row">
+                        <span><img src="img/ico-settings.png" border="0"></span>
+                        <%= MM.lang.s("settings") %>
+                    </a>
+                </li>
+                <li class="nav-item no-submenu">
+                    <a href="#logout" class="touch-row">
+                        <span><img src="img/logout.png" border="0"></span>
+                        <%= MM.lang.s("logout") %>
+                    </a>
+                </li>
+            </ul>
+        </div>
 </script>
 
 <script type="text/template" id="settings_template">
