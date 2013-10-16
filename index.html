@@ -36,6 +36,7 @@
     <script src="lib/mm.cordova.js"></script>
 	<script src="lib/mm.rdebugger.js"></script>
     <script src="lib/mm.fs.js"></script>
+    <script src="lib/mm.navigation.js"></script>
     <script data-main="lib/app.js" src="externallib/require.js"></script>
 	<script language="javascript">
         // We should wait to phonegap, if not, we get errors like:
@@ -111,77 +112,102 @@
 
 <script type="text/template" id="menu_template">
 <header>
-        <div class="media">
-                <div class="refresh"><a href="#refresh"><img width="16" height="16" src="img/reload.png" border="0"></a></div>
-                <div class="img"><img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" border="0"></div>
-                <div class="bd">
-                    <h1><%= user.fullname %></h1>
-                </div>
-            </div>
-        </header>
+    <div class="media">
+        <div class="refresh">
+            <a href="#refresh">
+                <img width="16" height="16" src="img/reload.png" border="0">
+            </a>
+        </div>
+        <div class="img">
+            <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" border="0">
+        </div>
+        <div class="bd">
+            <h1><%= user.fullname %></h1>
+        </div>
+    </div>
+</header>
 
-        <ul class="nav nav-v js-accordion">
-            <% _.each(plugins, function(plugin) { %>
-
-            <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
+<ul class="nav nav-v js-accordion">
+    <% _.each(plugins, function(plugin) { %>
+        <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink touch-row">
-					<% if (plugin.icon) { %>
-                    <div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
-					<% } %>
-                    <div class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></div>
+        			<% if (plugin.icon) { %>
+                        <div class="plugin-ico">
+                            <img src="<%= plugin.icon %>" border="0">
+                        </div>
+        			<% } %>
+                    <div class="plugin-name">
+                        <%= MM.lang.pluginName(plugin.name) %>
+                    </div>
                 </a>
             </li>
-            <% } else { %>
+        <% } else { %>
             <li class="nav-item">
-				<% if (plugin.toogler) { %>
-                <a class="toogler expand touch-row">
-				<% } else { %>
-				<a>
-				<% }  %>
-					<% if (plugin.icon) { %>
-                    <div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
-					<% } %>
-                    <div class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></div>
+        		<% if (plugin.toogler) { %>
+                    <a class="toogler expand touch-row">
+        		<% } else { %>
+                    <a>
+        		<% }  %>
+        			<% if (plugin.icon) { %>
+                        <div class="plugin-ico">
+                            <img src="<%= plugin.icon %>" border="0">
+                        </div>
+        			<% } %>
+                    <div class="plugin-name">
+                        <%= MM.lang.pluginName(plugin.name) %>
+                    </div>
                 </a>
-				<% if (plugin.toogler) { %>
-                <ul class="nav submenu">
-				<% } else { %>
-				<ul class="nav">
-				<% }  %>
+        		<% if (plugin.toogler) { %>
+                    <ul class="nav submenu">
+        		<% } else { %>
+                    <ul class="nav">
+        		<% }  %>
                     <% _.each(plugin.subMenus, function(menu) { %>
-                    <li class="nav-item">
-                        <a href="<%= menu.menuURL %>" class="alink touch-row">
-							<% if (menu.icon) { %>
-                            <div class="plugin-ico"><img src="<%= menu.icon %>" border="0"></div>
-							<% } %>
-                            <div class="plugin-name"><%= MM.lang.s(menu.name) %></div>
-                        </a>
-                    </li>
+                        <li class="nav-item">
+                            <a href="<%= menu.menuURL %>" class="alink touch-row">
+            					<% if (menu.icon) { %>
+                                    <div class="plugin-ico">
+                                        <img src="<%= menu.icon %>" border="0">
+                                    </div>
+            					<% } %>
+                                <div class="plugin-name">
+                                    <%= MM.lang.s(menu.name) %>
+                                </div>
+                            </a>
+                        </li>
                     <% }); %>
                 </ul>
             </li>
-            <% } %>
-            <% }); %>
-        </ul>
+        <% } %>
+    <% }); %>
+</ul>
 
-        <h2><%= MM.lang.s("mycourses") %></h2>
-        <div id="mycourses">
-            <ul class="nav nav-v js-accordion">
-                <% _.each(courses, function(course) { %>
-                <li class="nav-item">
-                    <a href="#" class="toogler expand touch-row">
-                        <div class="course-ico"><img src="img/ico-course.png" border="0"></div>
-                        <div class="plugin-name"><%= course.fullname %></div>
-                    </a>
-                    <ul class="nav submenu">
-                        <% _.each(coursePlugins, function(plugin) { %>
+<h2><%= MM.lang.s("mycourses") %></h2>
+<div id="mycourses">
+    <ul class="nav nav-v js-accordion">
+        <% _.each(courses, function(course) { %>
+            <li class="nav-item">
+                <a href="#" class="toogler expand touch-row">
+                    <div class="course-ico">
+                        <img src="img/ico-course.png" border="0">
+                    </div>
+                    <div class="plugin-name">
+                        <%= course.fullname %>
+                    </div>
+                </a>
+                <ul class="nav submenu">
+                    <% _.each(coursePlugins, function(plugin) { %>
                         <li class="nav-item">
                             <a href="<%= plugin.menuURL %><%= course.id %>" class="touch-row">
                                 <% if (plugin.icon) { %>
-								<div class="plugin-ico"><img src="<%= plugin.icon %>" border="0"></div>
-								<% } %>
-                                <div class="plugin-name"><%= MM.lang.pluginName(plugin.name) %></div>
+        				    		<div class="plugin-ico">
+                                        <img src="<%= plugin.icon %>" border="0">
+                                    </div>
+        						<% } %>
+                                <div class="plugin-name">
+                                    <%= MM.lang.pluginName(plugin.name) %>
+                                </div>
                             </a>
                         </li>
                         <% }); %>
@@ -244,24 +270,26 @@
 </script>
 
 <script type="text/template" id="add-site_template">
-<h1><img src="img/login-logo.png" alt="Moodle"></h1>
-        <form action="">
-        <p>
-            <input type="url" id="url" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("siteurl") %>">
-        </p>
-        <p>
-            <input type="text" id="username" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("username") %>">
-        </p>
-        <p>
-            <input type="password" id="password" placeholder="<%= MM.lang.s("password") %>">
-        </p>
-        <p>
-            <input type="submit" name="add" id="addsitebutton" value="<%= MM.lang.s("add") %>">
-        </p>
-        </form>
-        <div id= "helplogin">
-            <a href="#helpmelogin"><%= MM.lang.s("icantlogin") %></a>
-        </div>
+<h1>
+    <img src="img/login-logo.png" alt="Moodle">
+</h1>
+<form action="">
+    <p>
+        <input type="url" id="url" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("siteurl") %>">
+    </p>
+    <p>
+        <input type="text" id="username" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("username") %>">
+    </p>
+    <p>
+        <input type="password" id="password" placeholder="<%= MM.lang.s("password") %>">
+    </p>
+    <p>
+        <input type="submit" name="add" id="addsitebutton" value="<%= MM.lang.s("add") %>">
+    </p>
+</form>
+<div id= "helplogin">
+    <a href="#helpmelogin"><%= MM.lang.s("icantlogin") %></a>
+</div>
 </script>
 </body>
 </html>
