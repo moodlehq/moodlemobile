@@ -10,16 +10,31 @@ body {
     padding: 0px;
     width: 100%;
     height: 100%;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .panel {
-	position: absolute;
+    position: absolute;
+}
+
+.header-main {
+  height:40px;
+}
+
+#panel-top {
+    left:0;
+    width:100%;
+    height:40px;
 }
 
 #panel-left {
  left: 0;
  width: 100%;
+}
+
+#panel-left.overflow-scroll {
+    overflow-y:scroll;
+    overflow-x:hidden;
 }
 
 #panel-center {
@@ -45,22 +60,15 @@ body {
  left: 0%;
 }
 
-.header-wrapper {
-  position: absolute;
-  width: 100%;
-  left: 100%;
-  z-index: 30;
-}
-
 .user-menu  .user-options {
-	background: #FA8F1C url(../img/orange-bg.png);
-	height: 40px;
-	width: 100%;
+    background: #FA8F1C url(../img/orange-bg.png);
+    height: 40px;
+    width: 100%;
 }
 
 #mycourses {
-	overflow: auto;
-	width: 100%;
+    overflow: auto;
+    width: 100%;
 }
 
 #add-site h1,
@@ -69,35 +77,28 @@ body {
   width: 90%;
 }
 
-@media	only screen and (min-width: 768px)	and (-webkit-min-device-pixel-ratio: 1) {
-    
-	#add-site h1,
-	#add-site form {
-	  margin: 0 auto;
-	  width: 70%;
-	}
+@media  only screen and (min-width: 768px)  and (-webkit-min-device-pixel-ratio: 1) {
+
+    #add-site h1,
+    #add-site form {
+      margin: 0 auto;
+      width: 70%;
+    }
 
     #panel-left{
         width: 30%;
     }
-    
+
     #panel-center {
-		left: 0%;  
-		width: 33%;
-		display: block;
+        left: 0%;
+        width: 33%;
+        display: block;
     }
 
     #panel-right{
-		left: 33%;
-		width: 67%;
-		padding: 0px;
-		display: block;
+        left: 33%;
+        width: 67%;
+        padding: 0px;
+        display: block;
     }
-
-	.header-wrapper {
-	  position: absolute;
-	  width: 100%;
-	  left: 0%;
-	  z-index: 30;
-	}	
 }

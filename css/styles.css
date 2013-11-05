@@ -322,11 +322,6 @@ ol {
 
 /* - .header-main
 -------------------------------------------------------------------------- */
-.header-wrapper {
-  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
-  z-index: 30;
-}
-
 .header-main {
   background-color: #fa8f1c;
   box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3) inset;
