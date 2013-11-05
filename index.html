@@ -74,27 +74,19 @@
 </div>
 
 <div id="main-wrapper" style="display: none">
+    <header class="header-main">
+        <div id="panel-top" class="panel">
 
-    <div class="header-wrapper">
-        <header class="header-main">
-            <nav class="nav-main">
-                <ul class="nav">
-                    <li class="nav-item home menu-home">
-                        <a href="#" class="ir"  id="mainmenu">
-                            Home
-                        </a>
-                    </li>
-                </ul>
-				<span id="page-title"></span>
-            </nav>
-        </header>
+        </div>
+    </header>
+
+    <div class='content'>
+        <div id="panel-left" class="panel user-menu"></div>
+
+        <div id="panel-center" class="panel"></div>
+
+        <div id="panel-right" class="panel"></div>
     </div>
-
-    <div id="panel-left" class="panel user-menu"></div>
-
-    <div id="panel-center" class="panel"></div>
-
-    <div id="panel-right" class="panel"></div>
 </div>
 
 <div id="app-dialog">
@@ -108,6 +100,26 @@
         <div class="modalClear"></div>
     </div>
 </div>
+
+<script type="text/template" id="top_bar_template">
+<nav class="nav-main">
+    <ul class="nav">
+        <li class="nav-item home menu-home">
+            <a href="#" class="ir" id="mainmenu">
+                Home
+            </a>
+        </li>
+        <% _.each(menu_items, function(menu_item) { %>
+            <li class='nav-item'>
+                <a href='<%= menu_item.href %>' class='item' id='<%= menu_item.id %>'>
+                    <%= menu_item.name %>
+                </a>
+            </li>
+        <% }); %>
+    </ul>
+    <span id="page-title"></span>
+</nav>
+</script>
 
 <script type="text/template" id="menu_template">
 <header>
