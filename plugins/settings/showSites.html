@@ -1,0 +1,32 @@
+<div class="sites-list">
+    <ul class="nav nav-v">
+        <% _.each(sites, function(site){ %>
+            <li class="nav-item">
+                <div class="site-info">
+                    <a href="#settings/sites/<%= site.id %>">
+                        <div class="bd">
+                            <h3>
+                                <%= MM.util.formatText(site.sitename) %>
+                                <% if (site.id == current_site) { print(" (*)"); }; %>
+                            </h3>
+                            <%= site.siteurl %>
+                        </div>
+                    </a>
+                </div>
+                <div class="site-actions">
+                    <a href="#settings/sites/delete/<%= site.id %>">
+                        <img src="img/delete.png" border="0">
+                    </a>
+                </div>
+            </li>
+        <% }); %>
+    </ul>
+</div>
+<br \>
+<div class="centered">
+    <a href="#settings/sites/add">
+        <button>
+            <%= MM.lang.s("addsite") %>
+        </button>
+    </a>
+</div>

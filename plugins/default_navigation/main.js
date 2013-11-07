@@ -19,6 +19,8 @@ require(templates, function(navTpl) {
 
         courses:undefined,
 
+        menuWidth: 320,
+
         /**
          * Sets up the top bar navigation.
          */
@@ -57,12 +59,11 @@ require(templates, function(navTpl) {
             );
         },
 
-        // Creates and shows the side menu.
-        show: function() {
+        populate: function() {
             if (MM.plugins.default_navigation.courses === undefined) {
                 $(document).on(
                     'default_navigation:courses_loaded',
-                    MM.plugins.default_navigation.show
+                    MM.plugins.default_navigation.populate
                 );
                 MM.plugins.default_navigation._getCourses();
             } else {
@@ -112,6 +113,24 @@ require(templates, function(navTpl) {
                     }
                 });
             }
+        },
+
+        // Creates and shows the side menu.
+        show: function() {
+            var panel = MM.config.menu_panel;
+            $("#panel-left").show();
+            $("#panel-center").css({
+                'left':'+=' + MM.plugins.default_navigation.menuWidth,
+                'width':'-=' + MM.plugins.default_navigation.menuWidth
+            });
+        },
+
+        hide: function() {
+            $("#panel-left").hide();
+            $("#panel-center").css({
+                'left':'-=' + MM.plugins.default_navigation.menuWidth,
+                'width':'+=' + MM.plugins.default_navigation.menuWidth
+            });
         }
     };
 

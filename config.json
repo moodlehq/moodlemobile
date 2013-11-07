@@ -12,7 +12,8 @@
     "addnote",
     "sendmessage",
     "notifications",
-    "default_navigation"
+    "default_navigation",
+    "settings"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
