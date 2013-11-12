@@ -45,7 +45,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 var tpl = {users: users, deviceType: MM.deviceType, courseId: courseId};
                 var html = MM.tpl.render(MM.plugins.participants.templates.participants.html, tpl);
 
-                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+                var course = MM.db.get("courses", courseId);
                 var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
 
                 MM.panels.show('center', html, {title: pageTitle});
@@ -79,12 +79,12 @@ define(templates,function (participantsTpl, participantTpl) {
 
                 var newUser = users.shift();
 
-                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+                var course = MM.db.get("courses", courseId);
                 var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
 
                 var tpl = {"user": newUser, "plugins": userPlugins, "courseid": courseId};
                 var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
-                newUser.id = MM.config.current_site.id + "-" + newUser.id;
+
                 MM.db.insert("users", newUser);
                 MM.panels.show('right', html, {title: pageTitle});
             });
