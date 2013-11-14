@@ -439,6 +439,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 filename = filename.substring(0, paramsPart);
             }
             filename = filename.substr(filename.lastIndexOf("/") + 1);
+
+            // MOBILE-401, replace white spaces by "_"
+            filename = filename.replace(" ", "_");
+
             // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
             var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
 
