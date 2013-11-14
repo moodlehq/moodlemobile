@@ -14,7 +14,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             lang: {
                 component: "core"
             },
-			icon: ""
+            icon: ""
         },
 
         storage: {
@@ -61,12 +61,12 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.sections.html, tpl);
 
-				pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
+                pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
 
-				MM.panels.show("center", html, {title: pageTitle});
+                MM.panels.show("center", html, {title: pageTitle});
                 if (MM.deviceType == "tablet" && contents.length > 0) {
-					$("#panel-center li:eq(1)").addClass("selected-row");
-					// First section.
+                    $("#panel-center li:eq(1)").addClass("selected-row");
+                    // First section.
                     MM.plugins.contents.viewCourseContentsSection(courseId, 0);
                 }
             }, null, function(m) {
@@ -95,13 +95,13 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                 var firstContent = 0;
 
-				var contentsStored = [];
-				MM.db.each("contents", function(el){
-					contentsStored.push(el.get("id"));
-				});
+                var contentsStored = [];
+                MM.db.each("contents", function(el){
+                    contentsStored.push(el.get("id"));
+                });
 
                 var finalContents = [];
-				$.each(JSON.parse(JSON.stringify(contents)), function(index1, sections){
+                $.each(JSON.parse(JSON.stringify(contents)), function(index1, sections){
 
                     // Skip sections deleting contents..
                     if (sectionId > -1 && sectionId != index1) {
@@ -164,7 +164,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             $.each(content.contents, function (index3, file) {
 
                                 if (file.fileurl.indexOf(MM.config.current_site.siteurl) == -1) {
-                                	return true;
+                                    return true;
                                 }
 
                                 var paths = MM.plugins.contents.getLocalPaths(courseId, content.contentid, file);
@@ -211,7 +211,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
 
-				var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
+                var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
 
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('right', html, {title: pageTitle});
@@ -439,6 +439,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 filename = filename.substring(0, paramsPart);
             }
             filename = filename.substr(filename.lastIndexOf("/") + 1);
+
+            // MOBILE-401, replace white spaces by "_"
+            filename = filename.replace(" ", "_");
+
             // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
             var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
 
