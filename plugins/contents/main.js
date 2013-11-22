@@ -53,7 +53,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
                 // Removing loading icon.
                 $('a[href="#course/contents/' +courseId+ '"]').removeClass('loading-row');
-                var course = MM.db.get("courses", courseId);
+                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
 
                 var tpl = {
                     sections: contents,
@@ -90,7 +90,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             data.courseid = courseId;
 
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
-                var course = MM.db.get("courses", courseId);
+                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var courseName = course.get("fullname");
 
                 var firstContent = 0;
@@ -113,6 +113,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                         content.contentid = content.id;
                         content.courseid = courseId;
+                        content.id = MM.config.current_site.id + "-" + content.contentid;
 
                         if(!firstContent) {
                             firstContent = content.contentid;
@@ -170,7 +171,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 var paths = MM.plugins.contents.getLocalPaths(courseId, content.contentid, file);
 
                                 var el = {
-                                    id: hex_md5(file.fileurl),
+                                    id: hex_md5(MM.config.current_site.id + file.fileurl),
                                     url: file.fileurl,
                                     path: paths.directory,
                                     newfile: paths.file,
@@ -220,7 +221,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
         downloadContent: function(courseId, sectionId, contentId, index) {
 
-            var content = MM.db.get("contents", contentId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
 
             var downCssId = "#download-" + contentId;
@@ -268,8 +269,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
         viewFolder: function(courseId, sectionId, contentId) {
 
-            var course = MM.db.get("courses", courseId);
-            var content = MM.db.get("contents", contentId);
+            var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
 
             var data = {
@@ -311,7 +312,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
         infoContent: function(courseId, sectionId, contentId, index) {
 
-            var content = MM.db.get("contents", contentId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
 
             if (typeof(MM.plugins.contents.infoBox) != "undefined") {
@@ -412,7 +413,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         },
 
         showLabel: function(courseId, sectionId, contentId) {
-            var content = MM.db.get("contents", contentId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             if (content.description) {
                 content.description = content.description.replace(/<a /g, "<a target=\"_blank\" ");
@@ -424,7 +425,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         },
 
         hideLabel: function(courseId, sectionId, contentId) {
-            var content = MM.db.get("contents", contentId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             $("#link-" + contentId + " h3").html(content.name);
             $("#link-" + contentId).attr("href", $("#link-" + contentId).attr("href").replace("hidelabel", "label"));
