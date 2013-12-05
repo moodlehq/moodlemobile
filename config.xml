@@ -2,7 +2,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.moodle.moodlemobile"
-        version   = "1.3.1">
+        version   = "1.3.2">
     <name>Moodle Mobile</name>
 
     <description>
@@ -32,9 +32,6 @@
     <preference name="webviewbounce"    value="false" />
     <preference name="prerendered-icon" value="true" />
     <preference name="load-url-timeout" value="60000" />
-
-    <gap:plugin name="com.phonegap.plugins.childbrowser" /> <!-- latest release -->
-    <gap:plugin name="com.adobe.plugins.pushplugin" />
 
     <icon src="icon.png" />
     <icon src="img/icon/android/icon-36-ldpi.png"   gap:platform="android"    gap:density="ldpi" />
