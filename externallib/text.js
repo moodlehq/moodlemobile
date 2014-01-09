@@ -239,7 +239,7 @@ define(['module'], function (module) {
             process.versions &&
             !!process.versions.node)) {
         //Using special require.nodeRequire, something added by r.js.
-        fs = require.nodeRequire('fs');
+        fs = require('fs');
 
         text.get = function (url, callback, errback) {
             try {
