@@ -133,6 +133,7 @@
 "siteurlrequired": "Site URL required, i.e <i>http://www.yourmoodlesite.abc or https://www.yourmoodlesite.efg</i>",
 "stop": "Stop",
 "synchronization": "Synchronization",
+"takephoto": "Take photo",
 "takepicture": "Camera",
 "taskqueue": "Task queue",
 "therearentnotificationsyet": "There are not yet any notifications",
