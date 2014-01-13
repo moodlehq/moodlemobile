@@ -65,9 +65,9 @@ define(function () {
 
             // Check if is a URI or a file system path.
             if (uri.indexOf('data:') > -1) {
-                options.fileName="image_"+d.getTime()+".jpg";
+                options.fileName = "image_" + d.getTime() + ".jpg";
             } else {
-                options.fileName= uri.lastIndexOf("/") + 1;
+                options.fileName = uri.lastIndexOf("/") + 1;
             }
 
             options.mimeType="image/jpeg";
