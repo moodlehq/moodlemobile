@@ -1,3 +1,5 @@
+// https://github.com/mattdiamond/Recorderjs (Code grabbed at 2014 - 01 - 14)
+// MIT license
 var recLength = 0,
   recBuffersL = [],
   recBuffersR = [],
