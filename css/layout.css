@@ -10,7 +10,7 @@ body {
     padding: 0px;
     width: 100%;
     height: 100%;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .panel {
@@ -69,8 +69,21 @@ body {
   width: 90%;
 }
 
+.table-row {
+    padding: 4px;
+}
+.row-right {
+    float: right;
+    width: 80px;
+    text-align: right;
+}
+
+.row-left {
+    margin-right: 80px;
+}
+
 @media	only screen and (min-width: 768px)	and (-webkit-min-device-pixel-ratio: 1) {
-    
+
 	#add-site h1,
 	#add-site form {
 	  margin: 0 auto;
@@ -80,9 +93,9 @@ body {
     #panel-left{
         width: 30%;
     }
-    
+
     #panel-center {
-		left: 0%;  
+		left: 0%;
 		width: 33%;
 		display: block;
     }
@@ -99,5 +112,5 @@ body {
 	  width: 100%;
 	  left: 0%;
 	  z-index: 30;
-	}	
+	}
 }

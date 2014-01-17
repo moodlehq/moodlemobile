@@ -16,6 +16,12 @@
             </li>
             <% $.each(content.contents, function(index, file) { %>
             <li class="nav-item media media-folder">
+                <div class="content-actions">
+                    <% if (typeof(file.localpath) == "undefined") { %>
+                        <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>"><img src="img/download.png" border="0" id="download-<%= contentId %>-<%= index %>"></a>
+                    <% } %>
+                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/info/<%= contentId %>/<%= index %>"><img src="img/info.png" border="0" id="info-<%= contentId %>-<%= index %>"></a>
+                </div>
                 <div class="content-name">
                 <% if (file.localpath) { %>
                     <a href="<% print(MM.fs.getRoot() + "/" + file.localpath); %>" rel="external" id="link-<%= contentId %>-<%= index %>">
@@ -30,17 +36,11 @@
                             <img src="img/files/unknown-64.png" alt="img">
                         <% } %>
                         </div>
-                        
+
                         <div class="bd">
                             <h3><%= file.filename %></h3>
                         </div>
                     </a>
-                </div>
-                <div class="content-actions">
-                    <% if (typeof(file.localpath) == "undefined") { %>
-                        <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>"><img src="img/download.png" border="0" id="download-<%= contentId %>-<%= index %>"></a>
-                    <% } %>
-                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/info/<%= contentId %>/<%= index %>"><img src="img/info.png" border="0" id="info-<%= contentId %>-<%= index %>"></a>                
                 </div>
             </li>
             <% }); %>
