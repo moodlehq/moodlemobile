@@ -4,12 +4,12 @@ var requires = [
 
 
 define(requires, function (notifsTpl) {
-    
+
     if (MM.deviceOS != "ios" && !MM.inComputer && !MM.webApp) {
         // Do not register the plugin, it only works for ios currently
-        return;   
+        return;
     }
-    
+
     var plugin = {
         settings: {
             name: "notifications",
@@ -28,21 +28,21 @@ define(requires, function (notifsTpl) {
         routes: [
             ["notifications", "notifications", "showNotifications"]
         ],
-        
+
         showNotifications: function() {
             MM.panels.showLoading('center');
             MM.panels.hide("right", "");
             MM.Router.navigate('');
-            
+
             // Look for notifications for this site.
             var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
             var notifications = [];
-            
+
             $.each(notificationsFilter, function(index, el) {
                 // Iterate backwards.
                 notifications.unshift(el.toJSON());
             });
-            
+
             if (notifications.length > 0) {
                 var tpl = {notifications: notifications};
                 var html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
@@ -52,8 +52,8 @@ define(requires, function (notifsTpl) {
 
             MM.panels.show('center', html, {hideRight: true});
 
-        },  
-        
+        },
+
         templates: {
             "notifications": {
                 html: notifsTpl
@@ -71,6 +71,28 @@ define(requires, function (notifsTpl) {
                         // Save the device token setting
                         MM.setConfig('ios_device_token', token);
                         MM.log("Device registered in Apple Push: ..." + token.substring(0, 3), "Notifications");
+
+                        var data = {
+                            appid:      MM.config.app_id,
+                            name:       device.name,
+                            model:      device.model,
+                            platform:   device.platform,
+                            version:    device.version,
+                            pushid:     token,
+                            uuid:       device.uuid
+                        }
+
+                        MM.moodleWSCall(
+                            'core_user_add_user_device',
+                            data,
+                            function() {
+                                MM.log("Device registered in Moodle", "Notifications");
+                            },
+                            {cache: false},
+                            function() {
+                                MM.log("Error registering device in Moodle", "Notifications");
+                            }
+                        );
                     } else {
                         MM.log("Device is yet registered in Apple Push: ..." + token.substring(0, 3), "Notifications");
                     }
@@ -93,12 +115,12 @@ define(requires, function (notifsTpl) {
             if (event.alert) {
                 navigator.notification.alert(event.alert);
             }
-        
+
             if (event.sound) {
                 var snd = new Media(event.sound);
                 snd.play();
             }
-        
+
             if (event.badge) {
                 pushNotification.setApplicationIconBadgeNumber(successHandler, event.badge);
             }
@@ -116,56 +138,11 @@ define(requires, function (notifsTpl) {
                 urlparams: unescape(notification.urlparams)
             });
         },
-        
-        registerForPushNotification: function() {
-            
-            if (MM.getConfig("notifications_device_registered_site", false, true)) {
-                return;
-            }
-            
-            // iOS case
-            if (MM.config.current_site && MM.getConfig("ios_device_token")) {
-                var data = {
-                    "permissions[0]" : "createtoken"
-                };
 
-                // TODO: need to check that the site support message_airnotifier_get_access_key
-                // Get acces key to add a device token on airnotifier from Moodle site
-                MM.moodleWSCall('message_airnotifier_get_access_key', data, function(result) {
-                    MM.log('Acces key retrieved from Moodle', 'Notifications');
-                    // Add device token to airnotifier
-                    var ajaxURL = MM.config.airnotifier_url + MM.getConfig("ios_device_token");
-                    $.ajax({
-                        type: "POST",
-                        url: ajaxURL,
-                        dataType: 'json',
-                        beforeSend: function(xhr){
-                            xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-                            xhr.setRequestHeader('X-AN-APP-KEY', result);
-                            xhr.setRequestHeader('X-AN-APP-NAME', MM.getConfig("airnotifier_app_id"));
-                            xhr.setRequestHeader('Accept', "application/json");
-                        },
-                        success: function(response){
-                            // Finally register the device on the Moodle site
-                            var data = {
-                                "device[appname]": MM.getConfig("airnotifier_app_id"),
-                                "device[devicenotificationtoken]": MM.getConfig("ios_device_token"),
-                                "device[devicename]": window.device.name
-                            };
-                            MM.moodleWSCall('message_airnotifier_add_user_device', data, function(result) {
-                                MM.setConfig("notifications_device_registered_site", true, true);
-                                MM.log('Device registered on Airnotifier and the Moodle site', 'Notifications');
-                            });
-                        }
-                    });    
-                }, {cache:0});
-            }        
-        }        
-        
     }
-    
+
     MM.registerPlugin(plugin);
-    
+
     // After register the plugin, bind events.
     $(document).bind('resume', MM.plugins.notifications.check);
 });

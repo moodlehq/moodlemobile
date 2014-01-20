@@ -43,15 +43,6 @@
                 MM.panels.goBack();
             }, false);
             MM.fs.init();
-			if (MM.plugins.notifications) {
-				// Register the device in the Apple notifications server, retrieve tokens
-				MM.plugins.notifications.registerDevice();
-			    setTimeout(function() {
-					// Finaly, register the device for push notifications from Moodle.
-					// We wait sometime until the site is loaded
-					MM.plugins.notifications.registerForPushNotification();
-				}, 10000);
-            }
         });
 	</script>
     <!-- Uncomment to display errors in xcode -->
