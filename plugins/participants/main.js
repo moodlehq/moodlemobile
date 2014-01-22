@@ -73,6 +73,9 @@ define(templates,function (participantsTpl, participantTpl) {
                 for (var el in MM.plugins) {
                     var plugin = MM.plugins[el];
                     if (plugin.settings.type == "user") {
+                        if (typeof(plugin.isPluginVisible) == 'function' && !plugin.isPluginVisible()) {
+                            continue;
+                        }
                         userPlugins.push(plugin.settings);
                     }
                 }
