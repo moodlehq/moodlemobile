@@ -35,39 +35,26 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            if (MM.deviceOS != "ios" && MM.util.wsAvailable("core_user_add_user_device")) {
-                return false;
-            }
-            return true;
+            return MM.deviceOS == 'ios' && MM.util.wsAvailable('core_user_add_user_device');
         },
 
-        enableNotifications: function(val) {
-            MM.Router.navigate('');
-            if (val == '1') {
-                MM.plugins.notifications.registerDevice(
-                function() {
-                    // Success callback.
-                    MM.setConfig('notifications_enabled', true, true);
-                    MM.popMessage(MM.lang.s('notificationsenabled'));
-                    MM.plugins.notifications.showNotifications();
-                },
-                function(m) {
-                    // Error callback.
-                    MM.popErrorMessage(m);
-                });
-            } else {
-                MM.plugins.unregisterDevice(
-                function() {
-                    // Success callback.
-                },
-                function(m) {
-                    // Error callback.
-                    MM.popErrorMessage(m);
-                });
-            }
+        _enableNotifications: function() {
+            MM.plugins.notifications.registerDevice(
+            function() {
+                // Success callback.
+                MM.setConfig('notifications_enabled', true, true);
+                MM.popMessage(MM.lang.s('notificationsenabled'));
+                MM.plugins.notifications.showNotifications();
+            },
+            function(m) {
+                // Error callback.
+                MM.popErrorMessage(m);
+            });
         },
 
         showNotifications: function() {
+            var html;
+
             MM.panels.showLoading('center');
             MM.panels.hide("right", "");
             MM.Router.navigate('');
@@ -84,15 +71,17 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
 
                 if (notifications.length > 0) {
                     var tpl = {notifications: notifications};
-                    var html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
+                    html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
                 } else {
-                    var html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
+                    html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
                 }
+                MM.panels.show('center', html, {hideRight: true});
             } else {
                 var tpl = {};
-                var html = MM.tpl.render(MM.plugins.notifications.templates.notificationsEnable.html, tpl);
+                html = MM.tpl.render(MM.plugins.notifications.templates.notificationsEnable.html, tpl);
+                MM.panels.show('center', html, {hideRight: true});
+                $('#notifications-enable').on(MM.clickType, MM.plugins.notifications._enableNotifications);
             }
-            MM.panels.show('center', html, {hideRight: true});
 
         },
 
