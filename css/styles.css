@@ -1201,3 +1201,7 @@ button {
 hr {
   border: 1px solid #eee;
 }
+
+.panel-container {
+  padding: 6px;
+}

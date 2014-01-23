@@ -1,19 +1,16 @@
 var requires = [
-    "root/externallib/text!root/plugins/notifications/notifications.html"
+    "root/externallib/text!root/plugins/notifications/notifications.html",
+    "root/externallib/text!root/plugins/notifications/notifications_enable.html"
 ];
 
 
-define(requires, function (notifsTpl) {
-
-    if (MM.deviceOS != "ios" && !MM.inComputer && !MM.webApp) {
-        // Do not register the plugin, it only works for ios currently
-        return;
-    }
+define(requires, function (notifsTpl, notifsEnableTpl) {
 
     var plugin = {
         settings: {
             name: "notifications",
             type: "general",
+            icon: "plugins/notifications/icon.png",
             menuURL: "#notifications",
             lang: {
                 component: "core"
@@ -26,30 +23,75 @@ define(requires, function (notifsTpl) {
         },
 
         routes: [
-            ["notifications", "notifications", "showNotifications"]
+            ["notifications", "notifications", "showNotifications"],
+            ["notifications/enable/:val", "notifications_Register", "enableNotifications"]
         ],
+
+        /**
+         * Determines is the plugin is visible.
+         * It may check Moodle remote site version, device OS, device type, etc...
+         * This function is called when a alink to a plugin functinality is going to be rendered.
+         *
+         * @return {bool} True if the plugin is visible for the site and device
+         */
+        isPluginVisible: function() {
+            if (MM.deviceOS != "ios" && MM.util.wsAvailable("core_user_add_user_device")) {
+                return false;
+            }
+            return true;
+        },
+
+        enableNotifications: function(val) {
+            MM.Router.navigate('');
+            if (val == '1') {
+                MM.plugins.notifications.registerDevice(
+                function() {
+                    // Success callback.
+                    MM.setConfig('notifications_enabled', true, true);
+                    MM.popMessage(MM.lang.s('notificationsenabled'));
+                    MM.plugins.notifications.showNotifications();
+                },
+                function(m) {
+                    // Error callback.
+                    MM.popErrorMessage(m);
+                });
+            } else {
+                MM.plugins.unregisterDevice(
+                function() {
+                    // Success callback.
+                },
+                function(m) {
+                    // Error callback.
+                    MM.popErrorMessage(m);
+                });
+            }
+        },
 
         showNotifications: function() {
             MM.panels.showLoading('center');
             MM.panels.hide("right", "");
             MM.Router.navigate('');
 
-            // Look for notifications for this site.
-            var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
-            var notifications = [];
+            if (MM.getConfig('notifications_enabled', false, true)) {
+                // Look for notifications for this site.
+                var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
+                var notifications = [];
 
-            $.each(notificationsFilter, function(index, el) {
-                // Iterate backwards.
-                notifications.unshift(el.toJSON());
-            });
+                $.each(notificationsFilter, function(index, el) {
+                    // Iterate backwards.
+                    notifications.unshift(el.toJSON());
+                });
 
-            if (notifications.length > 0) {
-                var tpl = {notifications: notifications};
-                var html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
+                if (notifications.length > 0) {
+                    var tpl = {notifications: notifications};
+                    var html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
+                } else {
+                    var html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
+                }
             } else {
-                var html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
+                var tpl = {};
+                var html = MM.tpl.render(MM.plugins.notifications.templates.notificationsEnable.html, tpl);
             }
-
             MM.panels.show('center', html, {hideRight: true});
 
         },
@@ -57,47 +99,48 @@ define(requires, function (notifsTpl) {
         templates: {
             "notifications": {
                 html: notifsTpl
+            },
+            "notificationsEnable": {
+                html: notifsEnableTpl
             }
         },
 
 
-        registerDevice: function() {
+        registerDevice: function(successCallback, errorCallback) {
             // Request iOS Push Notification and retrieve device token
             var pushNotification = window.plugins.pushNotification;
             pushNotification.register(
                 function(token) {
-                    // Check the device token is not already known
-                    if (token != MM.getConfig("ios_device_token")) {
-                        // Save the device token setting
-                        MM.setConfig('ios_device_token', token);
-                        MM.log("Device registered in Apple Push: ..." + token.substring(0, 3), "Notifications");
+                    // Save the device token setting
+                    MM.setConfig('ios_device_token', token);
+                    MM.log("Device registered in Apple Push: ..." + token.substring(0, 3), "Notifications");
 
-                        var data = {
-                            appid:      MM.config.app_id,
-                            name:       device.name,
-                            model:      device.model,
-                            platform:   device.platform,
-                            version:    device.version,
-                            pushid:     token,
-                            uuid:       device.uuid
-                        }
-
-                        MM.moodleWSCall(
-                            'core_user_add_user_device',
-                            data,
-                            function() {
-                                MM.log("Device registered in Moodle", "Notifications");
-                            },
-                            {cache: false},
-                            function() {
-                                MM.log("Error registering device in Moodle", "Notifications");
-                            }
-                        );
-                    } else {
-                        MM.log("Device is yet registered in Apple Push: ..." + token.substring(0, 3), "Notifications");
+                    var data = {
+                        appid:      MM.config.app_id,
+                        name:       device.name,
+                        model:      device.model,
+                        platform:   device.platform,
+                        version:    device.version,
+                        pushid:     token,
+                        uuid:       device.uuid
                     }
+
+                    MM.moodleWSCall(
+                        'core_user_add_user_device',
+                        data,
+                        function() {
+                            successCallback();
+                            MM.log("Device registered in Moodle", "Notifications");
+                        },
+                        {cache: false},
+                        function() {
+                            errorCallback(MM.lang.s("errorregisteringdeviceinmoodle"));
+                            MM.log("Error registering device in Moodle", "Notifications");
+                        }
+                    );
                 },
                 function(error) {
+                    errorCallback(MM.lang.s("errorduringdevicetokenrequesttoapns"));
                     MM.log("Error during device token request: " + error, "Notifications");
                 },
                 {alert:"true", badge:"true", sound:"true", ecb: "saveAndDisplay"}
