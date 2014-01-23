@@ -81,6 +81,7 @@
 "invalidmoodleversion": "Invalid Moodle version. The minium version required is: ",
 "invalidscheme": "Please provide a valid site URL.",
 "invalidsite": "The site URL is invalid.",
+"language": "Language",
 "langsynced": "Language synced",
 "license": "License",
 "loadcordovaemulator": "Load Cordova emulator",
