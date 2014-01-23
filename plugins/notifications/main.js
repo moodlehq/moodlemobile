@@ -23,8 +23,7 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
         },
 
         routes: [
-            ["notifications", "notifications", "showNotifications"],
-            ["notifications/enable/:val", "notifications_Register", "enableNotifications"]
+            ["notifications", "notifications", "showNotifications"]
         ],
 
         /**
