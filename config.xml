@@ -62,6 +62,6 @@
     <gap:platform name="ios" />
     <gap:platform name="android" />
 
-    <gap:plugin name="com.phonegap.plugins.pushplugin">
+    <gap:plugin name="com.phonegap.plugins.pushplugin" />
 
 </widget>
