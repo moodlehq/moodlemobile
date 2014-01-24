@@ -942,6 +942,23 @@ button {
   padding-top: 15px;
 }
 
+.select-setting {
+  text-align: left;
+  height: 40px;
+  padding: 4px;
+  overflow: auto;
+}
+
+.select-label {
+  float: left;
+  text-align: left;
+}
+
+.select-field {
+  position: relative;
+  float: right;
+}
+
 .plugin-name {
   margin-left: 38px;
   margin-right: 15px;
@@ -1204,4 +1221,9 @@ hr {
 
 .panel-container {
   padding: 6px;
+}
+
+select {
+  height: 30pt;
+  padding: 4px;
 }

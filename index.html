@@ -38,6 +38,14 @@
         $(document).bind('deviceready', function() {
             MM.log('Deviceready fired');
             MM.deviceReady = true;
+            // Store the device locale for further uses.
+            navigator.globalization.getLocaleName(
+                function (locale) {
+                    MM.lang.locale = locale.value;
+                    MM.log("Device locale loaded: " + locale.value);
+                },
+                function () {}
+            );
             // Disable the back button, exists the app.
             document.addEventListener("backbutton", function() {
                 MM.panels.goBack();
@@ -235,6 +243,9 @@
         <ul class="nav nav-v">
             <li class="nav-item">
                 <a href="#settings/sites/" class="menu1 touch-row"><%= MM.lang.s("sites") %><br></a>
+            </li>
+            <li class="nav-item">
+                <a href="#settings/general/" class="menu1 touch-row"><%= MM.lang.s("general") %><br></a>
             </li>
             <li class="nav-item">
                 <a href="#settings/sync/" class="menu1 touch-row"><%= MM.lang.s("synchronization") %><br></a>
