@@ -1,14 +1,11 @@
-<header>
-    <div class="media">
-        <div class="img"><img src="img/ico-mail.png" alt="img"></div>
-        <div class="bd">
-            <h1><%= subject %></h1>
-        </div>
+<div class="user-card">
+    <div class="content">
+        <h2 class="settings-section"><%= MM.lang.s("info") %></h2>
+        <ul class="user-data">
+            <li><%= alert %></li>
+            <li><%= MM.lang.s("type") %>: <%= notification.type %></li>
+            <li><%= MM.lang.s("userfrom") %>: <%= notification.userfrom %></li>
+            <li><%= MM.lang.s("date") %>: <%= notification.date %></li>
+        </ul>
     </div>
-</header>
-<div class="content">
-    <%= fullmessage %>
 </div>
-<footer>
-    <%= date %>
-</footer>
