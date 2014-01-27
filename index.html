@@ -50,6 +50,10 @@
             document.addEventListener("backbutton", function() {
                 MM.panels.goBack();
             }, false);
+            // PUSH Notifications.
+            if (typeof(MM.plugins.notifications) !== "undefined") {
+                MM.plugins.notifications.registerDevice(function(){}. function(){});
+            }
             MM.fs.init();
         });
 	</script>
