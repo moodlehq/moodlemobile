@@ -50,10 +50,19 @@
             document.addEventListener("backbutton", function() {
                 MM.panels.goBack();
             }, false);
-            // PUSH Notifications.
-            if (typeof(MM.plugins.notifications) !== "undefined") {
-                MM.plugins.notifications.registerDevice(function(){}. function(){});
-            }
+
+            // Call deviceIsReady function in plugins.
+            // Plugins may not be able to listen for the deviceready event because it's possible that it was fire
+            // when plugins whasn't loaded, we use a timeout of 5 seconds.
+            setTimeout(function() {
+                for (var el in MM.plugins) {
+                    var plugin = MM.plugins[el];
+
+                    if (typeof(plugin.deviceIsReady) == 'function') {
+                        plugin.deviceIsReady();
+                    }
+                }
+            }, 5000);
             MM.fs.init();
         });
 	</script>
