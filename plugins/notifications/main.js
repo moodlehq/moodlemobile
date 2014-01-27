@@ -143,12 +143,17 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
         saveAndDisplay: function(event) {
             var notification  = event.notification;
 
+
             MM.log("Push notification received: " + JSON.stringify(event), "Notifications");
-            var pushNotification = window.plugins.pushNotification;
+            MM.log("Push notification received: " + JSON.stringify(notification), "Notifications");
+            console.log(event);
+            console.log(notification);
 
-            MM.popMessage(notification.aps.alert, {title: notification.userfrom, autoclose: 4000, resizable: false});
+            /*var pushNotification = window.plugins.pushNotification;*/
 
-            /*if (event.alert) {
+            //MM.popMessage(notification.aps.alert, {title: notification.userfrom, autoclose: 4000, resizable: false});
+
+            if (event.alert) {
                 navigator.notification.alert(event.alert);
             }
 
@@ -157,19 +162,14 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
                 snd.play();
             }
 
-            if (event.badge) {
+            /*if (event.badge) {
                 pushNotification.setApplicationIconBadgeNumber(successHandler, event.badge);
             }*/
 
             // Store the notification in the app.
             MM.db.insert("notifications", {
                 siteid: MM.config.current_site.id,
-                subject: notification.userfrom,
-                date: notification.date,
-                fullmessage: notification.aps.alert,
-                savedmessageid: notification.id,
-                type: notification.type,
-                urlparams: unescape(notification.urlparams)
+                notification: notification
             });
         }
 
