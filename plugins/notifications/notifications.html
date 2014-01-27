@@ -2,7 +2,7 @@
 <ul class="nav nav-v">
     <% _.each(notifications, function(notification) {%>
     <li class="nav-item">
-        <a href="#notifications/view/<%= notification.id %>"><%= notification.alert %> (<%= notification.notification.date %>)</a>
+        <a href="#notifications/view/<%= notification.id %>"><%= notification.alert %></a>
     </li>
     <% }); %>
 </ul>

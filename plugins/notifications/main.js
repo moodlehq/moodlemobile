@@ -89,9 +89,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
 
                 $.each(notificationsFilter, function(index, el) {
                     // Iterate backwards.
-                    var notif = el.toJSON();
-                    notif.notification.date = new Date(notif.notification.date * 1000).toDateString();
-                    notifications.unshift(notif);
+                    notifications.unshift(el.toJSON());
                 });
 
                 if (notifications.length > 0) {
@@ -104,10 +102,17 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
 
                     var tpl = {notifications: notifications};
                     html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
+                    MM.panels.show('center', html);
+                    // Load the first notification.
+                    if (MM.deviceType == "tablet") {
+                        $("#panel-center li:eq(0)").addClass("selected-row");
+                        MM.plugins.notifications.viewNotification(notifications.shift().id);
+                        $("#panel-center li:eq(0)").addClass("selected-row");
+                    }
                 } else {
                     html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
+                    MM.panels.show('center', html, {hideRight: true});
                 }
-                MM.panels.show('center', html, {hideRight: true});
             } else {
                 var tpl = {};
                 html = MM.tpl.render(MM.plugins.notifications.templates.notificationsEnable.html, tpl);
@@ -120,7 +125,9 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             var pageTitle = MM.lang.s("notifications");
             var notification = MM.db.get("notifications", id);
             notification = notification.toJSON();
-            notification.notification.date = new Date(notification.notification.date * 1000).toDateString();
+            var date = notification.notification.date * 1000;
+            notification.notification.date = new Date(date).toLocaleDateString();
+            notification.notification.date += " " + new Date(date).toLocaleTimeString();
 
             var html = MM.tpl.render(MM.plugins.notifications.templates.notification.html, notification);
 
