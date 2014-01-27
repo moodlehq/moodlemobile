@@ -1,10 +1,11 @@
 var requires = [
     "root/externallib/text!root/plugins/notifications/notifications.html",
+    "root/externallib/text!root/plugins/notifications/notification.html",
     "root/externallib/text!root/plugins/notifications/notifications_enable.html"
 ];
 
 
-define(requires, function (notifsTpl, notifsEnableTpl) {
+define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
 
     var plugin = {
         settings: {
@@ -25,7 +26,8 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
         },
 
         routes: [
-            ["notifications", "notifications", "showNotifications"]
+            ["notifications", "notifications", "showNotifications"],
+            ["notifications/view/:id", "notifications_view", "viewNotification"]
         ],
 
         /**
@@ -87,7 +89,9 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
 
                 $.each(notificationsFilter, function(index, el) {
                     // Iterate backwards.
-                    notifications.unshift(el.toJSON());
+                    var notif = el.toJSON();
+                    notif.notification.date = new Date(notif.notification.date * 1000).toDateString();
+                    notifications.unshift(notif);
                 });
 
                 if (notifications.length > 0) {
@@ -110,12 +114,25 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
                 MM.panels.show('center', html, {hideRight: true});
                 $('#notifications-enable').on(MM.clickType, MM.plugins.notifications._enableNotifications);
             }
+        },
 
+        viewNotification: function(id) {
+            var pageTitle = MM.lang.s("notifications");
+            var notification = MM.db.get("notifications", id);
+            notification = notification.toJSON();
+            notification.notification.date = new Date(notification.notification.date * 1000).toDateString();
+
+            var html = MM.tpl.render(MM.plugins.notifications.templates.notification.html, notification);
+
+            MM.panels.show('right', html, {title: pageTitle});
         },
 
         templates: {
             "notifications": {
                 html: notifsTpl
+            },
+            "notification": {
+                html: notifTpl
             },
             "notificationsEnable": {
                 html: notifsEnableTpl
@@ -173,19 +190,22 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
 
             MM.log("Push notification received: " + JSON.stringify(event), "Notifications");
 
-            if (event.alert) {
-                MM.popMessage(event.alert, {title: MM.lang.s("notifications"), autoclose: 4000, resizable: false});
-            }
+            if (MM.config.current_site.id && event.site == MM.config.current_site.id) {
+                if (event.alert) {
+                    var notifText = event.alert;
+                    MM.popMessage(notifText, {title: MM.lang.s("notifications"), autoclose: 4000, resizable: false});
+                }
 
-            var pushNotification = window.plugins.pushNotification;
-            if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
-                MM.plugins.notifications.badgeCount++;
-                pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, MM.plugins.notifications.badgeCount);
+                var pushNotification = window.plugins.pushNotification;
+                if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
+                    MM.plugins.notifications.badgeCount++;
+                    pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, MM.plugins.notifications.badgeCount);
+                }
             }
 
             // Store the notification in the app.
             MM.db.insert("notifications", {
-                siteid: MM.config.current_site.id,
+                siteid: event.site,
                 alert: event.alert,
                 notification: event
             });
