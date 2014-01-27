@@ -91,6 +91,13 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
                 });
 
                 if (notifications.length > 0) {
+                    // Clear badge count in the icon.
+                    var pushNotification = window.plugins.pushNotification;
+                    if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
+                        MM.plugins.notifications.badgeCount = 0;
+                        pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, MM.plugins.notifications.badgeCount);
+                    }
+
                     var tpl = {notifications: notifications};
                     html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
                 } else {
@@ -180,7 +187,7 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
             MM.db.insert("notifications", {
                 siteid: MM.config.current_site.id,
                 alert: event.alert,
-                notification: notification
+                notification: event
             });
         }
     };
