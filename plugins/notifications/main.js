@@ -17,6 +17,8 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
             }
         },
 
+        badgeCount: 0,
+
         storage: {
             notification: {type: "model"},
             notifications: {type: "collection", model: "notification"}
@@ -35,6 +37,26 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
          */
         isPluginVisible: function() {
             return MM.deviceOS == 'ios' && MM.util.wsAvailable('core_user_add_user_device');
+        },
+
+        /**
+         * This functions is called after the Cordova deviceReady event is fired (after a few seconds).
+         *
+         */
+        deviceIsReady: function() {
+
+            // Register for PUSH Notifications, everytime the app opens.
+            // Check that we are inside a site. (Not in the login screen)
+            if (typeof(MM.config.current_site) !== "undefined" && MM.config.current_site) {
+                // Are notifications enabled?
+                if (MM.getConfig('notifications_enabled', false, true)) {
+                    MM.plugins.notifications.registerDevice(function() {
+                        MM.log("Device registered for PUSH after deviceReady", "Notifications");
+                    }, function() {
+                        MM.log("Error registering device for PUSH after deviceReady", "Notifications");
+                    });
+                }
+            }
         },
 
         _enableNotifications: function() {
@@ -141,38 +163,26 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
         },
 
         saveAndDisplay: function(event) {
-            var notification  = event.notification;
-
 
             MM.log("Push notification received: " + JSON.stringify(event), "Notifications");
-            MM.log("Push notification received: " + JSON.stringify(notification), "Notifications");
-            console.log(event);
-            console.log(notification);
-
-            /*var pushNotification = window.plugins.pushNotification;*/
-
-            //MM.popMessage(notification.aps.alert, {title: notification.userfrom, autoclose: 4000, resizable: false});
 
             if (event.alert) {
-                navigator.notification.alert(event.alert);
+                MM.popMessage(event.alert, {title: MM.lang.s("notifications"), autoclose: 4000, resizable: false});
             }
 
-            if (event.sound) {
-                var snd = new Media(event.sound);
-                snd.play();
+            var pushNotification = window.plugins.pushNotification;
+            if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
+                MM.plugins.notifications.badgeCount++;
+                pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, MM.plugins.notifications.badgeCount);
             }
-
-            /*if (event.badge) {
-                pushNotification.setApplicationIconBadgeNumber(successHandler, event.badge);
-            }*/
 
             // Store the notification in the app.
             MM.db.insert("notifications", {
                 siteid: MM.config.current_site.id,
+                alert: event.alert,
                 notification: notification
             });
         }
-
     };
 
     MM.registerPlugin(plugin);
