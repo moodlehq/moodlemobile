@@ -111,7 +111,7 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
                         version:    device.version,
                         pushid:     token,
                         uuid:       device.uuid
-                    }
+                    };
 
                     MM.moodleWSCall(
                         'core_user_add_user_device',
@@ -131,7 +131,12 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
                     errorCallback(MM.lang.s("errorduringdevicetokenrequesttoapns"));
                     MM.log("Error during device token request: " + error, "Notifications");
                 },
-                {alert:"true", badge:"true", sound:"true", ecb: "saveAndDisplay"}
+                {
+                    alert:"true",
+                    badge:"true",
+                    sound:"true",
+                    ecb: "MM.plugins.notifications.saveAndDisplay"
+                }
             );
         },
 
@@ -143,7 +148,7 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
 
             MM.popMessage(notification.aps.alert, {title: notification.userfrom, autoclose: 4000, resizable: false});
 
-            if (event.alert) {
+            /*if (event.alert) {
                 navigator.notification.alert(event.alert);
             }
 
@@ -154,9 +159,7 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
 
             if (event.badge) {
                 pushNotification.setApplicationIconBadgeNumber(successHandler, event.badge);
-            }
-
-            pushNotification.setApplicationIconBadgeNumber(function(){},0);
+            }*/
 
             // Store the notification in the app.
             MM.db.insert("notifications", {
@@ -168,9 +171,9 @@ define(requires, function (notifsTpl, notifsEnableTpl) {
                 type: notification.type,
                 urlparams: unescape(notification.urlparams)
             });
-        },
+        }
 
-    }
+    };
 
     MM.registerPlugin(plugin);
 
