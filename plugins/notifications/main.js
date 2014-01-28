@@ -51,7 +51,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             // Check that we are inside a site. (Not in the login screen)
             if (typeof(MM.config.current_site) !== "undefined" && MM.config.current_site) {
                 // Are notifications enabled?
-                if (MM.getConfig('notifications_enabled', false, true)) {
+                if (MM.getConfig('notifications_enabled', false)) {
                     MM.plugins.notifications.registerDevice(function() {
                         MM.log("Device registered for PUSH after deviceReady", "Notifications");
                     }, function() {
@@ -65,7 +65,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             MM.plugins.notifications.registerDevice(
             function() {
                 // Success callback.
-                MM.setConfig('notifications_enabled', true, true);
+                MM.setConfig('notifications_enabled', true);
                 MM.popMessage(MM.lang.s('notificationsenabled'));
                 MM.plugins.notifications.showNotifications();
             },
@@ -75,6 +75,29 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             });
         },
 
+        /**
+         * Disable notifications
+         * This function invalidates the APN token
+         *
+         * @param  {bool} silently If true, no UI feedback is given
+         */
+        _disableNotifications: function(silently) {
+            var pushNotification = window.plugins.pushNotification;
+            pushNotification.unregister(
+                function() {
+                    MM.setConfig('notifications_enabled', false);
+                    if (typeof(silently) !== "undefined" && !silently) {
+                        MM.popMessage(MM.lang.s('notificationsdisabled'));
+                        MM.plugins.notifications.showNotifications();
+                    }
+                    MM.log("Notifications disabled", "Notifications");
+                },
+                function() {
+                    MM.log("Error disabling notifications", "Notifications");
+                }
+            );
+        },
+
         showNotifications: function() {
             var html;
 
@@ -82,7 +105,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             MM.panels.hide("right", "");
             MM.Router.navigate('');
 
-            if (MM.getConfig('notifications_enabled', false, true)) {
+            if (MM.getConfig('notifications_enabled', false)) {
                 // Look for notifications for this site.
                 var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
                 var notifications = [];
@@ -113,6 +136,14 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                     html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
                     MM.panels.show('center', html, {hideRight: true});
                 }
+                var disableButton = '\
+                    <div class="centered">\
+                        <button id="notifications-disable">' + MM.lang.s("disablenotifications") + '</button>\
+                    </div>';
+                $("#panel-center").append(disableButton);
+                $('#notifications-disable').on(MM.clickType, function() {
+                    MM.plugins.notifications._disableNotifications(false);
+                });
             } else {
                 var tpl = {};
                 html = MM.tpl.render(MM.plugins.notifications.templates.notificationsEnable.html, tpl);
@@ -218,7 +249,9 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                     notifText += "<strong>" + MM.lang.s("userfrom") + "</strong>: " +event.userfrom+ "<br />";
                 }
                 if (event.date) {
-                    notifText += "<strong>" + MM.lang.s("date") + "</strong>: " +event.date+ "<br />";
+                    var date = new Date(event.date * 1000).toLocaleDateString();
+                    date += " " + new Date(event.date * 1000).toLocaleTimeString();
+                    notifText += "<strong>" + MM.lang.s("date") + "</strong>: " + date + "<br />";
                 }
                 notifText += "</div>";
 
@@ -240,7 +273,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             });
 
             // If we were in background, then redirect to notifications when the user opens the app.
-            if (typeof(event.foreground) != "undefined" && ! parseInt(event.foreground)) {
+            if (typeof(event.foreground) != "undefined" &&
+                ! parseInt(event.foreground) &&
+                event.site == MM.config.current_site.id
+                ) {
                 // Fake the menu status for performing a proper animation.
                 MM.panels.menuStatus = true;
                 MM.plugins.notifications.showNotifications();
