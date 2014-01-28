@@ -51,7 +51,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             // Check that we are inside a site. (Not in the login screen)
             if (typeof(MM.config.current_site) !== "undefined" && MM.config.current_site) {
                 // Are notifications enabled?
-                if (MM.getConfig('notifications_enabled', false, true)) {
+                if (MM.getConfig('notifications_enabled', false)) {
                     MM.plugins.notifications.registerDevice(function() {
                         MM.log("Device registered for PUSH after deviceReady", "Notifications");
                     }, function() {
@@ -65,7 +65,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             MM.plugins.notifications.registerDevice(
             function() {
                 // Success callback.
-                MM.setConfig('notifications_enabled', true, true);
+                MM.setConfig('notifications_enabled', true);
                 MM.popMessage(MM.lang.s('notificationsenabled'));
                 MM.plugins.notifications.showNotifications();
             },
@@ -75,6 +75,29 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             });
         },
 
+        /**
+         * Disable notifications
+         * This function invalidates the APN token
+         *
+         * @param  {bool} silently If true, no UI feedback is given
+         */
+        _disableNotifications: function(silently) {
+            var pushNotification = window.plugins.pushNotification;
+            pushNotification.unregister(
+                function() {
+                    MM.setConfig('notifications_enabled', false);
+                    if (typeof(silently) !== "undefined" && !silently) {
+                        MM.popMessage(MM.lang.s('notificationsdisabled'));
+                        MM.plugins.notifications.showNotifications();
+                    }
+                    MM.log("Notifications disabled", "Notifications");
+                },
+                function() {
+                    MM.log("Error disabling notifications", "Notifications");
+                }
+            );
+        },
+
         showNotifications: function() {
             var html;
 
@@ -82,7 +105,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             MM.panels.hide("right", "");
             MM.Router.navigate('');
 
-            if (MM.getConfig('notifications_enabled', false, true)) {
+            if (MM.getConfig('notifications_enabled', false)) {
                 // Look for notifications for this site.
                 var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
                 var notifications = [];
@@ -113,6 +136,14 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                     html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
                     MM.panels.show('center', html, {hideRight: true});
                 }
+                var disableButton = '\
+                    <div class="centered">\
+                        <button id="notifications-disable">' + MM.lang.s("disablenotifications") + '</button>\
+                    </div>';
+                $("#panel-center").append(disableButton);
+                $('#notifications-disable').on(MM.clickType, function() {
+                    MM.plugins.notifications._disableNotifications(false);
+                });
             } else {
                 var tpl = {};
                 html = MM.tpl.render(MM.plugins.notifications.templates.notificationsEnable.html, tpl);
