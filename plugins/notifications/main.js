@@ -197,25 +197,54 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
 
             MM.log("Push notification received: " + JSON.stringify(event), "Notifications");
 
-            if (MM.config.current_site.id && event.site == MM.config.current_site.id) {
-                if (event.alert) {
-                    var notifText = event.alert;
-                    MM.popMessage(notifText, {title: MM.lang.s("notifications"), autoclose: 4000, resizable: false});
-                }
 
-                var pushNotification = window.plugins.pushNotification;
-                if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
-                    MM.plugins.notifications.badgeCount++;
-                    pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, MM.plugins.notifications.badgeCount);
+            // We display the message whatever the site we are.
+            // Notifications are binded to the token id generetad for the entire app.
+            // We are going to receive notifications from different sites.
+            // The event.site is a md5 hash of siteurl+username
+            if (event.alert) {
+                var notifText = event.alert;
+                notifText += "<br />";
+                notifText += '<div style = "text-align: left">';
+                if (event.site) {
+                    var site = MM.db.get('sites', event.site);
+                    if (site) {
+                        site = site.toJSON();
+                        notifText += "<strong>" + MM.lang.s("sitename") + "</strong>: " + MM.util.formatText(site.sitename) + "<br />";
+                        notifText += "<strong>" + MM.lang.s("siteurl") + "</strong>: " + site.siteurl + "<br />";
+                    }
                 }
+                if (event.userfrom) {
+                    notifText += "<strong>" + MM.lang.s("userfrom") + "</strong>: " +event.userfrom+ "<br />";
+                }
+                if (event.date) {
+                    notifText += "<strong>" + MM.lang.s("date") + "</strong>: " +event.date+ "<br />";
+                }
+                notifText += "</div>";
+
+                MM.popMessage(notifText, {title: MM.lang.s("notifications"), autoclose: 5000, resizable: false});
+            }
+
+            var pushNotification = window.plugins.pushNotification;
+            if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
+                MM.plugins.notifications.badgeCount++;
+                pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, MM.plugins.notifications.badgeCount);
             }
 
             // Store the notification in the app.
+            // We store the full event because it may change.
             MM.db.insert("notifications", {
                 siteid: event.site,
                 alert: event.alert,
                 notification: event
             });
+
+            // If we were in background, then redirect to notifications when the user opens the app.
+            if (typeof(event.foreground) != "undefined" && ! parseInt(event.foreground)) {
+                // Fake the menu status for performing a proper animation.
+                MM.panels.menuStatus = true;
+                MM.plugins.notifications.showNotifications();
+            }
         }
     };
 
