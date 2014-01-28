@@ -218,7 +218,9 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                     notifText += "<strong>" + MM.lang.s("userfrom") + "</strong>: " +event.userfrom+ "<br />";
                 }
                 if (event.date) {
-                    notifText += "<strong>" + MM.lang.s("date") + "</strong>: " +event.date+ "<br />";
+                    var date = new Date(event.date * 1000).toLocaleDateString();
+                    date += " " + new Date(event.date * 1000).toLocaleTimeString();
+                    notifText += "<strong>" + MM.lang.s("date") + "</strong>: " + date + "<br />";
                 }
                 notifText += "</div>";
 
@@ -240,7 +242,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             });
 
             // If we were in background, then redirect to notifications when the user opens the app.
-            if (typeof(event.foreground) != "undefined" && ! parseInt(event.foreground)) {
+            if (typeof(event.foreground) != "undefined" &&
+                ! parseInt(event.foreground) &&
+                event.site == MM.config.current_site.id
+                ) {
                 // Fake the menu status for performing a proper animation.
                 MM.panels.menuStatus = true;
                 MM.plugins.notifications.showNotifications();
