@@ -189,6 +189,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                     MM.setConfig('ios_device_token', token);
                     MM.log("Device registered in Apple Push: ..." + token.substring(0, 3), "Notifications");
 
+                    if (typeof(device.name) == "undefined") {
+                        device.name = '';
+                    }
+
                     var data = {
                         appid:      MM.config.app_id,
                         name:       device.name,
