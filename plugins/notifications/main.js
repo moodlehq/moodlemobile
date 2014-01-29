@@ -67,6 +67,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                 // Success callback.
                 MM.setConfig('notifications_enabled', true);
                 MM.popMessage(MM.lang.s('notificationsenabled'));
+                MM.panels.menuStatus = true;
                 MM.plugins.notifications.showNotifications();
             },
             function(m) {
@@ -88,6 +89,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                     MM.setConfig('notifications_enabled', false);
                     if (typeof(silently) !== "undefined" && !silently) {
                         MM.popMessage(MM.lang.s('notificationsdisabled'));
+                        MM.panels.menuStatus = true;
                         MM.plugins.notifications.showNotifications();
                     }
                     MM.log("Notifications disabled", "Notifications");
@@ -186,6 +188,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                     // Save the device token setting
                     MM.setConfig('ios_device_token', token);
                     MM.log("Device registered in Apple Push: ..." + token.substring(0, 3), "Notifications");
+
+                    if (typeof(device.name) == "undefined") {
+                        device.name = '';
+                    }
 
                     var data = {
                         appid:      MM.config.app_id,
