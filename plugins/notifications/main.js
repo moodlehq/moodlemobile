@@ -1,11 +1,12 @@
 var requires = [
     "root/externallib/text!root/plugins/notifications/notifications.html",
     "root/externallib/text!root/plugins/notifications/notification.html",
-    "root/externallib/text!root/plugins/notifications/notifications_enable.html"
+    "root/externallib/text!root/plugins/notifications/notifications_enable.html",
+    "root/externallib/text!root/plugins/notifications/notification_alert.html"
 ];
 
 
-define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
+define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
 
     var plugin = {
         settings: {
@@ -42,8 +43,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
         },
 
         /**
-         * This functions is called after the Cordova deviceReady event is fired (after a few seconds).
-         *
+         * This function is called after the Cordova deviceReady event is fired (after a few seconds).
+         * See /index.html (deviceready handler)
          */
         deviceIsReady: function() {
 
@@ -52,7 +53,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             if (typeof(MM.config.current_site) !== "undefined" && MM.config.current_site) {
                 // Are notifications enabled?
                 if (MM.getConfig('notifications_enabled', false)) {
-                    MM.plugins.notifications.registerDevice(function() {
+                    MM.plugins.notifications.registerDevice(
+                    function() {
                         MM.log("Device registered for PUSH after deviceReady", "Notifications");
                     }, function() {
                         MM.log("Error registering device for PUSH after deviceReady", "Notifications");
@@ -61,6 +63,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             }
         },
 
+        /**
+         * Enable notifications button click handler
+         *
+         */
         _enableNotifications: function() {
             MM.plugins.notifications.registerDevice(
             function() {
@@ -80,7 +86,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
          * Disable notifications
          * This function invalidates the APN token
          *
-         * @param  {bool} silently If true, no UI feedback is given
+         * @param  {bool} silently If true, no feedback to the user is given
          */
         _disableNotifications: function(silently) {
             var pushNotification = window.plugins.pushNotification;
@@ -100,8 +106,13 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             );
         },
 
+        /**
+         * Notifications plugin main entry point for the user
+         * It may display the button for enable notifications or the list of notifications received
+         *
+         */
         showNotifications: function() {
-            var html;
+            var html, tpl;
 
             MM.panels.showLoading('center');
             MM.panels.hide("right", "");
@@ -113,21 +124,25 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                 var notifications = [];
 
                 $.each(notificationsFilter, function(index, el) {
-                    // Iterate backwards.
+                    // Iterate backwards for reversing chronological order.
                     notifications.unshift(el.toJSON());
                 });
 
+                tpl = {notifications: notifications};
+                html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
+
                 if (notifications.length > 0) {
+                    MM.panels.show('center', html);
+
                     // Clear badge count in the icon.
                     var pushNotification = window.plugins.pushNotification;
                     if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
                         MM.plugins.notifications.badgeCount = 0;
-                        pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, MM.plugins.notifications.badgeCount);
+                        pushNotification.setApplicationIconBadgeNumber(
+                            function() {}, // Unused callback.
+                            function() {}, // Unused callback.
+                            MM.plugins.notifications.badgeCount);
                     }
-
-                    var tpl = {notifications: notifications};
-                    html = MM.tpl.render(MM.plugins.notifications.templates.notifications.html, tpl);
-                    MM.panels.show('center', html);
                     // Load the first notification.
                     if (MM.deviceType == "tablet") {
                         $("#panel-center li:eq(0)").addClass("selected-row");
@@ -135,9 +150,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                         $("#panel-center li:eq(0)").addClass("selected-row");
                     }
                 } else {
-                    html = "<h3><strong>" + MM.lang.s("therearentnotificationsyet") + "</strong></h3>";
                     MM.panels.show('center', html, {hideRight: true});
                 }
+
+
                 var disableButton = '\
                     <div class="centered">\
                         <button id="notifications-disable">' + MM.lang.s("disablenotifications") + '</button>\
@@ -147,13 +163,18 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
                     MM.plugins.notifications._disableNotifications(false);
                 });
             } else {
-                var tpl = {};
+                tpl = {};
                 html = MM.tpl.render(MM.plugins.notifications.templates.notificationsEnable.html, tpl);
                 MM.panels.show('center', html, {hideRight: true});
                 $('#notifications-enable').on(MM.clickType, MM.plugins.notifications._enableNotifications);
             }
         },
 
+        /**
+         * Displays a single notification
+         *
+         * @param  {int} id The notification storage id
+         */
         viewNotification: function(id) {
             var pageTitle = MM.lang.s("notifications");
             var notification = MM.db.get("notifications", id);
@@ -176,10 +197,24 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             },
             "notificationsEnable": {
                 html: notifsEnableTpl
+            },
+            "notificationAlert": {
+                html: notifAlert
             }
         },
 
 
+        /**
+         * Register a device in Apple APNS (Apple Push Notificaiton System) using the Phonegap PushPlugin
+         * It also register the device in the Moodle site using the core_user_add_user_device WebService
+         * We need the device registered in Moodle so we can connect the device with
+         * the message output Moode plugin: https://github.com/jleyva/moodle-message_airnotifier
+         *
+         * This function is called after the user clicks in the Enable Notifications button
+         *
+         * @param  {function} successCallback Callback for win
+         * @param  {function} errorCallback   Callback for fail
+         */
         registerDevice: function(successCallback, errorCallback) {
             // Request iOS Push Notification and retrieve device token
             var pushNotification = window.plugins.pushNotification;
@@ -230,6 +265,17 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             );
         },
 
+        /**
+         * This function is called from the PushPlugin when we receive a Notification from the APNS
+         * The app can be in foreground or background,
+         * if we are in background this code is executed when we open the app clicking in the notification bar
+         * This code is never executed if the app is in the background (is frozen)
+         *
+         * event is the payload, the format of the payload is defined in the message output plugin
+         * https://github.com/jleyva/moodle-message_airnotifier
+         *
+         * @param  {object} event Notification payload
+         */
         saveAndDisplay: function(event) {
 
             MM.log("Push notification received: " + JSON.stringify(event), "Notifications");
@@ -240,38 +286,37 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             // We are going to receive notifications from different sites.
             // The event.site is a md5 hash of siteurl+username
             if (event.alert) {
-                var notifText = event.alert;
-                notifText += "<br />";
-                notifText += '<div style = "text-align: left">';
+
                 if (event.site) {
                     var site = MM.db.get('sites', event.site);
                     if (site) {
-                        site = site.toJSON();
-                        notifText += "<strong>" + MM.lang.s("sitename") + "</strong>: " + MM.util.formatText(site.sitename) + "<br />";
-                        notifText += "<strong>" + MM.lang.s("siteurl") + "</strong>: " + site.siteurl + "<br />";
+                        event.site = site.toJSON();
+                    } else {
+                        event.site = null;
                     }
                 }
-                if (event.userfrom) {
-                    notifText += "<strong>" + MM.lang.s("userfrom") + "</strong>: " +event.userfrom+ "<br />";
-                }
+
                 if (event.date) {
                     var date = new Date(event.date * 1000).toLocaleDateString();
                     date += " " + new Date(event.date * 1000).toLocaleTimeString();
-                    notifText += "<strong>" + MM.lang.s("date") + "</strong>: " + date + "<br />";
+                    event.date = date;
                 }
-                notifText += "</div>";
 
+                var notifText = MM.tpl.render(MM.plugins.notifications.templates.notificationAlert.html, {"event": event});;
                 MM.popMessage(notifText, {title: MM.lang.s("notifications"), autoclose: 5000, resizable: false});
             }
 
             var pushNotification = window.plugins.pushNotification;
             if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
                 MM.plugins.notifications.badgeCount++;
-                pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, MM.plugins.notifications.badgeCount);
+                pushNotification.setApplicationIconBadgeNumber(
+                    function() {}, // Unused callback.
+                    function() {}, // Unused callback.
+                    MM.plugins.notifications.badgeCount);
             }
 
             // Store the notification in the app.
-            // We store the full event because it may change.
+            // We store the full event (payload) because it may change.
             MM.db.insert("notifications", {
                 siteid: event.site,
                 alert: event.alert,
