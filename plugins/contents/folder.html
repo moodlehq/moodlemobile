@@ -20,7 +20,7 @@
                     <% if (typeof(file.localpath) == "undefined") { %>
                         <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>"><img src="img/download.png" border="0" id="download-<%= contentId %>-<%= index %>"></a>
                     <% } %>
-                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/info/<%= contentId %>/<%= index %>"><img src="img/info.png" border="0" id="info-<%= contentId %>-<%= index %>"></a>
+                    <img src="img/info.png" border="0" id="info-<%= contentId %>-<%= index %>" class="content-info" data-course="<%= courseId %>" data-section="<%= sectionId %>" data-content="<%= contentId %>" data-index="<%= index %>">
                 </div>
                 <div class="content-name">
                 <% if (file.localpath) { %>

@@ -119,6 +119,14 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             firstContent = content.contentid;
                         }
 
+                        var remoteContent = null;
+                        if (content.contents && content.contents[0]) {
+                            remoteContent = content.contents[0];
+                        }
+
+                        var downloaded = false;
+                        var updated = false;
+
                         // This content is currently in the database.
                         if (contentsStored.indexOf(content.id) > -1) {
                             var c = MM.db.get("contents", content.id);
@@ -130,9 +138,28 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             }
 
                             if (!sections.modules[index2].webOnly) {
-                                var downloaded = false;
+
                                 if (content.modname != "folder") {
-                                    downloaded = typeof(c.contents[0].localpath) != "undefined";
+                                    var cFile = c.contents[0];
+
+                                    downloaded = typeof(cFile.localpath) != "undefined";
+
+                                    if (downloaded) {
+                                        // Check if the file was updated.
+                                        if (typeof(cFile.downloadtime) == "undefined") {
+                                            // In this case, the file doesn't have the download time.
+                                            // Maybe some weird happens or we are upgrading for an old app version.
+                                            // Mark as updated to give the user the possibility to download again the file.
+                                            updated = true;
+                                        }
+                                        else if (
+                                            (typeof(remoteContent.timecreated) != "undefined" &&
+                                            remoteContent.timecreated > cFile.downloadtime) ||
+                                            (typeof(remoteContent.timemodified) != "undefined" &&
+                                            remoteContent.timemodified > cFile.downloadtime)) {
+                                            updated = true;
+                                        }
+                                    }
                                 } else {
                                     downloaded = true;
                                     $.each(c.contents, function (index5, filep) {
@@ -142,6 +169,28 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                     });
                                 }
                                 sections.modules[index2].downloaded = downloaded;
+                                sections.modules[index2].updated = updated;
+                            }
+
+                            // If the remote file was updated...
+                            if (updated) {
+                                var contentElements = ['filename', 'fileurl' , 'filesize',
+                                    'timecreated', 'timemodified', 'author', 'license'];
+
+                                _.each(contentElements, function(el) {
+                                    if (typeof(c.contents[0][el]) != "undefined" &&
+                                        typeof(remoteContent[el]) != "undefined") {
+                                        c.contents[0][el] = remoteContent[el];
+                                    }
+                                });
+
+                                MM.db.insert("contents", c);
+                            }
+
+                            // Check if the content name has changed.
+                            if (c.name != content.name) {
+                                c.name = content.name;
+                                MM.db.insert("contents", c);
                             }
 
                             return true; // This is a continue;
@@ -216,6 +265,21 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('right', html, {title: pageTitle});
+
+                // Show info content modal window.
+                $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
+                    e.preventDefault();
+                    var i = {
+                        left: e.pageX - 5,
+                        top: e.pageY
+                    };
+
+                    MM.plugins.contents.infoContent(
+                        $(this).data("course"),
+                        $(this).data("section"),
+                        $(this).data("content"),
+                        0, i);
+                });
             });
         },
 
@@ -252,6 +316,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         function(fullpath) {
                             MM.log("Content: Download of content finished " + fullpath + " URL: " + downloadURL);
                             content.contents[index].localpath = path.file;
+                            content.contents[index].downloadtime = MM.util.timestamp();
                             MM.db.insert("contents", content);
                             $(downCssId).remove();
                             $(linkCssId).attr("href", fullpath);
@@ -308,9 +373,25 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var html = MM.tpl.render(MM.plugins.contents.templates.folder.html, tpl);
             MM.panels.html('right', html);
 
+            // Show info content modal window.
+            $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
+                e.preventDefault();
+                var i = {
+                    left: e.pageX - 5,
+                    top: e.pageY
+                };
+
+                MM.plugins.contents.infoContent(
+                    $(this).data("course"),
+                    $(this).data("section"),
+                    $(this).data("content"),
+                    $(this).data("index"),
+                    i);
+            });
+
         },
 
-        infoContent: function(courseId, sectionId, contentId, index) {
+        infoContent: function(courseId, sectionId, contentId, index, i) {
 
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
@@ -321,11 +402,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             var skipFiles = false;
 
-            if (typeof(index) != "undefined") {
-                var i = $("#info-" + contentId + "-" + index).offset();
-            } else {
-                var i = $("#info-" + contentId).offset();
-                index = 0;
+
+            if (index === 0) {
                 if (content.modname == "folder") {
                     skipFiles = true;
                 }
