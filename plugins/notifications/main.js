@@ -42,8 +42,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
         },
 
         /**
-         * This functions is called after the Cordova deviceReady event is fired (after a few seconds).
-         *
+         * This function is called after the Cordova deviceReady event is fired (after a few seconds).
+         * See /index.html (deviceready handler)
          */
         deviceIsReady: function() {
 
@@ -61,6 +61,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             }
         },
 
+        /**
+         * Enable notifications button click handler
+         *
+         */
         _enableNotifications: function() {
             MM.plugins.notifications.registerDevice(
             function() {
@@ -80,7 +84,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
          * Disable notifications
          * This function invalidates the APN token
          *
-         * @param  {bool} silently If true, no UI feedback is given
+         * @param  {bool} silently If true, no feedback to the user is given
          */
         _disableNotifications: function(silently) {
             var pushNotification = window.plugins.pushNotification;
@@ -100,6 +104,11 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             );
         },
 
+        /**
+         * Notifications plugin main entry point for the user
+         * It may display the button for enable notifications or the list of notifications received
+         *
+         */
         showNotifications: function() {
             var html;
 
@@ -154,6 +163,11 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             }
         },
 
+        /**
+         * Displays a single notification
+         *
+         * @param  {int} id The notification storage id
+         */
         viewNotification: function(id) {
             var pageTitle = MM.lang.s("notifications");
             var notification = MM.db.get("notifications", id);
@@ -180,6 +194,17 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
         },
 
 
+        /**
+         * Register a device in Apple APNS (Apple Push Notificaiton System) using the Phonegap PushPlugin
+         * It also register the device in the Moodle site using the core_user_add_user_device WebService
+         * We need the device registered in Moodle so we can connect the device with the message output Moode plugin
+         * https://github.com/jleyva/moodle-message_airnotifier
+         *
+         * This function is called after the user clicks in the Enable Notifications button
+         *
+         * @param  {function} successCallback Callback for win
+         * @param  {function} errorCallback   Callback for fail
+         */
         registerDevice: function(successCallback, errorCallback) {
             // Request iOS Push Notification and retrieve device token
             var pushNotification = window.plugins.pushNotification;
@@ -230,6 +255,17 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             );
         },
 
+        /**
+         * This function is called from the PushPlugin when we receive a Notification from the APNS
+         * The app can be in foreground or background,
+         * if we are in background this code is executed when we open the app clicking in the notification bar
+         * This code is never executed if the app is in the background (is frozen)
+         *
+         * event is the payload, the format of the payload is defined in the message output plugin
+         * https://github.com/jleyva/moodle-message_airnotifier
+         *
+         * @param  {object} event Notification payload
+         */
         saveAndDisplay: function(event) {
 
             MM.log("Push notification received: " + JSON.stringify(event), "Notifications");
@@ -271,7 +307,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl) {
             }
 
             // Store the notification in the app.
-            // We store the full event because it may change.
+            // We store the full event (payload) because it may change.
             MM.db.insert("notifications", {
                 siteid: event.site,
                 alert: event.alert,
