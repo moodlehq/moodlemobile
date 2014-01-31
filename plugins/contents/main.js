@@ -141,8 +141,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                                 if (content.modname != "folder") {
                                     var cFile = c.contents[0];
-                                    console.log(remoteContent);
-                                    console.log(cFile);
+
                                     downloaded = typeof(cFile.localpath) != "undefined";
 
                                     if (downloaded) {
@@ -266,6 +265,21 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('right', html, {title: pageTitle});
+
+                // Show info content modal window.
+                $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
+                    e.preventDefault();
+                    var i = {
+                        left: e.pageX - 5,
+                        top: e.pageY
+                    };
+
+                    MM.plugins.contents.infoContent(
+                        $(this).data("course"),
+                        $(this).data("section"),
+                        $(this).data("content"),
+                        0, i);
+                });
             });
         },
 
@@ -359,9 +373,25 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var html = MM.tpl.render(MM.plugins.contents.templates.folder.html, tpl);
             MM.panels.html('right', html);
 
+            // Show info content modal window.
+            $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
+                e.preventDefault();
+                var i = {
+                    left: e.pageX - 5,
+                    top: e.pageY
+                };
+
+                MM.plugins.contents.infoContent(
+                    $(this).data("course"),
+                    $(this).data("section"),
+                    $(this).data("content"),
+                    $(this).data("index"),
+                    i);
+            });
+
         },
 
-        infoContent: function(courseId, sectionId, contentId, index) {
+        infoContent: function(courseId, sectionId, contentId, index, i) {
 
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
@@ -372,11 +402,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             var skipFiles = false;
 
-            if (typeof(index) != "undefined") {
-                var i = $("#info-" + contentId + "-" + index).offset();
-            } else {
-                var i = $("#info-" + contentId).offset();
-                index = 0;
+
+            if (index === 0) {
                 if (content.modname == "folder") {
                     skipFiles = true;
                 }
