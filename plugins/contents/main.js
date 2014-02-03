@@ -256,6 +256,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         top: e.pageY
                     };
 
+                    if (MM.quickClick.indexOf("touch") > -1) {
+                        pos.left = e.originalEvent.touches[0].pageX -5;
+                        pos.top = e.originalEvent.touches[0].pageY;
+                    }
+
                     MM.plugins.contents.infoContent(
                         $(this).data("course"),
                         $(this).data("section"),
@@ -387,8 +392,12 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var skipFiles = false;
 
 
-            if (index === -1 && content.modname == "folder") {
-                skipFiles = true;
+            if (index === -1) {
+                if (content.modname == "folder") {
+                    skipFiles = true;
+                }
+                // Reset to a valid index.
+                index = 0;
             }
 
             if (typeof(content.contents) == "undefined" || !content.contents[index]) {
