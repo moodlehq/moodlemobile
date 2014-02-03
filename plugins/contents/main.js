@@ -119,13 +119,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             firstContent = content.contentid;
                         }
 
-                        var remoteContent = null;
-                        if (content.contents && content.contents[0]) {
-                            remoteContent = content.contents[0];
-                        }
-
+                        // The file/s was/were downloaded.
                         var downloaded = false;
-                        var updated = false;
 
                         // This content is currently in the database.
                         if (contentsStored.indexOf(content.id) > -1) {
@@ -141,25 +136,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                                 if (content.modname != "folder") {
                                     var cFile = c.contents[0];
-
                                     downloaded = typeof(cFile.localpath) != "undefined";
-
-                                    if (downloaded) {
-                                        // Check if the file was updated.
-                                        if (typeof(cFile.downloadtime) == "undefined") {
-                                            // In this case, the file doesn't have the download time.
-                                            // Maybe some weird happens or we are upgrading for an old app version.
-                                            // Mark as updated to give the user the possibility to download again the file.
-                                            updated = true;
-                                        }
-                                        else if (
-                                            (typeof(remoteContent.timecreated) != "undefined" &&
-                                            remoteContent.timecreated > cFile.downloadtime) ||
-                                            (typeof(remoteContent.timemodified) != "undefined" &&
-                                            remoteContent.timemodified > cFile.downloadtime)) {
-                                            updated = true;
-                                        }
-                                    }
                                 } else {
                                     downloaded = true;
                                     $.each(c.contents, function (index5, filep) {
@@ -169,27 +146,32 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                     });
                                 }
                                 sections.modules[index2].downloaded = downloaded;
-                                sections.modules[index2].updated = updated;
                             }
 
-                            // If the remote file was updated...
-                            if (updated) {
-                                var contentElements = ['filename', 'fileurl' , 'filesize',
-                                    'timecreated', 'timemodified', 'author', 'license'];
+                            // Check if our stored information has changed remotely.
+                            var updateContentInDB = false;
+                            var contentElements = ['filename', 'fileurl' , 'filesize',
+                                'timecreated', 'timemodified', 'author', 'license'];
 
+                            for (var indexEl in c.contents) {
                                 _.each(contentElements, function(el) {
-                                    if (typeof(c.contents[0][el]) != "undefined" &&
-                                        typeof(remoteContent[el]) != "undefined") {
-                                        c.contents[0][el] = remoteContent[el];
+                                    if (typeof(c.contents[indexEl][el]) != "undefined" &&
+                                        typeof(content.contents[indexEl][el]) != "undefined" &&
+                                        c.contents[indexEl][el] != content.contents[indexEl][el]
+                                        ) {
+                                        updateContentInDB = true;
+                                        c.contents[indexEl][el] = content.contents[indexEl][el];
                                     }
                                 });
-
-                                MM.db.insert("contents", c);
                             }
 
                             // Check if the content name has changed.
                             if (c.name != content.name) {
                                 c.name = content.name;
+                                updateContentInDB = true;
+                            }
+
+                            if (updateContentInDB) {
                                 MM.db.insert("contents", c);
                             }
 
@@ -269,7 +251,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 // Show info content modal window.
                 $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
                     e.preventDefault();
-                    var i = {
+                    var pos = {
                         left: e.pageX - 5,
                         top: e.pageY
                     };
@@ -278,7 +260,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         $(this).data("course"),
                         $(this).data("section"),
                         $(this).data("content"),
-                        0, i);
+                        -1,
+                        pos);
                 });
             });
         },
@@ -372,11 +355,12 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             var html = MM.tpl.render(MM.plugins.contents.templates.folder.html, tpl);
             MM.panels.html('right', html);
+            $(document).scrollTop(0);
 
             // Show info content modal window.
             $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
                 e.preventDefault();
-                var i = {
+                var pos = {
                     left: e.pageX - 5,
                     top: e.pageY
                 };
@@ -386,7 +370,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     $(this).data("section"),
                     $(this).data("content"),
                     $(this).data("index"),
-                    i);
+                    pos);
             });
 
         },
@@ -403,10 +387,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var skipFiles = false;
 
 
-            if (index === 0) {
-                if (content.modname == "folder") {
-                    skipFiles = true;
-                }
+            if (index === -1 && content.modname == "folder") {
+                skipFiles = true;
             }
 
             if (typeof(content.contents) == "undefined" || !content.contents[index]) {
@@ -421,7 +403,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             if (! skipFiles) {
                 var file = content.contents[index];
 
-                var fileParams = ["author", "license", "timecreated", "timemodified", "filesize", "localpath"];
+                var fileParams = ["author", "license", "timecreated", "timemodified", "filesize", "localpath", "downloadtime"];
                 for (var el in fileParams) {
                     var param = fileParams[el];
                     if (typeof(file[param]) != "undefined" && file[param]) {
@@ -432,6 +414,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         switch(param) {
                             case "timecreated":
                             case "timemodified":
+                            case "downloadtime":
                                 var d = new Date(value * 1000);
                                 value = d.toLocaleString();
                                 break;
@@ -467,7 +450,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             MM.plugins.contents.infoBox = $('<div id="infobox-'+contentId+'"><div class="arrow-box-contents">'+information+'</div></div>').addClass("arrow_box");
             $('body').append(MM.plugins.contents.infoBox);
 
-            var width = $("#panel-right").width() / 2;
+            var width = $("#panel-right").width() / 1.5;
             $('#infobox-'+contentId).css("top", i.top - 30).css("left", i.left - width - 35).width(width);
 
             // Android, open in new browser
