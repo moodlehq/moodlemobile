@@ -54,32 +54,32 @@
 "thirdpartylibs": [
 {
     "name": "Backbone.js",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "license": "MIT"
 },
 {
     "name": "Backbone LocalStorage Adapter",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "license": "MIT"
 },
 {
     "name": "html2canvas",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "license": "MIT"
 },
 {
     "name": "jQuery",
-    "version": "1.8.1",
+    "version": "1.11.0",
     "license": "MIT"
 },
 {
     "name": "jQuery UI",
-    "version": "1.9.1",
+    "version": "1.10.4",
     "license": "MIT"
 },
 {
     "name": "jQuery touchSwipe",
-    "version": "1.6.3",
+    "version": "1.6.5",
     "license": "MIT or GPL Version 2"
 },
 {
@@ -99,12 +99,12 @@
 },
 {
     "name": "RequireJS",
-    "version": "2.1.8",
+    "version": "2.1.10",
     "license": "MIT or new BSD"
 },
 {
     "name": "RequireJS text plugin",
-    "version": "2.0.7",
+    "version": "2.0.10",
     "license": "MIT or new BSD"
 },
 {
