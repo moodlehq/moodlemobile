@@ -144,7 +144,7 @@
 "sites": "Siti",
 "siteurl": "URL del sito",
 "siteurllabel": "URL del sito",
-"siteurlrequired": "L'URL del sito è obbligatoria",
+"siteurlrequired": "L'URL del sito è obbligatoria. Esempio:<i>http://www.yourmoodlesite.abc or https://www.yourmoodlesite.efg</i>",
 "spaceusage": "Spazio utilizzato",
 "stop": "Stop",
 "strings": "Stringhe",
