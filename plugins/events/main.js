@@ -34,6 +34,38 @@ define(templates, function (eventsTpl, eventTpl) {
             return MM.util.wsAvailable('core_calendar_get_calendar_events');
         },
 
+
+        _getCalendarEventsSucces: function(response, days) {
+            var daysIncrement = 90;
+            var pageTitle = MM.lang.s("events") + "  " + days + " " + MM.lang.s("days");
+
+            MM.plugins.events.lastEvents = typeof(response.events !== "undefined")? response.events : [];
+
+            // Removing loading icon.
+            $('a[href="#events/"]', '#panel-left').removeClass('loading-row');
+
+            var tpl = {events: MM.plugins.events.lastEvents};
+
+            var html = MM.tpl.render(MM.plugins.events.templates.events.html, tpl);
+
+            MM.panels.show('center', html, {title: pageTitle});
+            $("#events-showmore").on(MM.clickType, function(e) {
+                MM.plugins.events.showEvents(days + daysIncrement);
+            });
+            // Load the first user
+            if (MM.deviceType == "tablet" && MM.plugins.events.lastEvents.length > 0) {
+                $("#panel-center li:eq(0)").addClass("selected-row");
+                MM.plugins.events.showEvent(MM.plugins.events.lastEvents[0].id);
+                $("#panel-center li:eq(0)").addClass("selected-row");
+            }
+
+        },
+
+        _getCalendarEventsFailure: function(m) {
+            // Removing loading icon.
+            $('a[href="#events/"]', '#panel-left').addClass('loading-row');
+        },
+
         /**
          * Display global and course events for all the user courses
          * TODO: Support groups events also
@@ -44,15 +76,12 @@ define(templates, function (eventsTpl, eventTpl) {
             MM.panels.showLoading('center');
 
             days = parseInt(days, 10);
-            var daysIncrement = 90;
 
             if (MM.deviceType == "tablet") {
                 MM.panels.showLoading('right');
             }
             // Adding loading icon.
             $('a[href="#events/"]', '#panel-left').addClass('loading-row');
-
-            var pageTitle = MM.lang.s("events") + "  " + days + " " + MM.lang.s("days");
 
             // The core_calendar_get_calendar_events needs all the current user courses and groups.
             var params = {
@@ -68,31 +97,14 @@ define(templates, function (eventsTpl, eventTpl) {
             });
 
 
-            MM.moodleWSCall('core_calendar_get_calendar_events', params, function(response) {
-
-                MM.plugins.events.lastEvents = typeof(response.events !== "undefined")? response.events : [];
-
-                // Removing loading icon.
-                $('a[href="#events/"]', '#panel-left').removeClass('loading-row');
-
-                var tpl = {events: MM.plugins.events.lastEvents};
-
-                var html = MM.tpl.render(MM.plugins.events.templates.events.html, tpl);
-
-                MM.panels.show('center', html, {title: pageTitle});
-                $("#events-showmore").on(MM.clickType, function(e) {
-                    MM.plugins.events.showEvents(days + daysIncrement);
-                });
-                // Load the first user
-                if (MM.deviceType == "tablet" && MM.plugins.events.lastEvents.length > 0) {
-                    $("#panel-center li:eq(0)").addClass("selected-row");
-                    MM.plugins.events.showEvent(MM.plugins.events.lastEvents[0].id);
-                    $("#panel-center li:eq(0)").addClass("selected-row");
-                }
-            }, null, function(m) {
-                // Removing loading icon.
-                $('a[href="#events/"]', '#panel-left').addClass('loading-row');
-            });
+            MM.moodleWSCall('core_calendar_get_calendar_events',
+                params,
+                function(r) {
+                    MM.plugins.events._getCalendarEventsSucces(r, days)
+                },
+                null,
+                MM.plugins.events._getCalendarEventsFailure
+                );
         },
 
         /**
@@ -105,7 +117,7 @@ define(templates, function (eventsTpl, eventTpl) {
 
             if (typeof(MM.plugins.events.lastEvents[eventId]) != "undefined") {
                 var fullEvent = MM.plugins.events.lastEvents[eventId];
-                var course = MM.db.get("courses", MM.config.current_site.id + "-" +fullEvent.courseid);
+                var course = MM.db.get("courses", MM.config.current_site.id + "-" + fullEvent.courseid);
                 if (course) {
                     fullEvent.courseName = MM.util.formatText(course.get("fullname"));
                 }
