@@ -86,7 +86,7 @@ define(templates, function (eventsTpl, eventTpl) {
                 // Load the first user
                 if (MM.deviceType == "tablet" && MM.plugins.events.lastEvents.length > 0) {
                     $("#panel-center li:eq(0)").addClass("selected-row");
-                    MM.plugins.events.showEvent(MM.plugins.events.lastEvents.shift().id);
+                    MM.plugins.events.showEvent(MM.plugins.events.lastEvents[0].id);
                     $("#panel-center li:eq(0)").addClass("selected-row");
                 }
             }, null, function(m) {
