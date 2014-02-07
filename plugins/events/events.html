@@ -1,0 +1,13 @@
+<ul class="nav nav-v">
+<% $.each(events, function(index, event) { %>
+    <li class="nav-item">
+            <a href="#events/show/<%= index %>" class="menu1 touch-row"><%= MM.util.formatText(event.name) %><br>
+                <%= MM.util.timestampToUserDate(event.timestart) %>
+            </a>
+    </li>
+<% }); %>
+</ul>
+
+<div class="centered">
+    <button id="events-showmore"><%= MM.lang.s("threemonthsmore") %></button>
+</div>

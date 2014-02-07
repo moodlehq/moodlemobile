@@ -1,0 +1,22 @@
+<div class="panel-container">
+    <br />
+
+    <p><strong><%= MM.lang.s("name") %>:</strong> <%= MM.util.formatText(event.name) %></p>
+
+    <p><strong><%= MM.lang.s("description") %>:</strong> <%= MM.util.formatText(event.description) %></p>
+
+    <p><strong><%= MM.lang.s("type") %>:</strong> <%= event.eventtype %></p>
+
+    <% if (event.modulename != "0") { %>
+    <p><strong><%= MM.lang.s("modulename") %>:</strong> <%= event.modulename %></p>
+    <% } %>
+
+    <% if (event.courseName) { %>
+    <p><strong><%= MM.lang.s("coursename") %>:</strong> <%= MM.util.formatText(event.courseName) %></p>
+    <% } %>
+
+    <p><strong><%= MM.lang.s("timestart") %>:</strong> <%= MM.util.timestampToUserDate(event.timestart) %></p>
+
+    <p><strong><%= MM.lang.s("timeduration") %>:</strong> <%= MM.util.formatSeconds(event.timeduration) %></p>
+
+</div>
