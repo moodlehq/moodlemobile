@@ -58,6 +58,9 @@ define(templates,function (participantsTpl, participantTpl) {
             }, null, function(m) {
                 // Removing loading icon.
                 $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
+                if (typeof(m) !== "undefined" && m) {
+                    MM.popErrorMessage(m);
+                }
             });
         },
 
