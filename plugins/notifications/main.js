@@ -318,7 +318,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             // Store the notification in the app.
             // We store the full event (payload) because it may change.
             MM.db.insert("notifications", {
-                siteid: event.site,
+                siteid: event.site.id,
                 alert: event.alert,
                 notification: event
             });
