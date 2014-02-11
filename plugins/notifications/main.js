@@ -179,9 +179,6 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             var pageTitle = MM.lang.s("notifications");
             var notification = MM.db.get("notifications", id);
             notification = notification.toJSON();
-            var date = notification.notification.date * 1000;
-            notification.notification.date = new Date(date).toLocaleDateString();
-            notification.notification.date += " " + new Date(date).toLocaleTimeString();
 
             var html = MM.tpl.render(MM.plugins.notifications.templates.notification.html, notification);
 
@@ -294,12 +291,6 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                     } else {
                         event.site = null;
                     }
-                }
-
-                if (event.date) {
-                    var date = new Date(event.date * 1000).toLocaleDateString();
-                    date += " " + new Date(event.date * 1000).toLocaleTimeString();
-                    event.date = date;
                 }
 
                 var notifText = MM.tpl.render(MM.plugins.notifications.templates.notificationAlert.html, {"event": event});;

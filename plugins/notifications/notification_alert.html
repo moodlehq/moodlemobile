@@ -12,7 +12,7 @@
 <% } %>
 
 <% if (event.date) { %>
-    <strong><%= MM.lang.s("date") %></strong>: <%= event.date %><br />
+    <strong><%= MM.lang.s("date") %></strong>: <%= MM.util.timestampToUserDate(event.date) %><br />
 <% } %>
 
 </div>

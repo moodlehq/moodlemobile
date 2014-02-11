@@ -5,7 +5,7 @@
             <li><%= alert %></li>
             <li><%= MM.lang.s("type") %>: <%= notification.type %></li>
             <li><%= MM.lang.s("userfrom") %>: <%= notification.userfrom %></li>
-            <li><%= MM.lang.s("date") %>: <%= notification.date %></li>
+            <li><%= MM.lang.s("date") %>: <%= MM.util.timestampToUserDate(notification.date) %></li>
         </ul>
     </div>
 </div>
