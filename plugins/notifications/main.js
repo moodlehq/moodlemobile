@@ -39,7 +39,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            return MM.deviceOS == 'ios' && MM.util.wsAvailable('core_user_add_user_device');
+            return  MM.deviceOS == 'ios' &&
+                    MM.util.wsAvailable('core_user_add_user_device') &&
+                    MM.util.wsAvailable('message_airnotifier_is_system_configured') &&
+                    MM.util.wsAvailable('message_airnotifier_are_notification_preferences_configured');
         },
 
         /**
@@ -107,6 +110,51 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
         },
 
         /**
+         * Check if the remote Moodle has the airnotifier plugin correctly configured.
+         * If so, we perfom and additional check to see if the user has configured the plugin.
+         *
+         */
+        _checkAirnotifierSettings: function() {
+
+            // Check if the plugin is correctly configured by an administrator.
+            MM.moodleWSCall(
+                'message_airnotifier_is_system_configured',
+                {},
+                function(configured) {
+                    if (!configured) {
+                        MM.popErrorMessage(MM.lang.s("remotesystemnotconfiguredfornotifications"));
+                    } else {
+                        // Check if the user has configured the plugin.
+                        MM.moodleWSCall(
+                            'message_airnotifier_are_notification_preferences_configured',
+                            {"userids[0]": MM.config.current_site.userid},
+                            function(preferences) {
+                                if (typeof(preferences["users"]) != "undefined") {
+                                    _.each(preferences["users"], function(pref) {
+                                        if (pref["userid"] == MM.config.current_site.userid &&
+                                            parseInt(pref["configured"]) == 0) {
+                                            MM.popErrorMessage(MM.lang.s("notificationpreferencesnotconfigured"));
+                                            return;
+                                        }
+                                    });
+                                }
+                            },
+                            null,
+                            function() {
+                                MM.log("Error calling message_airnotifier_are_notification_preferences_configured", "Notifications");
+                            }
+                        );
+                    }
+                },
+                null,
+                function() {
+                    MM.log("Error calling message_airnotifier_is_system_configured", "Notifications");
+                }
+            );
+
+        },
+
+        /**
          * Notifications plugin main entry point for the user
          * It may display the button for enable notifications or the list of notifications received
          *
@@ -119,6 +167,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             MM.Router.navigate('');
 
             if (MM.getConfig('notifications_enabled', false)) {
+
                 // Look for notifications for this site.
                 var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
                 var notifications = [];
@@ -162,6 +211,11 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                 $('#notifications-disable').on(MM.clickType, function() {
                     MM.plugins.notifications._disableNotifications(false);
                 });
+
+                // Now, we should check if the Moodle site has the airnotifier plugin correctly configured.
+                MM.plugins.notifications._checkAirnotifierSettings();
+
+
             } else {
                 tpl = {};
                 html = MM.tpl.render(MM.plugins.notifications.templates.notificationsEnable.html, tpl);
