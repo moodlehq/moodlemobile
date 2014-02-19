@@ -129,7 +129,7 @@
 "record": "Record",
 "recordstored": "Your recording has been stored in your private area",
 "recordaudio": "Audio",
-"remotesystemnotconfiguredfornotifications": "The remote system is not configured for sending notifications. Your should task with the system administrator",
+"remotesystemnotconfiguredfornotifications": "The Moodle installation is not configured for sending notifications. Your should task with your Moodle administrator",
 "replay": "Replay",
 "reportabug": "Report a bug",
 "reportbuginfo": "Tap on the email button for sending a bug report via email<br /> <br /> <b>Don't forget to write a detailed description of the problem in the email body</b><br /> <br />Note that some debugging information will be attached (not private information)",

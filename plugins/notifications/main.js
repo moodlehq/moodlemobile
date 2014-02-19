@@ -39,10 +39,25 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            return  MM.deviceOS == 'ios' &&
-                    MM.util.wsAvailable('core_user_add_user_device') &&
-                    MM.util.wsAvailable('message_airnotifier_is_system_configured') &&
-                    MM.util.wsAvailable('message_airnotifier_are_notification_preferences_configured');
+            var visible =   MM.deviceOS == 'ios' &&
+                            MM.util.wsAvailable('core_user_add_user_device') &&
+                            MM.util.wsAvailable('message_airnotifier_is_system_configured') &&
+                            MM.util.wsAvailable('message_airnotifier_are_notification_preferences_configured');
+
+            // If the plugin is visible and the device ready event was fired we should register the device.
+            // We register the device when a site is loaded in the app and also when the app is opened (see deviceIsReady)
+            if (visible && MM.deviceReady) {
+                if (MM.getConfig('notifications_enabled', false)) {
+                    MM.plugins.notifications.registerDevice(
+                    function() {
+                        MM.log("Device registered for PUSH after loading plugin", "Notifications");
+                    }, function() {
+                        MM.log("Error registering device for PUSH after loading plugin", "Notifications");
+                    });
+                }
+            }
+
+            return visible;
         },
 
         /**
@@ -121,9 +136,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                 'message_airnotifier_is_system_configured',
                 {},
                 function(configured) {
-                    if (!configured) {
-                        MM.popErrorMessage(MM.lang.s("remotesystemnotconfiguredfornotifications"));
-                    } else {
+                    if (configured === 1) {
                         // Check if the user has configured the plugin.
                         MM.moodleWSCall(
                             'message_airnotifier_are_notification_preferences_configured',
@@ -144,6 +157,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                                 MM.log("Error calling message_airnotifier_are_notification_preferences_configured", "Notifications");
                             }
                         );
+                    } else {
+                        MM.popErrorMessage(MM.lang.s("remotesystemnotconfiguredfornotifications"));
                     }
                 },
                 null,
