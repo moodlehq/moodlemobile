@@ -271,7 +271,41 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             });
         },
 
-        downloadContent: function(courseId, sectionId, contentId, index) {
+        downloadContent: function(courseId, sectionId, contentId, index){
+            var file;
+            var FILE_SIZE_WARNING = {
+                'phone':  5000000,
+                'tablet': 15000000
+            };
+
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
+            content = content.toJSON();
+
+            if (typeof(index) != "undefined") {
+                file = content.contents[index];
+            } else {
+                file = content.contents[0];
+            }
+
+            // Now we check if we have to alert the user that is about to download a large file.
+            if (file.filesize) {
+                // filesize is in bytes.
+                var filesize = parseInt(file.filesize);
+                if (filesize > FILE_SIZE_WARNING[MM.deviceType]) {
+                    var notice = MM.lang.s("noticelargefile");
+                    notice += " " + MM.lang.s("filesize") + " " + MM.util.bytesToSize(filesize, 2) + "<br />";
+                    notice += MM.lang.s("confirmcontinuedownload");
+
+                    MM.popConfirm(notice, function() {
+                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
+                    });
+                    return;
+                }
+            }
+            MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
+        },
+
+        downloadContentFile: function(courseId, sectionId, contentId, index) {
 
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
