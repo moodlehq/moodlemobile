@@ -79,6 +79,7 @@
 "fullname": "Celé jméno",
 "general": "Obecné",
 "grade": "Známka",
+"groupeventsnotdisplayed": "Skupinové události nejsou zobrazeny",
 "help": "Nápověda",
 "helpmelogin": "<p> Pro přihlášení, prosím ověřte, že: </p> 1. Tato stránka Moodle je verze 2.4 nebo vyšší. <br />
 "icantlogin": "Nemohu se přihlásit",
@@ -109,6 +110,7 @@
 "no": "Ne",
 "notaskstobesynchronized": "Nejsou žádné úkoly, které mají být synchronizovány",
 "noteadded": "Poznámka přidána",
+"notificationpreferencesnotconfigured": "Nejsou zatím nakonfigurovány vaše nastavení upozornění na mobilní zařízení. Chcete-li je používat, otevřte stránky Moodle v prohlížeči  a přejděte v profilu uživatele na Nastavení a Nastavení zpráv.",
 "notifications": "Upozornění",
 "notificationsdisabled": "Upozornění jsou zakázána",
 "notificationsenabled": "Upozornění jsou povolena",
@@ -129,6 +131,7 @@
 "record": "Záznam",
 "recordaudio": "Audio",
 "recordstored": "Záznam byl uložen do vaší privátního oblasti",
+"remotesystemnotconfiguredfornotifications": "Instalace Moodle není nakonfigurována pro zasílání upozornění na mobilní zařízení. Pokud si myslíte, že  by upozornění měla být povolena, obraťte se na správce Moodlu.",
 "replay": "Přehrát",
 "reportabug": "Zobrazit chybu",
 "reportbuginfo": "Pro zasílání hlášení o chybě pomocí e-mailu klepněte na tlačítko e-mail <br /> <br /> <b> Nezapomeňte napsat v těle e-mailu podrobný popis problému  </ b> <br /> <br / > Všimněte si, že budou připojeny některé ladicí informace (ne osobní údaje)",
