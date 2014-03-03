@@ -75,4 +75,5 @@
     <gap:plugin name="org.apache.cordova.splashscreen" />
 
     <gap:plugin name="com.phonegap.plugins.pushplugin" />
+    <gap:plugin name="net.tunts.webintent" />
 </widget>
