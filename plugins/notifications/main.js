@@ -352,7 +352,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             // We are going to receive notifications from different sites.
             // The event.site is a md5 hash of siteurl+username
             if (event.alert) {
-
+                // Format and sanitize the input.
+                event.alert = MM.util.cleanTags(MM.util.formatText(event.alert));
                 if (event.site) {
                     var site = MM.db.get('sites', event.site);
                     if (site) {
