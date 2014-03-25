@@ -7,7 +7,8 @@ define(function () {
             subMenus: [
                 {name: "browsephotoalbums", menuURL: "#upload/browse", icon: ""},
                 {name: "takepicture", menuURL: "#upload/take", icon: ""},
-                {name: "recordaudio", menuURL: "#upload/record", icon: ""}
+                {name: "recordaudio", menuURL: "#upload/record", icon: ""},
+                {name: "video", menuURL: "#upload/video", icon: ""}
             ],
             lang: {
                 component: "core"
@@ -19,6 +20,7 @@ define(function () {
             ["upload/browse", "upload_browse", "browseAlbums"],
             ["upload/take", "upload_take", "takeMedia"],
             ["upload/record", "upload_record", "recordAudio"],
+            ["upload/video", "upload_video", "uploadVideo"]
         ],
 
         browseAlbums: function() {
@@ -53,6 +55,15 @@ define(function () {
             MM.Router.navigate("");
             MM.log('Trying to record and Audio', 'Upload');
             navigator.device.capture.captureAudio(MM.plugins.upload.recordAudioSuccess, MM.plugins.upload.recordAudioFails, {limit: 1});
+        },
+
+        uploadVideo: function() {
+            MM.Router.navigate("");
+            MM.log('Trying to record a video', 'Upload');
+            navigator.device.capture.captureVideo(
+                MM.plugins.upload.uploadVideoSuccess,
+                MM.plugins.upload.uploadVideoFails,
+                {limit: 1});
         },
 
         photoSuccess: function(uri) {
@@ -116,6 +127,39 @@ define(function () {
             MM.log('Error trying recording an audio ' + error.code, 'Upload');
             if (error.code != CaptureError.CAPTURE_NO_MEDIA_FILES) {
                 MM.popErrorMessage(MM.lang.s("errorcapturingaudio"));
+            }
+        },
+
+        uploadVideoSuccess: function(mediaFiles) {
+
+            MM.log('Video sucesfully recorded', 'Upload');
+
+            var i, len;
+            for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+                var options = {};
+                options.fileKey = null;
+                options.fileName = mediaFiles[i].name;
+                options.mimeType = null;
+
+                MM.moodleUploadFile(mediaFiles[i].fullPath, options,
+                                    function(){
+                                        MM.popMessage(MM.lang.s("videostored"));
+                                    },
+                                    function(){
+                                        MM.popErrorMessage(MM.lang.s("erroruploading"))
+                                    }
+                );
+            }
+        },
+
+        uploadVideoFails: function(error) {
+            if (!error) {
+                error = { code: 0};
+            }
+
+            MM.log('Error trying recording a video ' + error.code, 'Upload');
+            if (error.code != CaptureError.CAPTURE_NO_MEDIA_FILES) {
+                MM.popErrorMessage(MM.lang.s("errorcapturingvideo"));
             }
         }
     }
