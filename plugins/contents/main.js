@@ -520,7 +520,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             if (content.description) {
-                content.description = content.description.replace(/<a /g, "<a target=\"_blank\" ");
+                content.description = MM.util.formatText(content.description);
                 $("#link-" + contentId + " h3").html(content.description);
                 MM.handleExternalLinks('#link-' + contentId + ' h3 a[target="_blank"]');
             }
