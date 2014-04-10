@@ -1,7 +1,7 @@
 {
 "app_id" : "com.moodle.moodlemobile",
-"versioncode" : "371",
-"versionname" : "1.4",
+"versioncode" : "372",
+"versionname" : "1.4.1",
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
 "languages": {"ca": "Català", "cs": "Čeština", "en": "English", "es": "Español", "es_mx": "Español - México", "eu": "Euskara", "fr" : "Français", "it": "Italiano", "hu": "magyar", "nl": "Nederlands", "sv": "Svenska"},
