@@ -6,6 +6,25 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/styles.css">
+    <script language="javascript">
+
+        // We use this code for handling unexpected errors.
+        // Using alert, we are sure that the user get notified in a Mobile device.
+        // We add this code at the begining of the index.html and we use only native javascript functions.
+        window.onerror = function(msg, url, lineNumber) {
+            var error = msg + "\n\nFile: " + url + "\nLine: " + lineNumber;
+            window.alert(error);
+
+            // This may help debugging if we use logging apps in iOs or Android.
+            if(typeof(console) !== "undefined" && typeof(console.log) === "function") {
+                console.log(error);
+            }
+
+            // Let default error handler run.
+            return false;
+        };
+
+    </script>
 	<script src="cordova.js"></script>
     <script src="childbrowser.js"></script>
     <script src="webintent.js"></script>
@@ -66,12 +85,7 @@
             MM.fs.init();
         });
 	</script>
-    <!-- Uncomment to display errors in xcode -->
-    <!--script type="text/javascript">
-        window.onerror = function(message, url, lineNumber) {
-            console.log("Error: "+message+" in "+url+" at line "+lineNumber);
-        }
-    </script-->
+
     <style id="mobilecssurl"></style>
 </head>
 <body>
