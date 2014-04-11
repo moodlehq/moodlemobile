@@ -57,6 +57,7 @@
 
     <gap:splash src="img/splash/ios/iphone_portrait.png" gap:platform="ios" width="320" height="480"/>
     <gap:splash src="img/splash/ios/iphone_retina_portrait.png" gap:platform="ios" width="640" height="960"/>
+    <gap:splash src="img/splash/ios/iphone5.png" gap:platform="ios" width="640" height="1136" />
 
     <gap:splash src="img/splash/ios/ipad_portrait.png" gap:platform="ios" width="768" height="1004"/>
     <gap:splash src="img/splash/ios/ipad_landscape.png" gap:platform="ios" width="1024" height="748"/>
