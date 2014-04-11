@@ -108,7 +108,7 @@ define(function () {
                 options.fileName = mediaFiles[i].name;
                 options.mimeType = null;
 
-                MM.moodleUploadFile(mediaFiles[i].toURL(), options,
+                MM.moodleUploadFile(mediaFiles[i].fullPath, options,
                                     function(){
                                         MM.popMessage(MM.lang.s("recordstored"));
                                     },
@@ -141,7 +141,7 @@ define(function () {
                 options.fileName = mediaFiles[i].name;
                 options.mimeType = null;
 
-                MM.moodleUploadFile(mediaFiles[i].toURL(), options,
+                MM.moodleUploadFile(mediaFiles[i].fullPath, options,
                                     function(){
                                         MM.popMessage(MM.lang.s("videostored"));
                                     },
