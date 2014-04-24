@@ -12,8 +12,12 @@
         // Using alert, we are sure that the user get notified in a Mobile device.
         // We add this code at the begining of the index.html and we use only native javascript functions.
         window.onerror = function(msg, url, lineNumber) {
-            var error = msg + "\n\nFile: " + url + "\nLine: " + lineNumber;
-            window.alert(error);
+            if (typeof(msg) === "string") {
+                var error = msg + "\n\nFile: " + url + "\nLine: " + lineNumber;
+                window.alert(error);
+            } else {
+                var error = msg;
+            }
 
             // This may help debugging if we use logging apps in iOs or Android.
             if(typeof(console) !== "undefined" && typeof(console.log) === "function") {
