@@ -2,8 +2,8 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.moodle.moodlemobile"
-        versionCode = "373"
-        version   = "1.4.1">
+        versionCode = "374"
+        version   = "1.4.2">
     <name>Moodle Mobile</name>
 
     <description>
