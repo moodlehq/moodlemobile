@@ -85,7 +85,7 @@
     <gap:plugin name="net.tunts.webintent" />
 
     <gap:config-file platform="android" parent="/manifest/application">
-        <activity android:name="net.tunts.webintent.NewIntent">
+        <activity android:label="@string/app_name" android:name=".MoodleMobile" android:screenOrientation="unspecified" android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="stateUnspecified|adjustUnspecified">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
