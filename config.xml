@@ -85,7 +85,7 @@
     <gap:plugin name="net.tunts.webintent" />
 
     <gap:config-file platform="android" parent="/manifest/application">
-        <activity android:name=".MoodleMobileNewIntent">
+        <activity android:label="@string/app_name" android:name="com.phonegap.DroidGap">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
