@@ -161,14 +161,6 @@ define(function () {
             if (error.code != CaptureError.CAPTURE_NO_MEDIA_FILES) {
                 MM.popErrorMessage(MM.lang.s("errorcapturingvideo"));
             }
-        },
-
-        deviceIsReady: function() {
-            if (window.plugins && window.plugins.webintent) {
-                window.plugins.webintent.onNewIntent(function(url) {
-                    window.alert(url);
-                });
-            }
         }
     }
 

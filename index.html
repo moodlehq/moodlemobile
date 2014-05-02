@@ -74,6 +74,19 @@
                 MM.panels.goBack();
             }, false);
 
+            if (window.plugins && window.plugins.webintent) {
+                window.plugins.webintent.onNewIntent(function(url) {
+                    MM.log("Intent received");
+                    MM.log("Intent url: " + url);
+                    window.alert(url);
+                    window.plugins.webintent.getUri(function(url) {
+                        MM.log("Intent uri: " + url);
+                        window.alert(url);
+
+                    });
+                });
+            }
+
             // Call deviceIsReady function in plugins.
             // Plugins may not be able to listen for the deviceready event because it's possible that it was fire
             // when plugins whasn't loaded, we use a timeout of 5 seconds.
