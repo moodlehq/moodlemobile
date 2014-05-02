@@ -84,7 +84,7 @@
     <gap:plugin name="com.phonegap.plugins.pushplugin" />
     <gap:plugin name="net.tunts.webintent" />
 
-    <gap:config-file platform="android" parent="/*/application/activity">
+    <gap:config-file platform="android" parent="/manifest/application">
         <intent-filter>
             <action android:name="android.intent.action.SEND" />
             <category android:name="android.intent.category.DEFAULT" />
