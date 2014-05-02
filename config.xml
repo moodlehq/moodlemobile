@@ -85,15 +85,17 @@
     <gap:plugin name="net.tunts.webintent" />
 
     <gap:config-file platform="android" parent="/manifest/application">
-        <intent-filter>
-            <action android:name="android.intent.action.SEND" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <data android:mimeType="application/*" />
-            <data android:mimeType="audio/*" />
-            <data android:mimeType="image/*" />
-            <data android:mimeType="text/*" />
-            <data android:mimeType="video/*" />
-        </intent-filter>
+        <activity android:label="@string/app_name" android:name="net.tunts.webintent.NewIntent">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/*" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="text/*" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
     </gap:config-file>
 
 </widget>
