@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
+        xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.moodle.moodlemobile"
         versionCode = "374"
         version   = "1.4.2">
@@ -82,4 +83,15 @@
 
     <gap:plugin name="com.phonegap.plugins.pushplugin" />
     <gap:plugin name="net.tunts.webintent" />
+
+    <gap:config-file platform="android" parent="/manifest/application/activity">
+        <intent-filter>
+            <action android:name="android.intent.action.SEND" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:mimeType="*/*" />
+            <data android:scheme="content" />
+            <data android:scheme="file" />
+        </intent-filter>
+    </gap:config-file>
+
 </widget>
