@@ -4,7 +4,7 @@
 "versionname" : "1.4.2",
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
-"languages": {"ca": "Català", "cs": "Čeština", "de": "Deutsch","en": "English", "es": "Español", "es_mx": "Español - México", "eu": "Euskara", "fr" : "Français", "it": "Italiano", "hu": "magyar", "nl": "Nederlands", "sv": "Svenska"},
+"languages": {"ar": "عربي", "ca": "Català", "cs": "Čeština", "de": "Deutsch","en": "English", "es": "Español", "es_mx": "Español - México", "eu": "Euskara", "fr" : "Français", "it": "Italiano", "hu": "magyar", "nl": "Nederlands", "sv": "Svenska"},
 "plugins" : ["notifications", "upload", "events", "contents", "participants", "addcontact", "addnote", "sendmessage"],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
