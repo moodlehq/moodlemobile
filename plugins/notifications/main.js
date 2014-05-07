@@ -376,9 +376,9 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             }
 
             if (MM.deviceOS == 'ios') {
-                registerDeviceAPNS(successCallback, errorCallback);
+                MM.plugins.notifications.registerDeviceAPNS(successCallback, errorCallback);
             } else if (MM.deviceOS == 'android') {
-                registerDeviceGCM(successCallback, errorCallback);
+                MM.plugins.notifications.registerDeviceGCM(successCallback, errorCallback);
             }
         },
 
@@ -419,12 +419,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                             'core_user_add_user_device',
                             data,
                             function() {
-                                successCallback();
                                 MM.log("Device registered in Moodle", "Notifications");
                             },
                             {cache: false},
                             function() {
-                                errorCallback(MM.lang.s("errorregisteringdeviceinmoodle"));
                                 MM.log("Error registering device in Moodle", "Notifications");
                             }
                         );
