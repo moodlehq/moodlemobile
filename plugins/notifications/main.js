@@ -39,7 +39,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            var visible =   MM.deviceOS == 'ios' &&
+            var visible =   (MM.deviceOS == "ios" || MM.deviceOS == "android") &&
                             MM.util.wsAvailable('core_user_add_user_device') &&
                             MM.util.wsAvailable('message_airnotifier_is_system_configured') &&
                             MM.util.wsAvailable('message_airnotifier_are_notification_preferences_configured');
@@ -269,21 +269,49 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             }
         },
 
+        /**
+         * Register a device in Google GCM using the Phonegap PushPlugin
+         * It also register the device in the Moodle site using the core_user_add_user_device WebService
+         * We need the device registered in Moodle so we can connect the device with
+         * the message output Moode plugin airnotifier
+         *
+         * @param  {function} successCallback Callback for win
+         * @param  {function} errorCallback   Callback for fail
+         */
+        registerDeviceGCM: function(successCallback, errorCallback) {
+
+            var pushNotification = window.plugins.pushNotification;
+
+            pushNotification.register(
+                function(result) {
+                    MM.log("Device connected with GCM: " + result, "Notifications");
+                },
+
+                function(error) {
+                    errorCallback(MM.lang.s("errorduringdevicetokenrequest"));
+                    MM.log("Error during device token request: " + error, "Notifications");
+                },
+
+                {
+                    "senderID": MM.config.gcmpn,
+                    "ecb":"MM.plugins.notifications.GCMsaveAndDisplay"
+                }
+            );
+        },
 
         /**
          * Register a device in Apple APNS (Apple Push Notificaiton System) using the Phonegap PushPlugin
          * It also register the device in the Moodle site using the core_user_add_user_device WebService
          * We need the device registered in Moodle so we can connect the device with
-         * the message output Moode plugin: https://github.com/jleyva/moodle-message_airnotifier
-         *
-         * This function is called after the user clicks in the Enable Notifications button
+         * the message output Moode plugin airnotifier
          *
          * @param  {function} successCallback Callback for win
          * @param  {function} errorCallback   Callback for fail
          */
-        registerDevice: function(successCallback, errorCallback) {
-            // Request iOS Push Notification and retrieve device token
+        registerDeviceAPNS: function(successCallback, errorCallback) {
+
             var pushNotification = window.plugins.pushNotification;
+
             pushNotification.register(
                 function(token) {
                     // Save the device token setting
@@ -326,9 +354,98 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                     alert:"true",
                     badge:"true",
                     sound:"true",
-                    ecb: "MM.plugins.notifications.saveAndDisplay"
+                    ecb: "MM.plugins.notifications.APNSsaveAndDisplay"
                 }
             );
+
+        },
+
+
+        /**
+         * Register a device in Apple APNS or Google GCM
+         *
+         * @param  {function} successCallback Callback for win
+         * @param  {function} errorCallback   Callback for fail
+         */
+        registerDevice: function(successCallback, errorCallback) {
+            // Request iOS Push Notification and retrieve device token
+
+            if (!windows.plugins || !windows.plugins.pushNotification) {
+                errorCallback();
+                return;
+            }
+
+            if (MM.deviceOS == 'ios') {
+                registerDeviceAPNS(successCallback, errorCallback);
+            } else if (MM.deviceOS == 'android') {
+                registerDeviceGCM(successCallback, errorCallback);
+            }
+        },
+
+        /**
+         * This function is called from the PushPlugin when we receive a Notification from GCM
+         * The app can be in foreground or background,
+         * if we are in background this code is executed when we open the app clicking in the notification bar
+         * This code is never executed if the app is in the background (is frozen)
+         *
+         *
+         * @param  {object} event Notification payload
+         */
+        GCMsaveAndDisplay: function(e) {
+
+            MM.log("Push notification received, type: " + e.event, "Notifications");
+
+            switch (e.event) {
+                case 'registered':
+                    if ( e.regid.length > 0 ){
+                        MM.setConfig('gcm_device_token', e.regid);
+                        MM.log("Device registered in GCM: ..." + e.regid.substring(0, 3), "Notifications");
+
+                        if (typeof(device.name) == "undefined") {
+                            device.name = '';
+                        }
+
+                        var data = {
+                            appid:      MM.config.app_id,
+                            name:       device.name,
+                            model:      device.model,
+                            platform:   device.platform,
+                            version:    device.version,
+                            pushid:     e.regid,
+                            uuid:       device.uuid
+                        };
+
+                        MM.moodleWSCall(
+                            'core_user_add_user_device',
+                            data,
+                            function() {
+                                successCallback();
+                                MM.log("Device registered in Moodle", "Notifications");
+                            },
+                            {cache: false},
+                            function() {
+                                errorCallback(MM.lang.s("errorregisteringdeviceinmoodle"));
+                                MM.log("Error registering device in Moodle", "Notifications");
+                            }
+                        );
+                    } else {
+                        MM.log("Device NOT registered in GCM, invalid e.regid");
+                    }
+                    break;
+
+                case 'message':
+                    MM.log("Push notification message received: " + JSON.stringify(e.payload), "Notifications");
+                    break;
+
+                case 'error':
+                    MM.log("Push message error", "Notifications");
+                    break;
+
+                default:
+                    MM.log("Push unknown message", "Notifications");
+                    break;
+            }
+
         },
 
         /**
@@ -342,7 +459,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
          *
          * @param  {object} event Notification payload
          */
-        saveAndDisplay: function(event) {
+        APNSsaveAndDisplay: function(event) {
 
             MM.log("Push notification received: " + JSON.stringify(event), "Notifications");
 

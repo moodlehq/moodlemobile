@@ -67,6 +67,7 @@
 "errorcameramsg": "Device does not support a camera",
 "errorcapturingvideo": "Error capturing video",
 "errorregisteringdeviceinmoodle": "Error registering device in Moodle",
+"errorduringdevicetokenrequest": "Error during device token request",
 "errorduringdevicetokenrequesttoapns": "Error during device token request to APNS",
 "erroruploading": "Error uploading file",
 "estimatedfreespace": "Estimated free space",
