@@ -370,7 +370,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
         registerDevice: function(successCallback, errorCallback) {
             // Request iOS Push Notification and retrieve device token
 
-            if (!windows.plugins || !windows.plugins.pushNotification) {
+            if (!window.plugins || !window.plugins.pushNotification) {
                 errorCallback();
                 return;
             }
