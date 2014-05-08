@@ -432,7 +432,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                     break;
 
                 case 'message':
-                    MM.log("Push notification message received: " + JSON.stringify(e.payload), "Notifications");
+                    MM.log("Push notification message received", "Notifications");
                     break;
 
                 case 'error':
@@ -459,7 +459,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
          */
         APNSsaveAndDisplay: function(event) {
 
-            MM.log("Push notification received: " + JSON.stringify(event), "Notifications");
+            MM.log("Push notification received", "Notifications");
 
 
             // We display the message whatever the site we are.
@@ -478,7 +478,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                     }
                 }
 
-                var notifText = MM.tpl.render(MM.plugins.notifications.templates.notificationAlert.html, {"event": event});;
+                var notifText = MM.tpl.render(MM.plugins.notifications.templates.notificationAlert.html, {"event": event});
                 MM.popMessage(notifText, {title: MM.lang.s("notifications"), autoclose: 5000, resizable: false});
             }
 
