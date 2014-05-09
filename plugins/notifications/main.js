@@ -433,6 +433,57 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
 
                 case 'message':
                     MM.log("Push notification message received", "Notifications");
+
+                    var notificationSiteId = 0;
+
+                    // We display the message whatever the site we are.
+                    // Notifications are binded to the token id generetad for the entire app.
+                    // We are going to receive notifications from different sites.
+                    // The event.site is a md5 hash of siteurl+username
+                    if (e.payload.message) {
+                        // Format and sanitize the input.
+                        e.payload.alert = MM.util.cleanTags(MM.util.formatText(e.payload.message));
+                        if (e.payload.site) {
+                            notificationSiteId = e.payload.site;
+                            var site = MM.db.get('sites', notificationSiteId);
+                            if (site) {
+                                e.payload.site = site.toJSON();
+                            } else {
+                                e.payload.site = null;
+                            }
+                        }
+
+                        var notifText = MM.tpl.render(MM.plugins.notifications.templates.notificationAlert.html, {"event": e.payload});
+                        MM.popMessage(notifText, {title: MM.lang.s("notifications"), autoclose: 5000, resizable: false});
+                    }
+
+                    var pushNotification = window.plugins.pushNotification;
+                    if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
+                        MM.plugins.notifications.badgeCount++;
+                        pushNotification.setApplicationIconBadgeNumber(
+                            function() {}, // Unused callback.
+                            function() {}, // Unused callback.
+                            MM.plugins.notifications.badgeCount);
+                    }
+
+                    // Store the notification in the app.
+                    // We store the full event (payload) because it may change.
+                    MM.db.insert("notifications", {
+                        siteid: notificationSiteId,
+                        alert: e.payload.alert,
+                        notification: e.payload
+                    });
+
+                    // If we were in background, then redirect to notifications when the user opens the app.
+                    if (typeof(e.foreground) != "undefined" &&
+                        ! parseInt(e.foreground) &&
+                        notificationSiteId == MM.config.current_site.id
+                        ) {
+                        // Fake the menu status for performing a proper animation.
+                        MM.panels.menuStatus = true;
+                        MM.plugins.notifications.showNotifications();
+                    }
+
                     break;
 
                 case 'error':
