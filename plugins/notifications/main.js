@@ -461,6 +461,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
 
             MM.log("Push notification received", "Notifications");
 
+            var notificationSiteId = 0;
 
             // We display the message whatever the site we are.
             // Notifications are binded to the token id generetad for the entire app.
@@ -470,7 +471,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                 // Format and sanitize the input.
                 event.alert = MM.util.cleanTags(MM.util.formatText(event.alert));
                 if (event.site) {
-                    var site = MM.db.get('sites', event.site);
+                    notificationSiteId = event.site;
+                    var site = MM.db.get('sites', notificationSiteId);
                     if (site) {
                         event.site = site.toJSON();
                     } else {
@@ -494,7 +496,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             // Store the notification in the app.
             // We store the full event (payload) because it may change.
             MM.db.insert("notifications", {
-                siteid: event.site.id,
+                siteid: notificationSiteId,
                 alert: event.alert,
                 notification: event
             });
@@ -502,7 +504,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             // If we were in background, then redirect to notifications when the user opens the app.
             if (typeof(event.foreground) != "undefined" &&
                 ! parseInt(event.foreground) &&
-                event.site == MM.config.current_site.id
+                notificationSiteId == MM.config.current_site.id
                 ) {
                 // Fake the menu status for performing a proper animation.
                 MM.panels.menuStatus = true;
