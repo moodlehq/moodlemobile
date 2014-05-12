@@ -474,16 +474,6 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                         notification: e.payload
                     });
 
-                    // If we were in background, then redirect to notifications when the user opens the app.
-                    if (typeof(e.foreground) != "undefined" &&
-                        ! parseInt(e.foreground) &&
-                        notificationSiteId == MM.config.current_site.id
-                        ) {
-                        // Fake the menu status for performing a proper animation.
-                        MM.panels.menuStatus = true;
-                        MM.plugins.notifications.showNotifications();
-                    }
-
                     break;
 
                 case 'error':
@@ -552,15 +542,6 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
                 notification: event
             });
 
-            // If we were in background, then redirect to notifications when the user opens the app.
-            if (typeof(event.foreground) != "undefined" &&
-                ! parseInt(event.foreground) &&
-                notificationSiteId == MM.config.current_site.id
-                ) {
-                // Fake the menu status for performing a proper animation.
-                MM.panels.menuStatus = true;
-                MM.plugins.notifications.showNotifications();
-            }
         }
     };
 
