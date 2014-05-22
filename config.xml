@@ -83,5 +83,9 @@
 
     <gap:plugin name="com.phonegap.plugins.pushplugin" />
     <gap:plugin name="net.tunts.webintent" />
+    <gap:plugin name="net.tunts.webintent" />
+    <gap:plugin name="nl.x-services.plugins.launchmyapp">
+        <param name="URL_SCHEME" value="moodlemobile" />
+    </gap:plugin>
 
 </widget>
