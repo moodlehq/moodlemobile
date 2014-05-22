@@ -88,4 +88,6 @@
         <param name="URL_SCHEME" value="moodlemobile" />
     </gap:plugin>
 
+    <access origin="*" />
+
 </widget>
