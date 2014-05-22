@@ -88,6 +88,12 @@
             }, 5000);
             MM.fs.init();
         });
+
+        // This function is for handling when the app is opened using a custom URL SCHEME.
+        function handleOpenURL(url) {
+          console.log("received url: " + url);
+          alert(url);
+        }
 	</script>
 
     <style id="mobilecssurl"></style>
