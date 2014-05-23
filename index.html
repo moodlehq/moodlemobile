@@ -14,7 +14,9 @@
         window.onerror = function(msg, url, lineNumber) {
             if (typeof(msg) === "string") {
                 var error = msg + "\n\nFile: " + url + "\nLine: " + lineNumber;
-                window.alert(error);
+                if (url.indexOf("cordova.js") == -1) {
+                    window.alert(error);
+                }
             } else {
                 var error = msg;
             }
