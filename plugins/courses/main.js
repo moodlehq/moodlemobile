@@ -65,7 +65,7 @@ var plugins = [];
         };
 
                     var html = MM.tpl.render(MM.plugins.courses.templates.courses.html, values);
-                    MM.panels.show("center", html);
+                    MM.panels.show("center", html, {title: "Courses"});
                 },
                 preSets         = {omitExpires: true},
                 errorCallBack   = MM.showAddSitePanel

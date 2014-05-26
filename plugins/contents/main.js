@@ -38,7 +38,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes, discu
 
         viewForum: function(forumId) {
             var html = MM.tpl.render(MM.plugins.contents.templates.discussions.html, {});
-            MM.panels.html('right', html);
+            MM.panels.html('right', html, {pageTitle: "Forum abc..."});
         },
 
         viewCourseContents: function(courseId) {

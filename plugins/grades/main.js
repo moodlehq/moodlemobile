@@ -41,7 +41,7 @@ define(templates,function (activities, activityGrade) {
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
                 var html = MM.tpl.render(MM.plugins.grades.templates.activities.html, tpl);
-                MM.panels.show("center", html);
+                MM.panels.show("center", html, {title: "Grades"});
             });
         },
 
