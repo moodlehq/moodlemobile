@@ -514,15 +514,15 @@ text-decoration: none;
   background-color: white;
 }
 
-#add-site {
+#add-site, #manage-accounts {
   background: #fa8f1c url(../img/orange-bg.png);
   padding-top: 4.92308rem;
 }
 
-#add-site h1 {
+#add-site h1, , #manage-accounts h1 {
   margin-bottom: 2.46154rem;
 }
-#add-site h1 img {
+#add-site h1 img, #manage-accounts h1 img {
   width: 133px;
   height: auto;
 }
