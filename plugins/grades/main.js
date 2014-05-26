@@ -1,18 +1,16 @@
 var templates = [
     "root/externallib/text!root/plugins/grades/activities.html",
-    "root/externallib/text!root/plugins/grades/activitygrade.html",
-    "root/externallib/text!root/plugins/grades/lang/en.json"
+    "root/externallib/text!root/plugins/grades/activitygrade.html"
 ];
 
-define(templates,function (activities, activityGrade, langStrings) {
+define(templates,function (activities, activityGrade) {
     var plugin = {
         settings: {
             name: "grades",
             type: "course",
             menuURL: "#course/grades/",
             lang: {
-                component: "local_custommm",
-                strings: langStrings
+                component: "core"
             }
         },
 
