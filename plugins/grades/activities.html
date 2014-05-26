@@ -1,0 +1,36 @@
+
+<div class="content-index">
+    <header>
+        <div class="media">
+            <div class="bd">
+                <h1><%= course.fullname %></h1>
+                <p><%= course.summary %></p>
+            </div>
+        </div>
+    </header>
+    <% _.each(sections, function(section) { %>
+    <section>
+        <% if (typeof(section.modules) != "undefined" && section.modules.length > 0) { %>
+            <h2><%= section.name %></h2>
+            <ul class="nav nav-v">
+                <% _.each(section.modules, function(module) { %>
+                    <% if (module.modname != "label" && module.modname != "folder"){ %>
+                        <li class="nav-item media">
+                            <div class="content-name">
+                                    <a href="#course/grades/activity/<%= encodeURIComponent(module.name) %>/<%= course.courseid %>/<%= module.modname %>/<%= module.id %>" id="link-<%= module.id %>">
+                                    <div class="img">
+                                        <img src="img/mod/<%= module.modname %>.png" alt="img">
+                                    </div>
+                                    <div class="bd">
+                                        <h3><%= module.name %></h3>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    <% } %>
+                <% }); %>
+            </ul>
+        <% } %>
+    </section>
+    <% }); %>
+</div>

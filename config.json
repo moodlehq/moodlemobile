@@ -5,7 +5,7 @@
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
 "languages": {"ar": "عربي", "ca": "Català", "cs": "Čeština", "de": "Deutsch","en": "English", "es": "Español", "es_mx": "Español - México", "eu": "Euskara", "fr" : "Français", "it": "Italiano", "hu": "magyar", "nl": "Nederlands", "sv": "Svenska"},
-"plugins" : ["notifications", "upload", "events", "contents", "participants", "addcontact", "addnote", "sendmessage"],
+"plugins" : ["notifications", "upload", "events", "courses", "contents", "participants", "addcontact", "addnote", "sendmessage", "grades"],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
 "sync_ws_on" : true,

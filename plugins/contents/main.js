@@ -2,10 +2,11 @@ var templates = [
     "root/externallib/text!root/plugins/contents/sections.html",
     "root/externallib/text!root/plugins/contents/contents.html",
     "root/externallib/text!root/plugins/contents/folder.html",
-    "root/externallib/text!root/plugins/contents/mimetypes.json"
+    "root/externallib/text!root/plugins/contents/mimetypes.json",
+    "root/externallib/text!root/plugins/contents/discussions.html"
 ];
 
-define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
+define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes, discussionsTpl) {
     var plugin = {
         settings: {
             name: "contents",
@@ -32,7 +33,13 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             ["course/contents/:courseid/section/:sectionId/info/:contentid", "course_contents_info", "infoContent"],
             ["course/contents/:courseid/section/:sectionId/download/:contentid/:index", "course_contents_download_folder", "downloadContent"],
             ["course/contents/:courseid/section/:sectionId/info/:contentid/:index", "course_contents_info_folder", "infoContent"],
+            ["course/contents/mod/forum/:forumid", "course_contents", "viewForum"],
         ],
+
+        viewForum: function(forumId) {
+            var html = MM.tpl.render(MM.plugins.contents.templates.discussions.html, {});
+            MM.panels.html('right', html);
+        },
 
         viewCourseContents: function(courseId) {
 
@@ -583,6 +590,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             },
             "sections": {
                 html: sectionsTpl
+            },
+            "discussions": {
+                html: discussionsTpl
             },
             "mimetypes": JSON.parse(mimeTypes)
         }

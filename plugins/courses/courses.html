@@ -1,0 +1,20 @@
+
+<div class="content-index">
+    <% _.each(courses, function(course) { %>
+        <div>
+            <b><%= course.fullname %> (<%= course.shortname %>)</b>
+            <br>
+            <% _.each(coursePlugins, function(plugin) { %>
+                <% if (plugin.name == "contents") { %>
+                    <a href="<%= plugin.menuURL %><%= course.id %>/section/-1" class="touch-row">
+                <% } else { %>
+                    <a href="<%= plugin.menuURL %><%= course.id %>" class="touch-row">
+                <% } %>
+                            <%= MM.lang.pluginName(plugin.name) %>
+
+                    </a>
+                    |
+            <% }); %>
+        </div>
+    <% }); %>
+</div>

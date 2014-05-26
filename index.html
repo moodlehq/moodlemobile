@@ -208,40 +208,7 @@
         <% } %>
     <% }); %>
 </ul>
-
-<h2><%= MM.lang.s("mycourses") %></h2>
-<div id="mycourses">
-    <ul class="nav nav-v js-accordion">
-        <% _.each(courses, function(course) { %>
-            <li class="nav-item">
-                <a href="#" class="toogler expand touch-row">
-                    <div class="course-ico">
-                        <img src="img/ico-course.png" border="0">
-                    </div>
-                    <div class="plugin-name">
-                        <%= course.fullname %>
-                    </div>
-                </a>
-                <ul class="nav submenu">
-                    <% _.each(coursePlugins, function(plugin) { %>
-                        <li class="nav-item">
-                            <a href="<%= plugin.menuURL %><%= course.id %>" class="touch-row">
-                                <% if (plugin.icon) { %>
-        				    		<div class="plugin-ico">
-                                        <img src="<%= plugin.icon %>" border="0">
-                                    </div>
-        						<% } %>
-                                <div class="plugin-name">
-                                    <%= MM.lang.pluginName(plugin.name) %>
-                                </div>
-                            </a>
-                        </li>
-                        <% }); %>
-                    </ul>
-                </li>
-                <% }); %>
-            </ul>
-            <h2></h2>
+<h2></h2>
             <ul id="general-menu" class="nav nav-v js-accordion">
                 <li class="nav-item no-arrow">
                     <a href="<%= siteurl%>" target="_blank" class="touch-row">
