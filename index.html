@@ -105,6 +105,10 @@
 
 </div>
 
+<div id="manage-accounts" style="display: none">
+
+</div>
+
 <div id="main-wrapper" style="display: none">
 
     <div class="header-wrapper">
@@ -333,8 +337,36 @@
     </div>
 </form>
 <div id= "helplogin">
-    <a href="#helpmelogin"><%= MM.lang.s("icantlogin") %></a>
+    <a href="#helpmelogin"><%= MM.lang.s("icantlogin") %></a><br><br>
+    <a href="#manage-accounts">Manage accounts</a>
 </div>
 </script>
+
+<script type="text/template" id="manage-accounts_template">
+<h1>
+    <img src="img/login-logo.png" alt="Moodle">
+</h1>
+<% _.each(sites, function(site) { %>
+    <div style="float: left">
+    <a href="" style="display: block">
+    <b><%= MM.util.formatText(site.fullname) %></b><br>
+    <%= MM.util.formatText(site.sitename) %><br>
+    <i><%= site.siteurl %></i>
+    </a>
+    </div>
+    <div style="float: right">
+        <img src="<%= site.userpictureurl %>">
+        <br><a href="">Delete site</a>
+    </div>
+    </a>
+    <div style="clear: both">
+    </div>
+<% });%>
+<div style="clear: both; text-align: center; font-color: white">
+<br>
+<a href="#add-site">Add site</a>
+</div>
+</script>
+
 </body>
 </html>
