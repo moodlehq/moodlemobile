@@ -2,11 +2,12 @@ var requires = [
     "root/externallib/text!root/plugins/notifications/notifications.html",
     "root/externallib/text!root/plugins/notifications/notification.html",
     "root/externallib/text!root/plugins/notifications/notifications_enable.html",
-    "root/externallib/text!root/plugins/notifications/notification_alert.html"
+    "root/externallib/text!root/plugins/notifications/notification_alert.html",
+    "root/externallib/text!root/plugins/notifications/notifications_full.html"
 ];
 
 
-define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
+define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, notifFullTpl) {
 
     var plugin = {
         settings: {
@@ -39,10 +40,16 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            var visible =   (MM.deviceOS == "ios" || MM.deviceOS == "android") &&
+            // The plugin is visible either if is available the remote service for pulling notifications or
+            // the platform support Push notifications.
+
+            var visible = MM.util.wsAvailable('local_mobile_core_message_get_messages');
+
+            visible =       visible ||
+                            ((MM.deviceOS == "ios" || MM.deviceOS == "android") &&
                             MM.util.wsAvailable('core_user_add_user_device') &&
                             MM.util.wsAvailable('message_airnotifier_is_system_configured') &&
-                            MM.util.wsAvailable('message_airnotifier_are_notification_preferences_configured');
+                            MM.util.wsAvailable('message_airnotifier_are_notification_preferences_configured'));
 
             // If the plugin is visible and the device ready event was fired we should register the device.
             // We register the device when a site is loaded in the app and also when the app is opened (see deviceIsReady)
@@ -169,6 +176,12 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
 
         },
 
+        _renderNotifications: function(notifications) {
+            tpl = {notifications: notifications};
+            html = MM.tpl.render(MM.plugins.notifications.templates.notificationsFull.html, tpl);
+            MM.panels.show('center', html, {hideRight: true, title: MM.lang.s("notifications")});
+        },
+
         /**
          * Notifications plugin main entry point for the user
          * It may display the button for enable notifications or the list of notifications received
@@ -180,6 +193,57 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             MM.panels.showLoading('center');
             MM.panels.hide("right", "");
             MM.Router.navigate('');
+
+            // We display the notifications in different ways depending if the notifications are Push or via the WS.
+            if (MM.util.wsAvailable('local_mobile_core_message_get_messages')) {
+                var limit = 50;
+
+                var params = {
+                    useridto: MM.config.current_site.userid,
+                    useridfrom: 0,
+                    type: 'both',
+                    read: 0,
+                    newestfirst: 1,
+                    limitfrom: 0,
+                    limitnum: limit
+                };
+
+                MM.moodleWSCall(
+                    'local_mobile_core_message_get_messages',
+                    params,
+                    function(notifications) {
+                        if (notifications.messages) {
+                            if (notifications.messages.length >= limit) {
+                                MM.plugins.notifications._renderNotifications(notifications);
+                            } else {
+                                params.limitnum = limit - notifications.messages.length;
+                                params.read = 1;
+                                MM.moodleWSCall(
+                                    'local_mobile_core_message_get_messages',
+                                    params,
+                                    function(morenotifications) {
+                                        if (morenotifications.messages) {
+                                            MM.plugins.notifications._renderNotifications(
+                                                notifications.messages.concat(morenotifications.messages));
+                                        } else {
+                                            MM.plugins.notifications._renderNotifications(notifications.messages);
+                                        }
+                                    },
+                                    null,
+                                    function() {
+                                        MM.plugins.notifications._renderNotifications([]);
+                                    }
+                                );
+                            }
+                        }
+                    },
+                    null,
+                    function() {
+                        MM.plugins.notifications._renderNotifications([]);
+                    }
+                );
+                return;
+            }
 
             if (MM.getConfig('notifications_enabled', false)) {
 
@@ -266,6 +330,9 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert) {
             },
             "notificationAlert": {
                 html: notifAlert
+            },
+            "notificationsFull": {
+                html: notifFullTpl
             }
         },
 

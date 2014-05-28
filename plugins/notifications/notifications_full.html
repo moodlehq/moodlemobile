@@ -1,0 +1,13 @@
+<% if (notifications.length > 0) { %>
+<div class="panel-container">
+    <% _.each(notifications, function(notification) {%>
+    <div>
+        <strong><%= notification.userfromfullname %> - <%= MM.util.timestampToUserDate(notification.timecreated) %></strong>
+        <p><%= MM.util.formatText(notification.fullmessage, true) %></p>
+    </div>
+    <hr />
+    <% }); %>
+</div>
+<% } else { %>
+    <h3><strong><%= MM.lang.s("therearentnotificationsyet") %></strong></h3>
+<% } %>
