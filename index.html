@@ -90,6 +90,11 @@
             }, 5000);
             MM.fs.init();
         });
+
+        // This function is for handling when the app is opened using a custom URL SCHEME.
+        function handleOpenURL(url) {
+            MM._appLaunchedByURL(url);
+        }
 	</script>
 
     <style id="mobilecssurl"></style>
@@ -309,18 +314,23 @@
     <img src="img/login-logo.png" alt="Moodle">
 </h1>
 <form action="">
-    <p>
-        <input type="url" id="url" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("siteurl") %>">
-    </p>
-    <p>
-        <input type="text" id="username" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("username") %>">
-    </p>
-    <p>
-        <input type="password" id="password" placeholder="<%= MM.lang.s("password") %>">
-    </p>
-    <p>
-        <input type="submit" name="add" id="addsitebutton" value="<%= MM.lang.s("add") %>">
-    </p>
+    <div id="login-details">
+        <p>
+            <input type="url" id="url" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("siteurl") %>">
+        </p>
+        <div id="login-credentials">
+            <p>
+                <input type="text" id="username" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("username") %>">
+            </p>
+            <p>
+                <input type="password" id="password" placeholder="<%= MM.lang.s("password") %>">
+            </p>
+        </div>
+        <p>
+            <input type="button" name="reset" id="resetsitebutton" value="<%= MM.lang.s("reset") %>">
+            <input type="submit" name="add"   id="addsitebutton"   value="<%= MM.lang.s("add") %>">
+        </p>
+    </div>
 </form>
 <div id= "helplogin">
     <a href="#helpmelogin"><%= MM.lang.s("icantlogin") %></a>

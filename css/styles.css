@@ -1227,3 +1227,26 @@ select {
   height: 30pt;
   padding: 4px;
 }
+
+#login-details {
+  padding-top: 40px;
+}
+
+#login-credentials {
+  display: none;
+}
+
+.url-loading {
+  background-position: right center;
+  background-position-x: 98%;
+  background-repeat: no-repeat;
+  background-image: url("../img/loading.gif");
+}
+
+#add-site input[type="button"] {
+  background: #fff;
+  color: #aaa;
+  padding: 0.30769rem 1.23077rem;
+  width: auto;
+  display: none;
+}
