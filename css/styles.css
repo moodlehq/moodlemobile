@@ -769,12 +769,12 @@ form div.error {
   font-weight: normal;
 }
 
-.site-info {
+.row-info {
   float: left;
   width: 90%
 }
 
-.site-actions {
+.row-actions {
   width: 10%;
   min-width: 20px;
   float: right;

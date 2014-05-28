@@ -73,6 +73,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 // Error callback.
                 // Removing loading icon.
                 $('a[href="#course/contents/' +courseId+ '"]').removeClass('loading-row');
+                if (typeof(m) !== "undefined" && m) {
+                    MM.popErrorMessage(m);
+                }
             });
         },
 

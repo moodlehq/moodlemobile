@@ -64,6 +64,9 @@ define(templates, function (eventsTpl, eventTpl) {
         _getCalendarEventsFailure: function(m) {
             // Removing loading icon.
             $('a[href="#events/"]', '#panel-left').addClass('loading-row');
+            if (typeof(m) !== "undefined" && m) {
+                MM.popErrorMessage(m);
+            }
         },
 
         /**
