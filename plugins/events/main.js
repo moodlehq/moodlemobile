@@ -31,7 +31,8 @@ define(templates, function (eventsTpl, eventTpl) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            return MM.util.wsAvailable('core_calendar_get_calendar_events');
+            return MM.util.wsAvailable('core_calendar_get_calendar_events') ||
+                    MM.util.wsAvailable('local_mobile_core_calendar_get_calendar_events');
         },
 
 
@@ -99,8 +100,12 @@ define(templates, function (eventsTpl, eventTpl) {
                 params["events[courseids][" + index + "]"] = course.get("courseid");
             });
 
+            var wsFunction = "core_calendar_get_calendar_events";
+            if (!MM.util.wsAvailable(wsFunction)) {
+                wsFunction = 'local_mobile_core_calendar_get_calendar_events';
+            }
 
-            MM.moodleWSCall('core_calendar_get_calendar_events',
+            MM.moodleWSCall(wsFunction,
                 params,
                 function(r) {
                     MM.plugins.events._getCalendarEventsSucces(r, days)
