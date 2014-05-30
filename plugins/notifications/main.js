@@ -47,7 +47,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
 
             visible =       visible ||
                             ((MM.deviceOS == "ios" || MM.deviceOS == "android") &&
-                            MM.util.wsAvailable('core_user_add_user_device') &&
+                            (MM.util.wsAvailable('core_user_add_user_device') || MM.util.wsAvailable('local_mobile_core_user_add_user_device')) &&
                             MM.util.wsAvailable('message_airnotifier_is_system_configured') &&
                             MM.util.wsAvailable('message_airnotifier_are_notification_preferences_configured'));
 
@@ -399,8 +399,12 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                         uuid:       device.uuid
                     };
 
+                    var wsFunction = "core_user_add_user_device";
+                    if (!MM.util.wsAvailable(wsFunction)) {
+                        wsFunction = 'local_mobile_core_user_add_user_device';
+                    }
                     MM.moodleWSCall(
-                        'core_user_add_user_device',
+                        wsFunction,
                         data,
                         function() {
                             successCallback();
@@ -482,8 +486,12 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                             uuid:       device.uuid
                         };
 
+                        var wsFunction = "core_user_add_user_device";
+                        if (!MM.util.wsAvailable(wsFunction)) {
+                            wsFunction = 'local_mobile_core_user_add_user_device';
+                        }
                         MM.moodleWSCall(
-                            'core_user_add_user_device',
+                            wsFunction,
                             data,
                             function() {
                                 MM.log("Device registered in Moodle", "Notifications");
