@@ -196,6 +196,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
 
             // We display the notifications in different ways depending if the notifications are Push or via the WS.
             if (MM.util.wsAvailable('local_mobile_core_message_get_messages')) {
+                $('a[href="#notifications"]').addClass('loading-row');
+
                 var limit = 50;
 
                 var params = {
@@ -212,6 +214,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                     'local_mobile_core_message_get_messages',
                     params,
                     function(notifications) {
+                        $('a[href="#notifications"]').removeClass('loading-row');
                         if (notifications.messages) {
                             if (notifications.messages.length >= limit) {
                                 MM.plugins.notifications._renderNotifications(notifications);
@@ -239,13 +242,12 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                     },
                     null,
                     function() {
+                        $('a[href="#notifications"]').removeClass('loading-row');
                         MM.plugins.notifications._renderNotifications([]);
                     }
                 );
                 return;
-            }
-
-            if (MM.getConfig('notifications_enabled', false)) {
+            } else if (MM.getConfig('notifications_enabled', false)) {
 
                 // Look for notifications for this site.
                 var notificationsFilter = MM.db.where("notifications", {siteid: MM.config.current_site.id});
