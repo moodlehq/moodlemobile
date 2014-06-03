@@ -500,7 +500,6 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                             wsFunction = 'local_mobile_core_user_add_user_device';
                         }
 
-                        MM.log("Calling WebService: " + wsFunction, "Notifications");
                         MM.moodleWSCall(
                             wsFunction,
                             data,
