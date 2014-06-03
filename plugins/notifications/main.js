@@ -182,6 +182,13 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             MM.panels.show('center', html, {hideRight: true, title: MM.lang.s("notifications")});
         },
 
+        _format: function(text) {
+            text = text.replace(/-{4,}/ig, '');
+            text = MM.util.formatText(text, true);
+            text = MM.util.createLinks(text).replace(/<br \/><br \/>/ig, "<br />");
+            return text;
+        },
+
         /**
          * Notifications plugin main entry point for the user
          * It may display the button for enable notifications or the list of notifications received

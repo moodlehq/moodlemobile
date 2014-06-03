@@ -3,7 +3,7 @@
     <% _.each(notifications, function(notification) {%>
     <div>
         <strong><%= notification.userfromfullname %> - <%= MM.util.timestampToUserDate(notification.timecreated) %></strong>
-        <p><%= MM.util.formatText(notification.fullmessage, true) %></p>
+        <p><%= MM.plugins.notifications._format(notification.fullmessage) %></p>
     </div>
     <hr />
     <% }); %>

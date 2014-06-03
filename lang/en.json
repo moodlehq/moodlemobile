@@ -104,7 +104,7 @@
 "lostconnection": "We lost connection you need to reconnect. Your token is now invalid",
 "location": "Location",
 "localpath": "Local path",
-"logininsiterequired": "Your Moodle site forces you to log in using the system browser. A new browser instance will be opened redirecting you to the Moodle site.",
+"logininsiterequired": "You need to log in to the site in a browser window.",
 "logout": "Logout",
 "message": "Message",
 "messagesent": "Message sent",
