@@ -195,6 +195,23 @@ ol {
 --------------------------------------------------------*/
 .btn {
   position: relative;
+  display: inline-block;
+  padding: 4px 12px;
+  color: #333;
+  text-align: center;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #F5F5F5;
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #b3b3b3;
+  border-radius: 4px;
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
+}
+.btn:hover,
+.btn:focus {
+  background-image: none;
 }
 .btn-label {
   cursor: pointer;
@@ -486,6 +503,7 @@ i {
 }
 #add-site form {
   *zoom: 1;
+  margin-bottom: 0;
 }
 #add-site form:before,
 #add-site form:after {
@@ -496,24 +514,47 @@ i {
   clear: both;
 }
 #add-site input {
-  border: 0;
-  border-radius: 10px;
-  font-family: Georgia, serif;
-  font-style: italic;
-  padding: 0.30769rem 0.61538rem;
   width: 100%;
+  padding: 4px 6px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+  line-height: 24px;
+  text-overflow: ellipsis;
 }
 #add-site input[type="submit"] {
-  background: #fff;
-  color: #aaa;
-  float: right;
-  padding: 0.30769rem 1.23077rem;
-  width: auto;
+  position: relative;
+  display: inline-block;
+  padding: 4px 12px;
+  color: #333;
+  text-align: center;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #F5F5F5;
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #b3b3b3;
+  border-radius: 4px;
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
 }
 #add-site input[type="submit"]:hover,
-#add-site input[type="submit"]:active {
-  background: #f3f3f3;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) inset;
+#add-site input[type="submit"]:focus {
+  background-image: none;
+}
+#add-site #helplogin a {
+  color: #ffffff;
+  display: inline-block;
+  font-size: 16px;
+  padding: 0 0px;
+  text-decoration: underline;
+}
+#add-site #helplogin a:first-of-type {
+  float: left;
+}
+#add-site #helplogin a:last-of-type {
+  float: right;
 }
 #manage-accounts .accounts {
   display: block;
@@ -546,25 +587,6 @@ i {
 }
 #manage-accounts .account-fullname {
   font-weight: bold;
-}
-#manage-accounts .btn {
-  display: inline-block;
-  padding: 4px 12px;
-  color: #333;
-  text-align: center;
-  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
-  background-color: #F5F5F5;
-  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
-  background-repeat: repeat-x;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #b3b3b3;
-  border-radius: 4px;
-  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
-}
-#manage-accounts .btn:hover,
-#manage-accounts .btn:focus {
-  background-image: none;
 }
 #manage-accounts .delete-site {
   display: block;
@@ -1146,14 +1168,6 @@ button {
 #app-dialog .modalClear {
   float: none;
   clear: both;
-}
-#helplogin {
-  text-align: center;
-  width: 100%;
-}
-#helplogin a {
-  color: white;
-  font-size: 1.4em;
 }
 .users-index-list li {
   height: 44px;

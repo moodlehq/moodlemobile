@@ -223,6 +223,23 @@ ol {
 --------------------------------------------------------*/
 .btn {
   position: relative;
+  display: inline-block;
+  padding: 4px 12px;
+  color: #333;
+  text-align: center;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #F5F5F5;
+  background-image: linear-gradient(to bottom, #FFF, #E6E6E6);
+  background-repeat: repeat-x;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #B3B3B3;
+  border-radius: 4px;
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
+  &:hover,
+  &:focus {
+    background-image: none;
+  }
 }
 
 .btn-label {
@@ -556,54 +573,59 @@ i {
 #add-site,
 #manage-accounts {
   padding-top: 4.92308rem;
+  h1 {
+    margin-bottom: 2.46154rem;
+    img {
+      width: 133px;
+      height: auto;
+    }
+  }
 }
 
-#add-site h1,
-#manage-accounts h1 {
-  margin-bottom: 2.46154rem;
-}
+#add-site {
+  form {
+    *zoom: 1;
+    margin-bottom: 0;
+    &:before,
+    &:after {
+      content: "";
+      display: table;
+    }
+    &:after {
+      clear: both;
+    }
+  }
 
-#add-site h1 img,
-#manage-accounts h1 img {
-  width: 133px;
-  height: auto;
-}
+  input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+    line-height: 24px;
+    text-overflow: ellipsis;
+  }
 
-#add-site form {
-  *zoom: 1;
-}
+  input[type="submit"] {
+    .btn;
+    margin-top: 20px;
+  }
 
-#add-site form:before,
-#add-site form:after {
-  content: "";
-  display: table;
-}
-
-#add-site form:after {
-  clear: both;
-}
-
-#add-site input {
-  border: 0;
-  border-radius: 10px;
-  font-family: Georgia, serif;
-  font-style: italic;
-  padding: 0.30769rem 0.61538rem;
-  width: 100%;
-}
-
-#add-site input[type="submit"] {
-  background: #fff;
-  color: #aaa;
-  float: right;
-  padding: 0.30769rem 1.23077rem;
-  width: auto;
-}
-
-#add-site input[type="submit"]:hover,
-#add-site input[type="submit"]:active {
-  background: #f3f3f3;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) inset;
+  #helplogin {
+    a {
+      color: #ffffff;
+      display: inline-block;
+      font-size: 16px;
+      padding: 0 0px;
+      text-decoration: underline;
+      &:first-of-type {
+        float: left;
+      }
+      &:last-of-type {
+        float: right;
+      }
+    }
+  }
 }
 
 #manage-accounts {
@@ -636,32 +658,12 @@ i {
     span {
       display: block;
       overflow: hidden;
-      text-overflow:ellipsis;
+      text-overflow: ellipsis;
     }
   }
 
   .account-fullname {
     font-weight: bold;
-  }
-
-  .btn {
-    display: inline-block;
-    padding: 4px 12px;
-    color: #333;
-    text-align: center;
-    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
-    background-color: #F5F5F5;
-    background-image: linear-gradient(to bottom, #FFF, #E6E6E6);
-    background-repeat: repeat-x;
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #B3B3B3;
-    border-radius: 4px;
-    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
-    &:hover,
-    &:focus {
-      background-image: none;
-    }
   }
 
   .delete-site {
@@ -1353,16 +1355,6 @@ button {
 #app-dialog .modalClear {
   float:none;
   clear: both;
-}
-
-#helplogin {
-  text-align: center;
-  width: 100%;
-}
-
-#helplogin a {
-  color: white;
-  font-size: 1.4em;
 }
 
 .users-index-list li {
