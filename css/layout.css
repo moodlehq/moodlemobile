@@ -44,7 +44,7 @@ body {
   z-index: 30;
 }
 .user-menu .user-options {
-  background: #fa8f1c url(../img/orange-bg.png);
+  background: #fa8f1c url(../img/bg-orange.png);
   height: 40px;
   width: 100%;
 }
@@ -54,6 +54,10 @@ body {
 }
 #add-site h1,
 #add-site form {
+  margin: 0 auto;
+  width: 90%;
+}
+#manage-accounts {
   margin: 0 auto;
   width: 90%;
 }
@@ -71,6 +75,10 @@ body {
 @media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
   #add-site h1,
   #add-site form {
+    margin: 0 auto;
+    width: 70%;
+  }
+  #manage-accounts {
     margin: 0 auto;
     width: 70%;
   }
