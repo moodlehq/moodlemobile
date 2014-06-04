@@ -74,11 +74,11 @@ define(function () {
             var options = {};
             options.fileKey="file";
 
-            // Check if is a URI or a file system path.
-            if (uri.indexOf('data:') > -1) {
-                options.fileName = "image_" + d.getTime() + ".jpg";
-            } else {
+            // Check if we are in desktop or mobile.
+            if (MM.inNodeWK) {
                 options.fileName = uri.lastIndexOf("/") + 1;
+            } else {
+                options.fileName = "image_" + d.getTime() + ".jpg";
             }
 
             options.mimeType="image/jpeg";
