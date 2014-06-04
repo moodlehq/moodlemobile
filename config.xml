@@ -87,10 +87,6 @@
         <param name="URL_SCHEME" value="moodlemobile" />
     </gap:plugin>
 
-    <gap:config-file platform="android" parent="/manifest/application">
-        <activity android:alwaysRetainTaskState="true" android:launchMode="singleInstance" />
-    </gap:config-file>
-
     <access origin="*" />
 
 </widget>
