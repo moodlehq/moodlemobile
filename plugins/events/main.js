@@ -43,7 +43,7 @@ define(templates, function (eventsTpl, eventTpl) {
             MM.plugins.events.lastEvents = typeof(response.events !== "undefined")? response.events : [];
 
             // Removing loading icon.
-            $('a[href="#events/"]', '#panel-left').removeClass('loading-row');
+            $('a[href="' + MM.plugins.events.settings.menuURL + '"]', '#panel-left').removeClass('loading-row');
 
             var tpl = {events: MM.plugins.events.lastEvents};
 
@@ -64,7 +64,7 @@ define(templates, function (eventsTpl, eventTpl) {
 
         _getCalendarEventsFailure: function(m) {
             // Removing loading icon.
-            $('a[href="#events/"]', '#panel-left').addClass('loading-row');
+            $('a[href="' + MM.plugins.events.settings.menuURL + '"]', '#panel-left').removeClass('loading-row');
             if (typeof(m) !== "undefined" && m) {
                 MM.popErrorMessage(m);
             }
@@ -85,7 +85,7 @@ define(templates, function (eventsTpl, eventTpl) {
                 MM.panels.showLoading('right');
             }
             // Adding loading icon.
-            $('a[href="#events/"]', '#panel-left').addClass('loading-row');
+            $('a[href="' + MM.plugins.events.settings.menuURL + '"]', '#panel-left').addClass('loading-row');
 
             // The core_calendar_get_calendar_events needs all the current user courses and groups.
             var params = {
