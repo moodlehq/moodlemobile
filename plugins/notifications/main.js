@@ -239,7 +239,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                                             MM.plugins.notifications._renderNotifications(notifications.messages);
                                         }
                                     },
-                                    null,
+                                    {cache: false},
                                     function() {
                                         MM.plugins.notifications._renderNotifications([]);
                                     }
@@ -247,7 +247,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                             }
                         }
                     },
-                    null,
+                    {cache: false},
                     function() {
                         $('a[href="#notifications"]').removeClass('loading-row');
                         MM.plugins.notifications._renderNotifications([]);
