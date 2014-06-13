@@ -124,6 +124,7 @@
 "notifications": "通知",
 "notificationsdisabled": "通知功能已停用",
 "notificationsenabled": "您全部的Moodle網站啟用通知功能。",
+"notificationshowtoenable": "",
 "notificationsnotsupported": "Android系統並不支援通知功能。",
 "offlinemode": "離線模式",
 "ok": "好",
