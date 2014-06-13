@@ -109,7 +109,7 @@
 "lostconnection": "我們已斷了線，您需重新連線。您的口令目前是無效的。",
 "message": "訊息",
 "messagesent": "訊息傳送",
-"mobileservicesnotenabled": "您的網站並未啟用行動服務。如果您覺得須啟用此功能請連絡您的Moodle
+"mobileservicesnotenabled": "您的網站並未啟用行動服務。如果您想使用此功能，請連絡您的Moodle網站管理員。",
 "modulename": "模組名稱",
 "moodlehelp": "輔助說明",
 "mycourses": "我的課程",
@@ -166,7 +166,7 @@
 "sites": "網站",
 "siteurl": "網站網址",
 "siteurllabel": "網站網址",
-"siteurlrequired": "需要網站網址，例如
+"siteurlrequired": "需要網站網址，例如<i>http://www.yourmoodle.tw</i>",
 "spaceusage": "使用空間",
 "stop": "停止",
 "strings": "字串",
