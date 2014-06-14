@@ -38,6 +38,7 @@
 "days": "Days",
 "delete": "Delete",
 "deletesite": "Delete this site?",
+"deletesiteb": "Delete site",
 "deletesitefiles": "Are you sure that you want to delete the downloaded files from this site?",
 "description": "Description",
 "deviceinfo": "Device info",

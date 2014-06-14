@@ -331,8 +331,8 @@
             </p>
         </div>
         <p>
-            <input type="button" name="reset" id="resetsitebutton" value="<%= MM.lang.s("reset") %>">
             <input type="submit" name="add"   id="addsitebutton"   value="<%= MM.lang.s("add") %>">
+            <input type="button" name="reset" id="resetsitebutton" value="<%= MM.lang.s("reset") %>">
         </p>
     </div>
 </form>
@@ -347,24 +347,22 @@
     <img src="img/login-logo.png" alt="Moodle">
 </h1>
 <% _.each(sites, function(site) { %>
-    <div style="float: left">
-    <a href="" style="display: block">
-    <b><%= MM.util.formatText(site.fullname) %></b><br>
-    <%= MM.util.formatText(site.sitename) %><br>
-    <i><%= site.siteurl %></i>
-    </a>
-    </div>
-    <div style="float: right">
-        <img src="<%= site.userpictureurl %>">
-        <br><a href="">Delete site</a>
-    </div>
-    </a>
-    <div style="clear: both">
-    </div>
+    <div class="accounts">
+        <a class="account-details" href="">
+            <img src="<%= site.userpictureurl %>">
+            <div>
+                <span class="account-fullname"><%= MM.util.formatText(site.fullname) %></span>
+                <span class="account-sitename"><%= MM.util.formatText(site.sitename) %></span>
+                <span class="account-siteurl"><%= site.siteurl %></span>
+            </div>
+        </a>
+        <span class="delete-site" >
+            <a class="btn" href=""><%= MM.lang.s("deletesiteb") %></a>
+        </span>
+      </div>
 <% });%>
-<div style="clear: both; text-align: center; font-color: white">
-<br>
-<a href="#add-site">Add site</a>
+<div class="add-site">
+    <a class="btn" href="#add-site"><%= MM.lang.s("add") %></a>
 </div>
 </script>
 

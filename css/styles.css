@@ -522,7 +522,8 @@ i {
   line-height: 24px;
   text-overflow: ellipsis;
 }
-#add-site input[type="submit"] {
+#add-site input[type="submit"],
+#add-site input[type="button"] {
   position: relative;
   display: inline-block;
   padding: 4px 12px;
@@ -538,6 +539,9 @@ i {
   border-radius: 4px;
   box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
   margin-top: 20px;
+}
+#add-site input[type="button"] {
+  display: none;
 }
 #add-site input[type="submit"]:hover,
 #add-site input[type="submit"]:focus {
@@ -1231,12 +1235,4 @@ select {
   background-position-x: 98%;
   background-repeat: no-repeat;
   background-image: url("../img/loading.gif");
-}
-
-#add-site input[type="button"] {
-  background: #fff;
-  color: #aaa;
-  padding: 0.30769rem 1.23077rem;
-  width: auto;
-  display: none;
 }
