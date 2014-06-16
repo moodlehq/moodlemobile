@@ -65,7 +65,10 @@ var plugins = [];
         };
 
                     var html = MM.tpl.render(MM.plugins.courses.templates.courses.html, values);
-                    MM.panels.show("center", html, {title: "Courses", hideRight: true});
+                    MM.panels.show("center", html, {title: "Courses"});
+                    if (MM.deviceType == "tablet") {
+                        MM.plugins.contents.viewCourseContentsSection(courses[0].id, -1);
+                    }
                 },
                 preSets         = {omitExpires: true},
                 errorCallBack   = MM.showAddSitePanel

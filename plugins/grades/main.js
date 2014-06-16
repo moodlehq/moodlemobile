@@ -19,11 +19,7 @@ define(templates,function (activities) {
 
         viewActivities: function(courseId) {
 
-            MM.panels.showLoading('center');
-
-            if (MM.deviceType == "tablet") {
-                MM.panels.html('right', '');
-            }
+            MM.panels.showLoading('right');
 
             var data = {
             "options[0][name]" : "",
@@ -39,7 +35,7 @@ define(templates,function (activities) {
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 };
                 var html = MM.tpl.render(MM.plugins.grades.templates.activities.html, tpl);
-                MM.panels.show("center", html, {title: "Grades", hideRight: true,});
+                MM.panels.show("right", html, {title: "Grades"});
             });
         },
 
