@@ -218,66 +218,34 @@
     <% }); %>
 </ul>
 
-<h2><%= MM.lang.s("mycourses") %></h2>
-<div id="mycourses">
-    <ul class="nav nav-v js-accordion">
-        <% _.each(courses, function(course) { %>
-            <li class="nav-item">
-                <a href="#" class="toogler expand touch-row">
-                    <div class="course-ico">
-                        <img src="img/ico-course.png" border="0">
-                    </div>
-                    <div class="plugin-name">
-                        <%= course.fullname %>
-                    </div>
-                </a>
-                <ul class="nav submenu">
-                    <% _.each(coursePlugins, function(plugin) { %>
-                        <li class="nav-item">
-                            <a href="<%= plugin.menuURL %><%= course.id %>" class="touch-row">
-                                <% if (plugin.icon) { %>
-        				    		<div class="plugin-ico">
-                                        <img src="<%= plugin.icon %>" border="0">
-                                    </div>
-        						<% } %>
-                                <div class="plugin-name">
-                                    <%= MM.lang.pluginName(plugin.name) %>
-                                </div>
-                            </a>
-                        </li>
-                        <% }); %>
-                    </ul>
-                </li>
-                <% }); %>
-            </ul>
-            <h2></h2>
-            <ul id="general-menu" class="nav nav-v js-accordion">
-                <li class="nav-item no-arrow">
-                    <a href="<%= siteurl%>" target="_blank" class="touch-row">
-                        <span><img src="img/ico-network.png" border="0"></span>
-                        <%= MM.lang.s("website") %>
-                    </a>
-                </li>
-                <li class="nav-item no-arrow">
-                    <a href="<%= MM.lang.s("docsurl") %>" target="_blank" class="touch-row">
-                        <span><img src="img/ico-help.png" border="0"></span>
-                        <%= MM.lang.s("help") %>
-                    </a>
-                </li>
-                <li class="nav-item no-submenu">
-                    <a href="#settings" class="touch-row">
-                        <span><img src="img/ico-settings.png" border="0"></span>
-                        <%= MM.lang.s("settings") %>
-                    </a>
-                </li>
-                <li class="nav-item no-submenu">
-                    <a href="#logout" class="touch-row">
-                        <span><img src="img/logout.png" border="0"></span>
-                        <%= MM.lang.s("logout") %>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <h2></h2>
+    <ul id="general-menu" class="nav nav-v js-accordion">
+        <li class="nav-item no-arrow">
+            <a href="<%= siteurl%>" target="_blank" class="touch-row">
+                <span><img src="img/ico-network.png" border="0"></span>
+                <%= MM.lang.s("website") %>
+            </a>
+        </li>
+        <li class="nav-item no-arrow">
+            <a href="<%= MM.lang.s("docsurl") %>" target="_blank" class="touch-row">
+                <span><img src="img/ico-help.png" border="0"></span>
+                <%= MM.lang.s("help") %>
+            </a>
+        </li>
+        <li class="nav-item no-submenu">
+            <a href="#settings" class="touch-row">
+                <span><img src="img/ico-settings.png" border="0"></span>
+                <%= MM.lang.s("settings") %>
+            </a>
+        </li>
+        <li class="nav-item no-submenu">
+            <a href="#logout" class="touch-row">
+                <span><img src="img/logout.png" border="0"></span>
+                <%= MM.lang.s("logout") %>
+            </a>
+        </li>
+    </ul>
+
 </script>
 
 <script type="text/template" id="settings_template">
