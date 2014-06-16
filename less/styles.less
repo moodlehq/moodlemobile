@@ -611,6 +611,12 @@ i {
     margin-top: 20px;
   }
 
+  input[type="button"] {
+    .btn;
+    display: none;
+  }
+
+
   #helplogin {
     a {
       color: #ffffff;
@@ -967,12 +973,12 @@ form div.error {
   font-weight: normal;
 }
 
-.site-info {
+.row-info {
   float: left;
   width: 90%;
 }
 
-.site-actions {
+.row-actions {
   width: 10%;
   min-width: 20px;
   float: right;
@@ -1417,4 +1423,19 @@ hr {
 select {
   height: 30pt;
   padding: 4px;
+}
+
+#login-details {
+  padding-top: 40px;
+}
+
+#login-credentials {
+  display: none;
+}
+
+.url-loading {
+  background-position: right center;
+  background-position-x: 98%;
+  background-repeat: no-repeat;
+  background-image: url("../img/loading.gif");
 }
