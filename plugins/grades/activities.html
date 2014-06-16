@@ -1,0 +1,36 @@
+
+<div class="content-index">
+
+<table width="100%" cellspacing="3" cellpadding="3">
+    <tr style="font-weight: bold">
+        <td>Activity</td>
+        <td>Grade</td>
+        <td>Range</td>
+        <td>Percetage</td>
+        <td>Feedback</td>
+    </tr>
+    <% _.each(sections, function(section) { %>
+        <% if (typeof(section.modules) != "undefined" && section.modules.length > 0) { %>
+            <tr colspan="5">
+                <td><strong><%= section.name %></strong></td>
+            </tr>
+            <% _.each(section.modules, function(module) { %>
+                <% if (module.modname != "label" && module.modname != "folder"){ %>
+                    <tr>
+                    <td>
+
+                            <img src="img/mod/<%= module.modname %>.png" alt="img">
+
+                            <%= module.name %>
+
+                    </td>
+                    <td>80</td>
+                    <td>0-100</td>
+                    <td>80%</td>
+                    <td>Some feedback here, can be a paragraph but not text so long</td>
+                    </tr>
+                <% } %>
+            <% }); %>
+        <% } %>
+    <% }); %>
+</table>

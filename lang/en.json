@@ -86,6 +86,7 @@
 "fullname": "Full name",
 "general": "General",
 "grade": "Grade",
+"grades": "Grades",
 "groupeventsnotdisplayed": "Group events are not displayed",
 "help": "Help",
 "helpmelogin": "<p>In order to log in, please verify that:</p>1. The Moodle site is version 2.4 or above.<br />2. The Moodle site administrator has enabled Mobile access.<br /><br /><p>To test the app in a Moodle demo site type <i>teacher</i> or <i>student</i> in the <i>Site URL</i> field and click the <b>Add button</b>.</p><p><a href='http://docs.moodle.org/en/Mobile_app' target='_blank'>Visit the Moodle documentation site for more detailed information and help.</a></p>",
