@@ -23,6 +23,23 @@ define(function () {
             ["upload/video", "upload_video", "uploadVideo"]
         ],
 
+        /**
+         * Determines is the plugin is visible.
+         * It may check Moodle remote site version, device OS, device type, etc...
+         * This function is called when a alink to a plugin functinality is going to be rendered.
+         *
+         * @return {bool} True if the plugin is visible for the site and device
+         */
+        isPluginVisible: function() {
+            if (MM.config && MM.config.current_site &&
+                typeof(MM.config.current_site.uploadfiles) != "undefined" &&
+                MM.config.current_site.uploadfiles === 0) {
+
+                return false;
+            }
+            return true;
+        },
+
         browseAlbums: function() {
             MM.log('Trying to get a image from albums', 'Upload');
             MM.Router.navigate("");
