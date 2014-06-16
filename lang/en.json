@@ -117,6 +117,7 @@
 "networkerror": "Network not reachable",
 "networkerrormsg": "Network not enabled or not working.",
 "no": "No",
+"norefreshdisconnected": "The refresh option requires network connection",
 "notaskstobesynchronized": "No tasks to be synchronized",
 "noteadded": "Note added",
 "noticelargefile": "Please note that the file you are requesting to download is large and may take some time to complete.",
