@@ -1248,3 +1248,30 @@ select {
   background-repeat: no-repeat;
   background-image: url("../img/loading.gif");
 }
+.notifications {
+  line-height: 20px;
+  padding: 0 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+.notifications:first-of-type {
+  border-top: none;
+}
+.notifications .name {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.notifications .time {
+  font-size: 12px;
+  font-weight: normal;
+  display: block;
+}
+.notifications .message {
+  word-break: break-word;
+}
+.notifications .message a {
+  color: #08c;
+}
