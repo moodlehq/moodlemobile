@@ -346,7 +346,7 @@
 <% _.each(sites, function(site) { %>
     <div class="accounts">
         <a class="account-details" onclick="MM.loadSite('<%= site.id %>')">
-            <img src="<%= site.userpictureurl %>">
+            <img src="<%= MM.util.getMoodleFilePath(site.userpictureurl, 1, site.id) %>">
             <div>
                 <span class="account-fullname"><%= MM.util.formatText(site.fullname) %></span>
                 <span class="account-sitename"><%= MM.util.formatText(site.sitename) %></span>
