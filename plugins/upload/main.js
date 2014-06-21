@@ -184,6 +184,11 @@ define(function () {
         }
     }
 
+    if (MM.inNodeWK) {
+        // Remove the not supported upload video.
+        plugin.settings.subMenus.pop();
+    }
+
     MM.registerPlugin(plugin);
 
 });
