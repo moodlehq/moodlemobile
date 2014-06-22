@@ -7,6 +7,7 @@
 "address": "Address",
 "addsite": "Add a site",
 "allcachespurged": "All caches purged",
+"allcachesinvalidated": "All caches invalidated",
 "areyousurereset" : "Are you sure you want to reset the application? All of your sites will be deleted.",
 "audionotavailable": "Audio input hardware not available",
 "audiorecordinstructions": "Press Record to start the audio recording, Stop to stop and upload the file.",

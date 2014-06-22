@@ -239,7 +239,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                                             MM.plugins.notifications._renderNotifications(notifications.messages);
                                         }
                                     },
-                                    {cache: false},
+                                    {
+                                        getFromCache: false,
+                                        saveToCache: true
+                                    },
                                     function() {
                                         MM.plugins.notifications._renderNotifications([]);
                                     }
@@ -247,7 +250,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                             }
                         }
                     },
-                    {cache: false},
+                    {
+                        getFromCache: false,
+                        saveToCache: true
+                    },
                     function() {
                         $('a[href="#notifications"]').removeClass('loading-row');
                         MM.plugins.notifications._renderNotifications([]);
@@ -419,7 +425,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                             successCallback();
                             MM.log("Device registered in Moodle", "Notifications");
                         },
-                        {cache: false},
+                        {
+                            getFromCache: false,
+                            saveToCache: false
+                        },
                         function() {
                             errorCallback(MM.lang.s("errorregisteringdeviceinmoodle"));
                             MM.log("Error registering device in Moodle", "Notifications");
@@ -506,7 +515,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                             function() {
                                 MM.log("Device registered in Moodle", "Notifications");
                             },
-                            {cache: false},
+                            {
+                                getFromCache: false,
+                                saveToCache: false
+                            },
                             function() {
                                 MM.log("Error registering device in Moodle", "Notifications");
                             }
