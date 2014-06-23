@@ -30,14 +30,20 @@ define(function () {
                 }
 
                 MM.widgets.dialogClose();
-                MM.moodleWSCall('moodle_message_send_instantmessages', data, function(r){
-                    MM.popMessage(MM.lang.s("messagesent"));
-                }, {sync: true,
-                    syncData: {
-                        name: sendMessage,
-                        description: $("#sendmessagetext").val().substr(0, 30)
+                MM.moodleWSCall('moodle_message_send_instantmessages', data,
+                    function(r){
+                        MM.popMessage(MM.lang.s("messagesent"));
+                    },
+                    {
+                        sync: true,
+                        syncData: {
+                            name: sendMessage,
+                            description: $("#sendmessagetext").val().substr(0, 30)
+                        },
+                        getFromCache: false,
+                        saveToCache: false
                     }
-                    });
+                    );
 
                 // Refresh the hash url for avoid navigation problems.
                 MM.Router.navigate("participant/" + courseId + "/" + userId);
