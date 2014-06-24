@@ -8,7 +8,7 @@
 "plugins" : ["notifications", "upload", "events", "contents", "participants", "addcontact", "addnote", "sendmessage"],
 "wsservice" : "moodle_mobile_app",
 "wsextservice" : "local_mobile",
-"presets" : {"url": "", "username": ""},
+"presets" : {"url": "", "ayan": ""},
 "sync_ws_on" : true,
 "sync_lang_on" : true,
 "sync_css_on" : true,
