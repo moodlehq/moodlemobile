@@ -1,33 +1,39 @@
 
 <div class="content-index">
-
-<table width="100%" cellspacing="3" cellpadding="3">
-    <tr style="font-weight: bold">
-        <td>Activity</td>
-        <td>Grade</td>
-        <td>Range</td>
-        <td>Percetage</td>
-        <td>Feedback</td>
-    </tr>
+    <header>
+        <div>
+            <div class="bd">
+                <h1><%= course.fullname %></h1>
+            </div>
+        </div>
+    </header>
+<table class="grades">
+    <thead>
+        <tr>
+            <th class="activity">Activity</th>
+            <th class="grade">Grade</th>
+            <th class="range">Range</th>
+            <th class="percentage">Percentage</th>
+            <th class="feedback">Feedback</th>
+        </tr>
+    </thead>
     <% _.each(sections, function(section) { %>
         <% if (typeof(section.modules) != "undefined" && section.modules.length > 0) { %>
-            <tr colspan="5">
-                <td><strong><%= section.name %></strong></td>
+            <tr class="section-name" >
+                <th colspan="5"><%= section.name %></th>
             </tr>
             <% _.each(section.modules, function(module) { %>
                 <% if (module.modname != "label" && module.modname != "folder"){ %>
                     <tr>
-                    <td>
-
-                            <img src="img/mod/<%= module.modname %>.png" alt="img">
-
-                            <%= module.name %>
-
-                    </td>
-                    <td>80</td>
-                    <td>0-100</td>
-                    <td>80%</td>
-                    <td>Some feedback here, can be a paragraph but not text so long</td>
+                        <td class="activity">
+                            <img class="module-image" src="img/mod/<%= module.modname %>.png" alt="img">
+                            <span class="module-name"><%= module.name %></span>
+                            <!-- Physics -->
+                        </td>
+                        <td class="grade">80</td>
+                        <td class="range">0-100</td>
+                        <td class="percentage">80%</td>
+                        <td class="feedback">Some feedback here, can be a paragraph but not text so long</td>
                     </tr>
                 <% } %>
             <% }); %>
