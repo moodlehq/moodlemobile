@@ -508,11 +508,6 @@ ol {
   padding: 0.61538rem;
 }
 
-.content-index .bd,
-.users-index .bd {
-  padding-left: 44px;
-}
-
 .content-index img,
 .users-index img {
   width: 34px;
@@ -1439,4 +1434,118 @@ select {
   background-position-x: 98%;
   background-repeat: no-repeat;
   background-image: url("../img/loading.gif");
+}
+
+.grades {
+  border-collapse: collapse;
+  line-height: 20px;
+  width: 100%;
+  thead,
+  th,
+  tr,
+  td {
+    display: block;
+  }
+  thead {
+    tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  }
+  tr {
+    border-bottom: 5px solid #eee;
+    &:last-of-type {
+      border-bottom: 0;
+    }
+  }
+  th {
+    text-align: left;
+    padding: 0 10px;
+  }
+  td {
+    position: relative;
+    padding: 8px 10px 8px 30%;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  td:before {
+    position: absolute;
+    left: 10px;
+    white-space: nowrap;
+  }
+  td.activity:before {
+    content: "Activity";
+  }
+  td.grade:before {
+    content: "Grade";
+  }
+  td.range:before {
+    content: "Range";
+  }
+  td.percentage:before {
+    content: "Percentage";
+  }
+  td.feedback:before {
+    content: "Feedback";
+  }
+  .section-name {
+    background-color: #eee;
+    border-bottom: 1px solid #fff;
+    margin-top: -5px;
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+  .activity {
+    min-height: 50px;
+    .module-image {
+      margin-right: 8px;
+      float: left;
+    }
+    .module-name {
+      display: block;
+    }
+  }
+  .grade {
+    clear: both;
+  }
+}
+
+@media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
+  .grades {
+    thead {
+      display: table-header-group;
+      tr {
+        position: inherit;
+        th {
+          display: table-cell;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+      }
+    }
+    tbody {
+      display: table-row-group;
+    }
+    th {
+      display: table-cell;
+    }
+    tr {
+      display: table-row;
+      border-bottom: 0;
+    }
+    td {
+      display: table-cell;
+      padding-left: 10px;
+    }
+    td:before {
+      display: none;
+    }
+    .grade,
+    .range,
+    .percentage {
+      text-align: right;
+    }
+  }
 }
