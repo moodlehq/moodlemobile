@@ -295,6 +295,22 @@ hr {
   height: auto;
   min-height: 70px;
 }
+/* =2.6 - LOADING OBJECT
+-------------------------------------------------------------------------- */
+.loading-row {
+  background-image: url(../img/loadingwhite.gif);
+  background-repeat: no-repeat;
+  background-position: 95% 50%;
+}
+.loading-menu {
+  background-image: url(../img/loadingblack.gif);
+}
+.url-loading {
+  background-position: right center;
+  background-position-x: 98%;
+  background-repeat: no-repeat;
+  background-image: url("../img/loading.gif");
+}
 /* - THEME STYLES
 -------------------------------------------------------------------------- */
 .panel header,
@@ -1010,14 +1026,6 @@ form div.error {
   display: block;
   padding: 15px;
 }
-.loading-row {
-  background-image: url(../img/loadingwhite.gif);
-  background-repeat: no-repeat;
-  background-position: 95% 50%;
-}
-.loading-menu {
-  background-image: url(../img/loadingblack.gif);
-}
 .menu-home {
   background-image: url(../img/header-home.png);
 }
@@ -1185,39 +1193,6 @@ form div.error {
 }
 #login-credentials {
   display: none;
-}
-.url-loading {
-  background-position: right center;
-  background-position-x: 98%;
-  background-repeat: no-repeat;
-  background-image: url("../img/loading.gif");
-}
-.notifications {
-  line-height: 20px;
-  padding: 0 10px;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 10px;
-  background-color: #fff;
-}
-.notifications:first-of-type {
-  border-top: none;
-}
-.notifications .name {
-  font-weight: bold;
-  border-bottom: 1px solid #eee;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.notifications .time {
-  font-size: 12px;
-  font-weight: normal;
-  display: block;
-}
-.notifications .message {
-  word-break: break-word;
-}
-.notifications .message a {
-  color: #08c;
 }
 .grades {
   border-collapse: collapse;
