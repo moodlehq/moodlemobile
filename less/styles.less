@@ -352,6 +352,118 @@ hr {
 
 /* - THEME STYLES
 -------------------------------------------------------------------------- */
+/* - Opening screen
+-------------------------------------------------------------------------- */
+#add-site,
+#manage-accounts {
+  padding-top: 4.92308rem;
+  h1 {
+    margin-bottom: 2.46154rem;
+    img {
+      width: 133px;
+      height: auto;
+    }
+  }
+}
+
+#add-site {
+  form {
+    *zoom: 1;
+    margin-bottom: 0;
+    &:before,
+    &:after {
+      content: "";
+      display: table;
+    }
+    &:after {
+      clear: both;
+    }
+  }
+  input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+    line-height: 24px;
+    text-overflow: ellipsis;
+  }
+  input[type="submit"] {
+    .btn;
+    margin-top: 20px;
+  }
+  input[type="button"] {
+    .btn;
+    margin-top: 15px;
+    display: none;
+  }
+  #login-details {
+    padding-top: 40px;
+  }
+  #login-credentials {
+    display: none;
+  }
+  #helplogin {
+    a {
+      color: #ffffff;
+      display: inline-block;
+      font-size: 16px;
+      padding: 0 0px;
+      text-decoration: underline;
+      &:first-of-type {
+        float: left;
+      }
+      &:last-of-type {
+        float: right;
+      }
+    }
+  }
+}
+
+#manage-accounts {
+  .accounts {
+    display: block;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  .account-details {
+    img {
+      border-radius: 50%;
+      float: left;
+    }
+    div {
+      display: block;
+      overflow: hidden;
+      border-bottom: 1px solid #ddd;
+      padding: 0 15px 5px 10px;
+      margin-left: 110px;
+      margin-bottom: 10px;
+      background: url(../img/arrow-right2.png) no-repeat right;
+      &:hover,
+      &:focus {
+        background-color: #f5f5f5;
+      }
+    }
+    span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .account-fullname {
+    font-weight: bold;
+  }
+  .delete-site {
+    display: block;
+    text-align: right;
+  }
+  .add-site .btn {
+    display: block;
+  }
+}
+
 .panel header,
 .panel .content,
 .panel footer {
@@ -603,119 +715,6 @@ hr {
   border-left: 1px solid #efefef;
   box-shadow: -10px 0 30px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
-}
-
-#add-site,
-#manage-accounts {
-  padding-top: 4.92308rem;
-  h1 {
-    margin-bottom: 2.46154rem;
-    img {
-      width: 133px;
-      height: auto;
-    }
-  }
-}
-
-#add-site {
-  form {
-    *zoom: 1;
-    margin-bottom: 0;
-    &:before,
-    &:after {
-      content: "";
-      display: table;
-    }
-    &:after {
-      clear: both;
-    }
-  }
-
-  input {
-    width: 100%;
-    padding: 4px 6px;
-    border: 1px solid #CCC;
-    border-radius: 4px;
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
-    line-height: 24px;
-    text-overflow: ellipsis;
-  }
-
-  input[type="submit"] {
-    .btn;
-    margin-top: 20px;
-  }
-
-  input[type="button"] {
-    .btn;
-    margin-top: 15px;
-    display: none;
-  }
-
-
-  #helplogin {
-    a {
-      color: #ffffff;
-      display: inline-block;
-      font-size: 16px;
-      padding: 0 0px;
-      text-decoration: underline;
-      &:first-of-type {
-        float: left;
-      }
-      &:last-of-type {
-        float: right;
-      }
-    }
-  }
-}
-
-#manage-accounts {
-  .accounts {
-    display: block;
-    background-color: #fff;
-    border-radius: 4px;
-    padding: 10px;
-    margin-bottom: 15px;
-  }
-
-  .account-details {
-    img {
-      border-radius: 50%;
-      float: left;
-    }
-    div {
-      display: block;
-      overflow: hidden;
-      border-bottom: 1px solid #ddd;
-      padding: 0 15px 5px 10px;
-      margin-left: 110px;
-      margin-bottom: 10px;
-      background: url(../img/arrow-right2.png) no-repeat right;
-      &:hover,
-      &:focus {
-        background-color: #f5f5f5;
-      }
-    }
-    span {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
-  .account-fullname {
-    font-weight: bold;
-  }
-
-  .delete-site {
-    display: block;
-    text-align: right;
-  }
-
-  .add-site .btn {
-    display: block;
-  }
 }
 
 .jqifade {
@@ -1356,14 +1355,6 @@ form div.error {
 
 .panel-container {
   padding: 6px;
-}
-
-#login-details {
-  padding-top: 40px;
-}
-
-#login-credentials {
-  display: none;
 }
 
 .grades {
