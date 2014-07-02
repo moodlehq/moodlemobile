@@ -194,16 +194,20 @@ hr {
   margin: 0;
   padding: 0;
 }
-.nav-item {
+.nav .nav-item {
   float: left;
+  border-top: 1px solid #f4f4f4;
+  border-bottom: 1px solid #e0e0e0;
 }
-.nav-item > a {
+.nav .nav-item > a {
   cursor: pointer;
   display: block;
   position: relative;
   text-decoration: none;
+  font-weight: bold;
+  padding: 0.61538rem 0 0.61538rem 0.61538rem;
 }
-.nav-item [data-icon]:before {
+.nav .nav-item [data-icon]:before {
   font-size: 22px;
   font-size: 1.375rem;
   position: absolute;
@@ -212,6 +216,20 @@ hr {
 }
 .nav-v .nav-item {
   float: none;
+}
+.selected-row {
+  background-image: url(../img/list-rightarrow.png);
+  background-repeat: no-repeat;
+  background-position: 95% 50%;
+}
+.touch-row {
+  min-height: 42px;
+}
+*:not(input):not(textarea) {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  /* Disable selection/Copy of UIWebView */
+
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -320,14 +338,6 @@ hr {
 }
 .panel footer:before {
   content: '\2014';
-}
-.nav-item {
-  border-top: 1px solid #f4f4f4;
-  border-bottom: 1px solid #e0e0e0;
-}
-.nav-item > a {
-  font-weight: bold;
-  padding: 0.61538rem 0 0.61538rem 0.61538rem;
 }
 .btn-container {
   text-align: center;
@@ -1049,11 +1059,6 @@ form div.error {
   display: block;
   padding: 15px;
 }
-.selected-row {
-  background-image: url(../img/list-rightarrow.png);
-  background-repeat: no-repeat;
-  background-position: 95% 50%;
-}
 .loading-row {
   background-image: url(../img/loadingwhite.gif);
   background-repeat: no-repeat;
@@ -1124,16 +1129,8 @@ form div.error {
   font-weight: bold;
   font-size: 1.2em;
 }
-.touch-row {
-  min-height: 42px;
-}
 #general-menu a > span {
   margin-right: 10px;
-}
-*:not(input):not(textarea) {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  /* Disable selection/Copy of UIWebView */
 }
 .refresh {
   float: right;
