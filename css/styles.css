@@ -253,10 +253,9 @@ hr {
 .btn:focus {
   background-image: none;
 }
-.btn-label {
-  cursor: pointer;
-  display: block;
-  text-decoration: none;
+.centered {
+  margin: 10px;
+  text-align: center;
 }
 /* =2.4 - DROPDOWN MODULE
 ------------------------------------------------------ */
@@ -338,9 +337,6 @@ hr {
 }
 .panel footer:before {
   content: '\2014';
-}
-.btn-container {
-  text-align: center;
 }
 /* - .header-main
 -------------------------------------------------------------------------- */
@@ -901,47 +897,6 @@ form div.error {
 .site-actions img {
   width: 32px;
 }
-.button-bottom-only,
-.button-bottom-two {
-  clear: both;
-  background-color: #DEDFE1;
-  width: 100%;
-  text-align: center;
-  padding: 4px;
-}
-.button-bottom-only button {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  box-shadow: none;
-  color: #666;
-  font-size: 12px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  margin: auto;
-  padding: 0.43077rem 1.23077rem 0.30769rem;
-  width: 33%;
-  border-radius: 50px 50px 50px 50px;
-  text-align: center;
-}
-.button-bottom-two button {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 0;
-  box-shadow: none;
-  color: #666;
-  font-size: 12px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  margin: 0;
-  padding: 0.43077rem 1.23077rem 0.30769rem;
-  width: 33%;
-}
-.button-bottom-two :nth-child(1) button {
-  border-radius: 50px 0 0 50px;
-}
-.button-bottom-two :nth-child(2) button {
-  border-radius: 0 50px 50px 0;
-}
 .checkbox-tic {
   width: 24px;
   height: 24px;
@@ -992,10 +947,6 @@ form div.error {
   -o-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
-}
-.centered {
-  margin: 10px;
-  text-align: center;
 }
 .checkbox-setting {
   text-align: left;
