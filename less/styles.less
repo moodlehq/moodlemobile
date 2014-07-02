@@ -6,7 +6,6 @@
   font-style: normal;
 }
 
-
 /* =1 - BASE STYLES (_base-styles.scss)
 ----------------------------------------------------------------------------*/
 /* =1.1 - HTML5 display definitions
@@ -56,15 +55,13 @@ body {
 a {
   color: #666666;
   text-decoration: none;
-}
-
-a:focus {
-  outline: thin dotted;
-}
-
-a:active,
-a:hover {
-  outline: 0;
+  &:focus {
+    outline: thin dotted;
+  }
+  &:active,
+  &:hover {
+    outline: 0;
+  }
 }
 
 /* =1.4 - Typography
@@ -84,6 +81,10 @@ ol {
 b,
 strong {
   font-weight: bold;
+}
+
+i {
+  text-decoration: none;
 }
 
 sub,
@@ -156,12 +157,37 @@ textarea {
   min-height: 9.84615rem;
 }
 
+select {
+  height: 30pt;
+  padding: 4px;
+}
+
+button {
+  padding-left: 13pt;
+  padding-right: 13pt;
+  background: -webkit-linear-gradient(top, #FEFEFE, #E7E7E7);
+  border-radius: 4pt;
+  border: 1pt solid #CCC;
+  border-bottom: #B3B3B3;
+  height: 30pt;
+  width: 40%;
+  color: #666;
+}
+
+.phone button {
+  width: 60%;
+}
+
 /* =1.7 - Lists
 --------------------------------------------------------*/
 ul,
 ol {
   margin: 0;
   padding: 0;
+}
+
+hr {
+  border: 1px solid #eee;
 }
 
 /* =2 - MODULES
@@ -552,10 +578,6 @@ ol {
   font-size: 12px;
   font-size: 0.75rem;
   padding: 6px;
-}
-
-i {
-  text-decoration: none;
 }
 
 #panel-right,
@@ -1092,22 +1114,6 @@ form div.error {
   transform: rotate(-45deg);
 }
 
-button {
-  padding-left: 13pt;
-  padding-right: 13pt;
-  background: -webkit-linear-gradient(top, #FEFEFE, #E7E7E7);
-  border-radius: 4pt;
-  border: 1pt solid #CCC;
-  border-bottom: #B3B3B3;
-  height: 30pt;
-  width: 40%;
-  color: #666;
-}
-
-.phone button {
-  width: 60%;
-}
-
 .centered {
   margin: 10px;
   text-align: center;
@@ -1408,17 +1414,8 @@ button {
   margin-left: 10px;
 }
 
-hr {
-  border: 1px solid #eee;
-}
-
 .panel-container {
   padding: 6px;
-}
-
-select {
-  height: 30pt;
-  padding: 4px;
 }
 
 #login-details {
