@@ -512,6 +512,28 @@ hr {
   background-image: url(../img/menu-back.png);
 }
 
+/* - Common on three panels
+-------------------------------------------------------------------------- */
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.no-overflow {
+  height: auto;
+  overflow: visible;
+}
+
+.touch-overflow-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+#panel-right,
+#panel-center{
+  border-left: 1px solid #efefef;
+  box-shadow: -10px 0 30px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+
 .panel header,
 .panel .content,
 .panel footer {
@@ -706,13 +728,6 @@ hr {
   font-size: 12px;
   font-size: 0.75rem;
   padding: 6px;
-}
-
-#panel-right,
-#panel-center{
-  border-left: 1px solid #efefef;
-  box-shadow: -10px 0 30px 0 rgba(0, 0, 0, 0.2);
-  background-color: white;
 }
 
 .jqifade {
@@ -1156,25 +1171,12 @@ form div.error {
   padding: 15px;
 }
 
-.touch-overflow-scroll {
-  -webkit-overflow-scrolling: touch;
-}
-
 .dialog-no-close .ui-dialog-titlebar-close {
   display: none;
 }
 
 .dialog-close .ui-dialog-titlebar-close {
   display: block;
-}
-
-.overflow-scroll {
-  overflow: scroll;
-}
-
-.no-overflow {
-  height: auto;
-  overflow: visible;
 }
 
 .welcome {
