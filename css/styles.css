@@ -283,17 +283,17 @@ hr {
   zoom: 1;
   height: 70px;
 }
-.mod-label {
-  overflow: auto;
-  height: auto;
-  min-height: 70px;
-}
 .media .img {
   float: left;
   margin-right: 10px;
 }
 .media .img img {
   display: block;
+}
+.mod-label {
+  overflow: auto;
+  height: auto;
+  min-height: 70px;
 }
 /* - THEME STYLES
 -------------------------------------------------------------------------- */
