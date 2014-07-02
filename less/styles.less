@@ -325,12 +325,6 @@ hr {
   }
 }
 
-.mod-label {
-  overflow: auto;
-  height: auto;
-  min-height: 70px;
-}
-
 /* =2.6 - LOADING OBJECT
 -------------------------------------------------------------------------- */
 .loading-row {
@@ -635,24 +629,158 @@ hr {
   font-weight: bold;
 }
 
-.panel header,
-.panel .content,
-.panel footer {
-  padding: 10px;
+/* - Course page, Settings and Participants on the right panel
+-------------------------------------------------------------------------- */
+.settings-section,
+.content-index h2,
+.user-card h2 {
+  background: #ccc;
+  color: #fff;
+  font-size: 14px;
+  line-height: 24px;
+  margin-bottom: 0;
+  padding-left: 1rem;
+  height: 22px;
 }
 
-.panel header {
-  border-bottom: 1px solid #e0e0e0;
+/* - Course page on the right panel
+-------------------------------------------------------------------------- */
+.content-index {
+  width: 100%;
+  position: relative;
+  header {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    h1 {
+      font-size: 18px;
+      font-size: 1.125rem;
+      margin: 0.3125rem 0 0;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  h3 {
+    font-size: 12px;
+    font-size: 0.75rem;
+    margin: 0 0 0.1875rem;
+    padding: 8px;
+  }
+  p {
+    font-size: 11px;
+    font-size: 0.6875rem;
+    margin: 0;
+  }
+  li {
+    width: 100%;
+  }
+  .media {
+    padding: 0.61538rem;
+  }
+  img {
+    width: 34px;
+    height: auto;
+  }
+  .content-table {
+    width: 100%;
+  }
+  .content-name {
+    margin-right: 80px;
+    a {
+      display: block;
+      min-height: 70px;
+    }
+    &.mod-label {
+      overflow: auto;
+      height: auto;
+      min-height: 70px;
+      margin-right: 0px;
+    }
+  }
+  .content-actions {
+    padding-top: 4px;
+    float: right;
+    width: 80px;
+    text-align: right;
+    img {
+      width: 16px;
+      height: auto;
+    }
+    a {
+      padding: 6px;
+    }
+  }
+  .media-folder .content-name {
+    padding-left: 30px;
+  }
 }
 
-.panel header h1 {
-  font-size: 18px;
-  font-size: 1.125rem;
-  margin: 0.3125rem 0 0;
+.expand-label,
+.collapse-label {
+  background-position-x: 100%;
+  background-position-y: 10px;
+  background-repeat: no-repeat;
 }
 
-.panel header p {
-  margin: 0;
+.expand-label {
+  background-image: url(../img/expandgrey.png);
+}
+
+.collapse-label {
+  background-image: url(../img/collapsegrey.png);
+}
+
+.loading-icon {
+  text-align: center;
+  margin: auto;
+}
+
+.arrow_box {
+  padding: 8px;
+  position: relative;
+  background: #fff;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 8px;
+  &:after,
+  &:before {
+    left: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    top: 25px;
+  }
+  &:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-left-color: #fff;
+    border-width: 8px;
+    margin-top: -5px;
+  }
+  &:before {
+    border-color: rgba(204, 204, 204, 0);
+    border-left-color: #ccc;
+    border-width: 11px;
+    margin-top: -8px;
+  }
+}
+
+.arrow-box-contents {
+  width: 100%;
+  padding-right: 10px;
+  word-wrap: break-word;
+}
+
+//-----Folder and Forum discussions-----
+.back-row a {
+  display: block;
+  padding: 15px;
+}
+
+//-----Notifications and Calendar-----
+.panel-container {
+  padding: 6px;
 }
 
 .panel .content {
@@ -699,68 +827,6 @@ hr {
 .user-menu .user-options .settings .ir {
   background-image: url(../img/ico-settings.png);
   background-position: 80% center;
-}
-
-/* - .content-index
--------------------------------------------------------------------------- */
-.content-index {
-  width: 100%;
-  position: relative;
-}
-
-.settings-section,
-.content-index h2,
-.user-card h2,
-.users-index h2 {
-  background: #ccc;
-  color: #fff;
-  font-size: 14px;
-  line-height: 24px;
-  margin-bottom: 0;
-  padding-left: 1rem;
-  height: 22px;
-}
-
-.content-index .media,
-.users-index .media {
-  padding: 0.61538rem;
-}
-
-.content-index img,
-.users-index img {
-  width: 34px;
-  height: auto;
-}
-
-.content-index .content-actions img {
-  width: 16px;
-  height: auto;
-}
-
-.content-index h3,
-.users-index h3 {
-  font-size: 12px;
-  font-size: 0.75rem;
-  margin: 0 0 0.1875rem;
-  padding: 8px;
-}
-
-.content-index p,
-.users-index p {
-  font-size: 11px;
-  font-size: 0.6875rem;
-  margin: 0;
-}
-
-.content-index header img,
-.users-index header img {
-  width: 55px;
-  height: 55px;
-}
-
-.content-index .user-menu,
-.users-index .user-menu {
-  list-style: none;
 }
 
 /* - .preview
@@ -983,82 +1049,6 @@ form div.error {
   display: none;
 }
 
-.loading-icon {
-  text-align: center;
-  margin: auto;
-}
-
-.content-index .content-table {
-  width: 100%;
-}
-
-.content-index .media-folder .content-name {
-  padding-left: 30px;
-}
-
-.content-index .content-name {
-  margin-right: 80px;
-}
-
-.content-index .content-name a {
-  display: block;
-  min-height: 70px;
-}
-
-.content-index .content-name.mod-label {
-  margin-right: 0px;
-}
-
-.content-index .content-actions {
-  padding-top: 4px;
-  float: right;
-  width: 80px;
-  text-align: right;
-}
-
-.content-index .content-actions a {
-  padding: 6px;
-}
-
-.content-index li {
-  width: 100%;
-}
-
-.arrow_box {
-  padding: 8px;
-  position: relative;
-  background: #fff;
-  border: 2px solid #ccc;
-  -webkit-border-radius: 8px;
-}
-
-.arrow_box:after,
-.arrow_box:before {
-  left: 100%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-}
-
-.arrow_box:after {
-  border-color: rgba(255, 255, 255, 0);
-  border-left-color: #fff;
-  border-width: 8px;
-  top: 25px;
-  margin-top: -5px;
-}
-
-.arrow_box:before {
-  border-color: rgba(204, 204, 204, 0);
-  border-left-color: #ccc;
-  border-width: 11px;
-  top: 25px;
-  margin-top: -8px;
-}
-
 .sites-list .nav-item > a {
   font-weight: normal;
 }
@@ -1183,37 +1173,12 @@ form div.error {
   float: right;
 }
 
-.arrow-box-contents {
-  width: 100%;
-  padding-right: 10px;
-  word-wrap: break-word;
-}
-
-.back-row a {
-  display: block;
-  padding: 15px;
-}
-
 .dialog-no-close .ui-dialog-titlebar-close {
   display: none;
 }
 
 .dialog-close .ui-dialog-titlebar-close {
   display: block;
-}
-
-.expand-label {
-  background-image: url(../img/expandgrey.png);
-  background-position-x: 100%;
-  background-position-y: 10px;
-  background-repeat: no-repeat;
-}
-
-.collapse-label {
-  background-image: url(../img/collapsegrey.png);
-  background-position-x: 100%;
-  background-position-y: 10px;
-  background-repeat: no-repeat;
 }
 
 #app-dialog {
@@ -1323,10 +1288,6 @@ form div.error {
 
 .user-card .user-description {
   margin-left: 10px;
-}
-
-.panel-container {
-  padding: 6px;
 }
 
 .grades {
