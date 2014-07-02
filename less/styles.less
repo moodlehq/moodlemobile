@@ -534,25 +534,105 @@ hr {
   background-color: white;
 }
 
+/* - User menu on the left panel
+-------------------------------------------------------------------------- */
+.user-menu {
+  background-color: #fa8f1c;
+  color: #fff;
+  font-size: 12px;
+  font-size: 0.875rem;
+  padding-bottom: 40px;
+  height: auto;
+  header {
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    .media {
+      padding: 0;
+    }
+    .img img {
+      width: 55px;
+      height: 55px;
+    }
+    h1 {
+      font-size: 20px;
+      font-size: 1.25rem;
+      margin: 0.3125rem 0 0;
+    }
+  }
+  h2 {
+    background: rgba(240, 130, 10, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px -10px rgba(160, 70, 0, 0.3) inset;
+    font-size: 14px;
+    font-size: 0.875rem;
+    margin: 0;
+    padding: 0.61538rem 0 0.61538rem 0.61538rem;
+    min-height: 32px;
+  }
+  .nav-item {
+    border: 0;
+    > a {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      color: #fff;
+    }
+  }
+  .no-arrow > a {
+    background-image: none;
+  }
+  .submenu {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  }
+  #general-menu a > span {
+    margin-right: 10px;
+  }
+}
+
+.refresh {
+  float: right;
+  width: 20px;
+  margin: 4px;
+}
+
+.plugin-ico,
+.course-ico {
+  float: left;
+  padding-right: 4px;
+  margin-right: 10px;
+}
+
+.plugin-name {
+  margin-left: 38px;
+  margin-right: 15px;
+  padding-right: 15px;
+  padding-top: 4px;
+}
+
+.collapse,
+.expand {
+  background-position-x: 95%;
+  background-position-y: 10px;
+  background-repeat: no-repeat;
+}
+
+.collapse {
+  background-image: url(../img/collapse.png);
+}
+
+.expand {
+  background-image: url(../img/expand.png);
+}
+
 .panel header,
 .panel .content,
 .panel footer {
   padding: 10px;
 }
 
-.panel header .media,
-.panel .content .media,
-.panel footer .media {
-  padding: 0;
-}
-
 .panel header {
   border-bottom: 1px solid #e0e0e0;
-}
-
-.panel header .img img {
-  width: 55px;
-  height: 55px;
 }
 
 .panel header h1 {
@@ -586,54 +666,6 @@ hr {
 
 /* - user-menu
 -------------------------------------------------------------------------- */
-.panel.user-menu {
-  background-color: #fa8f1c;
-  color: #fff;
-  font-size: 12px;
-  font-size: 0.875rem;
-  padding-bottom: 40px;
-  height: auto;
-}
-
-.panel.user-menu header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-}
-
-.panel.user-menu header h1 {
-  font-size: 20px;
-  font-size: 1.25rem;
-}
-
-.panel.user-menu h2 {
-  background: rgba(240, 130, 10, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 20px 40px -10px rgba(160, 70, 0, 0.3) inset;
-  font-size: 14px;
-  font-size: 0.875rem;
-  margin: 0;
-  padding: 0.61538rem 0 0.61538rem 0.61538rem;
-  min-height: 32px;
-}
-
-.panel.user-menu .nav-item {
-  border: 0;
-}
-
-.panel.user-menu .nav-item > a {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  color: #fff;
-}
-
-.panel.user-menu .no-arrow > a {
-  background-image: none;
-}
-
-.user-menu .submenu {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-}
 
 .user-menu .user-options .nav-item {
   width: 33.333333%;
@@ -1141,25 +1173,6 @@ form div.error {
   float: right;
 }
 
-.plugin-name {
-  margin-left: 38px;
-  margin-right: 15px;
-  padding-right: 15px;
-  padding-top: 4px;
-}
-
-.course-ico {
-  float: left;
-  padding-right: 4px;
-  margin-right: 10px;
-}
-
-.plugin-ico {
-  float: left;
-  padding-right: 4px;
-  margin-right: 10px;
-}
-
 .arrow-box-contents {
   width: 100%;
   padding-right: 10px;
@@ -1187,20 +1200,6 @@ form div.error {
   font-weight: bold;
 }
 
-.collapse {
-  background-image: url(../img/collapse.png);
-  background-position-x: 95%;
-  background-position-y: 10px;
-  background-repeat: no-repeat;
-}
-
-.expand {
-  background-image: url(../img/expand.png);
-  background-position-x: 95%;
-  background-position-y: 10px;
-  background-repeat: no-repeat;
-}
-
 .expand-label {
   background-image: url(../img/expandgrey.png);
   background-position-x: 100%;
@@ -1213,16 +1212,6 @@ form div.error {
   background-position-x: 100%;
   background-position-y: 10px;
   background-repeat: no-repeat;
-}
-
-#general-menu a > span {
-  margin-right: 10px;
-}
-
-.refresh {
-  float: right;
-  width: 20px;
-  margin: 4px;
 }
 
 #app-dialog {
