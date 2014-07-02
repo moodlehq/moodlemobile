@@ -313,6 +313,143 @@ hr {
 }
 /* - THEME STYLES
 -------------------------------------------------------------------------- */
+/* - Opening screen
+-------------------------------------------------------------------------- */
+#add-site,
+#manage-accounts {
+  padding-top: 4.92308rem;
+}
+#add-site h1,
+#manage-accounts h1 {
+  margin-bottom: 2.46154rem;
+}
+#add-site h1 img,
+#manage-accounts h1 img {
+  width: 133px;
+  height: auto;
+}
+#add-site form {
+  *zoom: 1;
+  margin-bottom: 0;
+}
+#add-site form:before,
+#add-site form:after {
+  content: "";
+  display: table;
+}
+#add-site form:after {
+  clear: both;
+}
+#add-site input {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+  line-height: 24px;
+  text-overflow: ellipsis;
+}
+#add-site input[type="submit"] {
+  position: relative;
+  display: inline-block;
+  padding: 4px 12px;
+  color: #333;
+  text-align: center;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #F5F5F5;
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #b3b3b3;
+  border-radius: 4px;
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+#add-site input[type="submit"]:hover,
+#add-site input[type="submit"]:focus {
+  background-image: none;
+}
+#add-site input[type="button"] {
+  position: relative;
+  display: inline-block;
+  padding: 4px 12px;
+  color: #333;
+  text-align: center;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #F5F5F5;
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #b3b3b3;
+  border-radius: 4px;
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
+  margin-top: 15px;
+  display: none;
+}
+#add-site input[type="button"]:hover,
+#add-site input[type="button"]:focus {
+  background-image: none;
+}
+#add-site #login-details {
+  padding-top: 40px;
+}
+#add-site #login-credentials {
+  display: none;
+}
+#add-site #helplogin a {
+  color: #ffffff;
+  display: inline-block;
+  font-size: 16px;
+  padding: 0 0px;
+  text-decoration: underline;
+}
+#add-site #helplogin a:first-of-type {
+  float: left;
+}
+#add-site #helplogin a:last-of-type {
+  float: right;
+}
+#manage-accounts .accounts {
+  display: block;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+#manage-accounts .account-details img {
+  border-radius: 50%;
+  float: left;
+}
+#manage-accounts .account-details div {
+  display: block;
+  overflow: hidden;
+  border-bottom: 1px solid #ddd;
+  padding: 0 15px 5px 10px;
+  margin-left: 110px;
+  margin-bottom: 10px;
+  background: url(../img/arrow-right2.png) no-repeat right;
+}
+#manage-accounts .account-details div:hover,
+#manage-accounts .account-details div:focus {
+  background-color: #f5f5f5;
+}
+#manage-accounts .account-details span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#manage-accounts .account-fullname {
+  font-weight: bold;
+}
+#manage-accounts .delete-site {
+  display: block;
+  text-align: right;
+}
+#manage-accounts .add-site .btn {
+  display: block;
+}
 .panel header,
 .panel .content,
 .panel footer {
@@ -524,135 +661,6 @@ hr {
   border-left: 1px solid #efefef;
   box-shadow: -10px 0 30px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
-}
-#add-site,
-#manage-accounts {
-  padding-top: 4.92308rem;
-}
-#add-site h1,
-#manage-accounts h1 {
-  margin-bottom: 2.46154rem;
-}
-#add-site h1 img,
-#manage-accounts h1 img {
-  width: 133px;
-  height: auto;
-}
-#add-site form {
-  *zoom: 1;
-  margin-bottom: 0;
-}
-#add-site form:before,
-#add-site form:after {
-  content: "";
-  display: table;
-}
-#add-site form:after {
-  clear: both;
-}
-#add-site input {
-  width: 100%;
-  padding: 4px 6px;
-  border: 1px solid #CCC;
-  border-radius: 4px;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
-  line-height: 24px;
-  text-overflow: ellipsis;
-}
-#add-site input[type="submit"] {
-  position: relative;
-  display: inline-block;
-  padding: 4px 12px;
-  color: #333;
-  text-align: center;
-  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
-  background-color: #F5F5F5;
-  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
-  background-repeat: repeat-x;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #b3b3b3;
-  border-radius: 4px;
-  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
-  margin-top: 20px;
-}
-#add-site input[type="submit"]:hover,
-#add-site input[type="submit"]:focus {
-  background-image: none;
-}
-#add-site input[type="button"] {
-  position: relative;
-  display: inline-block;
-  padding: 4px 12px;
-  color: #333;
-  text-align: center;
-  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
-  background-color: #F5F5F5;
-  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
-  background-repeat: repeat-x;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #b3b3b3;
-  border-radius: 4px;
-  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
-  margin-top: 15px;
-  display: none;
-}
-#add-site input[type="button"]:hover,
-#add-site input[type="button"]:focus {
-  background-image: none;
-}
-#add-site #helplogin a {
-  color: #ffffff;
-  display: inline-block;
-  font-size: 16px;
-  padding: 0 0px;
-  text-decoration: underline;
-}
-#add-site #helplogin a:first-of-type {
-  float: left;
-}
-#add-site #helplogin a:last-of-type {
-  float: right;
-}
-#manage-accounts .accounts {
-  display: block;
-  background-color: #fff;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 15px;
-}
-#manage-accounts .account-details img {
-  border-radius: 50%;
-  float: left;
-}
-#manage-accounts .account-details div {
-  display: block;
-  overflow: hidden;
-  border-bottom: 1px solid #ddd;
-  padding: 0 15px 5px 10px;
-  margin-left: 110px;
-  margin-bottom: 10px;
-  background: url(../img/arrow-right2.png) no-repeat right;
-}
-#manage-accounts .account-details div:hover,
-#manage-accounts .account-details div:focus {
-  background-color: #f5f5f5;
-}
-#manage-accounts .account-details span {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-#manage-accounts .account-fullname {
-  font-weight: bold;
-}
-#manage-accounts .delete-site {
-  display: block;
-  text-align: right;
-}
-#manage-accounts .add-site .btn {
-  display: block;
 }
 .jqifade {
   position: absolute;
@@ -1187,12 +1195,6 @@ form div.error {
 }
 .panel-container {
   padding: 6px;
-}
-#login-details {
-  padding-top: 40px;
-}
-#login-credentials {
-  display: none;
 }
 .grades {
   border-collapse: collapse;
