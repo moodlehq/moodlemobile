@@ -622,13 +622,15 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 MM.popMessage(notifText, {title: MM.lang.s("notifications"), autoclose: 5000, resizable: false});
             }
 
-            var pushNotification = window.plugins.pushNotification;
-            if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
-                MM.plugins.notifications.badgeCount++;
-                pushNotification.setApplicationIconBadgeNumber(
-                    function() {}, // Unused callback.
-                    function() {}, // Unused callback.
-                    MM.plugins.notifications.badgeCount);
+            if (window.plugins) {
+                var pushNotification = window.plugins.pushNotification;
+                if (typeof(pushNotification.setApplicationIconBadgeNumber) === "function") {
+                    MM.plugins.notifications.badgeCount++;
+                    pushNotification.setApplicationIconBadgeNumber(
+                        function() {}, // Unused callback.
+                        function() {}, // Unused callback.
+                        MM.plugins.notifications.badgeCount);
+                }
             }
 
             // Store the notification in the app.
