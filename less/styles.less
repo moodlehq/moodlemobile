@@ -1117,6 +1117,142 @@ hr {
   display: block;
 }
 
+//-----Impromptu-----
+.jqifade {
+  position: absolute;
+  background-color: #aaaaaa;
+}
+
+div.jqi {
+  width: 400px;
+  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+  position: absolute;
+  background-color: #ffffff;
+  font-size: 11px;
+  text-align: left;
+  border: solid 1px #eeeeee;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  padding: 7px;
+  .jqicontainer {
+    font-weight: bold;
+  }
+  .jqiclose {
+    position: absolute;
+    top: 4px; right: -2px;
+    width: 18px;
+    cursor: default;
+    color: #bbbbbb;
+    font-weight: bold;
+  }
+  .jqimessage {
+    padding: 10px;
+    line-height: 20px;
+    color: #444444;
+  }
+  .jqibuttons {
+    text-align: right;
+    padding: 5px 0 5px 0;
+    border: solid 1px #eeeeee;
+    background-color: #f4f4f4;
+  }
+  button {
+    padding: 3px 10px;
+    margin: 0 10px;
+    background-color: #2F6073;
+    border: solid 1px #f4f4f4;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 12px;
+    &:hover {
+      background-color: #728A8C;
+    }
+    &.jqidefaultbutton {
+      background-color: #BF5E26;
+    }
+  }
+}
+
+.jqiwarning .jqi .jqibuttons {
+  background-color: #BF5E26;
+}
+
+.jqi {
+  .jqiarrow {
+    position: absolute;
+    height: 0;
+    width:0;
+    line-height: 0;
+    font-size: 0;
+    border: solid 10px transparent;
+  }
+  .jqiarrowtl {
+    left: 10px;
+    top: -20px;
+    border-bottom-color: #ffffff;
+  }
+  .jqiarrowtc {
+    left: 50%;
+    top: -20px;
+    border-bottom-color: #ffffff;
+    margin-left: -10px;
+  }
+  .jqiarrowtr {
+    right: 10px;
+    top: -20px;
+    border-bottom-color: #ffffff;
+  }
+  .jqiarrowbl {
+    left: 10px;
+    bottom: -20px;
+    border-top-color: #ffffff;
+  }
+  .jqiarrowbc {
+    left: 50%;
+    bottom: -20px;
+    border-top-color: #ffffff;
+    margin-left: -10px;
+  }
+  .jqiarrowbr {
+    right: 10px;
+    bottom: -20px;
+    border-top-color: #ffffff;
+  }
+  .jqiarrowlt {
+    left: -20px;
+    top: 10px;
+    border-right-color: #ffffff;
+  }
+  .jqiarrowlm {
+    left: -20px;
+    top: 50%;
+    border-right-color: #ffffff;
+    margin-top: -10px;
+  }
+  .jqiarrowlb {
+    left: -20px;
+    bottom: 10px;
+    border-right-color: #ffffff;
+  }
+  .jqiarrowrt {
+    right: -20px;
+    top: 10px;
+    border-left-color: #ffffff;
+  }
+  .jqiarrowrm {
+    right: -20px;
+    top: 50%;
+    border-left-color: #ffffff;
+    margin-top: -10px;
+  }
+  .jqiarrowrb {
+    right: -20px;
+    bottom: 10px;
+    border-left-color: #ffffff;
+  }
+}
+
 .panel .content {
   border-top: 1px solid #f4f4f4;
   padding: 0.61538rem 1.23077rem;
@@ -1170,158 +1306,6 @@ hr {
   font-size: 12px;
   font-size: 0.75rem;
   padding: 6px;
-}
-
-.jqifade {
-  position: absolute;
-  background-color: #aaaaaa;
-}
-
-div.jqi {
-  width: 400px;
-  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-  position: absolute;
-  background-color: #ffffff;
-  font-size: 11px;
-  text-align: left;
-  border: solid 1px #eeeeee;
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  padding: 7px;
-}
-
-div.jqi .jqicontainer {
-  font-weight: bold;
-}
-
-div.jqi .jqiclose {
-  position: absolute;
-  top: 4px; right: -2px;
-  width: 18px;
-  cursor: default;
-  color: #bbbbbb;
-  font-weight: bold;
-}
-
-div.jqi .jqimessage {
-  padding: 10px;
-  line-height: 20px;
-  color: #444444;
-}
-
-div.jqi .jqibuttons {
-  text-align: right;
-  padding: 5px 0 5px 0;
-  border: solid 1px #eeeeee;
-  background-color: #f4f4f4;
-}
-
-div.jqi button {
-  padding: 3px 10px;
-  margin: 0 10px;
-  background-color: #2F6073;
-  border: solid 1px #f4f4f4;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 12px;
-}
-
-div.jqi button:hover {
-  background-color: #728A8C;
-}
-
-div.jqi button.jqidefaultbutton {
-  background-color: #BF5E26;
-}
-
-.jqiwarning .jqi .jqibuttons {
-  background-color: #BF5E26;
-}
-
-.jqi .jqiarrow {
-  position: absolute;
-  height: 0;
-  width:0;
-  line-height: 0;
-  font-size: 0;
-  border: solid 10px transparent;
-}
-
-.jqi .jqiarrowtl {
-  left: 10px;
-  top: -20px;
-  border-bottom-color: #ffffff;
-}
-
-.jqi .jqiarrowtc {
-  left: 50%;
-  top: -20px;
-  border-bottom-color: #ffffff;
-  margin-left: -10px;
-}
-
-.jqi .jqiarrowtr {
-  right: 10px;
-  top: -20px;
-  border-bottom-color: #ffffff;
-}
-
-.jqi .jqiarrowbl {
-  left: 10px;
-  bottom: -20px;
-  border-top-color: #ffffff;
-}
-
-.jqi .jqiarrowbc {
-  left: 50%;
-  bottom: -20px;
-  border-top-color: #ffffff;
-  margin-left: -10px;
-}
-
-.jqi .jqiarrowbr {
-  right: 10px;
-  bottom: -20px;
-  border-top-color: #ffffff;
-}
-
-.jqi .jqiarrowlt {
-  left: -20px;
-  top: 10px;
-  border-right-color: #ffffff;
-}
-
-.jqi .jqiarrowlm {
-  left: -20px;
-  top: 50%;
-  border-right-color: #ffffff;
-  margin-top: -10px;
-}
-
-.jqi .jqiarrowlb {
-  left: -20px;
-  bottom: 10px;
-  border-right-color: #ffffff;
-}
-
-.jqi .jqiarrowrt {
-  right: -20px;
-  top: 10px;
-  border-left-color: #ffffff;
-}
-
-.jqi .jqiarrowrm {
-  right: -20px;
-  top: 50%;
-  border-left-color: #ffffff;
-  margin-top: -10px;
-}
-
-.jqi .jqiarrowrb {
-  right: -20px;
-  bottom: 10px;
-  border-left-color: #ffffff;
 }
 
 form div.error {
