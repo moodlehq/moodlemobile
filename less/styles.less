@@ -861,6 +861,67 @@ hr {
   }
 }
 
+/* - Participants list on the center panel
+-------------------------------------------------------------------------- */
+.users-index-list {
+  li {
+    height: 44px;
+  }
+  .nav-item > a {
+    padding-top: 6px;
+    padding-left: 10px;
+    h3 {
+      line-height: 34px;
+      font-weight: normal;
+      font-size: 14px;
+      color: #666;
+    }
+  }
+  .media {
+    height: 42px;
+    .img {
+      min-width: 30px;
+    }
+  }
+}
+
+/* - Participant on the right panel and Notification page on the center panel
+-------------------------------------------------------------------------- */
+.user-card {
+  .content {
+    font-size: 14px;
+    font-size: 0.875rem;
+    padding: 0px;
+  }
+  .user-picture {
+    margin: 10px;
+    img {
+      vertical-align: text-bottom;
+    }
+  }
+  .user-data {
+    list-style: none;
+    li {
+      margin-bottom: 0.30769rem;
+      border-bottom: 1px solid #eee;
+      padding: 5px;
+      padding-left: 10px;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+  .user-description {
+    margin-left: 10px;
+  }
+  .buttons div {
+    clear: both;
+    margin: auto;
+    text-align: center;
+    padding-top: 20px;
+  }
+}
+
 .panel .content {
   border-top: 1px solid #f4f4f4;
   padding: 0.61538rem 1.23077rem;
@@ -1066,47 +1127,6 @@ div.jqi button.jqidefaultbutton {
   right: -20px;
   bottom: 10px;
   border-left-color: #ffffff;
-}
-
-/* - .user-index-list
--------------------------------------------------------------------------- */
-.users-index-list .search {
-  background: #DEDFE1;
-  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
-  padding: 0.61538rem;
-}
-
-.users-index-list .search input {
-  font-size: 14px;
-  font-size: 0.875rem;
-  width: 100%;
-}
-
-.users-index-list h3 {
-  line-height: 34px;
-}
-
-/* - .user-card
--------------------------------------------------------------------------- */
-.imagen {
-  background: #E9E9E9;
-  text-align: center;
-  margin-bottom: 1.23077rem;
-}
-
-.user-data {
-  list-style: none;
-}
-
-.user-data li {
-  margin-bottom: 0.30769rem;
-}
-
-.user-card .buttons div {
-  clear: both;
-  margin: auto;
-  text-align: center;
-  padding-top: 20px;
 }
 
 .mm-setting {
@@ -1317,55 +1337,6 @@ form div.error {
 #app-dialog .modalClear {
   float:none;
   clear: both;
-}
-
-.users-index-list li {
-  height: 44px;
-}
-
-.users-index-list .nav-item > a {
-  padding-top: 6px;
-  padding-left: 10px;
-}
-
-.users-index-list .nav-item > a h3 {
-  font-weight: normal;
-  font-size: 14px;
-  color: #666;
-}
-
-.users-index-list .media .img {
-  min-width: 30px;
-}
-
-.users-index-list .media {
-  height: 42px;
-}
-
-.user-card .content {
-  padding: 0px;
-}
-
-.user-card .user-data li {
-  border-bottom: 1px solid #eee;
-  padding: 5px;
-  padding-left: 10px;
-}
-
-.user-card .user-data li:last-child {
-  border-bottom: none;
-}
-
-.user-card .user-picture {
-  margin: 10px;
-}
-
-.user-card .user-picture img {
-  vertical-align: text-bottom;
-}
-
-.user-card .user-description {
-  margin-left: 10px;
 }
 
 /* - Tablet minimum width 768px
