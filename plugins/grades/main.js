@@ -17,6 +17,11 @@ define(templates,function (activities) {
             ["course/grades/:courseid", "course_grades_activities", "viewActivities"]
         ],
 
+        isPluginVisible: function() {
+            return MM.util.wsAvailable('core_grades_get_grades') ||
+                    MM.util.wsAvailable('local_mobile_core_grades_get_grades');
+        },
+
         viewActivities: function(courseId) {
 
             MM.panels.showLoading('center');
