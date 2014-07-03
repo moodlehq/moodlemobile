@@ -24,6 +24,10 @@ define(templates,function (activities) {
 
         viewActivities: function(courseId) {
 
+            // Adding loading icon.
+            var menuEl = 'a[href="#course/grades/' + courseId + '"]';
+            $(menuEl, '#panel-left').addClass('loading-row');
+
             MM.panels.showLoading('center');
 
             var data = {
@@ -40,6 +44,8 @@ define(templates,function (activities) {
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 };
                 var html = MM.tpl.render(MM.plugins.grades.templates.activities.html, tpl);
+
+                $(menuEl, '#panel-left').removeClass('loading-row');
                 MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
             });
         },
