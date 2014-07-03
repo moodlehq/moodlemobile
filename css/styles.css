@@ -1043,51 +1043,6 @@ hr {
 .dialog-close .ui-dialog-titlebar-close {
   display: block;
 }
-.panel .content {
-  border-top: 1px solid #f4f4f4;
-  padding: 0.61538rem 1.23077rem;
-  font-size: 14px;
-  font-size: 0.875rem;
-}
-.panel footer {
-  font-size: 14px;
-  font-size: 0.875rem;
-  font-style: italic;
-  font-weight: bold;
-  padding: 0.61538rem 1.23077rem;
-}
-.panel footer:before {
-  content: '\2014';
-}
-/* - user-menu
--------------------------------------------------------------------------- */
-.user-menu .user-options .nav-item {
-  width: 33.333333%;
-}
-.user-menu .user-options .nav-item > a {
-  padding: 0;
-  height: 40px;
-}
-.user-menu .user-options .network .ir {
-  background-image: url(../img/ico-network.png);
-  background-position: 20% center;
-}
-.user-menu .user-options .help .ir {
-  background-image: url(../img/ico-help.png);
-  background-position: center;
-}
-.user-menu .user-options .settings .ir {
-  background-image: url(../img/ico-settings.png);
-  background-position: 80% center;
-}
-/* - .preview
--------------------------------------------------------------------------- */
-.preview figcaption {
-  background: #e9e9e9;
-  font-size: 12px;
-  font-size: 0.75rem;
-  padding: 6px;
-}
 .jqifade {
   position: absolute;
   background-color: #aaaaaa;
@@ -1217,6 +1172,51 @@ div.jqi button.jqidefaultbutton {
   right: -20px;
   bottom: 10px;
   border-left-color: #ffffff;
+}
+.panel .content {
+  border-top: 1px solid #f4f4f4;
+  padding: 0.61538rem 1.23077rem;
+  font-size: 14px;
+  font-size: 0.875rem;
+}
+.panel footer {
+  font-size: 14px;
+  font-size: 0.875rem;
+  font-style: italic;
+  font-weight: bold;
+  padding: 0.61538rem 1.23077rem;
+}
+.panel footer:before {
+  content: '\2014';
+}
+/* - user-menu
+-------------------------------------------------------------------------- */
+.user-menu .user-options .nav-item {
+  width: 33.333333%;
+}
+.user-menu .user-options .nav-item > a {
+  padding: 0;
+  height: 40px;
+}
+.user-menu .user-options .network .ir {
+  background-image: url(../img/ico-network.png);
+  background-position: 20% center;
+}
+.user-menu .user-options .help .ir {
+  background-image: url(../img/ico-help.png);
+  background-position: center;
+}
+.user-menu .user-options .settings .ir {
+  background-image: url(../img/ico-settings.png);
+  background-position: 80% center;
+}
+/* - .preview
+-------------------------------------------------------------------------- */
+.preview figcaption {
+  background: #e9e9e9;
+  font-size: 12px;
+  font-size: 0.75rem;
+  padding: 6px;
 }
 form div.error {
   font-style: italic;
