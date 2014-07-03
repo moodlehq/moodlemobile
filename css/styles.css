@@ -740,6 +740,81 @@ hr {
 .panel-container {
   padding: 6px;
 }
+/* - Grades on the right panel
+-------------------------------------------------------------------------- */
+.grades {
+  border-collapse: collapse;
+  line-height: 20px;
+  width: 100%;
+}
+.grades thead,
+.grades th,
+.grades tr,
+.grades td {
+  display: block;
+}
+.grades thead tr {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+.grades tr {
+  border-bottom: 5px solid #eee;
+}
+.grades tr:last-of-type {
+  border-bottom: 0;
+}
+.grades th {
+  text-align: left;
+  padding: 0 10px;
+}
+.grades td {
+  position: relative;
+  padding: 8px 10px 8px 30%;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+.grades td:before {
+  position: absolute;
+  left: 10px;
+  white-space: nowrap;
+}
+.grades td.activity:before {
+  content: "Activity";
+}
+.grades td.grade:before {
+  content: "Grade";
+}
+.grades td.range:before {
+  content: "Range";
+}
+.grades td.percentage:before {
+  content: "Percentage";
+}
+.grades td.feedback:before {
+  content: "Feedback";
+}
+.grades .section-name {
+  background-color: #eee;
+  border-bottom: 1px solid #fff;
+  margin-top: -5px;
+}
+.grades .section-name:first-of-type {
+  margin-top: 0;
+}
+.grades .activity {
+  min-height: 50px;
+}
+.grades .activity .module-image {
+  margin-right: 8px;
+  float: left;
+}
+.grades .activity .module-name {
+  display: block;
+}
+.grades .grade {
+  clear: both;
+}
 .panel .content {
   border-top: 1px solid #f4f4f4;
   padding: 0.61538rem 1.23077rem;
@@ -1164,111 +1239,38 @@ form div.error {
 .user-card .user-description {
   margin-left: 10px;
 }
-.grades {
-  border-collapse: collapse;
-  line-height: 20px;
-  width: 100%;
+/* - Tablet minimum width 768px
+-------------------------------------------------------------------------- */
+.tablet .grades thead {
+  display: table-header-group;
 }
-.grades thead,
-.grades th,
-.grades tr,
-.grades td {
-  display: block;
+.tablet .grades thead tr {
+  position: inherit;
 }
-.grades thead tr {
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
+.tablet .grades thead tr th {
+  display: table-cell;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
-.grades tr {
-  border-bottom: 5px solid #eee;
+.tablet .grades tbody {
+  display: table-row-group;
 }
-.grades tr:last-of-type {
+.tablet .grades th {
+  display: table-cell;
+}
+.tablet .grades tr {
+  display: table-row;
   border-bottom: 0;
 }
-.grades th {
-  text-align: left;
-  padding: 0 10px;
+.tablet .grades td {
+  display: table-cell;
+  padding-left: 10px;
 }
-.grades td {
-  position: relative;
-  padding: 8px 10px 8px 30%;
-  border-bottom: 1px solid #eee;
-  vertical-align: top;
+.tablet .grades td:before {
+  display: none;
 }
-.grades td:before {
-  position: absolute;
-  left: 10px;
-  white-space: nowrap;
-}
-.grades td.activity:before {
-  content: "Activity";
-}
-.grades td.grade:before {
-  content: "Grade";
-}
-.grades td.range:before {
-  content: "Range";
-}
-.grades td.percentage:before {
-  content: "Percentage";
-}
-.grades td.feedback:before {
-  content: "Feedback";
-}
-.grades .section-name {
-  background-color: #eee;
-  border-bottom: 1px solid #fff;
-  margin-top: -5px;
-}
-.grades .section-name:first-of-type {
-  margin-top: 0;
-}
-.grades .activity {
-  min-height: 50px;
-}
-.grades .activity .module-image {
-  margin-right: 8px;
-  float: left;
-}
-.grades .activity .module-name {
-  display: block;
-}
-.grades .grade {
-  clear: both;
-}
-@media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
-  .grades thead {
-    display: table-header-group;
-  }
-  .grades thead tr {
-    position: inherit;
-  }
-  .grades thead tr th {
-    display: table-cell;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-  .grades tbody {
-    display: table-row-group;
-  }
-  .grades th {
-    display: table-cell;
-  }
-  .grades tr {
-    display: table-row;
-    border-bottom: 0;
-  }
-  .grades td {
-    display: table-cell;
-    padding-left: 10px;
-  }
-  .grades td:before {
-    display: none;
-  }
-  .grades .grade,
-  .grades .range,
-  .grades .percentage {
-    text-align: right;
-  }
+.tablet .grades .grade,
+.tablet .grades .range,
+.tablet .grades .percentage {
+  text-align: right;
 }
