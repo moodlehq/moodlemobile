@@ -34,11 +34,8 @@ summary {
 --------------------------------------------------------*/
 html {
   font-family: sans-serif;
-  /* 1 */
-  -webkit-text-size-adjust: 100%;
-  /* 2 */
-  -ms-text-size-adjust: 100%;
-  /* 2 */
+  -webkit-text-size-adjust: 100%; // 1
+  -ms-text-size-adjust: 100%; // 2
 }
 
 body {
@@ -46,7 +43,6 @@ body {
   font-family: Helvetica, sans-serif;
   font-size: 14px;
   line-height: 24px;
-  margin: 0;
   background: #fa8f1c url(../img/bg-orange.png);
 }
 
@@ -210,8 +206,7 @@ hr {
   color: transparent;
   font: 0/0 a;
   text-shadow: none;
-  /* IE 6/7 fallback */
-  *text-indent: -9999px;
+  *text-indent: -9999px; // IE 6/7 fallback
 }
 
 /* =2.2 - NAV MODULE
@@ -462,7 +457,6 @@ hr {
 -------------------------------------------------------------------------- */
 .header-wrapper {
   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
-  z-index: 30;
 }
 
 .header-fixed {
@@ -1053,6 +1047,21 @@ hr {
     width: 25px;
     height: 25px;
   }
+}
+
+//-----Space usage-----
+.table-row {
+  padding: 4px;
+}
+
+.row-right {
+  float: right;
+  width: 100px;
+  text-align: right;
+}
+
+.row-left {
+  margin-right: 80px;
 }
 
 /* - Dialog window
