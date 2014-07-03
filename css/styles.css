@@ -984,6 +984,65 @@ hr {
   width: 25px;
   height: 25px;
 }
+/* - Dialog window
+-------------------------------------------------------------------------- */
+#app-dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 99999;
+  opacity: 0;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+  pointer-events: none;
+}
+#app-dialog > div {
+  width: 90%;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #fa8f1c;
+}
+#app-dialog .modalHeader {
+  padding: 10px;
+  font-size: 1em;
+  color: #fff;
+}
+#app-dialog .modalContent {
+  background: #fff;
+  padding: 5px;
+  margin-left: 1px;
+  margin-right: 1px;
+  text-align: center;
+}
+#app-dialog .modalFooter {
+  background: #fff;
+  padding: 2px;
+  margin-left: 1px;
+  margin-right: 1px;
+  text-align: center;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+}
+#app-dialog .modalClear {
+  float: none;
+  clear: both;
+}
+.dialog-no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+.dialog-close .ui-dialog-titlebar-close {
+  display: block;
+}
 .panel .content {
   border-top: 1px solid #f4f4f4;
   padding: 0.61538rem 1.23077rem;
@@ -1166,63 +1225,6 @@ form div.error {
 }
 .site-actions img {
   width: 32px;
-}
-.dialog-no-close .ui-dialog-titlebar-close {
-  display: none;
-}
-.dialog-close .ui-dialog-titlebar-close {
-  display: block;
-}
-#app-dialog {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 99999;
-  opacity: 0;
-  -webkit-transition: opacity 400ms ease-in;
-  -moz-transition: opacity 400ms ease-in;
-  transition: opacity 400ms ease-in;
-  pointer-events: none;
-}
-#app-dialog > div {
-  width: 90%;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: auto;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background: #fa8f1c;
-}
-#app-dialog .modalHeader {
-  padding: 10px;
-  font-size: 1em;
-  color: #fff;
-}
-#app-dialog .modalContent {
-  background: #fff;
-  padding: 5px;
-  margin-left: 1px;
-  margin-right: 1px;
-  text-align: center;
-}
-#app-dialog .modalFooter {
-  background: #fff;
-  padding: 2px;
-  margin-left: 1px;
-  margin-right: 1px;
-  text-align: center;
-  -webkit-border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
-}
-#app-dialog .modalClear {
-  float: none;
-  clear: both;
 }
 /* - Tablet minimum width 768px
 -------------------------------------------------------------------------- */
