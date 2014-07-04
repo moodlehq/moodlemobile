@@ -221,7 +221,6 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                     'local_mobile_core_message_get_messages',
                     params,
                     function(notifications) {
-                        $('a[href="#notifications"]').removeClass('loading-row');
                         if (notifications.messages) {
                             if (notifications.messages.length >= limit) {
                                 MM.plugins.notifications._renderNotifications(notifications);
@@ -232,6 +231,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                                     'local_mobile_core_message_get_messages',
                                     params,
                                     function(morenotifications) {
+                                        $('a[href="#notifications"]').removeClass('loading-row');
                                         if (morenotifications.messages) {
                                             MM.plugins.notifications._renderNotifications(
                                                 notifications.messages.concat(morenotifications.messages));
@@ -244,6 +244,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                                         saveToCache: true
                                     },
                                     function() {
+                                        $('a[href="#notifications"]').removeClass('loading-row');
                                         MM.plugins.notifications._renderNotifications([]);
                                     }
                                 );
