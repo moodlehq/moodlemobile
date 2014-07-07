@@ -4,6 +4,12 @@ body {
   position: relative;
 }
 
+#add-site,
+#manage-accounts {
+  margin: 0 auto;
+  width: 90%;
+}
+
 #main-wrapper {
   position: absolute;
   margin: 0px;
@@ -13,6 +19,13 @@ body {
   overflow: hidden;
 }
 
+.header-wrapper {
+  position: absolute;
+  width: 100%;
+  left: 100%;
+  z-index: 30;
+}
+
 .panel {
   position: absolute;
 }
@@ -20,6 +33,9 @@ body {
 #panel-left {
   left: 0;
   width: 100%;
+  &.animate {
+    left: -100%;
+  }
 }
 
 #panel-center {
@@ -27,6 +43,9 @@ body {
   width: 100%;
   top: 40px;
   display: none;
+  &.animate {
+    left: 0%;
+  }
 }
 
 #panel-right {
@@ -37,56 +56,21 @@ body {
   display: none;
 }
 
-#panel-left.animate {
-  left: -100%;
-}
-
-#panel-center.animate {
-  left: 0%;
-}
-
-.header-wrapper {
-  position: absolute;
-  width: 100%;
-  left: 100%;
-  z-index: 30;
-}
-
-.user-menu .user-options {
-  background: #fa8f1c url(../img/bg-orange.png);
-  height: 40px;
-  width: 100%;
-}
-
 #mycourses {
   overflow: auto;
   width: 100%;
 }
 
-#add-site,
-#manage-accounts {
-  margin: 0 auto;
-  width: 90%;
-}
-
-.table-row {
-  padding: 4px;
-}
-.row-right {
-  float: right;
-  width: 100px;
-  text-align: right;
-}
-
-.row-left {
-  margin-right: 80px;
-}
-
-@media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
+/* - Tablet minimum width 768px
+-------------------------------------------------------------------------- */
+.tablet {
 	#add-site,
   #manage-accounts {
-    margin: 0 auto;
     width: 70%;
+  }
+
+  .header-wrapper {
+    left: 0%;
   }
 
   #panel-left{
@@ -104,12 +88,5 @@ body {
     width: 67%;
     padding: 0px;
     display: block;
-  }
-
-  .header-wrapper {
-    position: absolute;
-    width: 100%;
-    left: 0%;
-    z-index: 30;
   }
 }
