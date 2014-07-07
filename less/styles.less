@@ -777,6 +777,34 @@ hr {
   padding: 6px;
 }
 
+.notifications {
+  line-height: 20px;
+  padding: 0 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  background-color: #fff;
+  &:first-of-type {
+    border-top: none;;
+  }
+  .name {
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .time {
+    font-size: 12px;
+    font-weight: normal;
+    display: block;
+  }
+  .message {
+    word-break: break-word;
+    a {
+      color : #08c;
+    }
+  }
+}
+
 /* - Grades on the right panel
 -------------------------------------------------------------------------- */
 .grades {
