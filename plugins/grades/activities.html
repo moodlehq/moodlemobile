@@ -29,14 +29,14 @@
                             <span class="module-name"><%= MM.util.formatText(module.name) %></span>
                             <!-- Physics -->
                         </td>
-                        <td id="grade-grade-<%= course.id %>-<%= module.id %>" class="grade">
-                            <img src="img/loading.gif">
+                        <td id="grade-grade-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="grade">
+                            <img src="img/loading.gif" style="width: 16px">
                         </td>
-                        <td id="grade-range-<%= course.id %>-<%= module.id %>" class="range">
+                        <td id="grade-range-<%= course.id %><%= module.modname %>--<%= module.id %>" class="range">
                         </td>
-                        <td id="grade-percentage-<%= course.id %>-<%= module.id %>" class="percentage">
+                        <td id="grade-percentage-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="percentage">
                         </td>
-                        <td id="grade-feedback-<%= course.id %>-<%= module.id %>" class="feedback">
+                        <td id="grade-feedback-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="feedback">
                         </td>
                     </tr>
                 <% } %>

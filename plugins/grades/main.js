@@ -18,8 +18,16 @@ define(templates,function (activities) {
         ],
 
         isPluginVisible: function() {
-            return MM.util.wsAvailable('core_grades_get_grades') ||
-                    MM.util.wsAvailable('local_mobile_core_grades_get_grades');
+            // We store the WSName for later.
+            if (MM.util.wsAvailable('core_grades_get_grades')) {
+                MM.plugins.grades.wsName = 'core_grades_get_grades';
+                return true;
+            }
+            if (MM.util.wsAvailable('local_mobile_core_grades_get_grades')) {
+                MM.plugins.grades.wsName = 'local_mobile_core_grades_get_grades';
+                return true;
+            }
+            return false;
         },
 
         viewActivities: function(courseId) {
@@ -47,7 +55,65 @@ define(templates,function (activities) {
 
                 $(menuEl, '#panel-left').removeClass('loading-row');
                 MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
+
+                var id;
+                // Now, load grades for all the elements
+                $(".grade").each(function() {
+                    id = $(this).attr("id");
+                    if (id) {
+                        MM.plugins.grades._getGradeForActivity(id);
+                    }
+                });
             });
+        },
+
+        _getGradeForActivity: function(id) {
+
+            var info = id.split("-");
+
+            var data = {
+                "courseid" : parseInt(info[3]),
+                "component" : "mod_" + info[4],
+                "activityid" : parseInt(info[5]),
+                "userids[0]" : MM.config.current_site.userid
+            };
+
+            var grade = "--";
+            var range = "--";
+            var percentage = "--";
+            var feedback = "--";
+
+            MM.moodleWSCall(MM.plugins.grades.wsName, data, function(contents) {
+
+                if(contents.items && contents.items[0]) {
+                    var min = contents.items[0]["grademin"];
+                    var max = contents.items[0]["grademax"];
+                    range = min + " - " + max;
+
+                    if (contents.items[0]["grades"] && contents.items[0]["grades"][0]) {
+                        gradeInfo = contents.items[0]["grades"][0];
+
+                        grade = gradeInfo["str_long_grade"];
+                        feedback = MM.util.formatText(gradeInfo["str_feedback"], true);
+                        numGrade = gradeInfo["grade"];
+
+                        percentage = ((numGrade - min) * 100) / (max - min);
+                    }
+                }
+                $("#" + id).html(grade);
+                $("#" + id.replace("-grade-", "-range-")).html(range);
+                $("#" + id.replace("-grade-", "-percentage-")).html(percentage);
+                $("#" + id.replace("-grade-", "-feedback-")).html(feedback);
+
+            }, {},
+                function() {
+                    $("#" + id).html(grade);
+                    $("#" + id.replace("-grade-", "-range-")).html(range);
+                    $("#" + id.replace("-grade-", "-percentage-")).html(percentage);
+                    $("#" + id.replace("-grade-", "-feedback-")).html(feedback);
+                }
+            );
+
         },
 
         templates: {
