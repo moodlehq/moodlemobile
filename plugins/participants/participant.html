@@ -1,8 +1,12 @@
     <div class="user-card">
         <div class="content">
-            <div class="user-picture">
-                <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" alt="<% print( MM.util.formatText(user.fullname)); %>" />
-                &nbsp;&nbsp;<strong><% print( MM.util.formatText(user.fullname)); %></strong>
+            <div class="user-picture media">
+                <div class="img">
+                    <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" alt="<% print( MM.util.formatText(user.fullname)); %>" />
+                </div>
+                <div class="bd">
+                    <h1><% print( MM.util.formatText(user.fullname)); %></h1>
+                </div>
             </div>
 
             <h2><%= MM.lang.s("contact") %></h2>

@@ -323,13 +323,16 @@ hr {
   overflow: hidden;
   *overflow: visible;
   zoom: 1;
-  height: 70px;
   .img {
     float: left;
-    margin-right: 10px;
     img {
       display: block;
+      margin-right: 8px;
     }
+  }
+  .bd {
+    display: block;
+    overflow: hidden;
   }
 }
 
@@ -547,9 +550,6 @@ hr {
   header {
     padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    .media {
-      padding: 0;
-    }
     .img img {
       width: 55px;
       height: 55px;
@@ -650,13 +650,6 @@ hr {
     width: 100%;
     padding: 8px 10px;
   }
-  .media {
-    padding: 0.61538rem;
-  }
-  img {
-    width: 34px;
-    height: auto;
-  }
   .content-table {
     width: 100%;
   }
@@ -664,6 +657,10 @@ hr {
     a {
       display: block;
       min-height: 34px;
+    }
+    img {
+      width: 24px;
+      height: auto;
     }
     &.mod-label {
       overflow: auto;
@@ -676,7 +673,6 @@ hr {
     }
   }
   .content-actions {
-    padding-top: 4px;
     float: right;
     width: 80px;
     text-align: right;
@@ -693,7 +689,7 @@ hr {
 .expand-label,
 .collapse-label {
   background-position-x: 100%;
-  background-position-y: 10px;
+  background-position-y: 4px;
   background-repeat: no-repeat;
 }
 
@@ -849,16 +845,6 @@ hr {
       margin-top: 0;
     }
   }
-  .activity {
-    min-height: 50px;
-    .module-image {
-      margin-right: 8px;
-      float: left;
-    }
-    .module-name {
-      display: block;
-    }
-  }
   .grade {
     clear: both;
   }
@@ -872,16 +858,13 @@ hr {
   }
   .nav-item > a {
     padding-top: 6px;
-    padding-left: 10px;
+    img {
+      width: 30px;
+      height: 30px;
+    }
     p {
       line-height: 30px;
       margin: 0;
-    }
-  }
-  .media {
-    height: 42px;
-    .img {
-      min-width: 30px;
     }
   }
 }
@@ -890,9 +873,21 @@ hr {
 -------------------------------------------------------------------------- */
 .user-card {
   .user-picture {
-    margin: 10px;
+    padding: 10px;
+  }
+  .media {
+    position: relative;
     img {
-      vertical-align: text-bottom;
+      width: 100px;
+      height: 100px;
+    }
+    .bd {
+      position: absolute;
+      bottom: 0;
+      padding-left: 110px;
+      h1 {
+        margin-bottom: 12px;
+      }
     }
   }
   .user-data {

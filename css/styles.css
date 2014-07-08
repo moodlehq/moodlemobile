@@ -287,14 +287,17 @@ hr {
   overflow: hidden;
   *overflow: visible;
   zoom: 1;
-  height: 70px;
 }
 .media .img {
   float: left;
-  margin-right: 10px;
 }
 .media .img img {
   display: block;
+  margin-right: 8px;
+}
+.media .bd {
+  display: block;
+  overflow: hidden;
 }
 /* =2.6 - LOADING OBJECT
 -------------------------------------------------------------------------- */
@@ -521,9 +524,6 @@ hr {
   padding: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
-.user-menu header .media {
-  padding: 0;
-}
 .user-menu header .img img {
   width: 55px;
   height: 55px;
@@ -615,19 +615,16 @@ hr {
   width: 100%;
   padding: 8px 10px;
 }
-.content-index .media {
-  padding: 0.61538rem;
-}
-.content-index img {
-  width: 34px;
-  height: auto;
-}
 .content-index .content-table {
   width: 100%;
 }
 .content-index .content-name a {
   display: block;
   min-height: 34px;
+}
+.content-index .content-name img {
+  width: 24px;
+  height: auto;
 }
 .content-index .content-name.mod-label {
   overflow: auto;
@@ -639,7 +636,6 @@ hr {
   padding-right: 80px;
 }
 .content-index .content-actions {
-  padding-top: 4px;
   float: right;
   width: 80px;
   text-align: right;
@@ -654,7 +650,7 @@ hr {
 .expand-label,
 .collapse-label {
   background-position-x: 100%;
-  background-position-y: 10px;
+  background-position-y: 4px;
   background-repeat: no-repeat;
 }
 .expand-label {
@@ -798,16 +794,6 @@ hr {
 .grades .section-name:first-of-type {
   margin-top: 0;
 }
-.grades .activity {
-  min-height: 50px;
-}
-.grades .activity .module-image {
-  margin-right: 8px;
-  float: left;
-}
-.grades .activity .module-name {
-  display: block;
-}
 .grades .grade {
   clear: both;
 }
@@ -818,25 +804,34 @@ hr {
 }
 .users-index-list .nav-item > a {
   padding-top: 6px;
-  padding-left: 10px;
+}
+.users-index-list .nav-item > a img {
+  width: 30px;
+  height: 30px;
 }
 .users-index-list .nav-item > a p {
   line-height: 30px;
   margin: 0;
 }
-.users-index-list .media {
-  height: 42px;
-}
-.users-index-list .media .img {
-  min-width: 30px;
-}
 /* - Participant on the right panel and Notification page on the center panel
 -------------------------------------------------------------------------- */
 .user-card .user-picture {
-  margin: 10px;
+  padding: 10px;
 }
-.user-card .user-picture img {
-  vertical-align: text-bottom;
+.user-card .media {
+  position: relative;
+}
+.user-card .media img {
+  width: 100px;
+  height: 100px;
+}
+.user-card .media .bd {
+  position: absolute;
+  bottom: 0;
+  padding-left: 110px;
+}
+.user-card .media .bd h1 {
+  margin-bottom: 12px;
 }
 .user-card .user-data {
   list-style: none;

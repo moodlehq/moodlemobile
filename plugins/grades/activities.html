@@ -24,9 +24,13 @@
             <% _.each(section.modules, function(module) { %>
                 <% if (module.modname != "label" && module.modname != "folder" && ! module.contents){ %>
                     <tr>
-                        <td class="activity">
-                            <img class="module-image" src="img/mod/<%= module.modname %>.png" alt="img">
-                            <span class="module-name"><%= MM.util.formatText(module.name) %></span>
+                        <td class="activity media">
+                            <div class="img">
+                                <img src="img/mod/<%= module.modname %>.png" alt="img">
+                            </div>
+                            <div class="bd">
+                                <p><%= MM.util.formatText(module.name) %></p>
+                            </div>
                             <!-- Physics -->
                         </td>
                         <td id="grade-grade-<%= course.id %>-<%= module.id %>" class="grade">
