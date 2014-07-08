@@ -33,11 +33,13 @@ html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+  font-size: 100%;
 }
 body {
   color: #666666;
   font-family: Helvetica, sans-serif;
   font-size: 14px;
+  font-size: .875rem;
   line-height: 24px;
   background: #fa8f1c url(../img/bg-orange.png);
 }
@@ -66,6 +68,18 @@ p,
 ul,
 ol {
   margin-top: 0;
+}
+h1 {
+  font-size: 18px;
+  font-size: 1.125rem;
+  margin: 5px 0 0;
+}
+h2 {
+  font-size: 100%;
+  line-height: 20px;
+  margin: 0;
+  padding: 0 10px;
+  background-color: #eee;
 }
 b,
 strong {
@@ -126,8 +140,6 @@ input[disabled] {
 textarea {
   border: 1px solid #e0e0e0;
   border-radius: 0.30769rem;
-  font-size: 14px;
-  font-size: 0.875rem;
   overflow: auto;
   padding: 0.61538rem;
   vertical-align: top;
@@ -199,8 +211,7 @@ hr {
   display: block;
   position: relative;
   text-decoration: none;
-  font-weight: bold;
-  padding: 0.61538rem 0 0.61538rem 0.61538rem;
+  padding: 8px 10px;
 }
 .nav .nav-item [data-icon]:before {
   font-size: 22px;
@@ -224,6 +235,7 @@ hr {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   /* Disable selection/Copy of UIWebView */
+
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -275,14 +287,17 @@ hr {
   overflow: hidden;
   *overflow: visible;
   zoom: 1;
-  height: 70px;
 }
 .media .img {
   float: left;
-  margin-right: 10px;
 }
 .media .img img {
   display: block;
+  margin-right: 8px;
+}
+.media .bd {
+  display: block;
+  overflow: hidden;
 }
 /* =2.6 - LOADING OBJECT
 -------------------------------------------------------------------------- */
@@ -308,14 +323,11 @@ hr {
 #manage-accounts {
   padding-top: 4.92308rem;
 }
-#add-site h1,
-#manage-accounts h1 {
-  margin-bottom: 2.46154rem;
-}
 #add-site h1 img,
 #manage-accounts h1 img {
   width: 133px;
   height: auto;
+  margin-bottom: 40px;
 }
 #add-site form {
   *zoom: 1;
@@ -389,10 +401,10 @@ hr {
 }
 #add-site #helplogin a {
   color: #ffffff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  letter-spacing: .5px;
   display: inline-block;
-  font-size: 16px;
-  padding: 0 0px;
-  text-decoration: underline;
+  padding: 0 5px;
 }
 #add-site #helplogin a:first-of-type {
   float: left;
@@ -471,8 +483,10 @@ hr {
   height: 40px;
 }
 #page-title {
-  font-weight: bold;
-  font-size: 1.2em;
+  font-size: 16px;
+  font-size: 1rem;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  letter-spacing: .5px;
 }
 .menu-home {
   background-image: url(../img/header-home.png);
@@ -503,8 +517,6 @@ hr {
 .user-menu {
   background-color: #fa8f1c;
   color: #fff;
-  font-size: 12px;
-  font-size: 0.875rem;
   padding-bottom: 40px;
   height: auto;
 }
@@ -512,28 +524,23 @@ hr {
   padding: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
-.user-menu header .media {
-  padding: 0;
-}
 .user-menu header .img img {
   width: 55px;
   height: 55px;
 }
 .user-menu header h1 {
-  font-size: 20px;
-  font-size: 1.25rem;
-  margin: 0.3125rem 0 0;
+  font-weight: normal;
+  line-height: 20px;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
 }
 .user-menu h2 {
+  font-weight: normal;
+  letter-spacing: .5px;
+  height: 22px;
   background: rgba(240, 130, 10, 0.3);
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   box-shadow: 0 20px 40px -10px rgba(160, 70, 0, 0.3) inset;
-  font-size: 14px;
-  font-size: 0.875rem;
-  margin: 0;
-  padding: 0.61538rem 0 0.61538rem 0.61538rem;
-  min-height: 32px;
 }
 .user-menu .nav-item {
   border: 0;
@@ -542,6 +549,8 @@ hr {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   color: #fff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  letter-spacing: .5px;
 }
 .user-menu .no-arrow > a {
   background-image: none;
@@ -588,21 +597,6 @@ hr {
   width: 100%;
   text-align: center;
   padding-top: 30px;
-  font-size: 14px;
-  font-weight: bold;
-}
-/* - Course page, Settings and Participants on the right panel
--------------------------------------------------------------------------- */
-.settings-section,
-.content-index h2,
-.user-card h2 {
-  background: #ccc;
-  color: #fff;
-  font-size: 14px;
-  line-height: 24px;
-  margin-bottom: 0;
-  padding-left: 1rem;
-  height: 22px;
 }
 /* - Course page on the right panel
 -------------------------------------------------------------------------- */
@@ -614,53 +608,34 @@ hr {
   padding: 10px;
   border-bottom: 1px solid #e0e0e0;
 }
-.content-index header h1 {
-  font-size: 18px;
-  font-size: 1.125rem;
-  margin: 0.3125rem 0 0;
-}
-.content-index header p {
-  margin: 0;
-}
-.content-index h3 {
-  font-size: 12px;
-  font-size: 0.75rem;
-  margin: 0 0 0.1875rem;
-  padding: 8px;
-}
 .content-index p {
-  font-size: 11px;
-  font-size: 0.6875rem;
   margin: 0;
 }
 .content-index li {
   width: 100%;
-}
-.content-index .media {
-  padding: 0.61538rem;
-}
-.content-index img {
-  width: 34px;
-  height: auto;
+  padding: 8px 10px;
 }
 .content-index .content-table {
   width: 100%;
 }
-.content-index .content-name {
-  margin-right: 80px;
-}
 .content-index .content-name a {
   display: block;
-  min-height: 70px;
+  min-height: 34px;
+}
+.content-index .content-name img {
+  width: 24px;
+  height: auto;
 }
 .content-index .content-name.mod-label {
   overflow: auto;
-  height: auto;
-  min-height: 70px;
-  margin-right: 0px;
+}
+.content-index .content-name.mod-label h3 {
+  font-size: 100%;
+  font-weight: normal;
+  margin: 0;
+  padding-right: 80px;
 }
 .content-index .content-actions {
-  padding-top: 4px;
   float: right;
   width: 80px;
   text-align: right;
@@ -669,16 +644,13 @@ hr {
   width: 16px;
   height: auto;
 }
-.content-index .content-actions a {
-  padding: 6px;
-}
 .content-index .media-folder .content-name {
   padding-left: 30px;
 }
 .expand-label,
 .collapse-label {
   background-position-x: 100%;
-  background-position-y: 10px;
+  background-position-y: 4px;
   background-repeat: no-repeat;
 }
 .expand-label {
@@ -822,16 +794,6 @@ hr {
 .grades .section-name:first-of-type {
   margin-top: 0;
 }
-.grades .activity {
-  min-height: 50px;
-}
-.grades .activity .module-image {
-  margin-right: 8px;
-  float: left;
-}
-.grades .activity .module-name {
-  display: block;
-}
 .grades .grade {
   clear: both;
 }
@@ -842,32 +804,34 @@ hr {
 }
 .users-index-list .nav-item > a {
   padding-top: 6px;
-  padding-left: 10px;
 }
-.users-index-list .nav-item > a h3 {
-  line-height: 34px;
-  font-weight: normal;
-  font-size: 14px;
-  color: #666;
+.users-index-list .nav-item > a img {
+  width: 30px;
+  height: 30px;
 }
-.users-index-list .media {
-  height: 42px;
-}
-.users-index-list .media .img {
-  min-width: 30px;
+.users-index-list .nav-item > a p {
+  line-height: 30px;
+  margin: 0;
 }
 /* - Participant on the right panel and Notification page on the center panel
 -------------------------------------------------------------------------- */
-.user-card .content {
-  font-size: 14px;
-  font-size: 0.875rem;
-  padding: 0px;
-}
 .user-card .user-picture {
-  margin: 10px;
+  padding: 10px;
 }
-.user-card .user-picture img {
-  vertical-align: text-bottom;
+.user-card .media {
+  position: relative;
+}
+.user-card .media img {
+  width: 100px;
+  height: 100px;
+}
+.user-card .media .bd {
+  position: absolute;
+  bottom: 0;
+  padding-left: 110px;
+}
+.user-card .media .bd h1 {
+  margin-bottom: 12px;
 }
 .user-card .user-data {
   list-style: none;
@@ -1044,8 +1008,11 @@ hr {
 }
 #app-dialog .modalHeader {
   padding: 10px;
-  font-size: 1em;
+  font-size: 16px;
+  font-size: 1rem;
   color: #fff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  letter-spacing: .5px;
 }
 #app-dialog .modalContent {
   background: #fff;
@@ -1053,6 +1020,9 @@ hr {
   margin-left: 1px;
   margin-right: 1px;
   text-align: center;
+}
+#app-dialog .modalContent textarea {
+  color: #666666;
 }
 #app-dialog .modalFooter {
   background: #fff;

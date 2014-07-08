@@ -36,12 +36,14 @@ html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%; // 1
   -ms-text-size-adjust: 100%; // 2
+  font-size: 100%;
 }
 
 body {
   color: #666666;
   font-family: Helvetica, sans-serif;
   font-size: 14px;
+  font-size: .875rem;
   line-height: 24px;
   background: #fa8f1c url(../img/bg-orange.png);
 }
@@ -72,6 +74,20 @@ p,
 ul,
 ol {
   margin-top: 0;
+}
+
+h1 {
+  font-size: 18px;
+  font-size: 1.125rem;
+  margin: 5px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 20px;
+  margin: 0;
+  padding: 0 10px;
+  background-color: #eee;
 }
 
 b,
@@ -144,8 +160,6 @@ input[disabled] {
 textarea {
   border: 1px solid #e0e0e0;
   border-radius: 0.30769rem;
-  font-size: 14px;
-  font-size: 0.875rem;
   overflow: auto;
   padding: 0.61538rem;
   vertical-align: top;
@@ -224,8 +238,7 @@ hr {
       display: block;
       position: relative;
       text-decoration: none;
-      font-weight: bold;
-      padding: 0.61538rem 0 0.61538rem 0.61538rem;
+      padding: 8px 10px;
     }
     [data-icon]:before {
       font-size: 22px;
@@ -310,13 +323,16 @@ hr {
   overflow: hidden;
   *overflow: visible;
   zoom: 1;
-  height: 70px;
   .img {
     float: left;
-    margin-right: 10px;
     img {
       display: block;
+      margin-right: 8px;
     }
+  }
+  .bd {
+    display: block;
+    overflow: hidden;
   }
 }
 
@@ -347,10 +363,10 @@ hr {
 #manage-accounts {
   padding-top: 4.92308rem;
   h1 {
-    margin-bottom: 2.46154rem;
     img {
       width: 133px;
       height: auto;
+      margin-bottom: 40px;
     }
   }
 }
@@ -395,10 +411,10 @@ hr {
   #helplogin {
     a {
       color: #ffffff;
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+      letter-spacing: .5px;
       display: inline-block;
-      font-size: 16px;
-      padding: 0 0px;
-      text-decoration: underline;
+      padding: 0 5px;
       &:first-of-type {
         float: left;
       }
@@ -488,8 +504,10 @@ hr {
 }
 
 #page-title {
-  font-weight: bold;
-  font-size: 1.2em;
+  font-size: 16px;
+  font-size: 1rem;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  letter-spacing: .5px;
 }
 
 .menu-home {
@@ -527,36 +545,29 @@ hr {
 .user-menu {
   background-color: #fa8f1c;
   color: #fff;
-  font-size: 12px;
-  font-size: 0.875rem;
   padding-bottom: 40px;
   height: auto;
   header {
     padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    .media {
-      padding: 0;
-    }
     .img img {
       width: 55px;
       height: 55px;
     }
     h1 {
-      font-size: 20px;
-      font-size: 1.25rem;
-      margin: 0.3125rem 0 0;
+      font-weight: normal;
+      line-height: 20px;
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
     }
   }
   h2 {
+    font-weight: normal;
+    letter-spacing: .5px;
+    height: 22px;
     background: rgba(240, 130, 10, 0.3);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0 20px 40px -10px rgba(160, 70, 0, 0.3) inset;
-    font-size: 14px;
-    font-size: 0.875rem;
-    margin: 0;
-    padding: 0.61538rem 0 0.61538rem 0.61538rem;
-    min-height: 32px;
   }
   .nav-item {
     border: 0;
@@ -564,6 +575,8 @@ hr {
       border-top: 1px solid rgba(255, 255, 255, 0.2);
       border-bottom: 1px solid rgba(0, 0, 0, 0.15);
       color: #fff;
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+      letter-spacing: .5px;
     }
   }
   .no-arrow > a {
@@ -619,22 +632,6 @@ hr {
   width: 100%;
   text-align: center;
   padding-top: 30px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-/* - Course page, Settings and Participants on the right panel
--------------------------------------------------------------------------- */
-.settings-section,
-.content-index h2,
-.user-card h2 {
-  background: #ccc;
-  color: #fff;
-  font-size: 14px;
-  line-height: 24px;
-  margin-bottom: 0;
-  padding-left: 1rem;
-  height: 22px;
 }
 
 /* - Course page on the right panel
@@ -645,63 +642,43 @@ hr {
   header {
     padding: 10px;
     border-bottom: 1px solid #e0e0e0;
-    h1 {
-      font-size: 18px;
-      font-size: 1.125rem;
-      margin: 0.3125rem 0 0;
-    }
-    p {
-      margin: 0;
-    }
-  }
-  h3 {
-    font-size: 12px;
-    font-size: 0.75rem;
-    margin: 0 0 0.1875rem;
-    padding: 8px;
   }
   p {
-    font-size: 11px;
-    font-size: 0.6875rem;
     margin: 0;
   }
   li {
     width: 100%;
-  }
-  .media {
-    padding: 0.61538rem;
-  }
-  img {
-    width: 34px;
-    height: auto;
+    padding: 8px 10px;
   }
   .content-table {
     width: 100%;
   }
   .content-name {
-    margin-right: 80px;
     a {
       display: block;
-      min-height: 70px;
+      min-height: 34px;
+    }
+    img {
+      width: 24px;
+      height: auto;
     }
     &.mod-label {
       overflow: auto;
-      height: auto;
-      min-height: 70px;
-      margin-right: 0px;
+      h3 {
+        font-size: 100%;
+        font-weight: normal;
+        margin: 0;
+        padding-right: 80px;
+      }
     }
   }
   .content-actions {
-    padding-top: 4px;
     float: right;
     width: 80px;
     text-align: right;
     img {
       width: 16px;
       height: auto;
-    }
-    a {
-      padding: 6px;
     }
   }
   .media-folder .content-name {
@@ -712,7 +689,7 @@ hr {
 .expand-label,
 .collapse-label {
   background-position-x: 100%;
-  background-position-y: 10px;
+  background-position-y: 4px;
   background-repeat: no-repeat;
 }
 
@@ -868,16 +845,6 @@ hr {
       margin-top: 0;
     }
   }
-  .activity {
-    min-height: 50px;
-    .module-image {
-      margin-right: 8px;
-      float: left;
-    }
-    .module-name {
-      display: block;
-    }
-  }
   .grade {
     clear: both;
   }
@@ -891,18 +858,13 @@ hr {
   }
   .nav-item > a {
     padding-top: 6px;
-    padding-left: 10px;
-    h3 {
-      line-height: 34px;
-      font-weight: normal;
-      font-size: 14px;
-      color: #666;
+    img {
+      width: 30px;
+      height: 30px;
     }
-  }
-  .media {
-    height: 42px;
-    .img {
-      min-width: 30px;
+    p {
+      line-height: 30px;
+      margin: 0;
     }
   }
 }
@@ -910,15 +872,22 @@ hr {
 /* - Participant on the right panel and Notification page on the center panel
 -------------------------------------------------------------------------- */
 .user-card {
-  .content {
-    font-size: 14px;
-    font-size: 0.875rem;
-    padding: 0px;
-  }
   .user-picture {
-    margin: 10px;
+    padding: 10px;
+  }
+  .media {
+    position: relative;
     img {
-      vertical-align: text-bottom;
+      width: 100px;
+      height: 100px;
+    }
+    .bd {
+      position: absolute;
+      bottom: 0;
+      padding-left: 110px;
+      h1 {
+        margin-bottom: 12px;
+      }
     }
   }
   .user-data {
@@ -1120,8 +1089,11 @@ hr {
   }
   .modalHeader  {
     padding: 10px;
-    font-size: 1em;
+    font-size: 16px;
+    font-size: 1rem;
     color: #fff;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+    letter-spacing: .5px;
   }
   .modalContent {
     background: #fff;
@@ -1129,6 +1101,9 @@ hr {
     margin-left: 1px;
     margin-right: 1px;
     text-align: center;
+    textarea {
+      color: #666666;
+    }
   }
   .modalFooter  {
     background: #fff;
