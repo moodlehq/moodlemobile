@@ -226,7 +226,8 @@ hr {
 .selected-row {
   background-image: url(../img/list-rightarrow.png);
   background-repeat: no-repeat;
-  background-position: 95% 50%;
+  background-position: 92% 50%;
+  background-size: 16px;
 }
 .touch-row {
   min-height: 42px;
@@ -476,11 +477,13 @@ hr {
   background-repeat: no-repeat;
   background-position: center center;
   border: 0;
-  width: 50px;
+  background-size: 24px;
 }
 .header-main .nav-main .nav-item > a {
   padding: 0;
+  width: 40px;
   height: 40px;
+  margin-left: 5px;
 }
 #page-title {
   font-size: 16px;
@@ -537,53 +540,58 @@ hr {
   font-weight: normal;
   letter-spacing: .5px;
   height: 22px;
-  background: rgba(240, 130, 10, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 20px 40px -10px rgba(160, 70, 0, 0.3) inset;
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1) inset;
 }
 .user-menu .nav-item {
-  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .user-menu .nav-item > a {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   color: #fff;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   letter-spacing: .5px;
+}
+.user-menu .nav-item .plugin-ico,
+.user-menu .nav-item .course-ico {
+  float: left;
+}
+.user-menu .nav-item .plugin-ico img,
+.user-menu .nav-item .course-ico img {
+  width: 16px;
+}
+.user-menu .nav-item .plugin-name {
+  margin-left: 24px;
+  padding-right: 20px;
 }
 .user-menu .no-arrow > a {
   background-image: none;
 }
 .user-menu .submenu {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.user-menu .submenu .nav-item:last-of-type {
+  border-bottom: 0;
 }
 .user-menu #general-menu a > span {
-  margin-right: 10px;
+  margin-right: 4px;
+}
+.user-menu #general-menu a > span img {
+  width: 16px;
 }
 .refresh {
   float: right;
   width: 20px;
   margin: 4px;
 }
-.plugin-ico,
-.course-ico {
-  float: left;
-  padding-right: 4px;
-  margin-right: 10px;
-}
-.plugin-name {
-  margin-left: 38px;
-  margin-right: 15px;
-  padding-right: 15px;
-  padding-top: 4px;
-}
 .collapse,
 .expand {
   background-position-x: 95%;
-  background-position-y: 10px;
+  background-position-y: 16px;
   background-repeat: no-repeat;
+  background-size: 12px;
 }
 .collapse {
   background-image: url(../img/collapse.png);
@@ -649,9 +657,10 @@ hr {
 }
 .expand-label,
 .collapse-label {
-  background-position-x: 100%;
-  background-position-y: 4px;
+  background-position-x: 99.5%;
+  background-position-y: 6px;
   background-repeat: no-repeat;
+  background-size: 12px;
 }
 .expand-label {
   background-image: url(../img/expandgrey.png);
