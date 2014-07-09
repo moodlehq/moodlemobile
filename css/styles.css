@@ -203,15 +203,14 @@ hr {
 }
 .nav .nav-item {
   float: left;
-  border-top: 1px solid #f4f4f4;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #eee;
 }
 .nav .nav-item > a {
   cursor: pointer;
   display: block;
   position: relative;
   text-decoration: none;
-  padding: 8px 10px;
+  padding: 10px;
 }
 .nav .nav-item [data-icon]:before {
   font-size: 22px;
@@ -622,14 +621,13 @@ hr {
 }
 .content-index li {
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px;
 }
 .content-index .content-table {
   width: 100%;
 }
 .content-index .content-name a {
   display: block;
-  min-height: 34px;
 }
 .content-index .content-name img {
   width: 24px;
@@ -850,16 +848,15 @@ hr {
   list-style: none;
 }
 .user-card .user-data li {
-  margin-bottom: 0.30769rem;
   border-bottom: 1px solid #eee;
-  padding: 5px;
-  padding-left: 10px;
+  padding: 10px;
 }
 .user-card .user-data li:last-child {
   border-bottom: none;
 }
 .user-card .user-description {
-  margin-left: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
 }
 .user-card .buttons div {
   clear: both;
