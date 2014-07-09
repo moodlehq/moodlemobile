@@ -807,7 +807,7 @@ hr {
     }
   }
   tr {
-    border-bottom: 5px solid #eee;
+    border-bottom: 2px solid #eee;
     &:last-of-type {
       border-bottom: 0;
     }
@@ -818,9 +818,10 @@ hr {
   }
   td {
     position: relative;
-    padding: 8px 10px 8px 30%;
+    padding: 10px 10px 10px 30%;
     border-bottom: 1px solid #eee;
     vertical-align: top;
+    min-height: 44px;
   }
   td:before {
     position: absolute;
@@ -845,10 +846,6 @@ hr {
   .section-name {
     background-color: #eee;
     border-bottom: 1px solid #fff;
-    margin-top: -5px;
-    &:first-of-type {
-      margin-top: 0;
-    }
   }
   .grade {
     clear: both;
@@ -1282,8 +1279,8 @@ div.jqi {
         position: inherit;
         th {
           display: table-cell;
-          padding-top: 10px;
-          padding-bottom: 10px;
+          padding-top: 12px;
+          padding-bottom: 12px;
         }
       }
     }
@@ -1295,7 +1292,7 @@ div.jqi {
     }
     tr {
       display: table-row;
-      border-bottom: 0;
+      border-bottom-width: 1px;
     }
     td {
       display: table-cell;

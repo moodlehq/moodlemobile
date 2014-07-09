@@ -759,7 +759,7 @@ hr {
   left: -9999px;
 }
 .grades tr {
-  border-bottom: 5px solid #eee;
+  border-bottom: 2px solid #eee;
 }
 .grades tr:last-of-type {
   border-bottom: 0;
@@ -770,9 +770,10 @@ hr {
 }
 .grades td {
   position: relative;
-  padding: 8px 10px 8px 30%;
+  padding: 10px 10px 10px 30%;
   border-bottom: 1px solid #eee;
   vertical-align: top;
+  min-height: 44px;
 }
 .grades td:before {
   position: absolute;
@@ -797,10 +798,6 @@ hr {
 .grades .section-name {
   background-color: #eee;
   border-bottom: 1px solid #fff;
-  margin-top: -5px;
-}
-.grades .section-name:first-of-type {
-  margin-top: 0;
 }
 .grades .grade {
   clear: both;
@@ -1194,8 +1191,8 @@ div.jqi button.jqidefaultbutton {
 }
 .tablet .grades thead tr th {
   display: table-cell;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 .tablet .grades tbody {
   display: table-row-group;
@@ -1205,7 +1202,7 @@ div.jqi button.jqidefaultbutton {
 }
 .tablet .grades tr {
   display: table-row;
-  border-bottom: 0;
+  border-bottom-width: 1px;
 }
 .tablet .grades td {
   display: table-cell;
