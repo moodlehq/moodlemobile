@@ -203,15 +203,14 @@ hr {
 }
 .nav .nav-item {
   float: left;
-  border-top: 1px solid #f4f4f4;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #eee;
 }
 .nav .nav-item > a {
   cursor: pointer;
   display: block;
   position: relative;
   text-decoration: none;
-  padding: 8px 10px;
+  padding: 10px;
 }
 .nav .nav-item [data-icon]:before {
   font-size: 22px;
@@ -226,7 +225,8 @@ hr {
 .selected-row {
   background-image: url(../img/list-rightarrow.png);
   background-repeat: no-repeat;
-  background-position: 95% 50%;
+  background-position: 92% 50%;
+  background-size: 16px;
 }
 .touch-row {
   min-height: 42px;
@@ -476,11 +476,13 @@ hr {
   background-repeat: no-repeat;
   background-position: center center;
   border: 0;
-  width: 50px;
+  background-size: 24px;
 }
 .header-main .nav-main .nav-item > a {
   padding: 0;
+  width: 40px;
   height: 40px;
+  margin-left: 5px;
 }
 #page-title {
   font-size: 16px;
@@ -522,11 +524,12 @@ hr {
 }
 .user-menu header {
   padding: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .user-menu header .img img {
   width: 55px;
   height: 55px;
+  border-radius: 50%;
 }
 .user-menu header h1 {
   font-weight: normal;
@@ -537,53 +540,58 @@ hr {
   font-weight: normal;
   letter-spacing: .5px;
   height: 22px;
-  background: rgba(240, 130, 10, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 20px 40px -10px rgba(160, 70, 0, 0.3) inset;
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1) inset;
 }
 .user-menu .nav-item {
-  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .user-menu .nav-item > a {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   color: #fff;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   letter-spacing: .5px;
+}
+.user-menu .nav-item .plugin-ico,
+.user-menu .nav-item .course-ico {
+  float: left;
+}
+.user-menu .nav-item .plugin-ico img,
+.user-menu .nav-item .course-ico img {
+  width: 16px;
+}
+.user-menu .nav-item .plugin-name {
+  margin-left: 24px;
+  padding-right: 20px;
 }
 .user-menu .no-arrow > a {
   background-image: none;
 }
 .user-menu .submenu {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.user-menu .submenu .nav-item:last-of-type {
+  border-bottom: 0;
 }
 .user-menu #general-menu a > span {
-  margin-right: 10px;
+  margin-right: 4px;
+}
+.user-menu #general-menu a > span img {
+  width: 16px;
 }
 .refresh {
   float: right;
   width: 20px;
   margin: 4px;
 }
-.plugin-ico,
-.course-ico {
-  float: left;
-  padding-right: 4px;
-  margin-right: 10px;
-}
-.plugin-name {
-  margin-left: 38px;
-  margin-right: 15px;
-  padding-right: 15px;
-  padding-top: 4px;
-}
 .collapse,
 .expand {
   background-position-x: 95%;
-  background-position-y: 10px;
+  background-position-y: 16px;
   background-repeat: no-repeat;
+  background-size: 12px;
 }
 .collapse {
   background-image: url(../img/collapse.png);
@@ -613,14 +621,13 @@ hr {
 }
 .content-index li {
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px;
 }
 .content-index .content-table {
   width: 100%;
 }
 .content-index .content-name a {
   display: block;
-  min-height: 34px;
 }
 .content-index .content-name img {
   width: 24px;
@@ -649,9 +656,10 @@ hr {
 }
 .expand-label,
 .collapse-label {
-  background-position-x: 100%;
-  background-position-y: 4px;
+  background-position-x: 99.5%;
+  background-position-y: 6px;
   background-repeat: no-repeat;
+  background-size: 12px;
 }
 .expand-label {
   background-image: url(../img/expandgrey.png);
@@ -751,7 +759,7 @@ hr {
   left: -9999px;
 }
 .grades tr {
-  border-bottom: 5px solid #eee;
+  border-bottom: 2px solid #eee;
 }
 .grades tr:last-of-type {
   border-bottom: 0;
@@ -762,9 +770,10 @@ hr {
 }
 .grades td {
   position: relative;
-  padding: 8px 10px 8px 30%;
+  padding: 10px 10px 10px 30%;
   border-bottom: 1px solid #eee;
   vertical-align: top;
+  min-height: 44px;
 }
 .grades td:before {
   position: absolute;
@@ -789,10 +798,6 @@ hr {
 .grades .section-name {
   background-color: #eee;
   border-bottom: 1px solid #fff;
-  margin-top: -5px;
-}
-.grades .section-name:first-of-type {
-  margin-top: 0;
 }
 .grades .grade {
   clear: both;
@@ -801,6 +806,7 @@ hr {
 -------------------------------------------------------------------------- */
 .users-index-list li {
   height: 44px;
+  overflow: hidden;
 }
 .users-index-list .nav-item > a {
   padding-top: 6px;
@@ -808,6 +814,7 @@ hr {
 .users-index-list .nav-item > a img {
   width: 30px;
   height: 30px;
+  border-radius: 50%;
 }
 .users-index-list .nav-item > a p {
   line-height: 30px;
@@ -824,6 +831,7 @@ hr {
 .user-card .media img {
   width: 100px;
   height: 100px;
+  border-radius: 50%;
 }
 .user-card .media .bd {
   position: absolute;
@@ -837,16 +845,15 @@ hr {
   list-style: none;
 }
 .user-card .user-data li {
-  margin-bottom: 0.30769rem;
   border-bottom: 1px solid #eee;
-  padding: 5px;
-  padding-left: 10px;
+  padding: 10px;
 }
 .user-card .user-data li:last-child {
   border-bottom: none;
 }
 .user-card .user-description {
-  margin-left: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
 }
 .user-card .buttons div {
   clear: both;
@@ -1184,8 +1191,8 @@ div.jqi button.jqidefaultbutton {
 }
 .tablet .grades thead tr th {
   display: table-cell;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 .tablet .grades tbody {
   display: table-row-group;
@@ -1195,7 +1202,7 @@ div.jqi button.jqidefaultbutton {
 }
 .tablet .grades tr {
   display: table-row;
-  border-bottom: 0;
+  border-bottom-width: 1px;
 }
 .tablet .grades td {
   display: table-cell;
