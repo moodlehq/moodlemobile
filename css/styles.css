@@ -525,11 +525,12 @@ hr {
 }
 .user-menu header {
   padding: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .user-menu header .img img {
   width: 55px;
   height: 55px;
+  border-radius: 50%;
 }
 .user-menu header h1 {
   font-weight: normal;
@@ -810,6 +811,7 @@ hr {
 -------------------------------------------------------------------------- */
 .users-index-list li {
   height: 44px;
+  overflow: hidden;
 }
 .users-index-list .nav-item > a {
   padding-top: 6px;
@@ -817,6 +819,7 @@ hr {
 .users-index-list .nav-item > a img {
   width: 30px;
   height: 30px;
+  border-radius: 50%;
 }
 .users-index-list .nav-item > a p {
   line-height: 30px;
@@ -833,6 +836,7 @@ hr {
 .user-card .media img {
   width: 100px;
   height: 100px;
+  border-radius: 50%;
 }
 .user-card .media .bd {
   position: absolute;
