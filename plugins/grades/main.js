@@ -19,10 +19,7 @@ define(templates,function (activities) {
 
         isPluginVisible: function() {
             // We store the WSName for later.
-            if (MM.util.wsAvailable('core_grades_get_grades')) {
-                MM.plugins.grades.wsName = 'core_grades_get_grades';
-                return true;
-            }
+            // Since there is a but in the core_grades_get_grades we only allow to use the local_mobile plugin one.
             if (MM.util.wsAvailable('local_mobile_core_grades_get_grades')) {
                 MM.plugins.grades.wsName = 'local_mobile_core_grades_get_grades';
                 return true;
