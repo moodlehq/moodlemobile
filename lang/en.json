@@ -73,6 +73,7 @@
 "errordownloading": "Error downloading file",
 "errornoconnectednocache": "The device is not conected and there is not cached information available for the option requested",
 "errorregisteringdeviceinmoodle": "Error registering device in Moodle",
+"errorretrievinggradeinformation": "Error retrieving grade information",
 "errorduringdevicetokenrequest": "Error during device token request",
 "errorduringdevicetokenrequesttoapns": "Error during device token request to APNS",
 "erroruploading": "Error uploading file",

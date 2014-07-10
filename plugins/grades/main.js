@@ -83,34 +83,40 @@ define(templates,function (activities) {
             var percentage = "--";
             var feedback = "--";
 
-            MM.moodleWSCall(MM.plugins.grades.wsName, data, function(contents) {
+            MM.moodleWSCall(MM.plugins.grades.wsName, data,
+                // Succes callback.
+                function(contents) {
 
-                if(contents.items && contents.items[0]) {
-                    var min = contents.items[0]["grademin"];
-                    var max = contents.items[0]["grademax"];
-                    range = min + " - " + max;
+                    if(contents.items && contents.items[0]) {
+                        var min = contents.items[0]["grademin"];
+                        var max = contents.items[0]["grademax"];
+                        range = min + " - " + max;
 
-                    if (contents.items[0]["grades"] && contents.items[0]["grades"][0]) {
-                        gradeInfo = contents.items[0]["grades"][0];
+                        if (contents.items[0]["grades"] && contents.items[0]["grades"][0]) {
+                            gradeInfo = contents.items[0]["grades"][0];
 
-                        grade = gradeInfo["str_long_grade"];
-                        feedback = MM.util.formatText(gradeInfo["str_feedback"], true);
-                        numGrade = gradeInfo["grade"];
+                            grade = gradeInfo["str_long_grade"];
+                            feedback = MM.util.formatText(gradeInfo["str_feedback"], true);
+                            numGrade = gradeInfo["grade"];
 
-                        percentage = ((numGrade - min) * 100) / (max - min);
+                            percentage = ((numGrade - min) * 100) / (max - min);
+                            percentage += " %";
+                        }
                     }
-                }
-                $("#" + id).html(grade);
-                $("#" + id.replace("-grade-", "-range-")).html(range);
-                $("#" + id.replace("-grade-", "-percentage-")).html(percentage);
-                $("#" + id.replace("-grade-", "-feedback-")).html(feedback);
-
-            }, {},
-                function() {
                     $("#" + id).html(grade);
                     $("#" + id.replace("-grade-", "-range-")).html(range);
                     $("#" + id.replace("-grade-", "-percentage-")).html(percentage);
                     $("#" + id.replace("-grade-", "-feedback-")).html(feedback);
+
+                },
+                {},
+                // Error callback.
+                function() {
+                    var error = MM.lang.s("errorretrievinggradeinformation");
+                    $("#" + id).html(error);
+                    $("#" + id.replace("-grade-", "-range-")).html(error);
+                    $("#" + id.replace("-grade-", "-percentage-")).html(error);
+                    $("#" + id.replace("-grade-", "-feedback-")).html(error);
                 }
             );
 
