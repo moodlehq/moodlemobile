@@ -84,7 +84,7 @@ define(templates,function (activities) {
                 // Succes callback.
                 function(contents) {
 
-                    if(contents.items && contents.items[0]) {
+                    if (contents.items && contents.items[0]) {
                         var min = contents.items[0]["grademin"];
                         var max = contents.items[0]["grademax"];
                         range = min + " - " + max;
@@ -100,6 +100,13 @@ define(templates,function (activities) {
                             percentage += " %";
                         }
                     }
+
+                    if (contents.outcomes && contents.outcomes[0] &&
+                        contents.outcomes[0]["grades"] && contents.outcomes[0]["grades"][0]) {
+                        var strGrade = contents.outcomes[0]["grades"][0]["str_grade"];
+                        grade += " (" + strGrade + ")";
+                    }
+
                     $("#" + id).html(grade);
                     $("#" + id.replace("-grade-", "-range-")).html(range);
                     $("#" + id.replace("-grade-", "-percentage-")).html(percentage);
