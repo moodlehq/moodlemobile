@@ -180,6 +180,12 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             tpl = {notifications: notifications};
             html = MM.tpl.render(MM.plugins.notifications.templates.notificationsFull.html, tpl);
             MM.panels.show('center', html, {hideRight: true, title: MM.lang.s("notifications")});
+            $(".reply-button").on(MM.clickType, function(e) {
+                e.preventDefault();
+                var userId = $(this).data("useridfrom");
+                var url = MM.config.current_site.siteurl + "/message/index.php?user=" + MM.config.current_site.userid + "&id=" + userId;
+                window.open(url, "_system");
+            });
         },
 
         _format: function(text) {

@@ -3,7 +3,14 @@
     <% _.each(notifications, function(notification) {%>
     <div class="notifications">
         <p class="name"><%= notification.userfromfullname %> <span class="time"><%= MM.util.timestampToUserDate(notification.timecreated) %></span></p>
+        <% if (notifications.notification) { %>
         <p class="message"><%= MM.plugins.notifications._format(notification.fullmessage) %></p>
+        <% } else { %>
+        <p class="message"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>
+        <div class="centered">
+            <button class="reply-button" data-useridfrom="<%= notification.useridfrom %>">Reply</button>
+        </div>
+        <% } %>
     </div>
     <% }); %>
 </div>
