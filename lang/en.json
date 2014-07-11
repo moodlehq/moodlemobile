@@ -151,6 +151,7 @@
 "recordaudio": "Audio",
 "remotesystemnotconfiguredfornotifications": "The Moodle installation is not configured for sending mobile notifications. Please contact your Moodle administrator if you think notifications should be enabled.",
 "replay": "Replay",
+"reply": "Reply",
 "reportabug": "Report a bug",
 "reportbuginfo": "Tap on the email button for sending a bug report via email<br /> <br /> <b>Don't forget to write a detailed description of the problem in the email body</b><br /> <br />Note that some debugging information will be attached (not private information)",
 "requiredfields": "All required fields must be completed.",
