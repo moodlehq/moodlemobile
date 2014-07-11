@@ -183,8 +183,12 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             $(".reply-button").on(MM.clickType, function(e) {
                 e.preventDefault();
                 var userId = $(this).data("useridfrom");
-                var url = MM.config.current_site.siteurl + "/message/index.php?user=" + MM.config.current_site.userid + "&id=" + userId;
-                window.open(url, "_system");
+                if (MM.plugins.sendmessage) {
+                    MM.plugins.sendmessage._displayMessageForm(userId);
+                } else {
+                    var url = MM.config.current_site.siteurl + "/message/index.php?user=" + MM.config.current_site.userid + "&id=" + userId;
+                    window.open(url, "_system");
+                }
             });
         },
 

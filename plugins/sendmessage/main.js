@@ -13,7 +13,7 @@ define(function () {
             ["message/:courseId/:userId", "message", "sendMessage"]
         ],
 
-        sendMessage: function(courseId, userId) {
+        _displayMessageForm: function(userId) {
             var sendMessage = MM.lang.s("sendmessage");
 
             var options = {
@@ -24,9 +24,13 @@ define(function () {
 
             options.buttons[sendMessage] = function() {
 
+                var messageText = $("#sendmessagetext").val();
+                messageText = messageText.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
                 var data = {
                     "messages[0][touserid]" : userId,
-                    "messages[0][text]" : $("#sendmessagetext").val()
+                    "messages[0][text]" : messageText,
+                    "messages[0][textformat]" : 1
                 }
 
                 MM.widgets.dialogClose();
@@ -44,12 +48,8 @@ define(function () {
                         saveToCache: false
                     }
                     );
-
-                // Refresh the hash url for avoid navigation problems.
-                MM.Router.navigate("participant/" + courseId + "/" + userId);
             };
             options.buttons[MM.lang.s("cancel")] = function() {
-                MM.Router.navigate("participant/" + courseId + "/" + userId);
                 MM.widgets.dialogClose();
             };
 
@@ -65,6 +65,12 @@ define(function () {
             ';
 
             MM.widgets.dialog(html, options);
+        },
+
+        sendMessage: function(courseId, userId) {
+            MM.plugins.sendmessage._displayMessageForm(userId);
+            // Refresh the hash url for avoid navigation problems.
+            MM.Router.navigate("participant/" + courseId + "/" + userId);
         }
     }
 
