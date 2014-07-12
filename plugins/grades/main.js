@@ -96,8 +96,11 @@ define(templates,function (activities) {
                             feedback = MM.util.formatText(gradeInfo["str_feedback"], true);
                             numGrade = gradeInfo["grade"];
 
-                            percentage = ((numGrade - min) * 100) / (max - min);
-                            percentage += " %";
+                            var div = max - min;
+                            if (numGrade && div) {
+                                percentage = ((numGrade - min) * 100) / (div);
+                                percentage += " %";
+                            }
                         }
                     }
 
