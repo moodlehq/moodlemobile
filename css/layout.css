@@ -35,7 +35,7 @@ body {
 #panel-center {
   left: 100%;
   width: 100%;
-  top: 40px;
+  top: 44px;
   display: none;
 }
 #panel-center.animate {
@@ -44,7 +44,7 @@ body {
 #panel-right {
   left: 100%;
   width: 100%;
-  top: 40px;
+  top: 44px;
   padding-right: 50px;
   display: none;
 }
