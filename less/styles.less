@@ -1,3 +1,26 @@
+/* Default theme
+--------------------------------------------------------*/
+@themeColor:                            #fa8f1c;
+@bodyBackground:                        @themeColor url(../img/bg-orange.png);
+
+@menuTextColor:                         #fff;
+@menuTextShadow:                        0px 1px 1px rgba(0, 0, 0, 0.2);
+@menuIconBackground:                    inherit;
+@menuBackground:                        @themeColor;
+
+@headerTextColor:                       #fff;
+@headerBackground:                      @themeColor;
+@headerBorder:                          0;
+@headerBoxShadow:                       10px 0 20px rgba(0, 0, 0, 0.3);
+
+@textColor:                             #666;
+@linkColor:                             #08c;
+@headingsColor:                         @textColor;
+@contentBackground:                     #fff;
+@sectionHeadingColor:                   inherit;
+@sectionHeadingTextShadow:              0px 1px 1px rgba(0, 0, 0, 0.2);
+@sectionHeadingBackground:              #eee;
+
 @font-face {
   font-family: 'icomoon';
   src: url("fonts/icomoon.eot");
@@ -40,18 +63,18 @@ html {
 }
 
 body {
-  color: #666666;
+  color: @textColor;
   font-family: Helvetica, sans-serif;
   font-size: 14px;
   font-size: .875rem;
   line-height: 24px;
-  background: #fa8f1c url(../img/bg-orange.png);
+  background: @bodyBackground;
 }
 
 /* =1.3 - Links
 --------------------------------------------------------*/
 a {
-  color: #666666;
+  color: @linkColor;
   text-decoration: none;
   &:focus {
     outline: thin dotted;
@@ -79,15 +102,20 @@ ol {
 h1 {
   font-size: 18px;
   font-size: 1.125rem;
+  color: @headingsColor;
   margin: 5px 0 0;
 }
 
 h2 {
+  color: @sectionHeadingColor;
   font-size: 100%;
+  font-weight: normal;
   line-height: 20px;
+  letter-spacing: .5px;
+  text-shadow: @sectionHeadingTextShadow;
   margin: 0;
   padding: 0 10px;
-  background-color: #eee;
+  background-color: @sectionHeadingBackground;
 }
 
 b,
@@ -232,11 +260,13 @@ hr {
   .nav-item {
     float: left;
     border-bottom: 1px solid #eee;
+    a {
+      color: @textColor;
+    }
     > a {
       cursor: pointer;
       display: block;
       position: relative;
-      text-decoration: none;
       padding: 10px;
     }
     [data-icon]:before {
@@ -434,6 +464,7 @@ hr {
     margin-bottom: 15px;
   }
   .account-details {
+    color: @textColor;
     img {
       border-radius: 50%;
       float: left;
@@ -472,21 +503,23 @@ hr {
 /* - Fixed header on the center and right panel
 -------------------------------------------------------------------------- */
 .header-wrapper {
-  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: @headerBoxShadow;
 }
 
 .header-fixed {
   top: 0px;
   position: fixed;
-  margin-bottom: 40px;
+  margin-bottom: 44px;
 }
 
 .header-main {
-  background-color: #fa8f1c;
-  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3) inset;
-  color: #FFF;
-  height: 40px;
-  line-height: 40px;
+  color: @headerTextColor;
+  height: 44px;
+  line-height: 44px;
+  padding-right: 20px;
+  overflow: hidden;
+  background: @headerBackground;
+  border-bottom: @headerBorder;
   .nav-main {
     float: left;
     width: 100%;
@@ -537,16 +570,16 @@ hr {
 
 #panel-right,
 #panel-center{
-  border-left: 1px solid #efefef;
+  background: @contentBackground;
   box-shadow: -10px 0 30px 0 rgba(0, 0, 0, 0.2);
-  background-color: white;
 }
 
 /* - User menu on the left panel
 -------------------------------------------------------------------------- */
 .user-menu {
-  background-color: #fa8f1c;
-  color: #fff;
+  color: @menuTextColor;
+  text-shadow: @menuTextShadow;
+  background: @menuBackground;
   padding-bottom: 40px;
   height: auto;
   header {
@@ -558,14 +591,13 @@ hr {
       border-radius: 50%;
     }
     h1 {
+      color: inherit;
       font-weight: normal;
       line-height: 20px;
-      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
     }
   }
   h2 {
-    font-weight: normal;
-    letter-spacing: .5px;
+    color: inherit;
     height: 22px;
     background: transparent;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -576,20 +608,26 @@ hr {
       border-top: 1px solid rgba(255, 255, 255, 0.15);
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     > a {
-      color: #fff;
-      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+      color: inherit;
       letter-spacing: .5px;
     }
     .plugin-ico,
     .course-ico {
       float: left;
+      width: 24px;
+      height: 24px;
+      text-align: center;
+      background-color: @menuIconBackground;
+      border-radius: 50%;
       img {
         width: 16px;
+        margin-top: -2px;
+        padding: 0
       }
     }
     .plugin-name {
-      margin-left: 24px;
-      padding-right: 20px;
+      margin-left: 32px;
+      padding-right: 26px;
     }
   }
   .no-arrow > a {
@@ -601,10 +639,10 @@ hr {
       border-bottom: 0;
     }
   }
-  #general-menu a > span {
-    margin-right: 4px;
-    img {
-      width: 16px;
+  #general-menu a {
+    padding-right: 36px;
+    > span {
+    margin-right: 8px;
     }
   }
 }
@@ -646,7 +684,6 @@ hr {
   position: relative;
   header {
     padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
   }
   p {
     margin: 0;
@@ -654,6 +691,12 @@ hr {
   li {
     width: 100%;
     padding: 10px;
+  }
+  section:last-of-type {
+    border-bottom: 1px solid #eee;
+  }
+  .nav-item:last-of-type {
+    border-bottom: 0;
   }
   .content-table {
     width: 100%;
@@ -793,6 +836,7 @@ hr {
   border-collapse: collapse;
   line-height: 20px;
   width: 100%;
+  border-top: 1px solid #e0e0e0;
   thead,
   th,
   tr,
@@ -844,8 +888,14 @@ hr {
     content: "Feedback";
   }
   .section-name {
-    background-color: #eee;
-    border-bottom: 1px solid #fff;
+    color: @sectionHeadingColor;
+    letter-spacing: .5px;
+    text-shadow: @sectionHeadingTextShadow;
+    background-color: @sectionHeadingBackground;
+    border-bottom: 1px solid @contentBackground;
+    th {
+      font-weight: normal;
+    }
   }
   .grade {
     clear: both;
@@ -876,6 +926,9 @@ hr {
 /* - Participant on the right panel and Notification page on the center panel
 -------------------------------------------------------------------------- */
 .user-card {
+  .content {
+    border-bottom: 1px solid #eee;
+  }
   .user-picture {
     padding: 10px;
   }
@@ -907,7 +960,6 @@ hr {
   }
   .user-description {
     padding: 10px;
-    border-bottom: 1px solid #eee;
   }
   .buttons div {
     clear: both;
