@@ -3,24 +3,46 @@
 @themeColor:                            #fa8f1c;
 @bodyBackground:                        @themeColor url(../img/bg-orange.png);
 
-@menuTextColor:                         #fff;
-@menuTextShadow:                        0px 1px 1px rgba(0, 0, 0, 0.2);
-@menuIconBackground:                    inherit;
+//-----User Menu-----
 @menuBackground:                        @themeColor;
 
-@headerTextColor:                       #fff;
+@menuTextColor:                         #fff;
+@menuTextShadow:                        0px 1px 1px rgba(0, 0, 0, 0.2);
+
+@menuSectionHeadingColor:               @menuTextColor;
+@menuSectionHeadingTextShadow:          @menuTextShadow;
+@menuSectionHeadingBackground:          transparent;
+@menuSectionHeadingBoxShadow:           0 20px 40px -10px rgba(0, 0, 0, 0.1) inset;
+
+@menuIconBackground:                    transparent;
+
+@menuHeaderTextColor:                   @menuTextColor;
+@menuHeaderTextShadow:                  @menuTextShadow;
+@menuHeaderBackground:                  @themeColor;
+@menuHeaderBorder:                      1px solid rgba(0, 0, 0, 0.1);
+@menuHeaderBoxShadow:                   none;
+
+//-----Header-----
 @headerBackground:                      @themeColor;
+
+@headerTextColor:                       #fff;
+@headerTextShadow:                      0px 1px 1px rgba(0, 0, 0, 0.2);
 @headerBorder:                          0;
 @headerBoxShadow:                       10px 0 20px rgba(0, 0, 0, 0.3);
+
+//-----Content-----
+@contentBackground:                     #fff;
 
 @textColor:                             #666;
 @linkColor:                             #08c;
 @headingsColor:                         @textColor;
-@contentBackground:                     #fff;
-@sectionHeadingColor:                   inherit;
+
+@sectionHeadingColor:                   @textColor;
 @sectionHeadingTextShadow:              0px 1px 1px rgba(0, 0, 0, 0.2);
 @sectionHeadingBackground:              #eee;
 
+/* Font Icon
+--------------------------------------------------------*/
 @font-face {
   font-family: 'icomoon';
   src: url("fonts/icomoon.eot");
@@ -541,7 +563,7 @@ hr {
 #page-title {
   font-size: 16px;
   font-size: 1rem;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  text-shadow: @headerTextShadow;
   letter-spacing: .5px;
 }
 
@@ -577,38 +599,41 @@ hr {
 /* - User menu on the left panel
 -------------------------------------------------------------------------- */
 .user-menu {
-  color: @menuTextColor;
-  text-shadow: @menuTextShadow;
   background: @menuBackground;
   padding-bottom: 40px;
   height: auto;
   header {
     padding: 10px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: @menuHeaderBackground; 
+    border-bottom: @menuHeaderBorder;
+    box-shadow: @menuHeaderBoxShadow;
     .img img {
       width: 55px;
       height: 55px;
       border-radius: 50%;
     }
     h1 {
-      color: inherit;
+      color: @menuHeaderTextColor;
+      text-shadow: @menuHeaderTextShadow;
       font-weight: normal;
       line-height: 20px;
     }
   }
   h2 {
-    color: inherit;
+    color: @menuSectionHeadingColor;
+    text-shadow: @menuSectionHeadingTextShadow;
     height: 22px;
-    background: transparent;
+    background: @menuSectionHeadingBackground;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: @menuSectionHeadingBoxShadow;
   }
   .nav-item {
       border-top: 1px solid rgba(255, 255, 255, 0.15);
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     > a {
-      color: inherit;
+      color: @menuTextColor;
+      text-shadow: @menuTextShadow;
       letter-spacing: .5px;
     }
     .plugin-ico,
@@ -622,7 +647,7 @@ hr {
       img {
         width: 16px;
         margin-top: -2px;
-        padding: 0
+        padding: 0;
       }
     }
     .plugin-name {
