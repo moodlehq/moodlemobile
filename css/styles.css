@@ -1,5 +1,7 @@
 /* Default theme
 --------------------------------------------------------*/
+/* Font Icon
+--------------------------------------------------------*/
 @font-face {
   font-family: 'icomoon';
   src: url("fonts/icomoon.eot");
@@ -78,7 +80,7 @@ h1 {
   margin: 5px 0 0;
 }
 h2 {
-  color: inherit;
+  color: #666666;
   font-size: 100%;
   font-weight: normal;
   line-height: 20px;
@@ -530,15 +532,15 @@ hr {
 /* - User menu on the left panel
 -------------------------------------------------------------------------- */
 .user-menu {
-  color: #ffffff;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   background: #fa8f1c;
   padding-bottom: 40px;
   height: auto;
 }
 .user-menu header {
   padding: 10px;
+  background: #fa8f1c;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: none;
 }
 .user-menu header .img img {
   width: 55px;
@@ -546,12 +548,14 @@ hr {
   border-radius: 50%;
 }
 .user-menu header h1 {
-  color: inherit;
+  color: #ffffff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   font-weight: normal;
   line-height: 20px;
 }
 .user-menu h2 {
-  color: inherit;
+  color: #ffffff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   height: 22px;
   background: transparent;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -563,7 +567,8 @@ hr {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .user-menu .nav-item > a {
-  color: inherit;
+  color: #ffffff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   letter-spacing: .5px;
 }
 .user-menu .nav-item .plugin-ico,
@@ -572,7 +577,7 @@ hr {
   width: 24px;
   height: 24px;
   text-align: center;
-  background-color: inherit;
+  background-color: transparent;
   border-radius: 50%;
 }
 .user-menu .nav-item .plugin-ico img,
@@ -821,7 +826,7 @@ hr {
   content: "Feedback";
 }
 .grades .section-name {
-  color: inherit;
+  color: #666666;
   letter-spacing: .5px;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   background-color: #eeeeee;
