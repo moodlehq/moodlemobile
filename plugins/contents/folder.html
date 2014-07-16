@@ -7,7 +7,7 @@
         <h2><%= sectionName %></h2>
         <ul class="nav nav-v">
             <li class="nav-item media">
-                <div class="img">
+                <div class="img app-ico">
                     <img src="img/mod/folder.png" alt="img">
                 </div>
                 <div class="bd">
@@ -16,7 +16,7 @@
             </li>
             <% $.each(content.contents, function(index, file) { %>
             <li class="nav-item media media-folder">
-                <div class="content-actions">
+                <div class="content-actions app-ico">
                     <% if (typeof(file.localpath) == "undefined") { %>
                         <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>"><img src="img/download.png" border="0" id="download-<%= contentId %>-<%= index %>"></a>
                     <% } else { %>
@@ -30,7 +30,7 @@
                 <% } else { %>
                     <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>" id="link-<%= contentId %>-<%= index %>">
                 <% } %>
-                        <div class="img">
+                        <div class="img app-ico">
                         <% var extension = file.filename.substr(file.filename.lastIndexOf(".") + 1); %>
                         <% if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") { %>
                             <img src="img/files/<%= MM.plugins.contents.templates.mimetypes[extension]["icon"] %>-64.png" alt="img">

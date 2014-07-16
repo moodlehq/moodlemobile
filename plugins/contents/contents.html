@@ -17,7 +17,7 @@
             <li class="nav-item media mod-<%= module.modname %>">
                 <div class="content-table">
                     <% if (module.modname != "label"){ %>
-                        <div class="content-actions">
+                        <div class="content-actions app-ico">
                             <% if (!module.downloaded) { %>
                                 <% if (module.modname == "folder"){ %>
                                     <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
@@ -47,7 +47,7 @@
                             <% } %>
                         <% } %>
                         <% if (module.modname != "label"){ %>
-                            <div class="img">
+                            <div class="img app-ico">
                             <% if (typeof(module.mainExtension) != "undefined") { %>
                                 <img src="img/files/<%= module.mainExtension %>-64.png" alt="img">
                             <% } else { %>

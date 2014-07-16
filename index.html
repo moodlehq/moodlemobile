@@ -149,7 +149,7 @@
 <script type="text/template" id="menu_template">
 <header>
     <div class="media">
-        <div class="refresh">
+        <div class="refresh app-ico">
             <a href="#refresh">
                 <img width="16" height="16" src="img/reload.png" border="0">
             </a>
@@ -169,7 +169,7 @@
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink touch-row">
         			<% if (plugin.icon) { %>
-                        <div class="plugin-ico">
+                        <div class="plugin-ico app-ico">
                             <img src="<%= plugin.icon %>" border="0">
                         </div>
         			<% } %>
@@ -186,7 +186,7 @@
                     <a>
         		<% }  %>
         			<% if (plugin.icon) { %>
-                        <div class="plugin-ico">
+                        <div class="plugin-ico app-ico">
                             <img src="<%= plugin.icon %>" border="0">
                         </div>
         			<% } %>
@@ -203,7 +203,7 @@
                         <li class="nav-item">
                             <a href="<%= menu.menuURL %>" class="alink touch-row">
             					<% if (menu.icon) { %>
-                                    <div class="plugin-ico">
+                                    <div class="plugin-ico app-ico">
                                         <img src="<%= menu.icon %>" border="0">
                                     </div>
             					<% } %>
@@ -225,7 +225,7 @@
         <% _.each(courses, function(course) { %>
             <li class="nav-item">
                 <a href="#" class="toogler expand touch-row">
-                    <div class="course-ico">
+                    <div class="course-ico app-ico">
                         <img src="img/ico-course.png" border="0">
                     </div>
                     <div class="plugin-name">
@@ -237,7 +237,7 @@
                         <li class="nav-item">
                             <a href="<%= plugin.menuURL %><%= course.id %>" class="touch-row">
                                 <% if (plugin.icon) { %>
-        				    		<div class="plugin-ico">
+        				    		<div class="plugin-ico app-ico">
                                         <img src="<%= plugin.icon %>" border="0">
                                     </div>
         						<% } %>
@@ -255,25 +255,25 @@
             <ul id="general-menu" class="nav nav-v js-accordion">
                 <li class="nav-item no-arrow">
                     <a href="<%= siteurl%>" target="_blank" class="touch-row">
-                        <span class="plugin-ico"><img src="img/ico-network.png" border="0"></span>
+                        <span class="plugin-ico app-ico"><img src="img/ico-network.png" border="0"></span>
                         <%= MM.lang.s("website") %>
                     </a>
                 </li>
                 <li class="nav-item no-arrow">
                     <a href="<%= docsurl %>" target="_blank" class="touch-row">
-                        <span class="plugin-ico"><img src="img/ico-help.png" border="0"></span>
+                        <span class="plugin-ico app-ico"><img src="img/ico-help.png" border="0"></span>
                         <%= MM.lang.s("help") %>
                     </a>
                 </li>
                 <li class="nav-item no-submenu">
                     <a href="#settings" class="touch-row">
-                        <span class="plugin-ico"><img src="img/ico-settings.png" border="0"></span>
+                        <span class="plugin-ico app-ico"><img src="img/ico-settings.png" border="0"></span>
                         <%= MM.lang.s("settings") %>
                     </a>
                 </li>
                 <li class="nav-item no-submenu">
                     <a href="#logout" class="touch-row">
-                        <span class="plugin-ico"><img src="img/logout.png" border="0"></span>
+                        <span class="plugin-ico app-ico"><img src="img/logout.png" border="0"></span>
                         <%= MM.lang.s("logout") %>
                     </a>
                 </li>
@@ -312,7 +312,7 @@
 </script>
 
 <script type="text/template" id="add-site_template">
-<h1>
+<h1 class="app-ico">
     <img src="img/login-logo.png" alt="Moodle">
 </h1>
 <form action="">
@@ -341,7 +341,7 @@
 </script>
 
 <script type="text/template" id="manage-accounts_template">
-<h1>
+<h1 class="app-ico">
     <img src="img/login-logo.png" alt="Moodle">
 </h1>
 <% _.each(sites, function(site) { %>
