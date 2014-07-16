@@ -332,7 +332,7 @@ hr {
 -------------------------------------------------------------------------- */
 #add-site,
 #manage-accounts {
-  padding-top: 4.92308rem;
+  padding-top: 3rem;
 }
 #add-site h1 img,
 #manage-accounts h1 img {
@@ -464,6 +464,7 @@ hr {
 }
 #manage-accounts .add-site .btn {
   display: block;
+  margin-bottom: 20px;
 }
 /* - Fixed header on the center and right panel
 -------------------------------------------------------------------------- */
