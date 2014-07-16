@@ -800,7 +800,7 @@ hr {
 }
 .grades td {
   position: relative;
-  padding: 10px 10px 10px 30%;
+  padding: 10px 10px 10px 40%;
   border-bottom: 1px solid #eee;
   vertical-align: top;
   min-height: 44px;
@@ -809,21 +809,7 @@ hr {
   position: absolute;
   left: 10px;
   white-space: nowrap;
-}
-.grades td.activity:before {
-  content: "Activity";
-}
-.grades td.grade:before {
-  content: "Grade";
-}
-.grades td.range:before {
-  content: "Range";
-}
-.grades td.percentage:before {
-  content: "Percentage";
-}
-.grades td.feedback:before {
-  content: "Feedback";
+  content: attr(data-lang);
 }
 .grades .section-name {
   color: #666666;

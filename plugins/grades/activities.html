@@ -24,7 +24,7 @@
             <% _.each(section.modules, function(module) { %>
                 <% if (module.modname != "label" && module.modname != "folder" && ! module.contents){ %>
                     <tr>
-                        <td class="activity media">
+                        <td class="activity media" data-lang="<%= MM.lang.s("activity") %>">
                             <div class="img app-ico">
                                 <img src="img/mod/<%= module.modname %>.png" alt="img">
                             </div>
@@ -33,14 +33,14 @@
                             </div>
                             <!-- Physics -->
                         </td>
-                        <td id="grade-grade-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="grade">
+                        <td id="grade-grade-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="grade" data-lang="<%= MM.lang.s("grade") %>">
                             <img src="img/loading.gif" style="width: 16px">
                         </td>
-                        <td id="grade-range-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="range">
+                        <td id="grade-range-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="range" data-lang="<%= MM.lang.s("range") %>">
                         </td>
-                        <td id="grade-percentage-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="percentage">
+                        <td id="grade-percentage-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="percentage" data-lang="<%= MM.lang.s("percentage") %>">
                         </td>
-                        <td id="grade-feedback-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="feedback">
+                        <td id="grade-feedback-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="feedback" data-lang="<%= MM.lang.s("feedback") %>">
                         </td>
                     </tr>
                 <% } %>

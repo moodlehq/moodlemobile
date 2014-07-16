@@ -604,7 +604,7 @@ hr {
   height: auto;
   header {
     padding: 10px;
-    background: @menuHeaderBackground; 
+    background: @menuHeaderBackground;
     border-bottom: @menuHeaderBorder;
     box-shadow: @menuHeaderBoxShadow;
     .img img {
@@ -887,7 +887,7 @@ hr {
   }
   td {
     position: relative;
-    padding: 10px 10px 10px 30%;
+    padding: 10px 10px 10px 40%;
     border-bottom: 1px solid #eee;
     vertical-align: top;
     min-height: 44px;
@@ -896,21 +896,7 @@ hr {
     position: absolute;
     left: 10px;
     white-space: nowrap;
-  }
-  td.activity:before {
-    content: "Activity";
-  }
-  td.grade:before {
-    content: "Grade";
-  }
-  td.range:before {
-    content: "Range";
-  }
-  td.percentage:before {
-    content: "Percentage";
-  }
-  td.feedback:before {
-    content: "Feedback";
+    content: attr(data-lang);
   }
   .section-name {
     color: @sectionHeadingColor;
