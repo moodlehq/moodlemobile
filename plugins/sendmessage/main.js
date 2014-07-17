@@ -14,10 +14,10 @@ define(function () {
         ],
 
         _displayMessageForm: function(userId) {
-            var sendMessage = MM.lang.s("sendmessage");
+            var sendMessage = MM.lang.s("send");
 
             var options = {
-                title: sendMessage,
+                title: MM.lang.s("sendmessage"),
                 width: "90%",
                 buttons: {}
             };
