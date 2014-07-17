@@ -1028,7 +1028,7 @@ hr {
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 99999;
   opacity: 0;
   -webkit-transition: opacity 400ms ease-in;
@@ -1042,38 +1042,37 @@ hr {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: auto;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background: #fa8f1c;
+  background-color: #fff;
+  -webkit-border-radius: 14px 14px 10px 10px;
+  -moz-border-radius: 14px 14px 10px 10px;
+  border-radius: 14px 14px 10px 10px;
 }
 #app-dialog .modalHeader {
-  padding: 10px;
   font-size: 16px;
   font-size: 1rem;
-  color: #fff;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
   letter-spacing: .5px;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  background-color: #fa8f1c;
+  -webkit-border-radius: 10px 10px 0 0;
+  -moz-border-radius: 10px 10px 0 0;
+  border-radius: 10px 10px 0 0;
 }
 #app-dialog .modalContent {
-  background: #fff;
-  padding: 5px;
-  margin-left: 1px;
-  margin-right: 1px;
+  padding: 20px;
   text-align: center;
 }
 #app-dialog .modalContent textarea {
   color: #666666;
 }
 #app-dialog .modalFooter {
-  background: #fff;
-  padding: 2px;
-  margin-left: 1px;
-  margin-right: 1px;
   text-align: center;
-  -webkit-border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
+  border-top: 1px solid #ddd;
+}
+#app-dialog .modalFooter button {
+  margin: 10px;
+  vertical-align: middle;
 }
 #app-dialog .modalClear {
   float: none;
