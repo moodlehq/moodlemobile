@@ -992,6 +992,14 @@ hr {
 
 /* - Settings on the right panel
 -------------------------------------------------------------------------- */
+.settings {
+  .nav-item {
+    padding: 10px;
+  }
+  p {
+    padding: 10px;
+  }
+}
 
 //-----Sites-----
 .sites-list {
@@ -1124,10 +1132,6 @@ hr {
 }
 
 //-----Space usage-----
-.table-row {
-  padding: 4px;
-}
-
 .row-right {
   float: right;
   width: 100px;
@@ -1136,6 +1140,38 @@ hr {
 
 .row-left {
   margin-right: 80px;
+}
+
+//-----About-----
+.settings {
+  header {
+    padding: 10px;
+  }
+  .about {
+    border-collapse: collapse;
+    line-height: 20px;
+    width: 100%;
+    th {
+      text-align: left;
+      padding: 0 10px;
+    }
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+      min-height: 44px;
+    }
+    .section-name {
+      color: @sectionHeadingColor;
+      letter-spacing: .5px;
+      text-shadow: @sectionHeadingTextShadow;
+      background-color: @sectionHeadingBackground;
+      border-bottom: 1px solid @contentBackground;
+      th {
+        font-weight: normal;
+      }
+    }
+  }
 }
 
 /* - Dialog window

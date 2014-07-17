@@ -897,6 +897,12 @@ hr {
 }
 /* - Settings on the right panel
 -------------------------------------------------------------------------- */
+.settings .nav-item {
+  padding: 10px;
+}
+.settings p {
+  padding: 10px;
+}
 .sites-list .nav-item > a {
   font-weight: normal;
 }
@@ -1009,9 +1015,6 @@ hr {
   width: 25px;
   height: 25px;
 }
-.table-row {
-  padding: 4px;
-}
 .row-right {
   float: right;
   width: 100px;
@@ -1019,6 +1022,34 @@ hr {
 }
 .row-left {
   margin-right: 80px;
+}
+.settings header {
+  padding: 10px;
+}
+.settings .about {
+  border-collapse: collapse;
+  line-height: 20px;
+  width: 100%;
+}
+.settings .about th {
+  text-align: left;
+  padding: 0 10px;
+}
+.settings .about td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+  min-height: 44px;
+}
+.settings .about .section-name {
+  color: #666666;
+  letter-spacing: .5px;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  background-color: #eeeeee;
+  border-bottom: 1px solid #ffffff;
+}
+.settings .about .section-name th {
+  font-weight: normal;
 }
 /* - Dialog window
 -------------------------------------------------------------------------- */
