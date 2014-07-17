@@ -825,23 +825,21 @@ hr {
 
 //-----Notifications and Calendar-----
 .panel-container {
-  padding: 6px;
+  padding: 10px;
 }
 
 .notifications {
-  line-height: 20px;
   padding: 0 10px;
-  border-bottom: 1px solid #eee;
   margin-bottom: 10px;
-  background-color: #fff;
+  background-color: #eee;
   &:first-of-type {
     border-top: none;;
   }
   .name {
     font-weight: bold;
-    border-bottom: 1px solid #eee;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    line-height: 20px;
+    padding: 10px 8px;
+    margin-bottom: 0;
   }
   .time {
     font-size: 12px;
@@ -850,8 +848,19 @@ hr {
   }
   .message {
     word-break: break-word;
+    padding: 20px;
+    margin-bottom: 0;
+    background-color: #fff;
     a {
-      color : #08c;
+      color : @linkColor;
+    }
+  }
+  .actions {
+    text-align: right;
+    a {
+      cursor: pointer;
+      display: inline-block;
+      padding: 8px;
     }
   }
 }

@@ -741,23 +741,21 @@ hr {
   padding: 15px;
 }
 .panel-container {
-  padding: 6px;
+  padding: 10px;
 }
 .notifications {
-  line-height: 20px;
   padding: 0 10px;
-  border-bottom: 1px solid #eee;
   margin-bottom: 10px;
-  background-color: #fff;
+  background-color: #eee;
 }
 .notifications:first-of-type {
   border-top: none;
 }
 .notifications .name {
   font-weight: bold;
-  border-bottom: 1px solid #eee;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  line-height: 20px;
+  padding: 10px 8px;
+  margin-bottom: 0;
 }
 .notifications .time {
   font-size: 12px;
@@ -766,9 +764,20 @@ hr {
 }
 .notifications .message {
   word-break: break-word;
+  padding: 20px;
+  margin-bottom: 0;
+  background-color: #fff;
 }
 .notifications .message a {
-  color: #08c;
+  color: #0088cc;
+}
+.notifications .actions {
+  text-align: right;
+}
+.notifications .actions a {
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px;
 }
 /* - Grades on the right panel
 -------------------------------------------------------------------------- */
