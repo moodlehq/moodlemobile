@@ -7,8 +7,8 @@
         <p class="message"><%= MM.plugins.notifications._format(notification.fullmessage) %></p>
         <% } else { %>
         <p class="message"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>
-        <div class="centered">
-            <button class="reply-button" data-useridfrom="<%= notification.useridfrom %>">Reply</button>
+        <div class="actions">
+            <a class="reply-button" data-useridfrom="<%= notification.useridfrom %>">Reply</a>
         </div>
         <% } %>
     </div>
