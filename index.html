@@ -32,7 +32,7 @@
         };
 
     </script>
-	<script src="cordova.js"></script>
+    <script src="cordova.js"></script>
     <script src="childbrowser.js"></script>
     <script src="webintent.js"></script>
     <script src="PushNotification.js"></script>
@@ -44,8 +44,8 @@
     <script src="externallib/underscore.js"></script>
     <script src="externallib/backbone.js"></script>
     <script src="externallib/backbone-localstorage.js"></script>
-	<script src="lib/mm.js"></script>
-	<script src="lib/mm.panels.js"></script>
+    <script src="lib/mm.js"></script>
+    <script src="lib/mm.panels.js"></script>
     <script src="lib/mm.util.js"></script>
     <script src="lib/mm.lang.js"></script>
     <script src="lib/mm.db.js"></script>
@@ -55,10 +55,10 @@
     <script src="lib/mm.widgets.js"></script>
     <script src="lib/mm.sync.js"></script>
     <script src="lib/mm.cordova.js"></script>
-	<script src="lib/mm.rdebugger.js"></script>
+    <script src="lib/mm.rdebugger.js"></script>
     <script src="lib/mm.fs.js"></script>
     <script data-main="lib/app.js" src="externallib/require.js"></script>
-	<script language="javascript">
+    <script language="javascript">
         // We should wait to phonegap, if not, we get errors like:
         // http://rickluna.com/wp/2012/04/solving-the-connection-to-the-server-was-unsuccessful-error-in-androidphonegap/
         $(document).bind('deviceready', function() {
@@ -96,7 +96,7 @@
         function handleOpenURL(url) {
             MM._appLaunchedByURL(url);
         }
-	</script>
+    </script>
 
     <style id="mobilecssurl"></style>
 </head>
@@ -122,7 +122,7 @@
                         </a>
                     </li>
                 </ul>
-				<span id="page-title"></span>
+                <span id="page-title"></span>
             </nav>
         </header>
     </div>
@@ -168,11 +168,11 @@
         <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink touch-row">
-        			<% if (plugin.icon) { %>
+                    <% if (plugin.icon) { %>
                         <div class="plugin-ico app-ico">
                             <img src="<%= plugin.icon %>" border="0">
                         </div>
-        			<% } %>
+                    <% } %>
                     <div class="plugin-name">
                         <%= MM.lang.pluginName(plugin.name) %>
                     </div>
@@ -180,33 +180,33 @@
             </li>
         <% } else { %>
             <li class="nav-item">
-        		<% if (plugin.toogler) { %>
+                <% if (plugin.toogler) { %>
                     <a class="toogler expand touch-row">
-        		<% } else { %>
+                <% } else { %>
                     <a>
-        		<% }  %>
-        			<% if (plugin.icon) { %>
+                <% }  %>
+                    <% if (plugin.icon) { %>
                         <div class="plugin-ico app-ico">
                             <img src="<%= plugin.icon %>" border="0">
                         </div>
-        			<% } %>
+                    <% } %>
                     <div class="plugin-name">
                         <%= MM.lang.pluginName(plugin.name) %>
                     </div>
                 </a>
-        		<% if (plugin.toogler) { %>
+                <% if (plugin.toogler) { %>
                     <ul class="nav submenu">
-        		<% } else { %>
+                <% } else { %>
                     <ul class="nav">
-        		<% }  %>
+                <% }  %>
                     <% _.each(plugin.subMenus, function(menu) { %>
                         <li class="nav-item">
                             <a href="<%= menu.menuURL %>" class="alink touch-row">
-            					<% if (menu.icon) { %>
+                                <% if (menu.icon) { %>
                                     <div class="plugin-ico app-ico">
                                         <img src="<%= menu.icon %>" border="0">
                                     </div>
-            					<% } %>
+                                <% } %>
                                 <div class="plugin-name">
                                     <%= MM.lang.s(menu.name) %>
                                 </div>
@@ -237,10 +237,10 @@
                         <li class="nav-item">
                             <a href="<%= plugin.menuURL %><%= course.id %>" class="touch-row">
                                 <% if (plugin.icon) { %>
-        				    		<div class="plugin-ico app-ico">
+                                    <div class="plugin-ico app-ico">
                                         <img src="<%= plugin.icon %>" border="0">
                                     </div>
-        						<% } %>
+                                <% } %>
                                 <div class="plugin-name">
                                     <%= MM.lang.pluginName(plugin.name) %>
                                 </div>
@@ -296,7 +296,7 @@
             <li class="nav-item">
                 <a href="#settings/development/" class="menu1 touch-row"><%= MM.lang.s("development") %><br></a>
             </li>
-			<li class="nav-item">
+            <li class="nav-item">
                 <a href="#settings/reportbug/" class="menu1 touch-row"><%= MM.lang.s("reportabug") %><br></a>
             </li>
             <li class="nav-item">
@@ -315,10 +315,10 @@
 <h1 class="app-ico">
     <img src="img/login-logo.png" alt="Moodle">
 </h1>
-<form action="">
+<form action="" novalidate>
     <div id="login-details">
         <p>
-            <input type="text" id="url" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("siteurl") %>">
+            <input type="url" id="url" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("siteurl") %>">
         </p>
         <div id="login-credentials">
             <p>
