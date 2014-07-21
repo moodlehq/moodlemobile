@@ -156,7 +156,6 @@
 "reply": "Répondre",
 "reportabug": "Signaler un bogue",
 "reportbuginfo": "Tapotez le bouton courriel pour envoyer un rapport de bogue par courriel.<br /> <br /><b>N'oubliez pas de fournir une description détaillée du problème dans le message.</b><br /><br />Certaines informations de débogage seront également envoyées, ne contenant aucune donnée personnelle.",
-"reportbugmail": "moodlemobilereport@gmail.com",
 "requiredfields": "Tous les champs requis doivent être renseignés.",
 "reset": "Réinitialiser",
 "resetapp": "Réinitialiser l'application",
