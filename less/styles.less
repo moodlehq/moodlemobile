@@ -41,6 +41,39 @@
 @sectionHeadingTextShadow:              0px 1px 1px rgba(0, 0, 0, 0.2);
 @sectionHeadingBackground:              #eee;
 
+/* Sample theme - Blue and white
+--------------------------------------------------------*/
+@themeColor:                            #4bcaff;
+@bodyBackground:                        @themeColor;
+
+//-----User Menu-----
+@menuBackground:                        @bodyBackground;
+
+@menuTextColor:                         #4b565d;
+
+@menuSectionHeadingColor:               @menuTextColor;
+@menuSectionHeadingBackground:          #fff;
+@menuSectionHeadingBoxShadow:           none;
+
+@menuIconBackground:                    @menuTextColor;
+
+@menuHeaderTextColor:                   #fff;
+@menuHeaderTextShadow:                  0px 1px 1px rgba(0, 0, 0, 0.2);
+@menuHeaderBackground:                  @menuTextColor url(../img/bg-header2.png);
+@menuHeaderBorder:                      5px solid #fff;
+@menuHeaderBoxShadow:                   @headerBoxShadow;
+
+//-----Header-----
+@headerBackground:                      @bodyBackground;
+
+@headerTextColor:                       @menuTextColor;
+@headerTextShadow:                      none;
+
+//-----Content-----
+@headingsColor:                         @themeColor;
+@sectionHeadingColor:                   #fff;
+@sectionHeadingBackground:              lighten(#4b565d, 20%);
+
 /* Font Icon
 --------------------------------------------------------*/
 @font-face {
