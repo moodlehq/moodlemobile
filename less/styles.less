@@ -622,12 +622,14 @@ hr {
   }
   h2 {
     color: @menuSectionHeadingColor;
+    font-size: .75rem;
+    text-transform: uppercase;
     text-shadow: @menuSectionHeadingTextShadow;
-    height: 22px;
     background: @menuSectionHeadingBackground;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: @menuSectionHeadingBoxShadow;
+    padding-left: 14px;
   }
   .nav-item {
       border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -653,17 +655,37 @@ hr {
     }
     .plugin-name {
       margin-left: 32px;
-      padding-right: 26px;
+      padding: 2px 26px 2px 0;
+      line-height: 20px;
     }
   }
   .no-arrow > a {
     background-image: none;
+  }
+  .section-header {
+    box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.1) inset;
+    .plugin-name {
+      color: @menuSectionHeadingColor;
+      font-size: .75rem;
+      text-transform: uppercase;
+      text-shadow: @menuSectionHeadingTextShadow;
+      margin-left: 4px;
+    }
   }
   .submenu {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     .nav-item:last-of-type {
       border-bottom: 0;
     }
+    .divider {
+      border-bottom: 0
+    }
+  }
+  .divider {
+    height: 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: @menuSectionHeadingBoxShadow; 
   }
   #general-menu a {
     padding-right: 36px;
