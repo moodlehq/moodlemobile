@@ -218,10 +218,7 @@
         <% } %>
     <% }); %>
     <li class="nav-item">
-        <a class="toogler expand touch-row">
-            <div class="course-ico app-ico">
-                <img src="img/ico-course.png" border="0">
-            </div>
+        <a class="toogler expand touch-row section-header">
             <div class="plugin-name">
                 <%= MM.lang.s("mycourses") %>
             </div>
@@ -230,6 +227,9 @@
             <% _.each(courses, function(course) { %>
             <li class="nav-item">
                 <a href="#" class="toogler expand touch-row">
+                    <div class="course-ico app-ico">
+                        <img src="img/ico-course.png" border="0">
+                    </div>
                     <div class="plugin-name">
                         <%= course.fullname %>
                     </div>
@@ -252,11 +252,10 @@
                 </ul>
             </li>
             <% }); %>
+            <li class="divider"></li>
         </ul>
     </li>
 </ul>
-
-<h2></h2>
 
 <ul id="general-menu" class="nav nav-v js-accordion">
     <li class="nav-item no-arrow">
