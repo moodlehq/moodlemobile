@@ -118,8 +118,14 @@ define(templates,function (activities) {
                 },
                 {},
                 // Error callback.
-                function() {
-                    var error = MM.lang.s("errorretrievinggradeinformation");
+                function(e) {
+                    var error;
+
+                    if (typeof e == "string") {
+                        error = e;
+                    } else {
+                        error = MM.lang.s("errorretrievinggradeinformation");
+                    }
                     $("#" + id).html(error);
                     $("#" + id.replace("-grade-", "-range-")).html(error);
                     $("#" + id.replace("-grade-", "-percentage-")).html(error);
