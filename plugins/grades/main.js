@@ -1,8 +1,9 @@
 var templates = [
-    "root/externallib/text!root/plugins/grades/activities.html"
+    "root/externallib/text!root/plugins/grades/activities.html",
+    "root/externallib/text!root/plugins/grades/activities_total.html"
 ];
 
-define(templates,function (activities) {
+define(templates,function (activities, activitiesTotal) {
     var plugin = {
         settings: {
             name: "grades",
@@ -48,19 +49,86 @@ define(templates,function (activities) {
                     sections: contents,
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 };
-                var html = MM.tpl.render(MM.plugins.grades.templates.activities.html, tpl);
 
-                $(menuEl, '#panel-left').removeClass('loading-row');
-                MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
+                // Now, this is a dirty hack necessary.
+                // Depending on the Moodle version we can retrieve all the grades with the course total or
+                // we should ask grade by grade
 
-                var id;
-                // Now, load grades for all the elements
-                $(".grade").each(function() {
-                    id = $(this).attr("id");
-                    if (id) {
-                        MM.plugins.grades._getGradeForActivity(id);
+                // Check Moodle 2.7 and onwards.
+                if (parseInt(MM.config.current_site.version) >= 2014051200) {
+                    MM.plugins.grades._loadAllGrades(tpl, menuEl);
+                } else {
+                    MM.plugins.grades._loadGradeByGrade(tpl);
+                    $(menuEl, '#panel-left').removeClass('loading-row');
+                }
+            });
+        },
+
+        _loadAllGrades: function(tpl, menuEl) {
+
+            var data = {
+                "courseid" : tpl.course.courseid,
+                "userids[0]" : MM.config.current_site.userid
+            };
+
+            MM.moodleWSCall(MM.plugins.grades.wsName, data,
+                // Succes callback.
+                function(grades) {
+
+                    // Now we should create a correct data structure for the grades.
+
+
+
+                    if (contents.items && contents.items[0]) {
+                        var min = contents.items[0]["grademin"];
+                        var max = contents.items[0]["grademax"];
+                        range = min + " - " + max;
+
+                        if (contents.items[0]["grades"] && contents.items[0]["grades"][0]) {
+                            gradeInfo = contents.items[0]["grades"][0];
+
+                            grade = gradeInfo["str_long_grade"];
+                            feedback = MM.util.formatText(gradeInfo["str_feedback"], true);
+                            numGrade = gradeInfo["grade"];
+
+                            var div = max - min;
+                            if (numGrade && div) {
+                                percentage = ((numGrade - min) * 100) / (div);
+                                percentage += " %";
+                            }
+                        }
                     }
-                });
+
+                    if (contents.outcomes && contents.outcomes[0] &&
+                        contents.outcomes[0]["grades"] && contents.outcomes[0]["grades"][0]) {
+                        var strGrade = contents.outcomes[0]["grades"][0]["str_grade"];
+                        grade += " (" + strGrade + ")";
+                    }
+
+                    $(menuEl, '#panel-left').removeClass('loading-row');
+                    var html = MM.tpl.render(MM.plugins.grades.templates.activitiesTotal.html, tpl);
+                    MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
+                },
+                {},
+                // Error callback.
+                function(e) {
+                    MM.plugins.grades._loadGradeByGrade(tpl);
+                }
+            );
+        },
+
+        _loadGradeByGrade: function(tpl) {
+            var html = MM.tpl.render(MM.plugins.grades.templates.activities.html, tpl);
+
+            MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
+
+            var id;
+            // Now, load grades for all the elements
+            $(".grade").each(function() {
+                id = $(this).attr("id");
+                if (id) {
+                    MM.plugins.grades._getGradeForActivity(id);
+                }
             });
         },
 
@@ -138,6 +206,9 @@ define(templates,function (activities) {
         templates: {
             "activities": {
                 html: activities
+            },
+            "activitiesTotal": {
+                html: activitiesTotal
             }
         }
     };
