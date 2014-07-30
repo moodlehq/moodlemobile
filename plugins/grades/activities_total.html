@@ -2,7 +2,7 @@
     <header>
         <div>
             <div class="bd">
-                <h1><%= course.fullname %></h1>
+                <h1><%= MM.util.formatText(course.fullname) %></h1>
             </div>
         </div>
     </header>
@@ -25,23 +25,25 @@
                 <tr>
                     <td class="activity media" data-lang="<%= MM.lang.s("activity") %>">
                         <div class="img app-ico">
+                            <% if (module.modname) { %>
                             <img src="img/mod/<%= module.modname %>.png" alt="img">
+                            <% } %>
                         </div>
                         <div class="bd">
                             <p><%= MM.util.formatText(module.name) %></p>
                         </div>
                         <!-- Physics -->
                     </td>
-                    <td id="grade-grade-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="grade" data-lang="<%= MM.lang.s("grade") %>">
+                    <td class="grade" data-lang="<%= MM.lang.s("grade") %>">
                         <%= module.grade.grade %>
                     </td>
-                    <td id="grade-range-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="range" data-lang="<%= MM.lang.s("range") %>">
+                    <td class="range" data-lang="<%= MM.lang.s("range") %>">
                         <%= module.grade.range %>
                     </td>
-                    <td id="grade-percentage-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="percentage" data-lang="<%= MM.lang.s("percentage") %>">
+                    <td class="percentage" data-lang="<%= MM.lang.s("percentage") %>">
                         <%= module.grade.percentage %>
                     </td>
-                    <td id="grade-feedback-<%= course.id %>-<%= module.modname %>-<%= module.id %>" class="feedback" data-lang="<%= MM.lang.s("feedback") %>">
+                    <td class="feedback" data-lang="<%= MM.lang.s("feedback") %>">
                         <%= module.grade.feedback %>
                     </td>
                 </tr>

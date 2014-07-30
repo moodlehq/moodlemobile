@@ -76,36 +76,106 @@ define(templates,function (activities, activitiesTotal) {
                 function(grades) {
 
                     // Now we should create a correct data structure for the grades.
+                    var userGrades = {};
 
-
-
-                    if (contents.items && contents.items[0]) {
-                        var min = contents.items[0]["grademin"];
-                        var max = contents.items[0]["grademax"];
-                        range = min + " - " + max;
-
-                        if (contents.items[0]["grades"] && contents.items[0]["grades"][0]) {
-                            gradeInfo = contents.items[0]["grades"][0];
-
-                            grade = gradeInfo["str_long_grade"];
-                            feedback = MM.util.formatText(gradeInfo["str_feedback"], true);
-                            numGrade = gradeInfo["grade"];
-
-                            var div = max - min;
-                            if (numGrade && div) {
-                                percentage = ((numGrade - min) * 100) / (div);
-                                percentage += " %";
+                    if (grades.items && grades.items.length > 0) {
+                        _.each(grades.items, function(item) {
+                            userGrades[item.activityid] = item;
+                            userGrades[item.activityid].user = [];
+                            if (item.grades && item.grades.length > 0) {
+                                _.each(item.grades, function(userGrade) {
+                                    userGrades[item.activityid].user[userGrade.userid] = {grade: null, outcome: null};
+                                    userGrades[item.activityid].user[userGrade.userid]["grade"] = userGrade;
+                                });
                             }
-                        }
+                        });
                     }
 
-                    if (contents.outcomes && contents.outcomes[0] &&
-                        contents.outcomes[0]["grades"] && contents.outcomes[0]["grades"][0]) {
-                        var strGrade = contents.outcomes[0]["grades"][0]["str_grade"];
-                        grade += " (" + strGrade + ")";
+                    if (grades.outcomes && grades.outcomes.length > 0) {
+                        _.each(grades.outcomes, function(outcome) {
+                            userGrades[outcome.activityid] = outcome;
+                            userGrades[outcome.activityid].user = [];
+                            if (item.grades && item.grades.length > 0) {
+                                _.each(outcome.grades, function(userGrade) {
+                                    if (typeof userGrades[outome.activityid].user[userGrade.userid] == "undefined") {
+                                        userGrades[outome.activityid].user[userGrade.userid] = {grade: null, outcome: null};
+                                    }
+                                    userGrades[outome.activityid].user[userGrade.userid]["outcome"] = userGrade;
+                                });
+                            }
+                        });
                     }
+
+                    // Add a section for the course total.
+                    var newModule = userGrades["course"];
+                    newModule.id = "course";
+
+                    var newSection = {
+                        id: "course",
+                        name: MM.util.formatText(tpl.course.fullname),
+                        modules: [newModule]
+                    };
+                    tpl.sections.push(newSection);
+
+                    // Final data structure with the sections to display.
+                    var finalSections = {};
+                    var userId = MM.config.current_site.userid;
+
+                    _.each(tpl.sections, function(section) {
+                        if (typeof(section.modules) != "undefined" && section.modules.length > 0) {
+                            _.each(section.modules, function(module) {
+                                if (typeof userGrades[module.id] != "undefined") {
+                                    if (typeof finalSections[section.id] == "undefined") {
+                                        newSection = {
+                                            id: section.id,
+                                            name: section.name,
+                                            modules: []
+                                        };
+                                        finalSections[section.id] = newSection;
+                                    }
+                                    module.grade = {
+                                        grade: "-",
+                                        range: "-",
+                                        percentage: "-",
+                                        feedback: "-"
+                                    };
+
+                                    var min = userGrades[module.id]["grademin"];
+                                    var max = userGrades[module.id]["grademax"];
+                                    module.grade.range = min + " - " + max;
+
+                                    if (typeof userGrades[module.id].user[userId] != "undefined" &&
+                                            userGrades[module.id].user[userId].grade) {
+
+                                        gradeInfo = userGrades[module.id].user[userId].grade;
+
+                                        module.grade.grade = gradeInfo["str_long_grade"];
+                                        module.grade.feedback = MM.util.formatText(gradeInfo["str_feedback"], true);
+                                        numGrade = gradeInfo["grade"];
+
+                                        var div = max - min;
+                                        if (numGrade && div) {
+                                            module.grade.percentage = ((numGrade - min) * 100) / (div);
+                                            module.grade.percentage += " %";
+                                        }
+                                    }
+
+                                    if (typeof userGrades[module.id].user[userId] != "undefined" &&
+                                            userGrades[module.id].user[userId].outcome) {
+
+                                        var strGrade = userGrades[module.id].user[userId].outcome["str_grade"];
+                                        module.grade.grade += " (" + strGrade + ")";
+                                    }
+
+                                    finalSections[section.id].modules.push(module);
+                                }
+                            });
+                        }
+                    });
 
                     $(menuEl, '#panel-left').removeClass('loading-row');
+
+                    tpl.sections = finalSections;
                     var html = MM.tpl.render(MM.plugins.grades.templates.activitiesTotal.html, tpl);
                     MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
                 },
