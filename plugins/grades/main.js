@@ -53,9 +53,12 @@ define(templates,function (activities, activitiesTotal) {
                 // Now, this is a dirty hack necessary.
                 // Depending on the local mobile version we can retrieve all the grades with the course total or
                 // we should ask grade by grade
+                var unsupportedVersions = ["2014052805", "2014060200", "2014060300", "2014060400", "2014060401", "2014052806",
+                                            "2014060201", "2014060301", "2014060402"];
 
                 // Check local_mobile version.
-                if (parseInt(MM.util.wsVersion("local_mobile_core_grades_get_grades")) >= 2014060403) {
+                var currentVersion = MM.util.wsVersion("local_mobile_core_grades_get_grades");
+                if (unsupportedVersions.indexOf(currentVersion) == -1) {
                     MM.plugins.grades._loadAllGrades(tpl, menuEl);
                 } else {
                     MM.plugins.grades._loadGradeByGrade(tpl);
@@ -162,13 +165,6 @@ define(templates,function (activities, activitiesTotal) {
                                             module.grade.percentage = ((numGrade - min) * 100) / (div);
                                             module.grade.percentage += " %";
                                         }
-                                    }
-
-                                    if (typeof userGrades[module.id].user[userId] != "undefined" &&
-                                            userGrades[module.id].user[userId].outcome) {
-
-                                        var strGrade = userGrades[module.id].user[userId].outcome["str_grade"];
-                                        module.grade.grade += " (" + strGrade + ")";
                                     }
 
                                     finalSections[section.id].modules.push(module);
