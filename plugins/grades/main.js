@@ -51,11 +51,11 @@ define(templates,function (activities, activitiesTotal) {
                 };
 
                 // Now, this is a dirty hack necessary.
-                // Depending on the Moodle version we can retrieve all the grades with the course total or
+                // Depending on the local mobile version we can retrieve all the grades with the course total or
                 // we should ask grade by grade
 
-                // Check Moodle 2.7 and onwards.
-                if (parseInt(MM.config.current_site.version) >= 2014051200) {
+                // Check local_mobile version.
+                if (parseInt(MM.util.wsVersion("local_mobile_core_grades_get_grades")) >= 2014060403) {
                     MM.plugins.grades._loadAllGrades(tpl, menuEl);
                 } else {
                     MM.plugins.grades._loadGradeByGrade(tpl);
