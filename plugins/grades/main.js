@@ -93,14 +93,16 @@ define(templates,function (activities, activitiesTotal) {
 
                     if (grades.outcomes && grades.outcomes.length > 0) {
                         _.each(grades.outcomes, function(outcome) {
-                            userGrades[outcome.activityid] = outcome;
-                            userGrades[outcome.activityid].user = [];
-                            if (item.grades && item.grades.length > 0) {
+                            if (!userGrades[outcome.activityid]) {
+                                userGrades[outcome.activityid] = outcome;
+                                userGrades[outcome.activityid].user = [];
+                            }
+                            if (outcome.grades && outcome.grades.length > 0) {
                                 _.each(outcome.grades, function(userGrade) {
-                                    if (typeof userGrades[outome.activityid].user[userGrade.userid] == "undefined") {
-                                        userGrades[outome.activityid].user[userGrade.userid] = {grade: null, outcome: null};
+                                    if (typeof userGrades[outcome.activityid].user[userGrade.userid] == "undefined") {
+                                        userGrades[outcome.activityid].user[userGrade.userid] = {grade: null, outcome: null};
                                     }
-                                    userGrades[outome.activityid].user[userGrade.userid]["outcome"] = userGrade;
+                                    userGrades[outcome.activityid].user[userGrade.userid]["outcome"] = userGrade;
                                 });
                             }
                         });
@@ -142,7 +144,9 @@ define(templates,function (activities, activitiesTotal) {
 
                                     var min = userGrades[module.id]["grademin"];
                                     var max = userGrades[module.id]["grademax"];
-                                    module.grade.range = min + " - " + max;
+                                    if (min || max) {
+                                        module.grade.range = min + " - " + max;
+                                    }
 
                                     if (typeof userGrades[module.id].user[userId] != "undefined" &&
                                             userGrades[module.id].user[userId].grade) {
