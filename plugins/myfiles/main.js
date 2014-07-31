@@ -105,11 +105,18 @@ define(templates, function (filesTpl) {
                             entry.link.filename = "";
                         }
 
-                        entry.link = encodeURIComponent(JSON.stringify(entry.link));
-                        entry.filename = MM.util.formatText(entry.filename, true);
                         if (entry.isdir) {
                             entry.imgpath = "img/mod/folder.png";
+                        } else {
+                            var extension = MM.util.getFileExtension(entry.filename);
+                            if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
+                                entry.imgpath = "img/files/" + MM.plugins.contents.templates.mimetypes[extension]["icon"] + "-64.png";
+                            }
                         }
+
+                        entry.link = encodeURIComponent(JSON.stringify(entry.link));
+                        entry.filename = MM.util.formatText(entry.filename, true);
+
                         data.entries.push(entry);
                     });
 
