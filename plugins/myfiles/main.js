@@ -14,6 +14,11 @@ define(templates, function (filesTpl) {
             }
         },
 
+        storage: {
+            file: {type: "model"},
+            files: {type: "collection", model: "file"}
+        },
+
         routes: [
             ["myfiles/:dir", "show_files", "showFiles"],
         ],
@@ -135,6 +140,15 @@ define(templates, function (filesTpl) {
                         entry.link = encodeURIComponent(JSON.stringify(entry.link));
                         entry.linkId = hex_md5(entry.link);
                         entry.filename = MM.util.formatText(entry.filename, true);
+                        entry.localpath = "";
+
+                        if (!entry.isdir && entry.url) {
+                            var uniqueId = MM.config.current_site.id + "-" + hex_md5(entry.url);
+                            var path = MM.db.get("files", uniqueId);
+                            if (path) {
+                                entry.localpath = path.get("localpath");
+                            }
+                        }
 
                         data.entries.push(entry);
                     });
@@ -157,10 +171,14 @@ define(templates, function (filesTpl) {
                     MM.panels.show('center', html, {title: pageTitle});
 
                     // Bind downloads.
-                    $(".myfiles-download").on(MM.clickType, function() {
+                    $(".myfiles-download").on(MM.clickType, function(e) {
+                        e.preventDefault();
+
                         var url = $(this).data("url");
-                        //alert(url);
-                        //MM.plugins.myfiles._downloadFile();
+                        var filename = $(this).data("filename");
+                        var linkId = $(this).data("linkid");
+
+                        MM.plugins.myfiles._downloadFile(url, filename, linkId);
                     });
                 },
                 null,
@@ -168,6 +186,57 @@ define(templates, function (filesTpl) {
                     MM.popErrorMessage(error);
                 }
             );
+        },
+
+        _downloadFile: function(url, filename, linkId) {
+            // Add the token.
+            var downloadURL = MM.fixPluginfile(url);
+            var siteId = MM.config.current_site.id;
+            var linkCssId = "#" + linkId;
+            var downCssId = "#img-" + linkId;
+
+            filename = decodeURIComponent(filename);
+            filename = filename.replace(" ", "_");
+
+            var directory = siteId + "/files/" + linkId;
+            var filePath = directory + "/" + filename;
+
+            MM.fs.init(function() {
+                if (MM.deviceConnected()) {
+                    MM.log("Starting download of Moodle file: " + downloadURL);
+                    // All the functions are asynchronous, like createDir.
+                    MM.fs.createDir(directory, function() {
+                        MM.log("Downloading Moodle file to " + filePath + " from URL: " + downloadURL);
+
+                        $(downCssId).attr("src", "img/loadingblack.gif");
+                        MM.moodleDownloadFile(downloadURL, filePath,
+                            function(fullpath) {
+                                MM.log("Download of content finished " + fullpath + " URL: " + downloadURL);
+
+                                var uniqueId = siteId + "-" + hex_md5(url);
+                                var file = {
+                                    id: uniqueId,
+                                    url: url,
+                                    site: siteId,
+                                    localpath: fullpath
+                                };
+                                MM.db.insert("files", file);
+
+                                $(downCssId).remove();
+                                $(linkCssId).attr("href", fullpath);
+                                $(linkCssId).attr("rel", "external");
+                                // Android, open in new browser
+                                MM.handleFiles(linkCssId);
+                            },
+                            function(fullpath) {
+                               MM.log("Error downloading " + fullpath + " URL: " + downloadURL);
+                            }
+                        );
+                    });
+                } else {
+                    MM.popErrorMessage(MM.lang.s("errornoconnectednocache"));
+                }
+            });
         },
 
         templates: {

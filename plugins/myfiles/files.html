@@ -12,11 +12,22 @@
                     <div class="content-table">
                         <% if (!entry.isdir) { %>
                         <div class="content-actions app-ico">
-                            <img class="myfiles-download" src="img/download.png" border="0" data-url="<%= entry.url %>">
+                            <% if (!entry.isdir && entry.localpath) { %>
+                            <% var dImg = "reloadgrey"; %>
+                            <% } else { %>
+                            <% var dImg = "download"; %>
+                            <% } %>
+                            <img id="img-<%= entry.linkId %>" class="myfiles-download" src="img/<%= dImg %>.png" border="0" data-url="<%= entry.url %>" data-filename="<%= entry.filename %>" data-linkid="<%= entry.linkId %>">
                         </div>
                         <% } %>
                         <div class="content-name">
-                            <a id="<%= entry.linkId %>" href="#myfiles/<%= entry.link %>" class="media touch-row">
+                            <% if (!entry.isdir && !entry.localpath) { %>
+                                <a id="<%= entry.linkId %>" href="#myfiles/<%= entry.link %>" class="media touch-row myfiles-download" data-url="<%= entry.url %>" data-filename="<%= entry.filename %>" data-linkid="<%= entry.linkId %>">
+                            <% } else if(entry.localpath) { %>
+                                <a id="<%= entry.linkId %>" href="<%= entry.localpath %>" rel="external" class="media touch-row">
+                            <% } else { %>
+                                <a id="<%= entry.linkId %>" href="#myfiles/<%= entry.link %>" class="media touch-row">
+                            <% } %>
                                 <div class="img">
                                     <img src="<%= entry.imgpath %>" alt="img">
                                 </div>
