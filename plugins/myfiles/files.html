@@ -1,20 +1,42 @@
 <ul class="nav nav-v">
-    <% if (backPath) { %>
+    <% if (goBack) { %>
     <li class="nav-item">
-        <a href="#myfiles/<%= backPath %>">..</a>
+        <a href="javascript: window.history.back();">..</a>
     </li>
     <% } %>
 
     <% if (dir == "root") { %>
     <li class="nav-item">
-        <a href="#myfiles/private"><%= MM.lang.s("privatefiles") %></a>
+        <a href="#myfiles/private" class="media touch-row">
+            <div class="img">
+                <img src="img/mod/folder.png" alt="img">
+            </div>
+            <div class="bd">
+              <p><%= MM.lang.s("privatefiles") %></p>
+            </div>
+        </a>
     </li>
     <li class="nav-item">
-        <a href="#myfiles/site"><%= MM.lang.s("sitefiles") %></li></a>
+        <a href="#myfiles/site" class="media touch-row">
+            <div class="img">
+                <img src="img/mod/folder.png" alt="img">
+            </div>
+            <div class="bd">
+              <p><%= MM.lang.s("sitefiles") %></p>
+            </div>
+        </a>
+    </li>
     <% } else if (entries.length > 0) { %>
         <% _.each(entries, function(entry) { %>
             <li class="nav-item">
-                <a href="#myfiles/<%= backPath %>"><%= MM.util.formatText(entry.filename, true) %></a>
+                <a href="#myfiles/<%= entry.link %>" class="media touch-row">
+                    <div class="img">
+                        <img src="<%= entry.imgpath %>" alt="img">
+                    </div>
+                    <div class="bd">
+                      <p><%= entry.filename %></p>
+                    </div>
+                </a>
             </li>
         <% });%>
     <% } %>

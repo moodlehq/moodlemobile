@@ -33,9 +33,8 @@ define(templates, function (filesTpl) {
 
         /**
          * Display global and course files for all the user courses
-         * TODO: Support groups files also
          *
-         * @param  {integer} days The number of days for displaying files starting today
+         * @param  {string} dir The directory to show
          */
         showFiles: function(dir) {
             var pageTitle, html;
@@ -49,12 +48,14 @@ define(templates, function (filesTpl) {
             };
 
             var data = {
-                backPath: "",
+                goBack: true,
                 dir: dir,
                 entries: []
             };
 
             if (dir == "root") {
+                data.goBack = false;
+
                 MM.plugins.myfiles.path = [MM.lang.s("myfiles")];
                 html = MM.tpl.render(MM.plugins.myfiles.templates.files.html, data);
                 pageTitle = MM.plugins.myfiles.path.join(" / ");
@@ -65,13 +66,23 @@ define(templates, function (filesTpl) {
                 MM.plugins.myfiles.path = [MM.lang.s("myfiles")];
                 MM.plugins.myfiles.path.push(MM.lang.s("privatefiles"));
 
-                data.backPath = "root";
+                params.component = "user";
+                params.filearea = "private";
+                params.contextid = -1;
+                params.contextlevel = "user";
+                params.instanceid = MM.config.current_site.userid;
 
             } else if (dir == "site") {
                 MM.plugins.myfiles.path = [MM.lang.s("myfiles")];
                 MM.plugins.myfiles.path.push(MM.lang.s("sitefiles"));
 
-                data.backPath = "root";
+            } else {
+                try {
+                    params = JSON.parse(dir);
+                } catch(e) {
+                    MM.popErrorMessage(MM.lang.s("errorlistingfiles"));
+                    return;
+                }
             }
 
             MM.moodleWSCall("local_mobile_core_files_get_files",
@@ -81,17 +92,36 @@ define(templates, function (filesTpl) {
                         MM.popErrorMessage(MM.lang.s("errorlistingfiles"));
                         return;
                     }
-                    data.entries = result.files;
+                    _.each(result.files, function(entry) {
+                        entry.link = {};
+                        entry.link.contextid = (entry.contextid) ? entry.contextid : "";
+                        entry.link.component = (entry.component) ? entry.component : "";
+                        entry.link.filearea = (entry.filearea) ? entry.filearea : "";
+                        entry.link.itemid = (entry.itemid) ? entry.itemid : 0;
+                        entry.link.filepath = (entry.filepath) ? entry.filepath : "";
+                        entry.link.filename = (entry.filename) ? entry.filename : "";
+                        if (entry.component && entry.isdir) {
+                            // Delete unused elements that may broke the request.
+                            entry.link.filename = "";
+                        }
+
+                        entry.link = encodeURIComponent(JSON.stringify(entry.link));
+                        entry.filename = MM.util.formatText(entry.filename, true);
+                        if (entry.isdir) {
+                            entry.imgpath = "img/mod/folder.png";
+                        }
+                        data.entries.push(entry);
+                    });
+
+                    html = MM.tpl.render(MM.plugins.myfiles.templates.files.html, data);
+                    pageTitle = MM.plugins.myfiles.path.join(" / ");
+                    MM.panels.show('center', html, {title: pageTitle});
                 },
                 null,
                 function (error) {
                     MM.popErrorMessage(error);
                 }
             );
-
-            html = MM.tpl.render(MM.plugins.myfiles.templates.files.html, data);
-            pageTitle = MM.plugins.myfiles.path.join(" / ");
-            MM.panels.show('center', html, {title: pageTitle});
         },
 
         templates: {
