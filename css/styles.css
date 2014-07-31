@@ -317,6 +317,11 @@ hr {
   background-repeat: no-repeat;
   background-position: 95% 50%;
 }
+.loading-row-black {
+  background-image: url(../img/loadingblack.gif);
+  background-repeat: no-repeat;
+  background-position: 95% 50%;
+}
 .loading-menu {
   background-image: url(../img/loadingblack.gif);
 }

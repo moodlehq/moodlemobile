@@ -37,7 +37,9 @@ define(templates, function (filesTpl) {
          * @param  {string} dir The directory to show
          */
         showFiles: function(dir) {
-            var pageTitle, html;
+            var html;
+            var pageTitle = MM.lang.s("myfiles");
+
             var params = {
                 "contextid": 0,
                 "component": "",
@@ -49,22 +51,36 @@ define(templates, function (filesTpl) {
 
             var data = {
                 goBack: true,
+                fullPath: "",
                 dir: dir,
                 entries: []
             };
 
             if (dir == "root") {
                 data.goBack = false;
+                var entry = {
+                    isdir: 1,
+                    link: "private",
+                    linkId: hex_md5("private"),
+                    imgpath: "img/mod/folder.png",
+                    filename: MM.lang.s("privatefiles"),
+                };
+                data.entries.push(entry);
 
-                MM.plugins.myfiles.path = [MM.lang.s("myfiles")];
+                entry = {
+                    isdir: 1,
+                    link: "site",
+                    linkId: hex_md5("site"),
+                    imgpath: "img/mod/folder.png",
+                    filename: MM.lang.s("sitefiles"),
+                };
+                data.entries.push(entry);
+
                 html = MM.tpl.render(MM.plugins.myfiles.templates.files.html, data);
-                pageTitle = MM.plugins.myfiles.path.join(" / ");
                 MM.panels.show('center', html, {title: pageTitle});
                 return;
 
             } else if (dir == "private") {
-                MM.plugins.myfiles.path = [MM.lang.s("myfiles")];
-                MM.plugins.myfiles.path.push(MM.lang.s("privatefiles"));
 
                 params.component = "user";
                 params.filearea = "private";
@@ -73,8 +89,7 @@ define(templates, function (filesTpl) {
                 params.instanceid = MM.config.current_site.userid;
 
             } else if (dir == "site") {
-                MM.plugins.myfiles.path = [MM.lang.s("myfiles")];
-                MM.plugins.myfiles.path.push(MM.lang.s("sitefiles"));
+                data.fullPath = MM.lang.s("system");
 
             } else {
                 try {
@@ -84,6 +99,9 @@ define(templates, function (filesTpl) {
                     return;
                 }
             }
+
+            var link = hex_md5(encodeURIComponent(dir));
+            $('#' + link, '#panel-center').addClass('loading-row-black');
 
             MM.moodleWSCall("local_mobile_core_files_get_files",
                 params,
@@ -115,14 +133,35 @@ define(templates, function (filesTpl) {
                         }
 
                         entry.link = encodeURIComponent(JSON.stringify(entry.link));
+                        entry.linkId = hex_md5(entry.link);
                         entry.filename = MM.util.formatText(entry.filename, true);
 
                         data.entries.push(entry);
                     });
 
+                    var parents = [];
+                    _.each(result.parents, function(parent) {
+                        parents.push(parent.filename);
+                    });
+                    // Push the current requested directory.
+                    parents.push(params.filename ? params.filename : params.path);
+
+                    if (dir == "site") {
+                        data.fullPath = MM.lang.s("system");
+                    }
+                    else if (parents.length > 0) {
+                        data.fullPath = parents.join(" / ");
+                    }
+
                     html = MM.tpl.render(MM.plugins.myfiles.templates.files.html, data);
-                    pageTitle = MM.plugins.myfiles.path.join(" / ");
                     MM.panels.show('center', html, {title: pageTitle});
+
+                    // Bind downloads.
+                    $(".myfiles-download").on(MM.clickType, function() {
+                        var url = $(this).data("url");
+                        //alert(url);
+                        //MM.plugins.myfiles._downloadFile();
+                    });
                 },
                 null,
                 function (error) {
