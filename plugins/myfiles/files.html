@@ -1,0 +1,21 @@
+<ul class="nav nav-v">
+    <% if (backPath) { %>
+    <li class="nav-item">
+        <a href="#myfiles/<%= backPath %>">..</a>
+    </li>
+    <% } %>
+
+    <% if (dir == "root") { %>
+    <li class="nav-item">
+        <a href="#myfiles/private"><%= MM.lang.s("privatefiles") %></a>
+    </li>
+    <li class="nav-item">
+        <a href="#myfiles/site"><%= MM.lang.s("sitefiles") %></li></a>
+    <% } else if (entries.length > 0) { %>
+        <% _.each(entries, function(entry) { %>
+            <li class="nav-item">
+                <a href="#myfiles/<%= backPath %>"><%= MM.util.formatText(entry.filename, true) %></a>
+            </li>
+        <% });%>
+    <% } %>
+</ul>
