@@ -11,7 +11,23 @@
             </div>
         </header>
 
-        <div class="date"><p><%= event.startdate %>&nbsp<span class="time"><%= event.starttime %></span>&nbsp-&nbsp<%= event.enddate %>&nbsp<span class="time"><%= event.endtime %></span></p></div>
+        <div class="date">
+            <p>
+                <%= event.startdate %>&nbsp
+                <span class="time"
+                    ><%= event.starttime %>
+                </span>
+
+                <% if (event.enddate) { %>
+                    &nbsp-&nbsp
+                    <% if (event.enddate != event.startdate) { %>
+                        <%= event.enddate %>&nbsp
+                    <% } %>
+                    <span class="time"><%= event.endtime %></span>
+                <% } %>
+
+            </p>
+        </div>
 
         <% if (event.courseName) { %>
             <div class="course"><p><%= MM.lang.s("course") %>: <%= MM.util.formatText(event.courseName) %></p></div>
