@@ -767,44 +767,91 @@ hr {
   display: block;
   padding: 15px;
 }
-.panel-container {
+.notifications {
   padding: 10px;
 }
-.notifications {
+.notification {
   padding: 0 10px;
   margin-bottom: 10px;
   background-color: #eee;
 }
-.notifications:first-of-type {
+.notification:first-of-type {
   border-top: none;
 }
-.notifications .name {
+.notification .name {
   font-weight: bold;
   line-height: 20px;
   padding: 10px 8px;
   margin-bottom: 0;
 }
-.notifications .time {
+.notification .time {
   font-size: 12px;
   font-weight: normal;
   display: block;
 }
-.notifications .message {
+.notification .message {
   word-break: break-word;
   padding: 20px;
   margin-bottom: 0;
   background-color: #fff;
 }
-.notifications .message a {
+.notification .message a {
   color: #0088cc;
 }
-.notifications .actions {
+.notification .actions {
   text-align: right;
 }
-.notifications .actions a {
+.notification .actions a {
   cursor: pointer;
   display: inline-block;
   padding: 8px;
+}
+.events-list .name {
+  line-height: 20px;
+}
+.events-list .date {
+  margin-top: 6px;
+}
+.events-list .time {
+  font-size: 12px;
+}
+.events-list p {
+  padding: 10px;
+}
+.event {
+  border-bottom: 1px solid #e0e0e0;
+}
+.event header {
+  padding: 10px;
+}
+.event header img {
+  margin-top: 8px;
+}
+.event > div {
+  padding: 10px;
+  border-top: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+.event .date p,
+.event .course p {
+  padding-left: 26px;
+  margin-bottom: 0;
+}
+.event .time {
+  font-size: 12px;
+}
+.event .app-ico img {
+  width: 18px;
+  height: auto;
+}
+.event .description {
+  padding-left: 36px;
+}
+.event .description img {
+  margin: 20px 0 20px 20px;
+}
+.event .description p:last-of-type {
+  margin-bottom: 0;
 }
 /* - Grades on the right panel
 -------------------------------------------------------------------------- */
