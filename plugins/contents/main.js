@@ -198,6 +198,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         if (typeof(content.contents) != "undefined") {
                             $.each(content.contents, function (index3, file) {
 
+                                if (typeof file.fileurl == "undefined" || !file.fileurl) {
+                                    return true;
+                                }
+
                                 if (file.fileurl.indexOf(MM.config.current_site.siteurl) == -1) {
                                     return true;
                                 }
