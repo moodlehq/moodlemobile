@@ -42,6 +42,22 @@ define(templates, function (eventsTpl, eventTpl) {
 
             MM.plugins.events.lastEvents = typeof(response.events !== "undefined")? response.events : [];
 
+            var d;
+            // Formatting.
+            for (var el in MM.plugins.events.lastEvents) {
+                var event = MM.plugins.events.lastEvents[el];
+
+                d = new Date(event.timestart * 1000);
+                event.startdate = d.toLocaleDateString();
+                event.starttime = d.toLocaleTimeString();
+
+                d = new Date((event.timestart + event.timeduration) * 1000);
+                event.enddate = d.toLocaleDateString();
+                event.endtime = d.toLocaleTimeString();
+
+                MM.plugins.events.lastEvents[el] = event;
+            }
+
             // Removing loading icon.
             $('a[href="' + MM.plugins.events.settings.menuURL + '"]', '#panel-left').removeClass('loading-row');
 
