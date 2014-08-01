@@ -851,12 +851,12 @@ hr {
   padding: 15px;
 }
 
-//-----Notifications and Calendar-----
-.panel-container {
+//-----Notifications-----
+.notifications {
   padding: 10px;
 }
 
-.notifications {
+.notification {
   padding: 0 10px;
   margin-bottom: 10px;
   background-color: #eee;
@@ -889,6 +889,60 @@ hr {
       cursor: pointer;
       display: inline-block;
       padding: 8px;
+    }
+  }
+}
+
+//-----Calendar-----
+.events-list {
+  .name {
+    line-height: 20px;
+  }
+  .date {
+    margin-top: 6px;
+  }
+  .time {
+    font-size: 12px;
+  }
+  p {
+    padding: 10px;
+  }
+}
+
+.event {
+  border-bottom: 1px solid #e0e0e0;
+  header {
+    padding: 10px;
+    img {
+      margin-top: 8px;
+    }
+  }
+  > div {
+    padding: 10px;
+    border-top: 1px solid #e0e0e0;
+    overflow: hidden;
+  }
+  .date,
+  .course {
+    p {
+      padding-left: 26px;
+      margin-bottom: 0;
+    }
+  }
+  .time {
+    font-size: 12px;
+  }
+  .app-ico img {
+      width: 18px;
+      height: auto;
+  }
+  .description {
+    padding-left: 36px;
+    img {
+      margin: 20px 0 20px 20px;
+    }
+    p:last-of-type {
+      margin-bottom: 0;
     }
   }
 }

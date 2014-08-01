@@ -1,15 +1,25 @@
-<ul class="nav nav-v">
-<% $.each(events, function(index, event) { %>
-    <li class="nav-item">
-            <a href="#events/show/<%= index %>" class="menu1 touch-row"><%= MM.util.formatText(event.name) %><br>
-                <%= MM.util.timestampToUserDate(event.timestart) %>
+<div class="events-list">
+	<ul class="nav nav-v">
+	<% $.each(events, function(index, event) { %>
+	    <li class="nav-item media">
+            <a class="name" href="#events/show/<%= index %>" class="menu1 touch-row">
+            	<div class="img">
+            		<img src="img/event-<%= event.eventtype %>.png">
+            	</div>
+            	<div class="bd">
+	            	<%= MM.util.formatText(event.name) %>
+	                <div class="date">
+	                	<%= event.startdate %>&nbsp<span class="time"><%= event.starttime %></span>
+	                </div>
+	            </div>
             </a>
-    </li>
-<% }); %>
-</ul>
+	    </li>
+	<% }); %>
+	</ul>
 
-<p><i><%= MM.lang.s("groupeventsnotdisplayed") %></i></p>
+	<p><%= MM.lang.s("groupeventsnotdisplayed") %></p>
 
-<div class="centered">
-    <button id="events-showmore"><%= MM.lang.s("threemonthsmore") %></button>
+	<div class="centered">
+	    <button id="events-showmore"><%= MM.lang.s("threemonthsmore") %></button>
+	</div>
 </div>

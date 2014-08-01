@@ -1,22 +1,33 @@
 <div class="panel-container">
-    <br />
+    <div class="event">
+        <header>
+            <div class="media">
+                <div class="img">
+                    <img src="img/event-<%= event.eventtype %>.png">
+                </div>
+                <div class="bd">
+                    <h1><%= MM.util.formatText(event.name) %></h1>
+                </div>
+            </div>
+        </header>
 
-    <p><strong><%= MM.lang.s("name") %>:</strong> <%= MM.util.formatText(event.name) %></p>
+        <div class="date"><p><%= event.startdate %>&nbsp<span class="time"><%= event.starttime %></span>&nbsp-&nbsp<%= event.enddate %>&nbsp<span class="time"><%= event.endtime %></span></p></div>
 
-    <p><strong><%= MM.lang.s("description") %>:</strong> <%= MM.util.formatText(event.description) %></p>
+        <% if (event.courseName) { %>
+            <div class="course"><p><%= MM.lang.s("course") %>: <%= MM.util.formatText(event.courseName) %></p></div>
+        <% } %>
 
-    <p><strong><%= MM.lang.s("type") %>:</strong> <%= event.eventtype %></p>
+        <% if (event.modulename != "0") { %>
+            <div class="media">
+                <div class="img app-ico">
+                    <img src="img/mod/<%= event.modulename %>.png">
+                </div>
+                <div class="bd">
+                    <%= event.modulename %>
+                </div>
+            </div>
+        <% } %>
 
-    <% if (event.modulename != "0") { %>
-    <p><strong><%= MM.lang.s("modulename") %>:</strong> <%= event.modulename %></p>
-    <% } %>
-
-    <% if (event.courseName) { %>
-    <p><strong><%= MM.lang.s("coursename") %>:</strong> <%= MM.util.formatText(event.courseName) %></p>
-    <% } %>
-
-    <p><strong><%= MM.lang.s("timestart") %>:</strong> <%= MM.util.timestampToUserDate(event.timestart) %></p>
-
-    <p><strong><%= MM.lang.s("timeduration") %>:</strong> <%= MM.util.formatSeconds(event.timeduration) %></p>
-
+        <div class="description"><%= MM.util.formatText(event.description) %></div>
+    </div>
 </div>
