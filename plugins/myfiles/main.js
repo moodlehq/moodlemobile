@@ -82,7 +82,7 @@ define(templates, function (filesTpl) {
                 data.entries.push(entry);
 
                 html = MM.tpl.render(MM.plugins.myfiles.templates.files.html, data);
-                MM.panels.show('center', html, {title: pageTitle});
+                MM.panels.show('center', html, {title: pageTitle, hideRight: true});
                 return;
 
             } else if (dir == "private") {
@@ -168,7 +168,7 @@ define(templates, function (filesTpl) {
                     }
 
                     html = MM.tpl.render(MM.plugins.myfiles.templates.files.html, data);
-                    MM.panels.show('center', html, {title: pageTitle});
+                    MM.panels.show('center', html, {title: pageTitle, hideRight: true});
 
                     // Bind downloads.
                     $(".myfiles-download").on(MM.clickType, function(e) {
