@@ -2,7 +2,9 @@
     <ul class="nav nav-v">
         <% if (goBack) { %>
         <li class="nav-item">
-            <a href="javascript: window.history.back();"><img src="img/arrowleft.png" border="0"></a>
+            <div class="back-row">
+                <a href="javascript: window.history.back();"><img src="img/arrowleft.png" border="0"></a>
+            </div>
         </li>
         <% } %>
 
@@ -41,10 +43,10 @@
             <% });%>
         <% } %>
     </ul>
+    <% if (fullPath) { %>
+    <div class="fullpath">
+        <p><span><%= MM.lang.s("youarein") %></span>&nbsp<%= fullPath %></p>
+    </div>
+    <% } %>
 </div>
 
-<% if (fullPath) { %>
-<div class="fullpath">
-    <p><%= MM.lang.s("youarein") %></p><span><%= fullPath %></span>
-</div>
-<% } %>

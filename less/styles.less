@@ -736,6 +736,7 @@ hr {
 .content-index {
   width: 100%;
   position: relative;
+  border-bottom: 1px solid #eee;
   header {
     padding: 10px;
   }
@@ -744,10 +745,6 @@ hr {
   }
   li {
     width: 100%;
-    padding: 10px;
-  }
-  section:last-of-type {
-    border-bottom: 1px solid #eee;
   }
   .nav-item:last-of-type {
     border-bottom: 0;
@@ -758,6 +755,7 @@ hr {
   .content-name {
     a {
       display: block;
+      padding: 10px;
     }
     img {
       width: 24px;
@@ -772,14 +770,21 @@ hr {
         padding-right: 80px;
       }
     }
+    &.folder {
+      padding: 10px;
+      border-top: 1px solid #eee;
+    }
   }
   .content-actions {
     float: right;
     width: 80px;
     text-align: right;
+    padding: 10px;
     img {
       width: 16px;
       height: auto;
+      margin-left: 3px;
+      margin-right: 3px;
     }
   }
   .media-folder .content-name {
@@ -789,8 +794,7 @@ hr {
 
 .expand-label,
 .collapse-label {
-  background-position-x: 99.5%;
-  background-position-y: 6px;
+  background-position: right 15px top 16px;
   background-repeat: no-repeat;
   background-size: 12px;
 }
@@ -845,10 +849,23 @@ hr {
   word-wrap: break-word;
 }
 
-//-----Folder and Forum discussions-----
+//-----Folder, Forum discussions and My files-----
 .back-row a {
   display: block;
-  padding: 15px;
+  padding: 10px;
+}
+
+//-----My Files-----
+.fullpath {
+  width: 100%;
+  background-color: #eee;
+  position: fixed;
+  bottom: 0;
+  padding: 4px 10px;
+  p {
+    margin-bottom: 0;
+    line-height: 20px;
+  }
 }
 
 //-----Notifications-----
@@ -1125,7 +1142,6 @@ hr {
 }
 
 //-----Sync-----
-
 .checkbox-setting-s {
   overflow: auto;
   .checkbox-label-s {
