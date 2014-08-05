@@ -663,6 +663,7 @@ hr {
 .content-index {
   width: 100%;
   position: relative;
+  border-bottom: 1px solid #eee;
 }
 .content-index header {
   padding: 10px;
@@ -672,10 +673,6 @@ hr {
 }
 .content-index li {
   width: 100%;
-  padding: 10px;
-}
-.content-index section:last-of-type {
-  border-bottom: 1px solid #eee;
 }
 .content-index .nav-item:last-of-type {
   border-bottom: 0;
@@ -685,6 +682,7 @@ hr {
 }
 .content-index .content-name a {
   display: block;
+  padding: 10px;
 }
 .content-index .content-name img {
   width: 24px;
@@ -703,10 +701,13 @@ hr {
   float: right;
   width: 80px;
   text-align: right;
+  padding: 10px;
 }
 .content-index .content-actions img {
   width: 16px;
   height: auto;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 .content-index .media-folder .content-name {
   padding-left: 30px;
@@ -765,7 +766,18 @@ hr {
 }
 .back-row a {
   display: block;
-  padding: 15px;
+  padding: 10px;
+}
+.fullpath {
+  width: 100%;
+  background-color: #eee;
+  position: fixed;
+  bottom: 0;
+  padding: 4px 10px;
+}
+.fullpath p {
+  margin-bottom: 0;
+  line-height: 20px;
 }
 .notifications {
   padding: 10px;
