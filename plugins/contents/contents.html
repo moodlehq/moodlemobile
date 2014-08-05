@@ -11,7 +11,7 @@
     <% _.each(sections, function(section) { %>
     <% if (section.modules && section.modules.length >0) { %>
     <section>
-        <h2><%= section.name %></h2>
+        <h2><%= MM.util.formatText(section.name) %></h2>
         <ul class="nav nav-v">
             <% _.each(section.modules, function(module) { %>
             <li class="nav-item media mod-<%= module.modname %>">
@@ -20,7 +20,7 @@
                         <div class="content-actions app-ico">
                             <% if (!module.downloaded) { %>
                                 <% if (module.modname == "folder"){ %>
-                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
+                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
                                 <% } else if (!module.webOnly) { %>
                                     <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
                                 <% } %>
@@ -33,13 +33,13 @@
                     <div class="content-name mod-<%= module.modname %>">
                         <% if (module.downloaded) { %>
                             <% if (module.modname == "folder"){ %>
-                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>" id="link-<%= module.contentid %>">
+                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>" id="link-<%= module.contentid %>">
                             <% } else { %>
                                 <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" id="link-<%= module.contentid %>">
                             <% }%>
                         <% } else if (module.modname != "label"){ %>
                              <% if (module.modname == "folder"){ %>
-                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>" id="link-<%= module.contentid %>">
+                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>" id="link-<%= module.contentid %>">
                             <% } else if(module.webOnly){ %>
                                 <a href="<%= module.url %>" target="_blank" id="link-<%= module.contentid %>">
                             <% } else { %>

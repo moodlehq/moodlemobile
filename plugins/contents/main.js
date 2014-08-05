@@ -25,7 +25,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         routes: [
             ["course/contents/:courseid", "course_contents", "viewCourseContents"],
             ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
-            ["course/contents/:courseid/section/:sectionId/folder/:contentid", "course_contents_folder", "viewFolder"],
+            ["course/contents/:courseid/section/:sectionId/folder/:contentid/sectionname/:sectionname", "course_contents_folder", "viewFolder"],
             ["course/contents/:courseid/section/:sectionId/download/:contentid", "course_contents_download", "downloadContent"],
             ["course/contents/:courseid/section/:sectionId/label/:contentid", "course_contents_label", "showLabel"],
             ["course/contents/:courseid/section/:sectionId/hidelabel/:contentid", "course_contents_label", "hideLabel"],
@@ -361,7 +361,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             });
         },
 
-        viewFolder: function(courseId, sectionId, contentId) {
+        viewFolder: function(courseId, sectionId, contentId, sectionName) {
 
             var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
@@ -373,31 +373,14 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             };
             data.courseid = courseId;
 
-            var sectionName = "";
-            // Now, we found the section of the content, sectionId may be -1 if we are watching all the contents so it's not a valid clue.
-            // Notice that we will retrieve the info from cache.
-            MM.moodleWSCall('core_course_get_contents', data, function(sections) {
-                $.each(sections, function(index, section) {
-                    $.each(section.modules, function(index2, module) {
-                        if (module.id == contentId) {
-                            sectionName = section.name;
-                            return false;
-                        }
-                    });
-                    if (sectionName) {
-                        return false;
-                    }
-                });
-            });
-
             var tpl = {
-                    course: course,
-                    sectionId: sectionId,
-                    courseId: courseId,
-                    contentId: contentId,
-                    content: content,
-                    sectionName: sectionName
-                }
+                course: course,
+                sectionId: sectionId,
+                courseId: courseId,
+                contentId: contentId,
+                content: content,
+                sectionName: sectionName
+            };
 
             var html = MM.tpl.render(MM.plugins.contents.templates.folder.html, tpl);
             MM.panels.html('right', html);
