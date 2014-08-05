@@ -697,6 +697,10 @@ hr {
   margin: 0;
   padding-right: 80px;
 }
+.content-index .content-name.folder {
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
 .content-index .content-actions {
   float: right;
   width: 80px;
