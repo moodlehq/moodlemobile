@@ -718,8 +718,7 @@ hr {
 }
 .expand-label,
 .collapse-label {
-  background-position-x: 99.5%;
-  background-position-y: 6px;
+  background-position: right 15px top 16px;
   background-repeat: no-repeat;
   background-size: 12px;
 }
