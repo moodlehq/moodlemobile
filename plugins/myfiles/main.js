@@ -173,6 +173,7 @@ define(templates, function (filesTpl) {
                     // Bind downloads.
                     $(".myfiles-download").on(MM.clickType, function(e) {
                         e.preventDefault();
+                        e.stopPropagation();
 
                         var url = $(this).data("url");
                         var filename = $(this).data("filename");

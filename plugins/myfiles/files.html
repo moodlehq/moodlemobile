@@ -24,7 +24,7 @@
                         <% } %>
                         <div class="content-name">
                             <% if (!entry.isdir && !entry.localpath) { %>
-                                <a id="<%= entry.linkId %>" href="#myfiles/<%= entry.link %>" class="media touch-row myfiles-download" data-url="<%= entry.url %>" data-filename="<%= entry.filename %>" data-linkid="<%= entry.linkId %>">
+                                <a id="<%= entry.linkId %>" href="#" class="media touch-row myfiles-download" data-url="<%= entry.url %>" data-filename="<%= entry.filename %>" data-linkid="<%= entry.linkId %>">
                             <% } else if(entry.localpath) { %>
                                 <a id="<%= entry.linkId %>" href="<%= entry.localpath %>" rel="external" class="media touch-row">
                             <% } else { %>
