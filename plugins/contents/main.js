@@ -2,10 +2,11 @@ var templates = [
     "root/externallib/text!root/plugins/contents/sections.html",
     "root/externallib/text!root/plugins/contents/contents.html",
     "root/externallib/text!root/plugins/contents/folder.html",
+    "root/externallib/text!root/plugins/contents/forum.html",
     "root/externallib/text!root/plugins/contents/mimetypes.json"
 ];
 
-define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
+define(templates,function (sectionsTpl, contentsTpl, folderTpl, forumTpl, mimeTypes) {
     var plugin = {
         settings: {
             name: "contents",
@@ -23,6 +24,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         },
 
         routes: [
+            ["mod/forum", "mod_forum", "viewForum"],
             ["course/contents/:courseid", "course_contents", "viewCourseContents"],
             ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
             ["course/contents/:courseid/section/:sectionId/folder/:contentid/sectionname/:sectionname", "course_contents_folder", "viewFolder"],
@@ -33,6 +35,17 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             ["course/contents/:courseid/section/:sectionId/download/:contentid/:index", "course_contents_download_folder", "downloadContent"],
             ["course/contents/:courseid/section/:sectionId/info/:contentid/:index", "course_contents_info_folder", "infoContent"],
         ],
+
+        viewForum: function() {
+            var tpl = {};
+            var html = MM.tpl.render(MM.plugins.contents.templates.forum.html, tpl);
+            MM.panels.html("right", html);
+            $('.toogler', "#panel-right").bind(MM.clickType, function(e) {
+                e.preventDefault();
+                $(this).next().slideToggle(300);
+                $(this).toggleClass("collapse expand");
+            });
+        },
 
         viewCourseContents: function(courseId) {
 
@@ -573,6 +586,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             },
             "sections": {
                 html: sectionsTpl
+            },
+            "forum": {
+                html: forumTpl
             },
             "mimetypes": JSON.parse(mimeTypes)
         }

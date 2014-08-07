@@ -37,6 +37,8 @@
                             <% } else { %>
                                 <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" id="link-<%= module.contentid %>">
                             <% }%>
+                        <% } else if (module.modname == "forum"){ %>
+                                 <a href="#mod/forum"  id="link-<%= module.contentid %>">
                         <% } else if (module.modname != "label"){ %>
                              <% if (module.modname == "folder"){ %>
                                 <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>" id="link-<%= module.contentid %>">
