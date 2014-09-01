@@ -227,13 +227,15 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 //MM.log("Sync: Adding content: " + el.syncData.name + ": " + el.url);
                                 //MM.db.insert("sync", el);
 
-                                var extension = file.filename.substr(file.filename.lastIndexOf(".") + 1);
+                                if (file.filename) {
+                                    var extension = file.filename.substr(file.filename.lastIndexOf(".") + 1);
 
-                                // Exception for folder type, we use the resource icon.
-                                if (content.modname != "folder" && typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
-                                    sections.modules[index2].mainExtension = MM.plugins.contents.templates.mimetypes[extension]["icon"];
-                                    content.mainExtension = sections.modules[index2].mainExtension;
-                                    MM.db.insert("contents", content);
+                                    // Exception for folder type, we use the resource icon.
+                                    if (content.modname != "folder" && typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
+                                        sections.modules[index2].mainExtension = MM.plugins.contents.templates.mimetypes[extension]["icon"];
+                                        content.mainExtension = sections.modules[index2].mainExtension;
+                                        MM.db.insert("contents", content);
+                                    }
                                 }
                             });
                         }
