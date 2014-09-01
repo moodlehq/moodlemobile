@@ -541,6 +541,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             filename = decodeURIComponent(filename);
             filename = filename.replace(/\s/g, "_");
 
+            // iOs doesn't like names not encoded.
+            if (MM.deviceOS == 'ios') {
+                filename = encodeURIComponent(filename);
+            }
+
             // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
             var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
 
