@@ -122,6 +122,12 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             firstContent = content.contentid;
                         }
 
+                        // Check if has multiple files.
+                        if (content.modname == "folder" ||
+                                (content.contents && content.contents.length > 1)) {
+                            sections.modules[index2].multiplefiles = true;
+                        }
+
                         // The file/s was/were downloaded.
                         var downloaded = false;
 
