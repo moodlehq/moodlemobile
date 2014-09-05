@@ -39,6 +39,8 @@
                             <% } else { %>
                                 <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" id="link-<%= module.contentid %>">
                             <% }%>
+                        <% } else if (module.modname == "url" && module.fileurl){ %>
+                                <a href="<%= module.fileurl %>" target="_blank" id="link-<%= module.contentid %>">
                         <% } else if (module.modname != "label"){ %>
                              <% if (module.multiplefiles){ %>
                                 <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>" id="link-<%= module.contentid %>">
@@ -48,6 +50,7 @@
                                 <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>" id="link-<%= module.contentid %>">
                             <% } %>
                         <% } %>
+
                         <% if (module.modname != "label"){ %>
                             <div class="img app-ico">
                             <% if (!module.multiplefiles && typeof(module.mainExtension) != "undefined") { %>

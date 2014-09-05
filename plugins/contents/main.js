@@ -128,6 +128,14 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             sections.modules[index2].multiplefiles = true;
                         }
 
+                        // Check if is a resource URL.
+                        if (content.modname == "url" &&
+                                content.contents && content.contents.length > 0 &&
+                                content.contents[0].fileurl) {
+
+                            sections.modules[index2].fileurl = content.contents[0].fileurl;
+                        }
+
                         // The file/s was/were downloaded.
                         var downloaded = false;
 
