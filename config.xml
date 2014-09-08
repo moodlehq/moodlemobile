@@ -15,6 +15,10 @@
         Juan Leyva
     </author>
 
+    <gap:config-file platform="ios" parent="CFBundleShortVersionString">
+        <string>1.6.1</string>
+    </gap:config-file>
+
     <feature name="http://api.phonegap.com/1.0/device" />
     <feature name="http://api.phonegap.com/1.0/network"/>
     <!-- The following phonegap camera feature block Google Play to install the app on Nexus 7.
