@@ -246,7 +246,6 @@ hr {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   /* Disable selection/Copy of UIWebView */
-
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -696,6 +695,9 @@ hr {
   font-weight: normal;
   margin: 0;
   padding-right: 80px;
+}
+.content-index .content-name.mod-label img {
+  width: auto;
 }
 .content-index .content-name.folder {
   padding: 10px;
