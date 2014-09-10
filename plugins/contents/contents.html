@@ -24,6 +24,8 @@
                                 <% if (!module.downloaded) { %>
                                     <% if (!module.webOnly) { %>
                                         <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
+                                    <% } else if (module.modname != "url") { %>
+                                        <img src="img/website.png" border="0">
                                     <% } %>
                                 <% } else  { %>
                                         <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/reloadgrey.png" border="0" id="download-<%= module.contentid %>" width="16" height="16"></a>&nbsp;
