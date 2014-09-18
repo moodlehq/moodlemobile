@@ -27,8 +27,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
             ["course/contents/:courseid/section/:sectionId/folder/:contentid/sectionname/:sectionname", "course_contents_folder", "viewFolder"],
             ["course/contents/:courseid/section/:sectionId/download/:contentid", "course_contents_download", "downloadContent"],
-            ["course/contents/:courseid/section/:sectionId/label/:contentid", "course_contents_label", "showLabel"],
-            ["course/contents/:courseid/section/:sectionId/hidelabel/:contentid", "course_contents_label", "hideLabel"],
             ["course/contents/:courseid/section/:sectionId/info/:contentid", "course_contents_info", "infoContent"],
             ["course/contents/:courseid/section/:sectionId/download/:contentid/:index", "course_contents_download_folder", "downloadContent"],
             ["course/contents/:courseid/section/:sectionId/info/:contentid/:index", "course_contents_info_folder", "infoContent"],
@@ -291,6 +289,21 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         -1,
                         pos);
                 });
+
+                // Mod plugins should now that the page has been rendered.
+                for (var pluginName in MM.plugins) {
+                    var plugin = MM.plugins[pluginName];
+
+                    if (plugin.settings.type == 'mod') {
+                        var visible = true;
+                        if (typeof(plugin.isPluginVisible) == 'function' && !plugin.isPluginVisible()) {
+                            visible = false;
+                        }
+                        if (visible && typeof plugin.contentsPageRendered == "function") {
+                            plugin.contentsPageRendered();
+                        }
+                    }
+                }
             });
         },
 
@@ -520,26 +533,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 }
             });
 
-        },
-
-        showLabel: function(courseId, sectionId, contentId) {
-            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
-            content = content.toJSON();
-            if (content.description) {
-                content.description = MM.util.formatText(content.description, false, courseId);
-                $("#link-" + contentId + " h3").html(content.description);
-                MM.handleExternalLinks('#link-' + contentId + ' h3 a[target="_blank"]');
-            }
-            $("#link-" + contentId).attr("href", $("#link-" + contentId).attr("href").replace("label", "hidelabel"));
-            $("#link-" + contentId).toggleClass("collapse-label expand-label");
-        },
-
-        hideLabel: function(courseId, sectionId, contentId) {
-            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
-            content = content.toJSON();
-            $("#link-" + contentId + " h3").html(content.name);
-            $("#link-" + contentId).attr("href", $("#link-" + contentId).attr("href").replace("hidelabel", "label"));
-            $("#link-" + contentId).toggleClass("collapse-label expand-label");
         },
 
         getLocalPaths: function(courseId, modId, file) {
