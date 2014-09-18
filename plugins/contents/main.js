@@ -483,7 +483,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             case "filesize":
                                 value = file[param] / 1024;
                                 // Round to 2 decimals.
-                                value = Math.round(value*100)/100 + " kb"
+                                value = Math.round(value*100)/100 + " kb";
                                 break;
                             case "localpath":
                                 var url = MM.fs.getRoot() + '/' + value;
@@ -500,7 +500,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             information += '<p>' + MM.lang.s("viewableonthisapp") + ': ';
 
-            if (content.webOnly) {
+            if (content.webOnly && !MM.checkModPlugin(content.modname)) {
                 information += MM.lang.s("no");
             } else {
                 information += MM.lang.s("yes");
