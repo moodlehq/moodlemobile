@@ -1,13 +1,13 @@
 var templates = [
-    "root/externallib/text!root/plugins/url/view.html"
+    "root/externallib/text!root/plugins/label/view.html"
 ];
 
 define(templates, function (filesTpl) {
     var plugin = {
         settings: {
-            name: "url",
+            name: "label",
             type: "mod",
-            component: "mod_url",
+            component: "mod_label",
             lang: {
                 component: "core"
             }
@@ -20,7 +20,7 @@ define(templates, function (filesTpl) {
                 "section": section,
                 "module": module
             };
-            return MM.tpl.render(MM.plugins.url.templates.view.html, data);
+            return MM.tpl.render(MM.plugins.label.templates.view.html, data);
         },
 
         templates: {
