@@ -1,9 +1,12 @@
 <div class="panel-container">
     <div class="back-row">
-        <p class="post-counter">2 discussions</p>
         <a><img src="img/arrowleft.png" onclick="window.history.back();"></a>
     </div>
     <div class="path-mod-forum">
+        <div class="forum-intro">
+            <%= MM.util.formatText(forum.into) %>
+        </div>
+
         <div class="forum-post first-post">
             <div class="header">
                 <img class="user-picture" src="img/userimage.png">
@@ -14,102 +17,12 @@
                 Auto-link Hijacker soon available from Moodle plugins directory
             </p>
             <div class="discussion-body" style="display: none">
-                <div class="content">
-                    <p>Here comes the discussion text, some random text like lorem ipsum.....</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                </div>
-                <p class="counter" role="heading"><img src="img/message.png">2 replies</p>
-                <div class="indent">
-                    <div class="forum-post">
-                        <div class="header">
-                            <img class="user-picture" src="img/userimage.png">
-                            <a class="author-name" href="#" rel="author">Eric Doe</a>
-                            <time>Oct 1 2013 3:08 pm</time>
-                        </div>
-                        <p class="subject">This is the first reply in this discussion</p>
-                        <div class="content">
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                        </div>
-                    </div>
-                    <div class="forum-post">
-                        <div class="header">
-                            <img class="user-picture" src="img/userimage.png">
-                            <a class="author-name" href="#" rel="author">Martin Doe</a>
-                            <time>Oct 12 2012 3:08 pm</time>
-                        </div>
-                        <p class="subject">This is the second reply in this discussion</p>
-                        <div class="content">
-                            <p>To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?.</p>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="reply-info">
                 <span><img src="img/message.png">2 replies</span>
                 <span><img src="img/time.png">3 hours ago</span>
             </div>
         </div>
-        <div class="forum-post first-post" style="clear: both; margin-bottom: 4px">
-            <div class="header">
-                <img class="user-picture" src="img/userimage.png">
-                <a class="author-name" href="#" rel="author">Eric Doe</a>
-                <time>Oct 1 2013 3:08 pm</time>
-            </div>
-            <p role="heading" class="subject toogler">
-                Moodle for enhancing collaborative strategies of reading comprehesion
-            </p>
-            <div class="discussion-body" style="display: none">
-                <div class="content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
-                </div>
-                <p class="counter" role="heading"><img src="img/message.png">1 replies</p>
-                <div class="indent">
-                    <div class="forum-post">
-                        <div class="header">
-                            <img class="user-picture" src="img/userimage.png">
-                            <a class="author-name" href="#" rel="author">John Doe</a>
-                            <time>Oct 1 2013 3:08 pm</time>
-                        </div>
-                        <p class="subject">This is the first reply in this discussion</p>
-                        <div class="content">
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="forum-post first-post" style="clear: both; margin-bottom: 4px">
-            <div class="header">
-                <img class="user-picture" src="img/userimage.png">
-                <a class="author-name" href="#" rel="author">Martin Doe</a>
-                <time>Oct 1 2013 3:08 pm</time>
-            </div>
-            <p role="heading" class="subject toogler">
-                Experiences with Bigbluebutton
-            </p>
-            <div class="discussion-body" style="display: none">
-                <div class="content">
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
-                </div>
-                <p class="counter" role="heading"><img src="img/message.png">1 replies</p>
-                <div class="indent">
-                    <div class="forum-post">
-                        <div class="header">
-                            <img class="user-picture" src="img/userimage.png">
-                            <a class="author-name" href="#" rel="author">John Doe</a>
-                            <time>Oct 1 2013 3:08 pm</time>
-                        </div>
-                        <p class="subject">This is the first reply in this discussion</p>
-                        <div class="content">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="reply-info">
-                <span><img src="img/message.png">1 reply</span>
-                <span><img src="img/time.png">3 hours ago</span>
-            </div>
-        </div>
-    </div
+
+    </div>
 </div>

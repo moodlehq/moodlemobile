@@ -96,6 +96,10 @@ define(templates, function (filesTpl, discussionsTpl) {
          */
         _showDiscussions: function(forum) {
             var pageTitle = MM.util.formatText(forum.name);
+            var data = {
+                "forum": forum
+            };
+
             var html = MM.tpl.render(MM.plugins.forum.templates.discussions.html, data);
             MM.panels.show("right", html, {title: pageTitle});
         },
