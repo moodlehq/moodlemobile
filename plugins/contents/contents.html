@@ -14,6 +14,13 @@
         <h2><%= MM.util.formatText(section.name) %></h2>
         <ul class="nav nav-v">
             <% _.each(section.modules, function(module) { %>
+
+            <%  var plugin = MM.checkModPlugin(module.modname); %>
+            <%  if (plugin) { %>
+                <%= MM.plugins[plugin].render(courseId, sectionId, section, module) %>
+                <%  return; %>
+            <% } %>
+
             <li class="nav-item media mod-<%= module.modname %>">
                 <div class="content-table">
                     <% if (module.modname != "label"){ %>
@@ -24,7 +31,7 @@
                                 <% if (!module.downloaded) { %>
                                     <% if (!module.webOnly) { %>
                                         <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
-                                    <% } else if (module.modname != "url") { %>
+                                    <% } else { %>
                                         <img src="img/website.png" border="0">&nbsp;
                                     <% } %>
                                 <% } else  { %>
@@ -41,8 +48,6 @@
                             <% } else { %>
                                 <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" id="link-<%= module.contentid %>">
                             <% }%>
-                        <% } else if (module.modname == "url" && module.fileurl){ %>
-                                <a href="<%= module.fileurl %>" target="_blank" id="link-<%= module.contentid %>">
                         <% } else if (module.modname != "label"){ %>
                              <% if (module.multiplefiles){ %>
                                 <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>" id="link-<%= module.contentid %>">
