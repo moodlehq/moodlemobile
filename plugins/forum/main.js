@@ -1,9 +1,10 @@
 var templates = [
     "root/externallib/text!root/plugins/forum/view.html",
+    "root/externallib/text!root/plugins/forum/discussion.html",
     "root/externallib/text!root/plugins/forum/discussions.html"
 ];
 
-define(templates, function (filesTpl, discussionsTpl) {
+define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
     var plugin = {
         settings: {
             name: "forum",
@@ -95,18 +96,41 @@ define(templates, function (filesTpl, discussionsTpl) {
          *
          */
         _showDiscussions: function(forum) {
-            var pageTitle = MM.util.formatText(forum.name);
-            var data = {
-                "forum": forum
+
+            var params = {
+                "forumid": forum.id,        // Forum module instance id.
+                "sortby":  "timemodified",
+                "sortdirection":  "DESC",
+                "page": 0,
+                "perpage": 10
             };
 
-            var html = MM.tpl.render(MM.plugins.forum.templates.discussions.html, data);
-            MM.panels.show("right", html, {title: pageTitle});
+            MM.moodleWSCall(MM.plugins.forum.wsPrefix + "mod_forum_get_forum_discussions",
+                params,
+                // Success callback.
+                function(discussions) {
+                    var pageTitle = MM.util.formatText(forum.name);
+                    var data = {
+                        "forum": forum,
+                        "discussions": discussions.discussions
+                    };
+
+                    var html = MM.tpl.render(MM.plugins.forum.templates.discussions.html, data);
+                    MM.panels.show("right", html, {title: pageTitle});
+                },
+                null,
+                function (error) {
+                    MM.popErrorMessage(error);
+                }
+            );
         },
 
         templates: {
             "view": {
                 html: filesTpl
+            },
+            "discussion": {
+                html: discussionTpl
             },
             "discussions": {
                 html: discussionsTpl

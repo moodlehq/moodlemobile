@@ -4,25 +4,36 @@
     </div>
     <div class="path-mod-forum">
         <div class="forum-intro">
-            <%= MM.util.formatText(forum.into) %>
+            <%= MM.util.formatText(forum.intro) %>
         </div>
 
+        <% if (!discussions || discussions.length == 0) { %>
+            <%= MM.lang.s("forumnodiscussionsyet") %>
+        <% } %>
+
+        <% _.each(discussions, function(discussion) { %>
         <div class="forum-post first-post">
             <div class="header">
                 <img class="user-picture" src="img/userimage.png">
-                <a class="author-name" href="#" rel="author">John Doe</a>
-                <time>Oct 1 2013 3:08 pm</time>
+                <a class="author-name" href="#" rel="author"><%= discussion.userfullname %></a>
+                <time><%= MM.util.timestampToUserDate(discussion.created) %></time>
             </div>
             <p role="heading" class="subject toogler">
-                Auto-link Hijacker soon available from Moodle plugins directory
+                <%= MM.util.formatText(discussion.subject) %>
             </p>
             <div class="discussion-body" style="display: none">
+
             </div>
             <div class="reply-info">
-                <span><img src="img/message.png">2 replies</span>
-                <span><img src="img/time.png">3 hours ago</span>
+                <span>
+                    <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
+                </span>
+                <% if (discussion.created != discussion.timemodified { %>
+                <span><img src="img/time.png"><%= MM.lang.s("forumtimemodified") %></span>
+                <% } %>
             </div>
         </div>
+        <% }); %>
 
     </div>
 </div>
