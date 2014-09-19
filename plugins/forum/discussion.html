@@ -1,18 +1,21 @@
 <div class="content">
-    <p>Here comes the discussion text, some random text like lorem ipsum.....</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <%= MM.util.formatText(discussion.message) %>
 </div>
-<p class="counter" role="heading"><img src="img/message.png">2 replies</p>
+<p class="counter" role="heading"><img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %></p>
 <div class="indent">
+    <% _.each(posts, function(post) { %>
+    <% if (post.id == discussion.id) return; %>
     <div class="forum-post">
         <div class="header">
-            <img class="user-picture" src="img/userimage.png">
-            <a class="author-name" href="#" rel="author">Eric Doe</a>
-            <time>Oct 1 2013 3:08 pm</time>
+            <img class="user-picture" src="<%= MM.util.getMoodleFilePath(post.userpictureurl) %>">
+            <a class="author-name" href="#" rel="author"><%= post.userfullname %></a>
+            <time><%= MM.util.timestampToUserDate(post.modified) %></time>
         </div>
-        <p class="subject">This is the first reply in this discussion</p>
-        <div class="content">
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+        <p class="subject"><%= MM.util.formatText(post.subject) %></p>
+        <div class="content" style="display: none">
+            <%= MM.util.formatText(post.message) %>
         </div>
     </div>
+    <% }); %>
+
 </div>

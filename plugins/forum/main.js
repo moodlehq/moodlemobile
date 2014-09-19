@@ -130,8 +130,13 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
                     // Handlers for view complete discussions and posts.
                     $(".subject.toogler").on(MM.clickType, function(e) {
                         e.preventDefault();
+                        if ($(this).hasClass("discussion-loaded")) {
+                            $(this).parent().find(".discussion-body").toggle();
+                            return;
+                        }
 
                         var discussionId = $(this).data("discussionid");
+                        $(this).addClass("discussion-loaded");
                         $(this).parent().find(".discussion-body").html('<div class="centered"><img src="img/loading.gif"></div>');
                         MM.plugins.forum._showDiscussion(discussionId);
                     });
@@ -145,7 +150,43 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
         },
 
         _showDiscussion: function(discussionId) {
-            alert(discussionId);
+            var params = {
+                "discussionid": discussionId
+            };
+
+            var discussionSubject = $("#panel-right").find("[data-discussionid='" + discussionId + "']");
+
+            MM.moodleWSCall(MM.plugins.forum.wsPrefix + "mod_forum_get_forum_discussion_posts",
+                params,
+                // Success callback.
+                function(posts) {
+                    var discussion;
+
+                    // Cache for getting the discussion.
+                    for (var el in MM.plugins.forum.discussionsCache) {
+                        var d = MM.plugins.forum.discussionsCache[el];
+                        if (d.discussion == discussionId) {
+                            discussion = d;
+                            break;
+                        }
+                    }
+
+                    var data = {
+                        "discussion": discussion,
+                        "posts": posts.posts
+                    };
+                    var html = MM.tpl.render(MM.plugins.forum.templates.discussion.html, data);
+                    discussionSubject.parent().find(".discussion-body").html(html);
+                    $(".forum-post .subject").on(MM.clickType, function(e) {
+                        $(this).parent().find(".content").toggle();
+                    });
+                },
+                null,
+                function (error) {
+                    discussionSubject.parent().find(".discussion-body").html("");
+                    MM.popErrorMessage(error);
+                }
+            );
         },
 
         templates: {
