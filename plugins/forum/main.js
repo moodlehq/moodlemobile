@@ -91,8 +91,6 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                     MM.popErrorMessage(error);
                 }
             );
-
-            //MM.panels.show('right', html, {title: pageTitle});
         },
 
         /**
