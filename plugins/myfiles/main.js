@@ -235,7 +235,8 @@ define(templates, function (filesTpl) {
                                 MM.handleFiles(linkCssId);
                             },
                             function(fullpath) {
-                               MM.log("Error downloading " + fullpath + " URL: " + downloadURL);
+                                $(downCssId).remove();
+                                MM.log("Error downloading " + fullpath + " URL: " + downloadURL);
                             }
                         );
                     });

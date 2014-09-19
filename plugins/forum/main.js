@@ -16,6 +16,11 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
             }
         },
 
+        storage: {
+            "forum_file": {type: "model"},
+            "forum_files": {type: "collection", model: "forum_file"}
+        },
+
         routes: [
             ["forum/view/:courseId/:cmid", "view_forum", "viewForum"],
         ],
@@ -180,9 +185,26 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                     };
                     var html = MM.tpl.render(MM.plugins.forum.templates.discussion.html, data);
                     discussionSubject.parent().find(".discussion-body").html(html);
+
+                    // Toggler effect.
                     $(".forum-post .subject").on(MM.clickType, function(e) {
                         $(this).parent().find(".content").toggle();
                     });
+
+                    // Bind downloads.
+                    $(".forum-download").on(MM.clickType, function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var url = $(this).data("downloadurl");
+                        var filename = $(this).data("filename");
+                        var attachmentId = $(this).data("attachmentid");
+
+                        MM.plugins.forum._downloadFile(url, filename, attachmentId);
+                    });
+                    // Force attachments to open.
+                    MM.handleFiles('#panel-right a[rel="external"]');
+
                 },
                 null,
                 function (error) {
@@ -202,7 +224,14 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
             for (var el in post.attachments) {
                 var attachment = post.attachments[el];
-                post.attachments[el].fileurl = MM.fixPluginfile(attachment.fileurl);
+
+                post.attachments[el].id = post.id + "-" + el;
+
+                var uniqueId = MM.config.current_site.id + "-" + hex_md5(attachment.fileurl);
+                var path = MM.db.get("forum_files", uniqueId);
+                if (path) {
+                    post.attachments[el].localpath = path.get("localpath");
+                }
 
                 var extension = MM.util.getFileExtension(attachment.filename);
                 if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
@@ -212,6 +241,63 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
             var data = {"attachments": post.attachments};
             return MM.tpl.render(MM.plugins.forum.templates.attachments.html, data);
+        },
+
+        _downloadFile: function(url, filename, attachmentId) {
+            // Add the token.
+            var downloadURL = MM.fixPluginfile(url);
+            var siteId = MM.config.current_site.id;
+            var downCssId = $("#downimg-" + attachmentId);
+            var linkCssId = $("#attachment-" + attachmentId);
+
+            filename = decodeURIComponent(filename);
+            filename = filename.replace(/\s/g, "_");
+
+            // iOs doesn't like names not encoded.
+            if (MM.deviceOS == 'ios') {
+                filename = encodeURIComponent(filename);
+            }
+
+            var directory = siteId + "/forum-files/" + attachmentId;
+            var filePath = directory + "/" + filename;
+
+            MM.fs.init(function() {
+                if (MM.deviceConnected()) {
+                    MM.log("Starting download of Moodle file: " + downloadURL);
+                    // All the functions are asynchronous, like createDir.
+                    MM.fs.createDir(directory, function() {
+                        MM.log("Downloading Moodle file to " + filePath + " from URL: " + downloadURL);
+
+                        $(downCssId).attr("src", "img/loadingblack.gif");
+                        MM.moodleDownloadFile(downloadURL, filePath,
+                            function(fullpath) {
+                                MM.log("Download of content finished " + fullpath + " URL: " + downloadURL);
+
+                                var uniqueId = siteId + "-" + hex_md5(url);
+                                var file = {
+                                    id: uniqueId,
+                                    url: url,
+                                    site: siteId,
+                                    localpath: fullpath
+                                };
+                                MM.db.insert("forum_files", file);
+
+                                $(downCssId).remove();
+                                $(linkCssId).attr("href", fullpath);
+                                $(linkCssId).attr("rel", "external");
+                                // Android, open in new browser
+                                MM.handleFiles(linkCssId);
+                            },
+                            function(fullpath) {
+                                $(downCssId).remove();
+                                MM.log("Error downloading " + fullpath + " URL: " + downloadURL);
+                            }
+                        );
+                    });
+                } else {
+                    MM.popErrorMessage(MM.lang.s("errornoconnectednocache"));
+                }
+            });
         },
 
         templates: {
