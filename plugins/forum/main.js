@@ -63,6 +63,9 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
          *
          */
         viewForum: function(courseId, cmid) {
+            // Loading ....
+            $("#info-" + cmid, "#panel-right").attr("src", "img/loadingblack.gif");
+
             // First, load the complete information of forums in this course.
             var params = {
                 "courseids[0]": courseId
@@ -83,6 +86,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
                 },
                 null,
                 function (error) {
+                    $("#info-" + cmid, "#panel-right").attr("src", "img/info.png");
                     MM.popErrorMessage(error);
                 }
             );
@@ -109,20 +113,39 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
                 params,
                 // Success callback.
                 function(discussions) {
+                    // Stops loading...
+                    $("#info-" + forum.cmid, "#panel-right").attr("src", "img/info.png");
+
                     var pageTitle = MM.util.formatText(forum.name);
                     var data = {
                         "forum": forum,
                         "discussions": discussions.discussions
                     };
 
+                    MM.plugins.forum.discussionsCache = discussions.discussions;
+
                     var html = MM.tpl.render(MM.plugins.forum.templates.discussions.html, data);
                     MM.panels.show("right", html, {title: pageTitle});
+
+                    // Handlers for view complete discussions and posts.
+                    $(".subject.toogler").on(MM.clickType, function(e) {
+                        e.preventDefault();
+
+                        var discussionId = $(this).data("discussionid");
+                        $(this).parent().find(".discussion-body").html('<div class="centered"><img src="img/loading.gif"></div>');
+                        MM.plugins.forum._showDiscussion(discussionId);
+                    });
                 },
                 null,
                 function (error) {
+                    $("#info-" + forum.cmid, "#panel-right").attr("src", "img/info.png");
                     MM.popErrorMessage(error);
                 }
             );
+        },
+
+        _showDiscussion: function(discussionId) {
+            alert(discussionId);
         },
 
         templates: {

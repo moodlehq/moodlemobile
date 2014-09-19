@@ -14,22 +14,22 @@
         <% _.each(discussions, function(discussion) { %>
         <div class="forum-post first-post">
             <div class="header">
-                <img class="user-picture" src="img/userimage.png">
+                <img class="user-picture" src="<%= MM.util.getMoodleFilePath(discussion.userpictureurl) %>">
                 <a class="author-name" href="#" rel="author"><%= discussion.userfullname %></a>
                 <time><%= MM.util.timestampToUserDate(discussion.created) %></time>
             </div>
-            <p role="heading" class="subject toogler">
+            <p role="heading" class="subject toogler" data-discussionid="<%= discussion.discussion %>">
                 <%= MM.util.formatText(discussion.subject) %>
             </p>
-            <div class="discussion-body" style="display: none">
+            <div class="discussion-body">
 
             </div>
             <div class="reply-info">
                 <span>
                     <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
                 </span>
-                <% if (discussion.created != discussion.timemodified { %>
-                <span><img src="img/time.png"><%= MM.lang.s("forumtimemodified") %></span>
+                <% if (discussion.created != discussion.timemodified && discussion.timemodified > discussion.created) { %>
+                <span><img src="img/time.png"><%= MM.util.printTimeAgo(discussion.timemodified) %></span>
                 <% } %>
             </div>
         </div>
