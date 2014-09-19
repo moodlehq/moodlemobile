@@ -1,0 +1,18 @@
+<div class="attachments">
+    <% _.each(attachments, function(attachment) { %>
+    <div class="attachment">
+        <span class="attachment-icon">
+            <img src="img/files/<%= attachment.icon %>">
+        </span>
+
+        <span class="attachment-filename">
+            <%= attachment.filename %>
+        </span>
+
+        <span class="attachment-download">
+            <img src="img/download.png" data-downloadurl="<%= attachment.fileurl %>">
+        </span>
+    </div>
+
+    <% }); %>
+</div>

@@ -1,5 +1,6 @@
 <div class="content">
     <%= MM.util.formatText(discussion.message) %>
+    <%= MM.plugins.forum._printAttachments(discussion) %>
 </div>
 <p class="counter" role="heading"><img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %></p>
 <div class="indent">
@@ -14,6 +15,7 @@
         <p class="subject"><%= MM.util.formatText(post.subject) %></p>
         <div class="content" style="display: none">
             <%= MM.util.formatText(post.message) %>
+            <%= MM.plugins.forum._printAttachments(post) %>
         </div>
     </div>
     <% }); %>

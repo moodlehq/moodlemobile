@@ -1,10 +1,11 @@
 var templates = [
     "root/externallib/text!root/plugins/forum/view.html",
     "root/externallib/text!root/plugins/forum/discussion.html",
-    "root/externallib/text!root/plugins/forum/discussions.html"
+    "root/externallib/text!root/plugins/forum/discussions.html",
+    "root/externallib/text!root/plugins/forum/attachments.html"
 ];
 
-define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
+define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachmentsTpl) {
     var plugin = {
         settings: {
             name: "forum",
@@ -149,6 +150,10 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
             );
         },
 
+        /**
+         * Display a discussion with posts
+         * @param  {Number} discussionId The discussion id
+         */
         _showDiscussion: function(discussionId) {
             var params = {
                 "discussionid": discussionId
@@ -189,6 +194,28 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
             );
         },
 
+        _printAttachments: function(post) {
+            if (!post.attachment || !post.attachments) {
+                return '';
+            }
+            if (!post.attachments.length) {
+                return '';
+            }
+
+            for (var el in post.attachments) {
+                var attachment = post.attachments[el];
+                post.attachments[el].fileurl = MM.fixPluginfile(attachment.fileurl);
+
+                var extension = MM.util.getFileExtension(attachment.filename);
+                if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
+                    post.attachments[el].icon = MM.plugins.contents.templates.mimetypes[extension]["icon"] + "-64.png";
+                }
+            }
+
+            var data = {"attachments": post.attachments};
+            return MM.tpl.render(MM.plugins.forum.templates.attachments.html, data);
+        },
+
         templates: {
             "view": {
                 html: filesTpl
@@ -198,6 +225,9 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl) {
             },
             "discussions": {
                 html: discussionsTpl
+            },
+            "attachments": {
+                html: attachmentsTpl
             }
         }
 
