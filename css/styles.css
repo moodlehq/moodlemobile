@@ -847,6 +847,9 @@ hr {
   margin-left: 6px;
   margin-right: 6px;
 }
+.path-mod-forum .attachment img {
+  width: 16px;
+}
 .fullpath {
   width: 100%;
   background-color: #eee;
