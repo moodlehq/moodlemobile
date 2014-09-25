@@ -148,6 +148,15 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         $(this).parent().find(".discussion-body").html('<div class="centered"><img src="img/loading.gif"></div>');
                         MM.plugins.forum._showDiscussion(discussionId);
                     });
+
+                    MM.plugins.forum.downloadQueue = [];
+
+                    // Download all the discussions posts.
+                    for (var el in MM.plugins.forum.discussionsCache) {
+                        var d = MM.plugins.forum.discussionsCache[el];
+                        MM.plugins.forum.downloadQueue.push(d.discussion);
+                    }
+                    MM.plugins.forum._processDiscussionsQueue();
                 },
                 null,
                 function (error) {
@@ -208,7 +217,6 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                     });
                     // Force attachments to open.
                     MM.handleFiles('#panel-right a[rel="external"]');
-
                 },
                 null,
                 function (error) {
@@ -302,6 +310,36 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                     MM.popErrorMessage(MM.lang.s("errornoconnectednocache"));
                 }
             });
+        },
+
+        _processDiscussionsQueue: function() {
+            var preSets = {
+                silently: true,
+                getFromCache: false,
+                saveToCache: true
+            };
+
+            if (MM.plugins.forum.downloadQueue.length < 1) {
+                return;
+            }
+
+            var discussionId = MM.plugins.forum.downloadQueue.pop();
+            var params = {
+                "discussionid": discussionId
+            };
+
+            MM.moodleWSCall(MM.plugins.forum.wsPrefix + "mod_forum_get_forum_discussion_posts",
+                params,
+                // Success callback.
+                function() {
+                    MM.plugins.forum._processDiscussionsQueue();
+                },
+                preSets,
+                function() {
+                    MM.plugins.forum._processDiscussionsQueue();
+                }
+            );
+
         },
 
         templates: {
