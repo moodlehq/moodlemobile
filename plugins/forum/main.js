@@ -18,7 +18,9 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
         storage: {
             "forum_file": {type: "model"},
-            "forum_files": {type: "collection", model: "forum_file"}
+            "forum_files": {type: "collection", model: "forum_file"},
+            "forum_sync": {type: "model"},
+            "forum_syncs": {type: "collection", model: "forum_sync"}
         },
 
         routes: [
@@ -35,10 +37,11 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            // First check core services.
+            // First check core services and Moodle version above 2.8.
             var visible =   MM.util.wsAvailable('mod_forum_get_forums_by_courses') &&
                             MM.util.wsAvailable('mod_forum_get_forum_discussions') &&
-                            MM.util.wsAvailable('mod_forum_get_forum_discussion_posts');
+                            MM.util.wsAvailable('mod_forum_get_forum_discussion_posts') &&
+                            parseInt(MM.config.current_site.version, 10) >= 2014111000;
 
             // Fallback to local_mobile plugin ones.
             if (!visible) {
@@ -147,6 +150,21 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         $(this).addClass("discussion-loaded");
                         $(this).parent().find(".discussion-body").html('<div class="centered"><img src="img/loading.gif"></div>');
                         MM.plugins.forum._showDiscussion(discussionId);
+                    });
+                    // Handler for sync.
+                    $("#keepsynch").on(MM.clickType, function(e) {
+                        var siteId = MM.config.current_site.id;
+                        var uniqueId = siteId + "-" + $(this).data("cmid");
+
+                        if ($(this).prop("checked")) {
+                            var e = {
+                                id: uniqueId,
+                                site: siteId
+                            };
+                            MM.db.insert("forum_syncs", e);
+                        } else {
+                            MM.db.remove("forum_syncs", uniqueId);
+                        }
                     });
 
                     MM.plugins.forum.downloadQueue = [];

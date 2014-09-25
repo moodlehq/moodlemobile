@@ -8,13 +8,20 @@
         </div>
         <div class="forum-intro">
             <%= MM.util.formatText(forum.intro) %>
+            <span><%= forum.numdiscussions %> <%= MM.lang.s("discussions") %></span>
         </div>
 
         <% if (!discussions || discussions.length == 0) { %>
             <div class="forum-empty">
                 <%= MM.lang.s("forumnodiscussionsyet") %>
             </div>
-        <% } %>
+        <% } else { %>
+
+        <div class="sync">
+            <label>
+                <input type="checkbox" name="keepsynch" id="keepsynch" data-cmid="<%= forum.cmid %>"><%= MM.lang.s("keepsynchronising") %>
+            </label>
+        </div>
 
         <% _.each(discussions, function(discussion) { %>
         <div class="forum-post first-post">
@@ -42,5 +49,6 @@
 
         <%= MM.util.pagingBar(forum.numdiscussions, page, perpage, "#forum/view/" + forum.course + "/" + forum.cmid + "/:page", ":page") %>
 
+        <% } %>
     </div>
 </div>
