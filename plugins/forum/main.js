@@ -22,7 +22,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
         },
 
         routes: [
-            ["forum/view/:courseId/:cmid", "view_forum", "viewForum"],
+            ["forum/view/:courseId/:cmid/:page", "view_forum", "viewForum"],
         ],
 
         wsPrefix: "",
@@ -63,12 +63,14 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
             return MM.tpl.render(MM.plugins.forum.templates.view.html, data);
         },
 
+        perPage: 20,
+
         /**
          * Display a forum and discussions
          * @param  {Number} cmid The course module number id
          *
          */
-        viewForum: function(courseId, cmid) {
+        viewForum: function(courseId, cmid, page) {
             // Loading ....
             $("#info-" + cmid, "#panel-right").attr("src", "img/loadingblack.gif");
 
@@ -87,7 +89,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         }
                     });
                     if (currentForum) {
-                        MM.plugins.forum._showDiscussions(currentForum);
+                        MM.plugins.forum._showDiscussions(currentForum, page);
                     }
                 },
                 null,
@@ -103,14 +105,14 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
          * @param  {Object} forum Forum object
          *
          */
-        _showDiscussions: function(forum) {
+        _showDiscussions: function(forum, page) {
 
             var params = {
                 "forumid": forum.id,        // Forum module instance id.
                 "sortby":  "timemodified",
                 "sortdirection":  "DESC",
-                "page": 0,
-                "perpage": 10
+                "page": page,
+                "perpage": MM.plugins.forum.perPage
             };
 
             MM.moodleWSCall(MM.plugins.forum.wsPrefix + "mod_forum_get_forum_discussions",
@@ -122,6 +124,8 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
                     var pageTitle = MM.util.formatText(forum.name);
                     var data = {
+                        "page": page,
+                        "perpage": MM.plugins.forum.perPage,
                         "forum": forum,
                         "discussions": discussions.discussions
                     };

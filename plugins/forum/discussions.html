@@ -40,5 +40,7 @@
         </div>
         <% }); %>
 
+        <%= MM.util.pagingBar(forum.numdiscussions, page, perpage, "#forum/view/" + forum.course + "/" + forum.cmid + "/:page", ":page") %>
+
     </div>
 </div>
