@@ -62,7 +62,7 @@
     "enablecss3transitions": "Povolit CSS3 Transitions",
     "enabledebugging": "Povolit ladící informace",
     "enablenotifications": "Povolit upozornění",
-    "enablenotificationscheck": "<p> Měli byste nejprve zkontrolovat, zda vášy Moodle podporuje PUSH Upozornění, prosím, otevřete váš Moodle a v administraci \/ Nastavení mého profilu \/ Zasílání zpráv. Pokud je povoleno PUSH Upozornění, měli byste  vidět sloupec s názvem Mobilní  Upozornění <\/ p>",
+    "enablenotificationscheck": "<p>Měli byste nejprve zkontrolovat, zda váš Moodle podporuje mobilní upozornění (PUSH). Prosím, otevřete váš Moodle a přejděte do nabídky Nastavení \/  Nastavení mého profilu \/ Zasílání zpráv. Měli byste vidět sloupec s názvem Mobilní upozornění.<\/p>",
     "enablenotificationswarning": "<p>Aby byla upozornění povolena,  potřebujeme uložit na webu Moodle informace, jako je model vašeho mobilního zařízení a operační systém. <\/p>",
     "enablerdebugger": "Povolit vzdálené ladění",
     "error": "Chyba",
