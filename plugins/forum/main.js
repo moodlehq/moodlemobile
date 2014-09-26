@@ -2,10 +2,11 @@ var templates = [
     "root/externallib/text!root/plugins/forum/view.html",
     "root/externallib/text!root/plugins/forum/discussion.html",
     "root/externallib/text!root/plugins/forum/discussions.html",
-    "root/externallib/text!root/plugins/forum/attachments.html"
+    "root/externallib/text!root/plugins/forum/attachments.html",
+    "root/externallib/text!root/plugins/forum/worker.js"
 ];
 
-define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachmentsTpl) {
+define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachmentsTpl, workerCode) {
     var plugin = {
         settings: {
             name: "forum",
@@ -26,6 +27,15 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
         routes: [
             ["forum/view/:courseId/:cmid/:page", "view_forum", "viewForum"],
         ],
+
+        // Sync function, every 2 hours (time is in millisecs).
+        sync: {
+            handler: function() {
+                // We need to define here a function since MM.plugins.forum is not yet defined.
+                MM.plugins.forum._syncForums();
+            },
+            time: 7200000
+        },
 
         wsPrefix: "",
 
@@ -157,11 +167,12 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         var uniqueId = siteId + "-" + $(this).data("cmid");
 
                         if ($(this).prop("checked")) {
-                            var e = {
+                            var el = {
                                 id: uniqueId,
+                                cmid: $(this).data("cmid"),
                                 site: siteId
                             };
-                            MM.db.insert("forum_syncs", e);
+                            MM.db.insert("forum_syncs", el);
                         } else {
                             MM.db.remove("forum_syncs", uniqueId);
                         }
@@ -360,6 +371,30 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
         },
 
+        /**
+         * Periodically synchronize discussions and posts for the current active site.
+         *
+         */
+        _syncForums: function() {
+            /*var siteId = MM.config.current_site.id;
+            MM.db.each('forum_syncs', function(f) {
+                var cmid = f.get('cmid');
+                if (siteId == f.get('site')) {
+
+                }
+            });*/
+            if(window.Worker) {
+                console.log("Sync forum");
+                var blob = new Blob([MM.plugins.forum.templates.worker.js]);
+
+                var worker = new Worker(window.URL.createObjectURL(blob));
+                worker.onmessage = function(e) {
+                    window.alert("Received: " + e.data);
+                };
+                worker.postMessage();
+            }
+        },
+
         templates: {
             "view": {
                 html: filesTpl
@@ -372,6 +407,9 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
             },
             "attachments": {
                 html: attachmentsTpl
+            },
+            "worker": {
+                js: workerCode
             }
         }
 
