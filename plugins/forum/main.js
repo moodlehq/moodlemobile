@@ -377,7 +377,8 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
          *
          */
         _syncForums: function() {
-            if(window.Worker) {
+            // Sync only if the device is connected and supports workers.
+            if(MM.deviceConnected() && window.Worker) {
                 var siteId = MM.config.current_site.id;
                 var forums = [];
 
