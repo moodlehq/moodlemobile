@@ -169,6 +169,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         if ($(this).prop("checked")) {
                             var el = {
                                 id: uniqueId,
+                                forumid: $(this).data("forumid"),
                                 cmid: $(this).data("cmid"),
                                 site: siteId
                             };
@@ -376,22 +377,35 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
          *
          */
         _syncForums: function() {
-            /*var siteId = MM.config.current_site.id;
-            MM.db.each('forum_syncs', function(f) {
-                var cmid = f.get('cmid');
-                if (siteId == f.get('site')) {
-
-                }
-            });*/
             if(window.Worker) {
-                console.log("Sync forum");
-                var blob = new Blob([MM.plugins.forum.templates.worker.js]);
+                var siteId = MM.config.current_site.id;
+                var forums = [];
 
-                var worker = new Worker(window.URL.createObjectURL(blob));
+                MM.db.each('forum_syncs', function(f) {
+                    if (siteId == f.get('site')) {
+                        forums.push(f.get("forumid"));
+                    }
+                });
+                // Create dinamically a Worker script. Workers from file:// are not supported.
+                var blobURL = new Blob([MM.plugins.forum.templates.worker.js]);
+
+                var worker = new Worker(window.URL.createObjectURL(blobURL));
                 worker.onmessage = function(e) {
-                    window.alert("Received: " + e.data);
+                    // Cache the results of the XHR call.
+                    if (e.data && e.data.xhrData && e.data.data) {
+                        MM.cache.addWSCall(e.data.url, e.data.xhrData, e.data.data);
+                    }
                 };
-                worker.postMessage();
+                var data = {
+                    siteurl: MM.config.current_site.siteurl,
+                    token: MM.config.current_token,
+                    forums: forums,
+                    wsPrefix: MM.plugins.forum.wsPrefix,
+                    perPage: MM.plugins.forum.perPage
+                };
+
+                worker.postMessage(data);
+                window.URL.revokeObjectURL(blobURL);
             }
         },
 
