@@ -48,7 +48,7 @@ self.onmessage = function(e) {
             "forumid": forumId + "",        // Forum module instance id.
             "sortby":  "timemodified",
             "sortdirection":  "DESC",
-            "page": "0",
+            "page": e.data.page + "",
             "perpage": e.data.perPage + "",
             "wsfunction": e.data.wsPrefix + "mod_forum_get_forum_discussions",
             "wstoken": e.data.token

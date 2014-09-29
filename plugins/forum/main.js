@@ -179,14 +179,44 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         }
                     });
 
-                    MM.plugins.forum.downloadQueue = [];
+                    // Detect if the device supports WebWorkers.
+                    if (MM.util.WebWorkersSupported()) {
 
-                    // Download all the discussions posts.
-                    for (var el in MM.plugins.forum.discussionsCache) {
-                        var d = MM.plugins.forum.discussionsCache[el];
-                        MM.plugins.forum.downloadQueue.push(d.discussion);
+                        // Create dinamically a Worker script. Workers from file:// are not supported.
+                        var blobURL = new Blob([MM.plugins.forum.templates.worker.js]);
+
+                        var worker = new Worker(window.URL.createObjectURL(blobURL));
+                        worker.onmessage = function(e) {
+                            // Cache the results of the XHR call.
+                            if (e.data && e.data.xhrData && e.data.data) {
+                                MM.cache.addWSCall(e.data.url, e.data.xhrData, e.data.data);
+                            }
+                        };
+
+                        var forums = [forum.id];
+                        var info = {
+                            siteurl: MM.config.current_site.siteurl,
+                            token: MM.config.current_token,
+                            forums: forums,
+                            wsPrefix: MM.plugins.forum.wsPrefix,
+                            page: page,
+                            perPage: MM.plugins.forum.perPage
+                        };
+
+                        worker.postMessage(info);
+                        window.URL.revokeObjectURL(blobURL);
+
+                    } else {
+                        // Sync download of discussions and posts.
+                        MM.plugins.forum.downloadQueue = [];
+
+                        // Download all the discussions posts.
+                        for (var el in MM.plugins.forum.discussionsCache) {
+                            var d = MM.plugins.forum.discussionsCache[el];
+                            MM.plugins.forum.downloadQueue.push(d.discussion);
+                        }
+                        MM.plugins.forum._processDiscussionsQueue();
                     }
-                    MM.plugins.forum._processDiscussionsQueue();
                 },
                 null,
                 function (error) {
@@ -378,7 +408,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
          */
         _syncForums: function() {
             // Sync only if the device is connected and supports workers.
-            if(MM.deviceConnected() && window.Worker) {
+            if(MM.deviceConnected() && MM.util.WebWorkersSupported()) {
                 var siteId = MM.config.current_site.id;
                 var forums = [];
 
@@ -402,6 +432,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                     token: MM.config.current_token,
                     forums: forums,
                     wsPrefix: MM.plugins.forum.wsPrefix,
+                    page: "0",
                     perPage: MM.plugins.forum.perPage
                 };
 
