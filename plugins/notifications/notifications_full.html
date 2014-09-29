@@ -4,13 +4,15 @@
     <% _.each(notifications, function(notification) {%>
     <div class="notification">
         <p class="name"><%= notification.userfromfullname %> <span class="time"><%= MM.util.timestampToUserDate(notification.timecreated) %></span></p>
-        <% if (notifications.notification) { %>
+        <% if (notification.notification) { %>
         <p class="message"><%= MM.plugins.notifications._format(notification.fullmessage) %></p>
         <% } else { %>
         <p class="message"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>
-        <div class="actions">
-            <a class="reply-button" data-useridfrom="<%= notification.useridfrom %>">Reply</a>
-        </div>
+            <% if (notification.useridfrom) { %>
+            <div class="actions">
+                <a class="reply-button" data-useridfrom="<%= notification.useridfrom %>">Reply</a>
+            </div>
+             <% } %>
         <% } %>
     </div>
     <% }); %>
