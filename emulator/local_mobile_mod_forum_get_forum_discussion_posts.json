@@ -1,0 +1,56 @@
+{
+    "posts": [
+        {
+            "id": 11,
+            "discussion": 6,
+            "parent": 10,
+            "userid": 9,
+            "created": 1411116819,
+            "modified": 1411116819,
+            "mailed": 0,
+            "subject": "Re: My thoughts",
+            "message": "<p>Nested reply from teacher user</p>",
+            "messageformat": 1,
+            "messagetrust": 0,
+            "attachment": "",
+            "totalscore": 0,
+            "mailnow": 0,
+            "children": [],
+            "canreply": true,
+            "postread": false,
+            "userfullname": "Terry Teacher",
+            "userpictureurl": "emulator/userimage.png#"
+        },
+        {
+            "id": 10,
+            "discussion": 6,
+            "parent": 8,
+            "userid": 3,
+            "created": 1411116635,
+            "modified": 1411116635,
+            "mailed": 0,
+            "subject": "Re: A first message including an image and attachment",
+            "message": "<p>Yes, the map is great, <span>s un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo \"Contenido aquí, contenido aquí\". Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por def</span></p>",
+            "messageformat": 1,
+            "messagetrust": 0,
+            "attachment": "1",
+            "attachments": [
+                {
+                    "filename": "N.º de presupuesto 2014003 - Tecnología y Gestión Educativa SLU (1).pdf",
+                    "mimetype": "application/pdf",
+                    "fileurl": "http://localhost/m/stable_24/webservice/pluginfile.php/69/mod_forum/attachment/10/N.%C2%BA%20de%20presupuesto%202014003%20-%20Tecnologi%CC%81a%20y%20Gestio%CC%81n%20Educativa%20SLU%20%281%29.pdf"
+                }
+            ],
+            "totalscore": 0,
+            "mailnow": 0,
+            "children": [
+                11
+            ],
+            "canreply": true,
+            "postread": false,
+            "userfullname": "Juan Student",
+            "userpictureurl": "emulator/userimage.png#"
+        }
+    ],
+    "warnings": []
+}
