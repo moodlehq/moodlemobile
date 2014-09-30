@@ -203,6 +203,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                             perPage: MM.plugins.forum.perPage
                         };
 
+                        MM.log("Starting sync download of discussions and forums via Web Workers", "Forum");
                         worker.postMessage(info);
                         window.URL.revokeObjectURL(blobURL);
 
@@ -436,6 +437,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                     perPage: MM.plugins.forum.perPage
                 };
 
+                MM.log("Starting sync download of discussions and forums via Web Workers", "Forum");
                 worker.postMessage(data);
                 window.URL.revokeObjectURL(blobURL);
             }
