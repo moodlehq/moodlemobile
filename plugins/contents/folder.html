@@ -43,7 +43,11 @@
                             </div>
 
                             <div class="bd">
-                                <p><%= file.filename %></p>
+                                <% if (file.filepath == "/") { %>
+                                    <p><%= file.filename %></p>
+                                <% } else { %>
+                                    <p><%= file.filepath %><%= file.filename %></p>
+                                <% } %>
                             </div>
                         </a>
                     </div>
