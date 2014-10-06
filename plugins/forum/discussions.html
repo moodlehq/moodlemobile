@@ -24,7 +24,7 @@
         </div>
 
         <% _.each(discussions, function(discussion) { %>
-        <div class="forum-post first-post">
+        <div class="forum-post first-post" data-postdiscussion="<%= discussion.discussion %>">
             <div class="header">
                 <img class="user-picture" src="<%= MM.util.getMoodleFilePath(discussion.userpictureurl) %>">
                 <a class="author-name" href="#" rel="author"><%= discussion.userfullname %></a>

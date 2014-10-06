@@ -236,7 +236,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                 "discussionid": discussionId
             };
 
-            var discussionSubject = $("#panel-right").find("[data-discussionid='" + discussionId + "']");
+            var fullDiscussion = $("#panel-right").find("[data-postdiscussion='" + discussionId + "']");
 
             MM.moodleWSCall(MM.plugins.forum.wsPrefix + "mod_forum_get_forum_discussion_posts",
                 params,
@@ -258,15 +258,16 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         "posts": posts.posts
                     };
                     var html = MM.tpl.render(MM.plugins.forum.templates.discussion.html, data);
-                    discussionSubject.parent().find(".discussion-body").html(html);
+
+                    fullDiscussion.find(".discussion-body").html(html);
 
                     // Toggler effect.
-                    $(".forum-post .subject").on(MM.clickType, function(e) {
+                    fullDiscussion.find(".forum-post .subject").on(MM.clickType, function(e) {
                         $(this).parent().find(".content").toggle();
                     });
 
                     // Bind downloads.
-                    $(".forum-download").on(MM.clickType, function(e) {
+                    fullDiscussion.find(".forum-download").on(MM.clickType, function(e) {
                         e.preventDefault();
                         e.stopPropagation();
 
@@ -281,7 +282,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                 },
                 null,
                 function (error) {
-                    discussionSubject.parent().find(".discussion-body").html("");
+                    fullDiscussion.find(".discussion-body").html("");
                     MM.popErrorMessage(error);
                 }
             );
