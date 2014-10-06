@@ -556,12 +556,18 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
             var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
 
-            var newfile = path + "/" + filename;
+            // Check if the file is in a Moodle virtual directory.
+            if (file.filepath) {
+                path += file.filepath;
+                newfile = path + filename;
+            } else {
+                newfile = path + "/" + filename;
+            }
 
             return {
                 directory: path,
                 file: newfile
-            }
+            };
         },
 
         getModuleIcon: function(moduleName) {
