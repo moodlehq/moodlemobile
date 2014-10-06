@@ -103,13 +103,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                 var finalContents = [];
                 $.each(JSON.parse(JSON.stringify(contents)), function(index1, sections){
-
                     // Skip sections deleting contents..
                     if (sectionId > -1 && sectionId != index1) {
                         // This is a continue.
                         return true;
                     }
-
                     $.each(sections.modules, function(index2, content){
 
                         content.contentid = content.id;
@@ -154,11 +152,13 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                     downloaded = typeof(cFile.localpath) != "undefined";
                                 } else {
                                     downloaded = true;
-                                    $.each(c.contents, function (index5, filep) {
-                                        if (typeof(filep.localpath) == "undefined") {
-                                            downloaded = false;
-                                        }
-                                    });
+                                    if (c.contents) {
+                                        $.each(c.contents, function (index5, filep) {
+                                            if (typeof(filep.localpath) == "undefined") {
+                                                downloaded = false;
+                                            }
+                                        });
+                                    }
                                 }
                                 sections.modules[index2].downloaded = downloaded;
                             }
