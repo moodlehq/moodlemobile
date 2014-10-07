@@ -52,7 +52,7 @@ self.onmessage = function(e) {
             "sortdirection":  "DESC",
             "page": e.data.page + "",
             "perpage": e.data.perPage + "",
-            "wsfunction": e.data.wsPrefix + "mod_forum_get_forum_discussions",
+            "wsfunction": e.data.wsPrefix + "mod_forum_get_forum_discussions_paginated",
             "wstoken": e.data.token
         };
         var url = e.data.siteurl + "/webservice/rest/server.php?moodlewsrestformat=json";
