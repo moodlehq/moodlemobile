@@ -415,6 +415,13 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             MM.panels.html('right', html);
             $(document).scrollTop(0);
 
+            $("#download-all", "#panel-right").on(MM.quickClick, function(e) {
+                e.preventDefault();
+                MM.plugins.contents.downloadAll($(this).data("courseid"),
+                                                $(this).data("sectionid"),
+                                                $(this).data("contentid"));
+            });
+
             // Show info content modal window.
             $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
                 e.preventDefault();
@@ -584,6 +591,37 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             return "img/mod/" + moduleName + ".png";
         },
 
+        downloadAll: function(courseId, sectionId, contentId) {
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
+            content = content.toJSON();
+
+            if (content.contents) {
+                $.each(content.contents, function(index, file) {
+                    setTimeout(function() {
+                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
+                    }, 500 * (index + 1));
+                });
+            }
+
+            // Background download. Check if we are using the external service that supports CORS download.
+            /*if (MM.util.WebWorkersSupported && MM.currentService == MM.config.wsextservice) {
+                // Now, this is a dirty hack necessary.
+                // Depending on the local mobile version we can retrieve all the grades with the course total or
+                // we should ask grade by grade
+                var unsupportedVersions = ["2014052805", "2014060200", "2014060300", "2014060400", "2014060401", "2014052806",
+                                            "2014060201", "2014060301", "2014060402"];
+
+                // Check local_mobile version.
+                var currentVersion = MM.util.wsVersion("local_mobile_core_grades_get_grades");
+                if (unsupportedVersions.indexOf(currentVersion) == -1) {
+                    MM.plugins.grades._loadAllGrades(tpl, menuEl);
+                } else {
+                    MM.plugins.grades._loadGradeByGrade(tpl);
+                    $(menuEl, '#panel-left').removeClass('loading-row');
+                }
+            }*/
+        },
+
         templates: {
             "folder": {
                 html: folderTpl
@@ -596,7 +634,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             },
             "mimetypes": JSON.parse(mimeTypes)
         }
-    }
+    };
 
     MM.registerPlugin(plugin);
 });
