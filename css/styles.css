@@ -850,6 +850,21 @@ hr {
 .path-mod-forum .attachment img {
   width: 16px;
 }
+.path-mod-forum .forum-name img {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+.path-mod-forum .forum-intro {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.path-mod-forum .sync {
+  padding-left: 10px;
+  border-bottom: 15px solid #eee;
+}
+.path-mod-forum .sync input {
+  margin-right: 5px;
+}
 .fullpath {
   width: 100%;
   background-color: #eee;
