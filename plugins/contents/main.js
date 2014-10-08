@@ -341,7 +341,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
         },
 
-        downloadContentFile: function(courseId, sectionId, contentId, index) {
+        downloadContentFile: function(courseId, sectionId, contentId, index, background) {
+
+            background = background || false;
 
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
@@ -368,7 +370,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 MM.fs.createDir(path.directory, function() {
                     MM.log("Content: Downloading content to " + path.file + " from URL: " + downloadURL);
 
-                    $(downCssId).attr("src", "img/loadingblack.gif");
+                    if ($(downCssId)) {
+                        $(downCssId).attr("src", "img/loadingblack.gif");
+                    }
 
                     MM.moodleDownloadFile(downloadURL, path.file,
                         function(fullpath) {
@@ -376,16 +380,22 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             content.contents[index].localpath = path.file;
                             content.contents[index].downloadtime = MM.util.timestamp();
                             MM.db.insert("contents", content);
-                            $(downCssId).remove();
-                            $(linkCssId).attr("href", fullpath);
-                            $(linkCssId).attr("rel", "external");
-                            // Android, open in new browser
-                            MM.handleFiles(linkCssId);
+                            if ($(downCssId)) {
+                                $(downCssId).remove();
+                                $(linkCssId).attr("href", fullpath);
+                                $(linkCssId).attr("rel", "external");
+                                // Android, open in new browser
+                                MM.handleFiles(linkCssId);
+                            }
                         },
                         function(fullpath) {
-                           MM.log("Content: Error downloading " + fullpath + " URL: " + downloadURL);
-                           $(downCssId).attr("src", "img/download.png");
-                         });
+                            MM.log("Content: Error downloading " + fullpath + " URL: " + downloadURL);
+                            if ($(downCssId)) {
+                                $(downCssId).attr("src", "img/download.png");
+                            }
+                         },
+                         background
+                    );
                 });
             });
         },
@@ -598,28 +608,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             if (content.contents) {
                 $.each(content.contents, function(index, file) {
                     setTimeout(function() {
-                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
+                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index, true);
                     }, 500 * (index + 1));
                 });
             }
-
-            // Background download. Check if we are using the external service that supports CORS download.
-            /*if (MM.util.WebWorkersSupported && MM.currentService == MM.config.wsextservice) {
-                // Now, this is a dirty hack necessary.
-                // Depending on the local mobile version we can retrieve all the grades with the course total or
-                // we should ask grade by grade
-                var unsupportedVersions = ["2014052805", "2014060200", "2014060300", "2014060400", "2014060401", "2014052806",
-                                            "2014060201", "2014060301", "2014060402"];
-
-                // Check local_mobile version.
-                var currentVersion = MM.util.wsVersion("local_mobile_core_grades_get_grades");
-                if (unsupportedVersions.indexOf(currentVersion) == -1) {
-                    MM.plugins.grades._loadAllGrades(tpl, menuEl);
-                } else {
-                    MM.plugins.grades._loadGradeByGrade(tpl);
-                    $(menuEl, '#panel-left').removeClass('loading-row');
-                }
-            }*/
         },
 
         templates: {
