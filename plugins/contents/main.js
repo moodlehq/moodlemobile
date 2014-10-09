@@ -27,9 +27,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             ["course/contents/:courseid/section/:sectionId", "course_contents_section", "viewCourseContentsSection"],
             ["course/contents/:courseid/section/:sectionId/folder/:contentid/sectionname/:sectionname", "course_contents_folder", "viewFolder"],
             ["course/contents/:courseid/section/:sectionId/download/:contentid", "course_contents_download", "downloadContent"],
-            ["course/contents/:courseid/section/:sectionId/info/:contentid", "course_contents_info", "infoContent"],
-            ["course/contents/:courseid/section/:sectionId/download/:contentid/:index", "course_contents_download_folder", "downloadContent"],
-            ["course/contents/:courseid/section/:sectionId/info/:contentid/:index", "course_contents_info_folder", "infoContent"],
+            ["course/contents/:courseid/section/:sectionId/download/:contentid/:index", "course_contents_download_folder", "downloadContent"]
         ],
 
         viewCourseContents: function(courseId) {
@@ -262,7 +260,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     sectionId: sectionId,
                     courseId: courseId,
                     course: course.toJSON() // Convert a model to a plain javascript object.
-                }
+                };
 
                 var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
 
@@ -271,23 +269,12 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                 // Show info content modal window.
                 $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
-                    e.preventDefault();
-                    var pos = {
-                        left: e.pageX - 5,
-                        top: e.pageY
-                    };
-
-                    if (MM.quickClick.indexOf("touch") > -1) {
-                        pos.left = e.originalEvent.touches[0].pageX -5;
-                        pos.top = e.originalEvent.touches[0].pageY;
-                    }
-
                     MM.plugins.contents.infoContent(
+                        e,
                         $(this).data("course"),
                         $(this).data("section"),
                         $(this).data("content"),
-                        -1,
-                        pos);
+                        -1);
                 });
 
                 // Mod plugins should now that the page has been rendered.
@@ -434,22 +421,29 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             // Show info content modal window.
             $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
-                var pos = {
-                    left: e.pageX - 5,
-                    top: e.pageY
-                };
 
                 MM.plugins.contents.infoContent(
+                    e,
                     $(this).data("course"),
                     $(this).data("section"),
                     $(this).data("content"),
-                    $(this).data("index"),
-                    pos);
+                    $(this).data("index"));
             });
 
         },
 
-        infoContent: function(courseId, sectionId, contentId, index, i) {
+        infoContent: function(e, courseId, sectionId, contentId, index) {
+
+            e.preventDefault();
+            var i = {
+                left: e.pageX - 5,
+                top: e.pageY
+            };
+
+            if (MM.quickClick.indexOf("touch") > -1) {
+                i.left = e.originalEvent.touches[0].pageX -5;
+                i.top = e.originalEvent.touches[0].pageY;
+            }
 
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
