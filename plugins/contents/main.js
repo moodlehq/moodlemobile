@@ -608,8 +608,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             if (content.contents) {
                 $.each(content.contents, function(index, file) {
                     setTimeout(function() {
-                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index, true);
-                    }, 500 * (index + 1));
+                        // Do not download using background webworker.
+                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
+                    }, 500 * index);
                 });
             }
         },
