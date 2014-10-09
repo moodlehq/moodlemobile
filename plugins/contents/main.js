@@ -426,7 +426,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             $(document).scrollTop(0);
 
             $("#download-all", "#panel-right").on(MM.quickClick, function(e) {
-                e.preventDefault();
                 MM.plugins.contents.downloadAll($(this).data("courseid"),
                                                 $(this).data("sectionid"),
                                                 $(this).data("contentid"));
@@ -434,7 +433,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             // Show info content modal window.
             $(".content-info", "#panel-right").on(MM.quickClick, function(e) {
-                e.preventDefault();
                 var pos = {
                     left: e.pageX - 5,
                     top: e.pageY
