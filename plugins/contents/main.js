@@ -421,8 +421,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 sectionName: sectionName
             };
 
+            var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
             var html = MM.tpl.render(MM.plugins.contents.templates.folder.html, tpl);
-            MM.panels.html('right', html);
+            MM.panels.show('right', html, {title: pageTitle});
             $(document).scrollTop(0);
 
             $("#download-all", "#panel-right").on(MM.quickClick, function(e) {
