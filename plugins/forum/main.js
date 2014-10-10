@@ -161,23 +161,26 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         $(this).parent().find(".discussion-body").html('<div class="centered"><img src="img/loading.gif"></div>');
                         MM.plugins.forum._showDiscussion(discussionId);
                     });
-                    // Handler for sync.
-                    $("#keepsynch").on(MM.clickType, function(e) {
-                        var siteId = MM.config.current_site.id;
-                        var uniqueId = siteId + "-" + $(this).data("cmid");
 
-                        if ($(this).prop("checked")) {
-                            var el = {
-                                id: uniqueId,
-                                forumid: $(this).data("forumid"),
-                                cmid: $(this).data("cmid"),
-                                site: siteId
-                            };
-                            MM.db.insert("forum_syncs", el);
-                        } else {
-                            MM.db.remove("forum_syncs", uniqueId);
-                        }
-                    });
+                    // Handler for sync.
+                    if (MM.util.WebWorkersSupported()) {
+                        $("#keepsynch").on(MM.clickType, function(e) {
+                            var siteId = MM.config.current_site.id;
+                            var uniqueId = siteId + "-" + $(this).data("cmid");
+
+                            if ($(this).prop("checked")) {
+                                var el = {
+                                    id: uniqueId,
+                                    forumid: $(this).data("forumid"),
+                                    cmid: $(this).data("cmid"),
+                                    site: siteId
+                                };
+                                MM.db.insert("forum_syncs", el);
+                            } else {
+                                MM.db.remove("forum_syncs", uniqueId);
+                            }
+                        });
+                    }
 
                     // Detect if the device supports WebWorkers.
                     if (MM.util.WebWorkersSupported()) {
@@ -419,6 +422,11 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         forums.push(f.get("forumid"));
                     }
                 });
+
+                if (!forums.length) {
+                    return;
+                }
+
                 // Create dinamically a Worker script. Workers from file:// are not supported.
                 var blobURL = new Blob([MM.plugins.forum.templates.worker.js]);
 
