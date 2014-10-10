@@ -132,6 +132,7 @@
 "networkerrormsg": "Network not enabled or not working.",
 "next": "Next",
 "no": "No",
+"noevents": "There are no events",
 "norefreshdisconnected": "The refresh option requires network connection",
 "notaskstobesynchronized": "No tasks to be synchronized",
 "noteadded": "Note added",

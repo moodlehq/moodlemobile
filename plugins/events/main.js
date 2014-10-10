@@ -70,11 +70,20 @@ define(templates, function (eventsTpl, eventTpl) {
 
             var html = MM.tpl.render(MM.plugins.events.templates.events.html, tpl);
 
-            MM.panels.show('center', html, {title: pageTitle});
+            if (MM.deviceType == "tablet" && MM.plugins.events.lastEvents.length > 0) {
+                MM.panels.show('center', html, {title: pageTitle});
+            } else  {
+                if (MM.deviceType == "tablet") {
+                    MM.panels.show('center', html, {title: pageTitle, hideRight: true});
+                } else {
+                    MM.panels.show('center', html, {title: pageTitle});
+                }
+            }
+
             $("#events-showmore").on(MM.clickType, function(e) {
                 MM.plugins.events.showEvents(days + daysIncrement);
             });
-            // Load the first user
+            // Load the first event.
             if (MM.deviceType == "tablet" && MM.plugins.events.lastEvents.length > 0) {
                 $("#panel-center li:eq(0)").addClass("selected-row");
                 MM.plugins.events.showEvent(0);
