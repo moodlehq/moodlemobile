@@ -134,13 +134,20 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                 function(discussions) {
                     // Stops loading...
                     $("#info-" + forum.cmid, "#panel-right").attr("src", "img/info.png");
+                    var siteId = MM.config.current_site.id;
+
+                    var syncStatus = "";
+                    if (MM.db.get('forum_syncs', siteId + "-" + forum.cmid)) {
+                        syncStatus = 'checked="checked"'
+                    }
 
                     var pageTitle = MM.util.formatText(forum.name);
                     var data = {
                         "page": page,
                         "perpage": MM.plugins.forum.perPage,
                         "forum": forum,
-                        "discussions": discussions.discussions
+                        "discussions": discussions.discussions,
+                        "syncStatus": syncStatus
                     };
 
                     MM.plugins.forum.discussionsCache = discussions.discussions;
@@ -164,8 +171,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
                     // Handler for sync.
                     if (MM.util.WebWorkersSupported()) {
-                        $("#keepsynch").on(MM.clickType, function(e) {
-                            var siteId = MM.config.current_site.id;
+                        $("#keepsynch").bind("change", function(e) {
                             var uniqueId = siteId + "-" + $(this).data("cmid");
 
                             if ($(this).prop("checked")) {
