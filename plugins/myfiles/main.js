@@ -25,6 +25,8 @@ define(templates, function (filesTpl) {
 
         path: [],
 
+        wsPrefix: "",
+
         /**
          * Determines is the plugin is visible.
          * It may check Moodle remote site version, device OS, device type, etc...
@@ -33,7 +35,12 @@ define(templates, function (filesTpl) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            return MM.util.wsAvailable('local_mobile_core_files_get_files');
+            if (MM.util.wsAvailable('local_mobile_core_files_get_files')) {
+                MM.plugins.myfiles.wsPrefix = 'local_mobile_';
+                return true;
+            }
+
+            return MM.util.wsAvailable('core_files_get_files');
         },
 
         /**
@@ -108,7 +115,9 @@ define(templates, function (filesTpl) {
             var link = hex_md5(encodeURIComponent(dir));
             $('#' + link, '#panel-center').addClass('loading-row-black');
 
-            MM.moodleWSCall("local_mobile_core_files_get_files",
+            var wsName = MM.plugins.myfiles.wsPrefix + "core_files_get_files";
+
+            MM.moodleWSCall(wsName,
                 params,
                 function(result) {
                     if (typeof result.files == "undefined") {
