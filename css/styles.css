@@ -1086,6 +1086,13 @@ hr {
 .settings p {
   padding: 10px;
 }
+.settings .device-info p {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin: 4px;
+}
 .sites-list .nav-item > a {
   font-weight: normal;
 }
