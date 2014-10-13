@@ -47,11 +47,10 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            // First check core services and Moodle version above 2.8.
+            // First check core services.
             var visible =   MM.util.wsAvailable('mod_forum_get_forums_by_courses') &&
                             MM.util.wsAvailable('mod_forum_get_forum_discussions_paginated') &&
-                            MM.util.wsAvailable('mod_forum_get_forum_discussion_posts') &&
-                            parseInt(MM.config.current_site.version, 10) >= 2014111000;
+                            MM.util.wsAvailable('mod_forum_get_forum_discussion_posts');
 
             // Fallback to local_mobile plugin ones.
             if (!visible) {
