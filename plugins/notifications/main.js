@@ -52,8 +52,11 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 visible = true;
             }
 
+            if (MM.util.wsAvailable('core_message_get_messages')) {
+                visible = true;
+            }
+
             visible =       visible ||
-                            MM.util.wsAvailable('core_message_get_messages')
                             ((MM.deviceOS == "ios" || MM.deviceOS == "android") &&
                             (MM.util.wsAvailable('core_user_add_user_device') || MM.util.wsAvailable('local_mobile_core_user_add_user_device')) &&
                             MM.util.wsAvailable('message_airnotifier_is_system_configured') &&
