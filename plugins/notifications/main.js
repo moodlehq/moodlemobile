@@ -32,6 +32,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             ["notifications/view/:id", "notifications_view", "viewNotification"]
         ],
 
+        wsPrefix: "",
+
         /**
          * Determines is the plugin is visible.
          * It may check Moodle remote site version, device OS, device type, etc...
@@ -43,9 +45,15 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             // The plugin is visible either if is available the remote service for pulling notifications or
             // the platform support Push notifications.
 
-            var visible = MM.util.wsAvailable('local_mobile_core_message_get_messages');
+            var visible = false;
+
+            if (MM.util.wsAvailable('local_mobile_core_message_get_messages')) {
+                MM.plugins.notifications.wsPrefix = "local_mobile_";
+                visible = true;
+            }
 
             visible =       visible ||
+                            MM.util.wsAvailable('core_message_get_messages')
                             ((MM.deviceOS == "ios" || MM.deviceOS == "android") &&
                             (MM.util.wsAvailable('core_user_add_user_device') || MM.util.wsAvailable('local_mobile_core_user_add_user_device')) &&
                             MM.util.wsAvailable('message_airnotifier_is_system_configured') &&
@@ -212,7 +220,9 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             MM.Router.navigate('');
 
             // We display the notifications in different ways depending if the notifications are Push or via the WS.
-            if (MM.util.wsAvailable('local_mobile_core_message_get_messages')) {
+            if (MM.util.wsAvailable('local_mobile_core_message_get_messages') ||
+                    MM.util.wsAvailable('core_message_get_messages')) {
+
                 $('a[href="#notifications"]').addClass('loading-row');
 
                 var limit = 50;
@@ -228,7 +238,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 };
 
                 MM.moodleWSCall(
-                    'local_mobile_core_message_get_messages',
+                    MM.plugins.notifications.wsPrefix + 'core_message_get_messages',
                     params,
                     function(notifications) {
                         if (notifications.messages) {
@@ -238,7 +248,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                                 params.limitnum = limit - notifications.messages.length;
                                 params.read = 1;
                                 MM.moodleWSCall(
-                                    'local_mobile_core_message_get_messages',
+                                    MM.plugins.notifications.wsPrefix + 'core_message_get_messages',
                                     params,
                                     function(morenotifications) {
                                         $('a[href="#notifications"]').removeClass('loading-row');
