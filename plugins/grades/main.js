@@ -19,12 +19,22 @@ define(templates,function (activities, activitiesTotal) {
         ],
 
         isPluginVisible: function() {
-            // We store the WSName for later.
-            // Since there is a but in the core_grades_get_grades we only allow to use the local_mobile plugin one.
+            // We store the WSName for later uses.
+            // Since there is a but in older version of the core_grades_get_grades
+            // we only allow to use the local_mobile plugin or an upgraded Moodle version
+
             if (MM.util.wsAvailable('local_mobile_core_grades_get_grades')) {
                 MM.plugins.grades.wsName = 'local_mobile_core_grades_get_grades';
                 return true;
             }
+
+            if (MM.util.wsAvailable('core_grades_get_grades') &&
+                    parseInt(MM.config.current_site.version, 10) >= 2014101000) {
+
+                MM.plugins.grades.wsName = 'core_grades_get_grades';
+                return true;
+            }
+
             return false;
         },
 
@@ -56,9 +66,11 @@ define(templates,function (activities, activitiesTotal) {
                 var unsupportedVersions = ["2014052805", "2014060200", "2014060300", "2014060400", "2014060401", "2014052806",
                                             "2014060201", "2014060301", "2014060402"];
 
-                // Check local_mobile version.
+                // Check local_mobile version and Moodle version.
                 var currentVersion = MM.util.wsVersion("local_mobile_core_grades_get_grades");
-                if (unsupportedVersions.indexOf(currentVersion) == -1) {
+                if (MM.util.wsAvailable('core_grades_get_grades') ||
+                        unsupportedVersions.indexOf(currentVersion) == -1) {
+
                     MM.plugins.grades._loadAllGrades(tpl, menuEl);
                 } else {
                     MM.plugins.grades._loadGradeByGrade(tpl);
