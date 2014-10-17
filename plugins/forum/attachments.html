@@ -12,7 +12,7 @@
 
         <span class="attachment-filename">
             <% if (!attachment.localpath) { %>
-            <a id="attachment-<%= attachment.id %>" class="forum-download" href="<%= attachment.filename %>" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
+            <a id="attachment-<%= attachment.id %>" class="forum-download" href="#" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
                 <%= attachment.filename %>
             </a>
             <% } else { %>
