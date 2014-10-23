@@ -736,9 +736,11 @@ hr {
 .content-index {
   width: 100%;
   position: relative;
-  border-bottom: 1px solid #eee;
   header {
     padding: 10px;
+  }
+  section:last-of-type {
+    border-bottom: 1px solid #eee;
   }
   p {
     margin: 0;
@@ -859,15 +861,18 @@ hr {
 }
 
 //-----Forum discussions-----
-.post-counter {
-  float: right;
-  font-size: .75rem;
-  text-align: right;
-  padding: 12px;
-  margin-bottom: 0;
-}
-
 .path-mod-forum {
+  .forum {
+    border-bottom: 15px solid #eee;
+    > .content-name {
+      padding: 10px;
+      border-top: 1px solid #eee;
+    }
+  }
+  .intro {
+    margin-left: 32px;
+    padding: 0 10px 10px;
+  }
   .forum-post {
     padding-top: 10px;
     border-bottom: 1px solid #eee;
@@ -900,16 +905,30 @@ hr {
   }
   .subject {
     font-size: 1rem;
-    padding-top: 12px;
-    padding-right: 10px;
-    margin-left: 60px;
-    margin-bottom: 12px;
+    padding: 10px;
+    margin-left: 50px;
     border-top: 1px solid #eee;
     overflow: hidden;
   }
   .content {
-    padding-right: 10px;
-    margin-left: 60px;
+    padding: 0 10px 10px;
+    margin-left: 50px;
+  }
+  .attachments {
+    .attachment {
+      padding-top: 10px; 
+    }
+    .content-name {
+      a {
+        padding: 0;
+        line-height: 20px;
+        margin-top: 2px;
+      }
+    }
+    .content-actions {
+      width: 40px;
+      padding: 0;
+    }
   }
   .counter {
     font-size: .75rem;
@@ -921,7 +940,7 @@ hr {
       margin-right: 6px;
     }
   }
-  .reply-info {
+  .post-info {
     font-size: .75rem;
     text-align: right;
     padding: 6px 10px;
@@ -934,26 +953,20 @@ hr {
       margin-left: 6px;
       margin-right: 6px;
     }
-  }
-  .attachment img {
-    width: 16px;
-  }
-  .forum-name {
-    img {
+    input {
       margin-left: 6px;
       margin-right: 6px;
     }
   }
-  .forum-intro {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .sync {
-    padding-left: 10px;
-    input {
-      margin-right: 5px;
+  .paging-bar {
+    padding: 6px 10px;
+    a,
+    .current {
+      padding: 10px;
     }
-    border-bottom: 15px solid #eee;
+    .next {
+      padding: 10px 0;
+    }
   }
 }
 

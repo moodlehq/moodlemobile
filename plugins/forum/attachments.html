@@ -5,26 +5,26 @@
         <% } else { %>
         <% var dImg = "download"; %>
     <% } %>
-    <div class="attachment">
-        <span class="attachment-icon">
-            <img src="img/files/<%= attachment.icon %>">
-        </span>
-
-        <span class="attachment-filename">
-            <% if (!attachment.localpath) { %>
-            <a id="attachment-<%= attachment.id %>" class="forum-download" href="#" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
-                <%= attachment.filename %>
-            </a>
-            <% } else { %>
-            <a id="attachment-<%= attachment.id %>" href="<%= attachment.localpath %>" rel="external"
-                ><%= attachment.filename %>
-            </a>
-            <% } %>
-        </span>
-
-        <span class="attachment-download">
-            <img class="forum-download" id="downimg-<%= attachment.id %>" src="img/<%= dImg %>.png" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
-        </span>
+    <div class="attachment media">
+        <div class="content-actions app-icon">
+            <img id="downimg-<%= attachment.id %>" src="img/<%= dImg %>.png" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
+        </div>
+        <div class="content-name">
+            <div class="img app-ico">
+                <img src="img/files/<%= attachment.icon %>" alt="img">
+            </div>
+            <div class="bd">
+                <% if (!attachment.localpath) { %>
+                <a id="attachment-<%= attachment.id %>" href="#" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
+                    <%= attachment.filename %>
+                </a>
+                <% } else { %>
+                <a id="attachment-<%= attachment.id %>" href="<%= attachment.localpath %>" rel="external"
+                    ><%= attachment.filename %>
+                </a>
+                <% } %>
+            </div>
+        </div>
     </div>
 
     <% }); %>

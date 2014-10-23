@@ -246,6 +246,7 @@ hr {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   /* Disable selection/Copy of UIWebView */
+
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -662,10 +663,12 @@ hr {
 .content-index {
   width: 100%;
   position: relative;
-  border-bottom: 1px solid #eee;
 }
 .content-index header {
   padding: 10px;
+}
+.content-index section:last-of-type {
+  border-bottom: 1px solid #eee;
 }
 .content-index p {
   margin: 0;
@@ -773,12 +776,16 @@ hr {
   display: block;
   padding: 10px;
 }
-.post-counter {
-  float: right;
-  font-size: .75rem;
-  text-align: right;
-  padding: 12px;
-  margin-bottom: 0;
+.path-mod-forum .forum {
+  border-bottom: 15px solid #eee;
+}
+.path-mod-forum .forum > .content-name {
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
+.path-mod-forum .intro {
+  margin-left: 32px;
+  padding: 0 10px 10px;
 }
 .path-mod-forum .forum-post {
   padding-top: 10px;
@@ -812,16 +819,26 @@ hr {
 }
 .path-mod-forum .subject {
   font-size: 1rem;
-  padding-top: 12px;
-  padding-right: 10px;
-  margin-left: 60px;
-  margin-bottom: 12px;
+  padding: 10px;
+  margin-left: 50px;
   border-top: 1px solid #eee;
   overflow: hidden;
 }
 .path-mod-forum .content {
-  padding-right: 10px;
-  margin-left: 60px;
+  padding: 0 10px 10px;
+  margin-left: 50px;
+}
+.path-mod-forum .attachments .attachment {
+  padding-top: 10px;
+}
+.path-mod-forum .attachments .content-name a {
+  padding: 0;
+  line-height: 20px;
+  margin-top: 2px;
+}
+.path-mod-forum .attachments .content-actions {
+  width: 40px;
+  padding: 0;
 }
 .path-mod-forum .counter {
   font-size: .75rem;
@@ -833,37 +850,33 @@ hr {
 .path-mod-forum .counter img {
   margin-right: 6px;
 }
-.path-mod-forum .reply-info {
+.path-mod-forum .post-info {
   font-size: .75rem;
   text-align: right;
   padding: 6px 10px;
   border-top: 1px solid #eee;
 }
-.path-mod-forum .reply-info span {
+.path-mod-forum .post-info span {
   padding-left: 2px;
   padding-right: 2px;
 }
-.path-mod-forum .reply-info img {
+.path-mod-forum .post-info img {
   margin-left: 6px;
   margin-right: 6px;
 }
-.path-mod-forum .attachment img {
-  width: 16px;
-}
-.path-mod-forum .forum-name img {
+.path-mod-forum .post-info input {
   margin-left: 6px;
   margin-right: 6px;
 }
-.path-mod-forum .forum-intro {
-  padding-left: 10px;
-  padding-right: 10px;
+.path-mod-forum .paging-bar {
+  padding: 6px 10px;
 }
-.path-mod-forum .sync {
-  padding-left: 10px;
-  border-bottom: 15px solid #eee;
+.path-mod-forum .paging-bar a,
+.path-mod-forum .paging-bar .current {
+  padding: 10px;
 }
-.path-mod-forum .sync input {
-  margin-right: 5px;
+.path-mod-forum .paging-bar .next {
+  padding: 10px 0;
 }
 .fullpath {
   width: 100%;
