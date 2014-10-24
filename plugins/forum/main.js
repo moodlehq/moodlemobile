@@ -39,6 +39,8 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
         wsPrefix: "",
 
+        sectionsCache: {},
+
          /**
          * Determines is the plugin is visible.
          * It may check Moodle remote site version, device OS, device type, etc...
@@ -72,6 +74,9 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                 "section": section,
                 "module": module
             };
+            // Store the section name.
+            MM.plugins.forum.sectionsCache[module.contentid] = MM.util.formatText(section.name);
+
             return MM.tpl.render(MM.plugins.forum.templates.view.html, data);
         },
 
@@ -137,7 +142,12 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
                     var syncStatus = "";
                     if (MM.db.get('forum_syncs', siteId + "-" + forum.cmid)) {
-                        syncStatus = 'checked="checked"'
+                        syncStatus = 'checked="checked"';
+                    }
+
+                    var sectionName = "";
+                    if (MM.plugins.forum.sectionsCache[forum.cmid]) {
+                        sectionName = MM.plugins.forum.sectionsCache[forum.cmid];
                     }
 
                     var pageTitle = MM.util.formatText(forum.name);
@@ -146,7 +156,8 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         "perpage": MM.plugins.forum.perPage,
                         "forum": forum,
                         "discussions": discussions.discussions,
-                        "syncStatus": syncStatus
+                        "syncStatus": syncStatus,
+                        "sectionName": sectionName
                     };
 
                     MM.plugins.forum.discussionsCache = discussions.discussions;
