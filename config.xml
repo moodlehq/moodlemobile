@@ -90,6 +90,7 @@
     <gap:plugin name="nl.x-services.plugins.launchmyapp">
         <param name="URL_SCHEME" value="moodlemobile" />
     </gap:plugin>
+    <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
 
     <access origin="*" />
 
