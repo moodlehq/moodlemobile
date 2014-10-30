@@ -86,10 +86,14 @@ define(templates, function (viewTpl, dialogTpl) {
                                     },
                                     function() {
                                         MM.plugins.page._showPage(indexFile);
+                                        MM.log("Error writting file " + indexFile, "Page");
                                     }
                                 );
                             },
-                            errorFn
+                            function() {
+                                MM.plugins.page._showPage(indexFile);
+                                MM.log("Error reading file " + indexFile, "Page");
+                            }
                         );
                     },
                     // Error.
@@ -115,6 +119,8 @@ define(templates, function (viewTpl, dialogTpl) {
                 marginTop: "10px"
             };
             MM.widgets.dialog(iframe, options);
+
+            MM.handleExternalLinks('.modalHeader a[target="_blank"]');
 
             $("#dialog-close").on(MM.clickType, function(e){
                 MM.widgets.dialogClose();
