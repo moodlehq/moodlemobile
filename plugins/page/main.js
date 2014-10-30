@@ -1,8 +1,9 @@
 var templates = [
-    "root/externallib/text!root/plugins/page/view.html"
+    "root/externallib/text!root/plugins/page/view.html",
+    "root/externallib/text!root/plugins/page/dialog.html"
 ];
 
-define(templates, function (viewTpl) {
+define(templates, function (viewTpl, dialogTpl) {
     var plugin = {
         settings: {
             name: "page",
@@ -103,16 +104,29 @@ define(templates, function (viewTpl) {
             var iframe = '<iframe style="' + style + '" src="' + path + '">';
             iframe += '</iframe>';
 
+            var data = {
+                path: path
+            };
+            var title = MM.tpl.render(MM.plugins.page.templates.dialog.html, data);
+
             var options = {
+                title: title,
                 width: "100%",
                 marginTop: "10px"
             };
             MM.widgets.dialog(iframe, options);
+
+            $("#dialog-close").on(MM.clickType, function(e){
+                MM.widgets.dialogClose();
+            });
         },
 
         templates: {
             "view": {
                 html: viewTpl
+            },
+            "dialog": {
+                html: dialogTpl
             }
         }
 
