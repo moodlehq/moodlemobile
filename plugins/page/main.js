@@ -33,16 +33,7 @@ define(templates, function (viewTpl) {
                 e.preventDefault();
                 var path = $(this).data("path") + "index.html";
 
-                var height= $(document).innerHeight() - 175;
-                var style = 'width: 100%; height: ' + height + 'px';
-                var iframe = '<iframe style="' + style + '" src="' + path + '">';
-                iframe += '</iframe>';
-
-                var options = {
-                    width: "100%",
-                    marginTop: "10px"
-                };
-                MM.widgets.dialog(iframe, options);
+                MM.plugins.page._showPage(path);
             });
 
             $(".page-download-all").on(MM.clickType, function(e) {
@@ -59,21 +50,60 @@ define(templates, function (viewTpl) {
 
                 var that = $(this);
 
+                var errorFn = function() {
+                    downloadIcon.attr("src", "img/download.png");
+                    MM.popErrorMessage(MM.lang.s("errordownloading"));
+                };
+
+                // Download all the page images, css, etc...
                 MM.plugins.contents.downloadAll(courseId, sectionId, contentId,
                     // Success.
                     function(paths) {
                         downloadIcon.remove();
-                        var path = paths[0].fullPath;
+                        var path = paths[0].filePath;
                         path = path.substring(0,path.lastIndexOf("/") + 1);
                         that.attr("data-path", path);
+
+                        var indexFile = MM.fs.getRoot() + "/" + path + "index.html";
+
+                        // Now, replace references.
+                        MM.fs.findFileAndReadContents(indexFile,
+                            function(contents) {
+                                contents = $(contents);
+                                contents.find('img').each(function() {
+                                    var src = $(this).attr("src");
+                                    src = MM.fs.normalizeFileName(src);
+                                    $(this).attr("src", src);
+                                });
+
+                                var content = contents.html();
+                                MM.fs.getFileAndWriteInIt(indexFile, content,
+                                    function() {
+                                        MM.plugins.page._showPage(indexFile);
+                                    },
+                                    errorFn
+                                );
+                            },
+                            errorFn
+                        );
                     },
                     // Error.
-                    function() {
-                        downloadIcon.attr("src", "img/download.png");
-                        MM.popErrorMessage(MM.lang.s("errordownloading"));
-                    }
+                    errorFn
                 );
             });
+        },
+
+        _showPage: function(path) {
+            var height= $(document).innerHeight() - 200;
+            var style = 'border: none; width: 100%; height: ' + height + 'px';
+            var iframe = '<iframe style="' + style + '" src="' + path + '">';
+            iframe += '</iframe>';
+
+            var options = {
+                width: "100%",
+                marginTop: "10px"
+            };
+            MM.widgets.dialog(iframe, options);
         },
 
         templates: {
