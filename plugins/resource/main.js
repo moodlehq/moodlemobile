@@ -1,14 +1,15 @@
 var templates = [
-    "root/externallib/text!root/plugins/page/view.html",
-    "root/externallib/text!root/plugins/page/dialog.html"
+    "root/externallib/text!root/plugins/resource/viewsingle.html",
+    "root/externallib/text!root/plugins/resource/viewmultiple.html",
+    "root/externallib/text!root/plugins/resource/dialog.html"
 ];
 
-define(templates, function (viewTpl, dialogTpl) {
+define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
     var plugin = {
         settings: {
-            name: "page",
+            name: "resource",
             type: "mod",
-            component: "mod_page",
+            component: "mod_resource",
             lang: {
                 component: "core"
             }
@@ -21,25 +22,28 @@ define(templates, function (viewTpl, dialogTpl) {
                 "section": section,
                 "module": module
             };
-
-            return MM.tpl.render(MM.plugins.page.templates.view.html, data);
+            if (module.contents.length > 1) {
+                return MM.tpl.render(MM.plugins.resource.templates.viewmultiple.html, data);
+            } else {
+                return MM.tpl.render(MM.plugins.resource.templates.viewsingle.html, data);
+            }
         },
 
         /**
-         * Callback executed when the contents page is rendered.
+         * Callback executed when the contents resource is rendered.
          */
         contentsPageRendered: function() {
 
-            $(".page-downloaded").on(MM.clickType, function(e) {
+            $(".resource-downloaded").on(MM.clickType, function(e) {
                 e.preventDefault();
                 var path = $(this).data("path");
                 path = path.substring(0, path.lastIndexOf("/") + 1) + "index.html";
                 path = MM.fs.getRoot() + "/" + path;
 
-                MM.plugins.page._showPage(path);
+                MM.plugins.resource._showresource(path);
             });
 
-            $(".page-download-all").on(MM.clickType, function(e) {
+            $(".resource-download-all").on(MM.clickType, function(e) {
                 e.preventDefault();
 
                 var contentId = $(this).data("content");
@@ -58,14 +62,14 @@ define(templates, function (viewTpl, dialogTpl) {
                     MM.popErrorMessage(MM.lang.s("errordownloading"));
                 };
 
-                // Download all the page images, css, etc...
+                // Download all the resource images, css, etc...
                 MM.plugins.contents.downloadAll(courseId, sectionId, contentId,
                     // Success.
                     function(paths) {
                         downloadIcon.remove();
                         var path = paths[0].filePath;
                         path = path.substring(0, path.lastIndexOf("/") + 1);
-                        $("#page-" + contentId).attr("data-path", path);
+                        that.attr("data-path", path);
 
                         var indexFile = path + "index.html";
                         var indexFileURL = MM.fs.getRoot() + "/" + path + "index.html";
@@ -83,17 +87,17 @@ define(templates, function (viewTpl, dialogTpl) {
                                 var content = contents.html();
                                 MM.fs.getFileAndWriteInIt(indexFile, content,
                                     function() {
-                                        MM.plugins.page._showPage(indexFileURL);
+                                        MM.plugins.resource._showresource(indexFileURL);
                                     },
                                     function() {
-                                        MM.plugins.page._showPage(indexFileURL);
-                                        MM.log("Error writting file " + indexFileURL, "Page");
+                                        MM.plugins.resource._showresource(indexFileURL);
+                                        MM.log("Error writting file " + indexFileURL, "resource");
                                     }
                                 );
                             },
                             function() {
-                                MM.plugins.page._showPage(indexFileURL);
-                                MM.log("Error reading file " + indexFileURL, "Page");
+                                MM.plugins.resource._showresource(indexFileURL);
+                                MM.log("Error reading file " + indexFileURL, "resource");
                             }
                         );
                     },
@@ -103,7 +107,7 @@ define(templates, function (viewTpl, dialogTpl) {
             });
         },
 
-        _showPage: function(path) {
+        _showResource: function(path) {
             var height= $(document).innerHeight() - 200;
             var style = 'border: none; width: 100%; height: ' + height + 'px';
             var iframe = '<iframe style="' + style + '" src="' + path + '">';
@@ -112,7 +116,7 @@ define(templates, function (viewTpl, dialogTpl) {
             var data = {
                 path: path
             };
-            var title = MM.tpl.render(MM.plugins.page.templates.dialog.html, data);
+            var title = MM.tpl.render(MM.plugins.resource.templates.dialog.html, data);
 
             var options = {
                 title: title,
@@ -129,8 +133,11 @@ define(templates, function (viewTpl, dialogTpl) {
         },
 
         templates: {
-            "view": {
-                html: viewTpl
+            "viewsingle": {
+                html: viewSingleTpl
+            },
+            "viewmultiple": {
+                html: viewMultipleTpl
             },
             "dialog": {
                 html: dialogTpl
