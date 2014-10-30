@@ -67,7 +67,8 @@ define(templates, function (viewTpl, dialogTpl) {
                         path = path.substring(0, path.lastIndexOf("/") + 1);
                         that.attr("data-path", path);
 
-                        var indexFile = MM.fs.getRoot() + "/" + path + "index.html";
+                        var indexFile = path + "index.html";
+                        var indexFileURL = MM.fs.getRoot() + "/" + path + "index.html";
 
                         // Now, replace references.
                         MM.fs.findFileAndReadContents(indexFile,
@@ -82,17 +83,17 @@ define(templates, function (viewTpl, dialogTpl) {
                                 var content = contents.html();
                                 MM.fs.getFileAndWriteInIt(indexFile, content,
                                     function() {
-                                        MM.plugins.page._showPage(indexFile);
+                                        MM.plugins.page._showPage(indexFileURL);
                                     },
                                     function() {
-                                        MM.plugins.page._showPage(indexFile);
-                                        MM.log("Error writting file " + indexFile, "Page");
+                                        MM.plugins.page._showPage(indexFileURL);
+                                        MM.log("Error writting file " + indexFileURL, "Page");
                                     }
                                 );
                             },
                             function() {
-                                MM.plugins.page._showPage(indexFile);
-                                MM.log("Error reading file " + indexFile, "Page");
+                                MM.plugins.page._showPage(indexFileURL);
+                                MM.log("Error reading file " + indexFileURL, "Page");
                             }
                         );
                     },
