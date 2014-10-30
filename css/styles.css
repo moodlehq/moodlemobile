@@ -857,6 +857,7 @@ hr {
   border-top: 1px solid #eee;
 }
 .path-mod-forum .post-info span {
+  display: inline-block;
   padding-left: 2px;
   padding-right: 2px;
 }
