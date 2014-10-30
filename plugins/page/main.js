@@ -31,7 +31,9 @@ define(templates, function (viewTpl) {
 
             $(".page-downloaded").on(MM.clickType, function(e) {
                 e.preventDefault();
-                var path = $(this).data("path") + "index.html";
+                var path = $(this).data("path");
+                path = path.substring(0, path.lastIndexOf("/") + 1) + "index.html";
+                path = MM.fs.getRoot() + "/" + path;
 
                 MM.plugins.page._showPage(path);
             });
@@ -61,7 +63,7 @@ define(templates, function (viewTpl) {
                     function(paths) {
                         downloadIcon.remove();
                         var path = paths[0].filePath;
-                        path = path.substring(0,path.lastIndexOf("/") + 1);
+                        path = path.substring(0, path.lastIndexOf("/") + 1);
                         that.attr("data-path", path);
 
                         var indexFile = MM.fs.getRoot() + "/" + path + "index.html";
@@ -81,7 +83,9 @@ define(templates, function (viewTpl) {
                                     function() {
                                         MM.plugins.page._showPage(indexFile);
                                     },
-                                    errorFn
+                                    function() {
+                                        MM.plugins.page._showPage(indexFile);
+                                    }
                                 );
                             },
                             errorFn
