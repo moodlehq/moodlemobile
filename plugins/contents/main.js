@@ -567,14 +567,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             }
             filename = filename.substr(filename.lastIndexOf("/") + 1);
 
-            // MOBILE-401, replace white spaces by "_"
-            filename = decodeURIComponent(filename);
-            filename = filename.replace(/\s/g, "_");
-
-            // iOs doesn't like names not encoded.
-            if (MM.deviceOS == 'ios') {
-                filename = encodeURIComponent(filename);
-            }
+            filename = MM.fs.normalizeFileName(filename);
 
             // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
             var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
@@ -630,7 +623,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         content.contents[path.index].localpath = path.filePath;
                         content.contents[path.index].downloadtime = path.downloadTime;
                     });
-                    console.log(content);
                     MM.db.insert("contents", content);
 
                     if (typeof successCallback == "function") {
