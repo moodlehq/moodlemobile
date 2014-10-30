@@ -139,13 +139,18 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             c = c.toJSON();
                             sections.modules[index2].mainExtension = c.mainExtension;
                             sections.modules[index2].webOnly = c.webOnly;
-                            if (c.contents && c.contents[0] && typeof(c.contents[0].localpath) != "undefined") {
-                                sections.modules[index2].contents[0].localpath = c.contents[0].localpath;
+
+                            if (c.contents) {
+                                $.each(c.contents, function (index5, filep) {
+                                    if (typeof(filep.localpath) != "undefined") {
+                                        sections.modules[index2].contents[index5].localpath = filep.localpath;
+                                    }
+                                });
                             }
 
                             if (!sections.modules[index2].webOnly) {
 
-                                if (content.modname != "folder") {
+                                if (c.contents.length == 1) {
                                     var cFile = c.contents[0];
                                     downloaded = typeof(cFile.localpath) != "undefined";
                                 } else {
@@ -328,7 +333,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
         },
 
-        downloadContentFile: function(courseId, sectionId, contentId, index, background) {
+        downloadContentFile: function(courseId, sectionId, contentId, index, background, successCallback, errorCallback) {
 
             background = background || false;
 
@@ -363,9 +368,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                     MM.moodleDownloadFile(downloadURL, path.file,
                         function(fullpath) {
-                            MM.log("Content: Download of content finished " + fullpath + " URL: " + downloadURL);
+                            MM.log("Content: Download of content finished " + fullpath + " URL: " + downloadURL + " Index: " +index + "Local path: " + path.file);
                             content.contents[index].localpath = path.file;
-                            content.contents[index].downloadtime = MM.util.timestamp();
+                            var downloadTime = MM.util.timestamp();
+                            content.contents[index].downloadtime = downloadTime;
+                            // Raise conditions may happen here. The callback functions handle that.
                             MM.db.insert("contents", content);
                             if ($(downCssId)) {
                                 $(downCssId).remove();
@@ -374,11 +381,17 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 // Android, open in new browser
                                 MM.handleFiles(linkCssId);
                             }
+                            if (typeof successCallback == "function") {
+                                successCallback(index, fullpath, path.file, downloadTime);
+                            }
                         },
                         function(fullpath) {
                             MM.log("Content: Error downloading " + fullpath + " URL: " + downloadURL);
                             if ($(downCssId)) {
                                 $(downCssId).attr("src", "img/download.png");
+                            }
+                            if (typeof errorCallback == "function") {
+                                errorCallback();
                             }
                          },
                          background
@@ -594,15 +607,50 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             return "img/mod/" + moduleName + ".png";
         },
 
-        downloadAll: function(courseId, sectionId, contentId) {
+        downloadAll: function(courseId, sectionId, contentId, successCallback, errorCallback) {
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
+
+            var filesToDownload = content.contents.length;
+            var paths = [];
+
+            var downloadedCallback = function(index, fullPath, filePath, downloadTime) {
+                filesToDownload--;
+                paths.push({
+                    index: index,
+                    fullPath: fullPath,
+                    filePath: filePath,
+                    downloadTime: downloadTime
+                });
+                if (!filesToDownload) {
+                    var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
+                    content = content.toJSON();
+
+                    _.each(paths, function(path) {
+                        content.contents[path.index].localpath = path.filePath;
+                        content.contents[path.index].downloadtime = path.downloadTime;
+                    });
+                    console.log(content);
+                    MM.db.insert("contents", content);
+
+                    if (typeof successCallback == "function") {
+                        successCallback(paths);
+                    }
+                }
+            };
+
+            var notDownloadedCallback = function() {
+                if (typeof errorCallback == "function") {
+                    errorCallback();
+                }
+            };
 
             if (content.contents) {
                 $.each(content.contents, function(index, file) {
                     setTimeout(function() {
                         // Do not download using background webworker.
-                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
+                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index,
+                                                                    false, downloadedCallback, notDownloadedCallback);
                     }, 500 * index);
                 });
             }
