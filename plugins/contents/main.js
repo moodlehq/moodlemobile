@@ -183,6 +183,14 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 });
                             }
 
+                            // Check file additions.
+                            for (indexEl in content.contents) {
+                                if (typeof c.contents[indexEl] == "undefined") {
+                                    updateContentInDB = true;
+                                    c.contents[indexEl] = content.contents[indexEl];
+                                }
+                            }
+
                             // Check if the content name has changed.
                             if (c.name != content.name) {
                                 c.name = content.name;
