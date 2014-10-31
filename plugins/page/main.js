@@ -69,35 +69,9 @@ define(templates, function (viewTpl, dialogTpl) {
                         link.attr("data-path", path);
                         link.removeClass("page-download-all").addClass("page-downloaded");
 
-                        var indexFile = path + "index.html";
                         var indexFileURL = MM.fs.getRoot() + "/" + path + "index.html";
 
-                        // Now, replace references.
-                        MM.fs.findFileAndReadContents(indexFile,
-                            function(contents) {
-                                contents = $(contents);
-                                contents.find('img').each(function() {
-                                    var src = $(this).attr("src");
-                                    src = MM.fs.normalizeFileName(src);
-                                    $(this).attr("src", src);
-                                });
-
-                                var content = contents.html();
-                                MM.fs.getFileAndWriteInIt(indexFile, content,
-                                    function() {
-                                        MM.plugins.page._showPage(indexFileURL);
-                                    },
-                                    function() {
-                                        MM.plugins.page._showPage(indexFileURL);
-                                        MM.log("Error writting file " + indexFileURL, "Page");
-                                    }
-                                );
-                            },
-                            function() {
-                                MM.plugins.page._showPage(indexFileURL);
-                                MM.log("Error reading file " + indexFileURL, "Page");
-                            }
-                        );
+                        MM.plugins.page._showPage(indexFileURL);
                     },
                     // Error.
                     errorFn

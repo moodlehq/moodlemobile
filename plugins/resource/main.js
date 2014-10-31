@@ -88,7 +88,6 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
                         var indexFile = path;
                         var indexFileURL = MM.fs.getRoot() + "/" + path;
 
-                        // TODO, recursively replace references.
                         MM.plugins.resource._showResource(indexFileURL);
                     },
                     // Error.
