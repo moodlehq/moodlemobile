@@ -333,16 +333,17 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     notice += MM.lang.s("confirmcontinuedownload");
 
                     MM.popConfirm(notice, function() {
-                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
+                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index, true);
                     });
                     return;
                 }
             }
-            MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index);
+            MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index, true);
         },
 
-        downloadContentFile: function(courseId, sectionId, contentId, index, background, successCallback, errorCallback) {
+        downloadContentFile: function(courseId, sectionId, contentId, index, open, background, successCallback, errorCallback) {
 
+            open = open || false;
             background = background || false;
 
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
@@ -388,6 +389,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 $(linkCssId).attr("rel", "external");
                                 // Android, open in new browser
                                 MM.handleFiles(linkCssId);
+                                if (open) {
+                                    $(linkCssId).trigger(MM.clickType);
+                                }
                             }
                             if (typeof successCallback == "function") {
                                 successCallback(index, fullpath, path.file, downloadTime);
@@ -649,7 +653,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 $.each(content.contents, function(index, file) {
                     setTimeout(function() {
                         // Do not download using background webworker.
-                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index,
+                        MM.plugins.contents.downloadContentFile(courseId, sectionId, contentId, index, false,
                                                                     false, downloadedCallback, notDownloadedCallback);
                     }, 500 * index);
                 });
