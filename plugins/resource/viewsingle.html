@@ -20,7 +20,7 @@
             <% } %>
 
             <div class="img app-ico">
-            <% if (!module.multiplefiles && typeof(module.mainExtension) != "undefined") { %>
+            <% if (typeof(module.mainExtension) != "undefined") { %>
                 <img src="img/files/<%= module.mainExtension %>-64.png" alt="img">
             <% } else { %>
                 <img src="img/mod/resource.png" alt="img">

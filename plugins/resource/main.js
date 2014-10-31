@@ -22,10 +22,17 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
                 "section": section,
                 "module": module
             };
-            if (module.contents.length > 1) {
-                return MM.tpl.render(MM.plugins.resource.templates.viewmultiple.html, data);
-            } else {
+
+            if (typeof module.contents[0] == "undefined") {
+                return "";
+            }
+
+            var extension = MM.util.getFileExtension(module.contents[0].filename);
+
+            if (module.contents.length == 1 || (extension != "html" && extension != "htm")) {
                 return MM.tpl.render(MM.plugins.resource.templates.viewsingle.html, data);
+            } else {
+                return MM.tpl.render(MM.plugins.resource.templates.viewmultiple.html, data);
             }
         },
 
