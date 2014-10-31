@@ -65,7 +65,9 @@ define(templates, function (viewTpl, dialogTpl) {
                         downloadIcon.remove();
                         var path = paths[0].filePath;
                         path = path.substring(0, path.lastIndexOf("/") + 1);
-                        $("#page-" + contentId).attr("data-path", path);
+                        var link = $("#page-" + contentId);
+                        link.attr("data-path", path);
+                        link.removeClass("page-download-all").addClass("page-downloaded");
 
                         var indexFile = path + "index.html";
                         var indexFileURL = MM.fs.getRoot() + "/" + path + "index.html";

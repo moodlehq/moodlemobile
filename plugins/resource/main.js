@@ -37,10 +37,9 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
             $(".resource-downloaded").on(MM.clickType, function(e) {
                 e.preventDefault();
                 var path = $(this).data("path");
-                path = path.substring(0, path.lastIndexOf("/") + 1) + "index.html";
                 path = MM.fs.getRoot() + "/" + path;
 
-                MM.plugins.resource._showresource(path);
+                MM.plugins.resource._showResource(path);
             });
 
             $(".resource-download-all").on(MM.clickType, function(e) {
@@ -67,39 +66,23 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
                     // Success.
                     function(paths) {
                         downloadIcon.remove();
-                        var path = paths[0].filePath;
-                        path = path.substring(0, path.lastIndexOf("/") + 1);
-                        that.attr("data-path", path);
+                        var path;
 
-                        var indexFile = path + "index.html";
-                        var indexFileURL = MM.fs.getRoot() + "/" + path + "index.html";
-
-                        // Now, replace references.
-                        MM.fs.findFileAndReadContents(indexFile,
-                            function(contents) {
-                                contents = $(contents);
-                                contents.find('img').each(function() {
-                                    var src = $(this).attr("src");
-                                    src = MM.fs.normalizeFileName(src);
-                                    $(this).attr("src", src);
-                                });
-
-                                var content = contents.html();
-                                MM.fs.getFileAndWriteInIt(indexFile, content,
-                                    function() {
-                                        MM.plugins.resource._showresource(indexFileURL);
-                                    },
-                                    function() {
-                                        MM.plugins.resource._showresource(indexFileURL);
-                                        MM.log("Error writting file " + indexFileURL, "resource");
-                                    }
-                                );
-                            },
-                            function() {
-                                MM.plugins.resource._showresource(indexFileURL);
-                                MM.log("Error reading file " + indexFileURL, "resource");
+                        _.each(paths, function(p) {
+                            if (p.index == 0) {
+                                path = p.filePath;
                             }
-                        );
+                        });
+
+                        var link = $("#resource-" + contentId);
+                        link.attr("data-path", path);
+                        link.removeClass("resource-download-all").addClass("resource-downloaded");
+
+                        var indexFile = path;
+                        var indexFileURL = MM.fs.getRoot() + "/" + path;
+
+                        // TODO, recursively replace references.
+                        MM.plugins.resource._showResource(indexFileURL);
                     },
                     // Error.
                     errorFn
