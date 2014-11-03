@@ -3,17 +3,14 @@
             <input type="search" results="5" placeholder="Search...">
         </form>-->
         <ul class="nav nav-v">
-            <% _.each(users, function(user) { %>
-            <li class="nav-item">
-                <a href="#participant/<%= courseId %>/<%= user.id %>" class="media touch-row">
-                    <div class="img">
-                        <img src="<%= MM.util.getMoodleFilePath(user.profileimageurlsmall) %>" alt="img">
-                    </div>
-                    <div class="bd">
-                      <p><%= user.fullname %></p>
-                    </div>
-                </a>
-            </li>
-            <% }); %>
+            <%= MM.tpl.render(MM.plugins.participants.templates.participantsRow.html, {"courseId": courseId, "users": users}) %>
+        </ul>
+        <ul id="participants-additional" class="nav nav-v">
+
         </ul>
     </section>
+    <% if (showMore) { %>
+    <div class="centered">
+        <button id="participants-showmore"><%= MM.lang.s("showmore") %></button>
+    </div>
+    <% } %>

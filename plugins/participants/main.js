@@ -1,9 +1,10 @@
 var templates = [
     "root/externallib/text!root/plugins/participants/participants.html",
-    "root/externallib/text!root/plugins/participants/participant.html"
+    "root/externallib/text!root/plugins/participants/participant.html",
+    "root/externallib/text!root/plugins/participants/participants_row.html"
 ];
 
-define(templates,function (participantsTpl, participantTpl) {
+define(templates,function (participantsTpl, participantTpl, participantsRowTpl) {
     var plugin = {
         settings: {
             name: "participants",
@@ -25,6 +26,7 @@ define(templates,function (participantsTpl, participantTpl) {
             ["participant/:courseId/:userId", "participants", "showParticipant"],
         ],
 
+        limitNumber: 100,
 
         showParticipants: function(courseId) {
             MM.panels.showLoading('center');
@@ -35,32 +37,86 @@ define(templates,function (participantsTpl, participantTpl) {
             // Adding loading icon.
             $('a[href="#participants/' +courseId+ '"]').addClass('loading-row');
 
+            MM.plugins.participants._loadParticipants(courseId, 0, MM.plugins.participants.limitNumber,
+                function(users) {
+                    // Removing loading icon.
+                    $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
+
+                    var showMore = true;
+                    if (users.length < MM.plugins.participants.limitNumber) {
+                        showMore = false;
+                    }
+
+                    MM.plugins.participants.nextLimitFrom = MM.plugins.participants.limitNumber;
+
+                    var tpl = {
+                        users: users,
+                        deviceType: MM.deviceType,
+                        courseId: courseId,
+                        showMore: showMore
+                    };
+                    var html = MM.tpl.render(MM.plugins.participants.templates.participants.html, tpl);
+
+                    var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+                    var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+
+                    MM.panels.show('center', html, {title: pageTitle});
+                    // Load the first user
+                    if (MM.deviceType == "tablet" && users.length > 0) {
+                        $("#panel-center li:eq(0)").addClass("selected-row");
+                        MM.plugins.participants.showParticipant(courseId, users.shift().id);
+                        $("#panel-center li:eq(0)").addClass("selected-row");
+                    }
+
+                    // Show more button.
+                    $("#participants-showmore").on(MM.clickType, function(e) {
+                        var that = $(this);
+                        $(this).addClass("loading-row-black");
+
+                        MM.plugins.participants._loadParticipants(
+                            courseId,
+                            MM.plugins.participants.nextLimitFrom,
+                            MM.plugins.participants.limitNumber,
+                            function(users) {
+                                that.removeClass("loading-row-black");
+                                MM.plugins.participants.nextLimitFrom += MM.plugins.participants.limitNumber;
+
+                                var tpl = {courseId: courseId, users: users};
+                                var newUsers = MM.tpl.render(MM.plugins.participants.templates.participantsRow.html, tpl);
+                                $("#participants-additional").append(newUsers);
+                                if (users.length < MM.plugins.participants.limitNumber) {
+                                    that.css("display", "none");
+                                }
+                            },
+                            function() {
+                                that.removeClass("loading-row-black");
+                            }
+                        );
+                    });
+
+                }, function(m) {
+                    // Removing loading icon.
+                    $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
+                    if (typeof(m) !== "undefined" && m) {
+                        MM.popErrorMessage(m);
+                    }
+                }
+            );
+        },
+
+        _loadParticipants: function(courseId, limitFrom, limitNumber, successCallback, errorCallback) {
             var data = {
-                "courseid" : courseId
+                "courseid" : courseId,
+                "options[0][name]" : "limitfrom",
+                "options[0][value]": limitFrom,
+                "options[1][name]" : "limitnumber",
+                "options[1][value]": limitNumber,
             };
 
             MM.moodleWSCall('moodle_user_get_users_by_courseid', data, function(users) {
-                // Removing loading icon.
-                $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
-                var tpl = {users: users, deviceType: MM.deviceType, courseId: courseId};
-                var html = MM.tpl.render(MM.plugins.participants.templates.participants.html, tpl);
-
-                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
-                var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
-
-                MM.panels.show('center', html, {title: pageTitle});
-                // Load the first user
-                if (MM.deviceType == "tablet" && users.length > 0) {
-                    $("#panel-center li:eq(0)").addClass("selected-row");
-                    MM.plugins.participants.showParticipant(courseId, users.shift().id);
-                    $("#panel-center li:eq(0)").addClass("selected-row");
-                }
+                successCallback(users);
             }, null, function(m) {
-                // Removing loading icon.
-                $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
-                if (typeof(m) !== "undefined" && m) {
-                    MM.popErrorMessage(m);
-                }
+                errorCallback(m);
             });
         },
 
@@ -68,7 +124,7 @@ define(templates,function (participantsTpl, participantTpl) {
             var data = {
                 "userlist[0][userid]": userId,
                 "userlist[0][courseid]": courseId
-            }
+            };
             MM.moodleWSCall('moodle_user_get_course_participants_by_id', data, function(users) {
                 // Load the active user plugins.
 
@@ -104,6 +160,9 @@ define(templates,function (participantsTpl, participantTpl) {
             },
             "participants": {
                 html: participantsTpl
+            },
+            "participantsRow": {
+                html: participantsRowTpl
             }
         }
     }
