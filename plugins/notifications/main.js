@@ -601,7 +601,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                     });
 
                     // Show the notification.
-                    if (typeof e.foreground != "undefined" && !parseInt(e.foreground, 10)) {
+                    if (typeof e.foreground != "undefined" && !e.foreground) {
                         setTimeout(function() {
                             if (notificationSiteId &&
                                 typeof MM.config.current_site != "undefined" &&
@@ -640,6 +640,11 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
         APNSsaveAndDisplay: function(event) {
 
             MM.log("Push notification received", "Notifications");
+            try {
+                MM.log(JSON.stringify(e), "Notifications");
+            } catch(err) {
+                MM.log("Error decoding content", "Notifications");
+            }
 
             var notificationSiteId = 0;
 
@@ -684,7 +689,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             });
 
             // Show the notification.
-            if (typeof e.foreground != "undefined" && !parseInt(e.foreground, 10)) {
+            if (typeof e.foreground != "undefined" && !e.foreground) {
                 setTimeout(function() {
                     if (notificationSiteId &&
                         typeof MM.config.current_site != "undefined" &&
