@@ -390,7 +390,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 // Android, open in new browser
                                 MM.handleFiles(linkCssId);
                                 if (open) {
-                                    $(linkCssId).trigger(MM.clickType);
+                                    MM._openFile(fullpath);
                                 }
                             }
                             if (typeof successCallback == "function") {

@@ -7,7 +7,7 @@
     <% } %>
     <div class="attachment media">
         <div class="content-actions app-icon">
-            <img id="downimg-<%= attachment.id %>" src="img/<%= dImg %>.png" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
+            <img id="downimg-<%= attachment.id %>" src="img/<%= dImg %>.png" class="forum-download" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
         </div>
         <div class="content-name">
             <div class="img app-ico">
@@ -15,7 +15,7 @@
             </div>
             <div class="bd">
                 <% if (!attachment.localpath) { %>
-                <a id="attachment-<%= attachment.id %>" href="#" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
+                <a id="attachment-<%= attachment.id %>" class="forum-download" href="#" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
                     <%= attachment.filename %>
                 </a>
                 <% } else { %>

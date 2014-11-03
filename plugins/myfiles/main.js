@@ -236,6 +236,7 @@ define(templates, function (filesTpl) {
                                 $(linkCssId).attr("rel", "external");
                                 // Android, open in new browser
                                 MM.handleFiles(linkCssId);
+                                MM._openFile(fullpath);
                             },
                             function(fullpath) {
                                 $(downCssId).remove();
