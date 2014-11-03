@@ -554,7 +554,6 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
 
                 case 'message':
                     MM.log("Push notification message received", "Notifications");
-
                     var notificationSiteId = 0;
 
                     // We display the message whatever the site we are.
@@ -594,6 +593,19 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                         alert: e.payload.alert,
                         notification: e.payload
                     });
+
+                    // Show the notification.
+                    if (typeof e.foreground != "undefined" && !parseInt(e.foreground, 10)) {
+                        setTimeout(function() {
+                            if (notificationSiteId &&
+                                typeof MM.config.current_site != "undefined" &&
+                                MM.config.current_site.id == notificationSiteId) {
+
+                                location.href = "#notifications";
+
+                            }
+                        }, 2000);
+                    }
 
                     break;
 
@@ -665,6 +677,18 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 notification: event
             });
 
+            // Show the notification.
+            if (typeof e.foreground != "undefined" && !parseInt(e.foreground, 10)) {
+                setTimeout(function() {
+                    if (notificationSiteId &&
+                        typeof MM.config.current_site != "undefined" &&
+                        MM.config.current_site.id == notificationSiteId) {
+
+                        location.href = "#notifications";
+
+                    }
+                }, 2000);
+            }
         }
     };
 
