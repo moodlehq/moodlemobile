@@ -641,7 +641,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
 
             MM.log("Push notification received", "Notifications");
             try {
-                MM.log(JSON.stringify(e), "Notifications");
+                MM.log(JSON.stringify(event), "Notifications");
             } catch(err) {
                 MM.log("Error decoding content", "Notifications");
             }
@@ -689,7 +689,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             });
 
             // Show the notification.
-            if (typeof e.foreground != "undefined" && !e.foreground) {
+            if (typeof event.foreground != "undefined" && !event.foreground) {
                 setTimeout(function() {
                     if (notificationSiteId &&
                         typeof MM.config.current_site != "undefined" &&
