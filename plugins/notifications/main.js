@@ -554,6 +554,12 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
 
                 case 'message':
                     MM.log("Push notification message received", "Notifications");
+                    try {
+                        MM.log(JSON.stringify(e), "Notifications");
+                    } catch(err) {
+                        MM.log("Error decoding content", "Notifications");
+                    }
+
                     var notificationSiteId = 0;
 
                     // We display the message whatever the site we are.
