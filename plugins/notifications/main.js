@@ -689,7 +689,11 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             });
 
             // Show the notification.
-            if (typeof event.foreground != "undefined" && !event.foreground) {
+            if (typeof event.foreground != "undefined" &&
+                    (event.foreground === false ||
+                    event.foreground === "0" ||
+                    event.foreground === 0)) {
+
                 setTimeout(function() {
                     if (notificationSiteId &&
                         typeof MM.config.current_site != "undefined" &&
