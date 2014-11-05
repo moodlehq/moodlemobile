@@ -601,14 +601,29 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                     });
 
                     // Show the notification.
-                    if (typeof e.foreground != "undefined" && !e.foreground) {
+                    if (typeof e.foreground != "undefined" &&
+                            (e.foreground === false ||
+                            e.foreground === "0" ||
+                            e.foreground === 0)) {
+
                         setTimeout(function() {
                             if (notificationSiteId &&
                                 typeof MM.config.current_site != "undefined" &&
                                 MM.config.current_site.id == notificationSiteId) {
 
-                                location.href = "#notifications";
+                                if (typeof e.payload.notif != "undefined") {
+                                    if (e.payload.notif === "1" ||
+                                        e.payload.notif === 1 ||
+                                        e.payload.notif === true) {
 
+                                        location.href = "#notifications";
+                                    } else {
+                                        location.href = "#messages";
+                                    }
+
+                                } else {
+                                    location.href = "#notifications";
+                                }
                             }
                         }, 2000);
                     }
@@ -699,8 +714,19 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                         typeof MM.config.current_site != "undefined" &&
                         MM.config.current_site.id == notificationSiteId) {
 
-                        location.href = "#notifications";
+                        if (typeof event.notif != "undefined") {
+                            if (event.notif === "1" ||
+                                event.notif === 1 ||
+                                event.notif === true) {
 
+                                location.href = "#notifications";
+                            } else {
+                                location.href = "#messages";
+                            }
+
+                        } else {
+                            location.href = "#notifications";
+                        }
                     }
                 }, 2000);
             }
