@@ -6,13 +6,18 @@
         <p class="name"><%= notification.userfromfullname %> <span class="time"><%= MM.util.timestampToUserDate(notification.timecreated) %></span></p>
         <% if (notification.notification) { %>
         <p class="message"><%= MM.plugins.notifications._format(notification.fullmessage) %></p>
+        <div class="actions">
+            &nbsp;
+        </div>
         <% } else { %>
         <p class="message"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>
+
+        <div class="actions">
             <% if (notification.useridfrom) { %>
-            <div class="actions">
-                <a class="reply-button" data-useridfrom="<%= notification.useridfrom %>">Reply</a>
-            </div>
-             <% } %>
+            <a class="reply-button" data-useridfrom="<%= notification.useridfrom %>">Reply</a>
+            <% } %>
+        </div>
+
         <% } %>
     </div>
     <% }); %>

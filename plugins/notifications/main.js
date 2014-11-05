@@ -233,7 +233,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 var params = {
                     useridto: MM.config.current_site.userid,
                     useridfrom: 0,
-                    type: 'both',
+                    type: 'notifications',
                     read: 0,
                     newestfirst: 1,
                     limitfrom: 0,
