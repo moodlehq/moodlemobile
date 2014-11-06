@@ -916,7 +916,7 @@ hr {
   }
   .attachments {
     .attachment {
-      padding-top: 10px; 
+      padding-top: 10px;
     }
     .content-name {
       a {
@@ -1562,5 +1562,93 @@ div.jqi {
     .percentage {
       text-align: right;
     }
+  }
+}
+
+/* - User grades table
+-------------------------------------------------------------------------- */
+table.user-grade {
+  width: 95%;
+  margin: auto;
+}
+
+.user-grade {
+  .hidden,
+  .hidden a {
+    color:#aaaaaa;
+  }
+  td {
+    margin: 1px;
+    padding: 0.25em;
+    vertical-align: top;
+    padding-left: 2px;
+  }
+  th {
+    padding-left: 2px;
+  }
+  thead {
+    border-bottom: 3px double black;
+    th {
+      padding: 0.25em 0.75em;
+    }
+  }
+  tbody th {
+    text-align:left;
+  }
+  td.oddd1,
+  th.oddd1 {background-color: #FAFAFA;}
+  td.oddd2,
+  th.oddd2 {background-color: #F4F4F4;}
+  td.oddd3,
+  th.oddd3 {background-color: #F1F1F1;}
+  td.oddd4,
+  th.oddd4 {background-color: #F6F6F6;}
+  td.evend2,
+  th.evend2 {background-color: #F1F1F1;}
+  td.evend3,
+  th.evend3 {background-color: #F4F4F4;}
+  td.evend4,
+  th.evend4 {background-color: #FAFAFA;}
+  td.b1t,
+  td.b2t,
+  th.b1t,
+  th.b2t {border-top: 2px solid black;}
+  td.b1r,
+  td.b2r,
+  th.b1r,
+  th.b2r {border-right: 2px solid black;}
+  td.b1b,
+  td.b2b,
+  th.b1b,
+  th.b2b {border-bottom: 2px solid black;}
+  td.b1l,
+  td.b2l,
+  th.b1l,
+  th.b2l {border-left: 2px solid black;}
+  td.baggt,
+  td.baggb,
+  th.baggt,
+  th.baggb {font-style: italic;font-weight: bold;}
+  td.baggt,
+  th.baggt {border-top: 3px double black;}
+  td.baggb,
+  th.baggb {border-bottom: 3px double black;}
+  td.item,
+  th.item {border-left: 1px solid gray;border-right: 1px solid gray}
+
+  td {
+    .excluded {
+      background-color: #666;
+      }
+    .hidden {
+      color: #aaa;
+    }
+    .feedbacktext {
+      max-width:600px;
+      padding:2px 2px;
+    }
+  }
+  .feedbacktext .no-overflow {
+    overflow:auto;padding:0.25em;
   }
 }

@@ -130,8 +130,16 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
 
             var html = "";
 
-            if (returnedColumns.length > 0) {
-                html = '<table class="user-grade boxaligncenter generaltable user-grade">';
+            var returnedColumnsLenght = returnedColumns.length;
+
+            if (returnedColumnsLenght > 0) {
+
+                // Reduce the returned columns for phone version.
+                if (MM.deviceType == "phone") {
+                    returnedColumns = ["itemname", "grade"];
+                }
+
+                html = '<table cellspacing="0" cellpadding="0" class="user-grade boxaligncenter generaltable user-grade">';
                 html += '<thead>';
 
                 var colName, extra;
@@ -150,7 +158,7 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
 
                 html += '</thead><tbody>';
 
-                var name, rowspan, tclass, colspan, content, celltype, id, headers,j;
+                var name, rowspan, tclass, colspan, content, celltype, id, headers,j, img, colspanVal;
 
                 var len = tabledata.length;
                 for (var i = 0; i < len; i++) {
@@ -172,6 +180,10 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
                             headers = (typeof(tabledata[i][name]['headers']) != "undefined")? "headers='" + tabledata[i][name]['headers'] + "'" : '';
 
                             if (typeof(content) != "undefined") {
+                                img = MM.plugins.grades._findImage(content);
+                                content = MM.util.cleanTags(content);
+                                content = img + " " + content;
+
                                 html += "<" + celltype + " " + id + " " + headers + " " + "class='"+ tclass +"' " + colspan +">";
                                 html += content;
                                 html += "</" + celltype + ">\n";
@@ -420,6 +432,22 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
                 }
             );
 
+        },
+
+        _findImage: function(text) {
+            var img = "";
+
+            if (text.indexOf("/outcomes") > -1) {
+                img = '<img src="img/grades/outcomes.png" width="16">';
+            } else if (text.indexOf("/manual_item") > -1) {
+                img = '<img src="img/grades/manual_item.png" width="16">';
+            } else if (text.indexOf("/mod/") > -1) {
+                var module = text.match(/mod\/([^\/]*)\//);
+                if (typeof module[1] != "undefined") {
+                    img = '<img src="img/mod/' + module[1] + '.png" width="16">';
+                }
+            }
+            return img;
         },
 
         templates: {
