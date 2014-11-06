@@ -121,6 +121,9 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
         },
 
         showParticipant: function(courseId, userId) {
+            var menuEl = 'a[href="#participant/' + courseId + '/' + userId + '"]';
+            $(menuEl, '#panel-center').addClass('loading-row-black');
+
             var data = {
                 "userlist[0][userid]": userId,
                 "userlist[0][courseid]": courseId
@@ -148,6 +151,8 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                 var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
                 newUser.id = MM.config.current_site.id + "-" + newUser.id;
                 MM.db.insert("users", newUser);
+
+                $(menuEl, '#panel-center').removeClass('loading-row-black');
                 MM.panels.show('right', html, {title: pageTitle});
             });
         },
