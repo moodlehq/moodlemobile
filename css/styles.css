@@ -1504,20 +1504,8 @@ table.user-grade {
 .user-grade th.baggb {
   border-bottom: 2px double black;
 }
-.user-grade td.item,
-.user-grade th.item {
-  border-left: 1px solid gray;
-  border-right: 1px solid #808080;
-}
-.user-grade td .excluded {
-  background-color: #666;
-}
-.user-grade td .hidden {
-  color: #aaa;
-}
-.user-grade td .feedbacktext {
-  max-width: 600px;
-  padding: 2px 2px;
+.user-grade .itemcenter {
+  text-align: center;
 }
 .user-grade .feedbacktext .no-overflow {
   overflow: auto;
