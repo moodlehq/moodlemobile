@@ -1481,19 +1481,13 @@ table.user-grade {
 .user-grade td.b2r,
 .user-grade th.b1r,
 .user-grade th.b2r {
-  border-right: 2px solid black;
+  border-right: 1px solid black;
 }
 .user-grade td.b1b,
 .user-grade td.b2b,
 .user-grade th.b1b,
 .user-grade th.b2b {
-  border-bottom: 2px solid black;
-}
-.user-grade td.b1l,
-.user-grade td.b2l,
-.user-grade th.b1l,
-.user-grade th.b2l {
-  border-left: 2px solid black;
+  border-bottom: 1px solid black;
 }
 .user-grade td.baggt,
 .user-grade td.baggb,
@@ -1504,11 +1498,11 @@ table.user-grade {
 }
 .user-grade td.baggt,
 .user-grade th.baggt {
-  border-top: 3px double black;
+  border-top: 2px double black;
 }
 .user-grade td.baggb,
 .user-grade th.baggb {
-  border-bottom: 3px double black;
+  border-bottom: 2px double black;
 }
 .user-grade td.item,
 .user-grade th.item {
