@@ -246,6 +246,7 @@ hr {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   /* Disable selection/Copy of UIWebView */
+
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -1417,9 +1418,11 @@ div.jqi button.jqidefaultbutton {
 }
 /* - User grades table
 -------------------------------------------------------------------------- */
-table.user-grade {
-  width: 95%;
-  margin: auto;
+.user-grade {
+  border-collapse: collapse;
+  line-height: 20px;
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
 }
 .user-grade .hidden,
 .user-grade .hidden a {
@@ -1427,21 +1430,20 @@ table.user-grade {
 }
 .user-grade td {
   margin: 1px;
-  padding: 0.25em;
+  padding: 10px;
   vertical-align: top;
   padding-left: 2px;
 }
 .user-grade th {
-  padding-left: 2px;
-}
-.user-grade thead {
-  border-bottom: 3px double black;
+  padding: 10px;
 }
 .user-grade thead th {
-  padding: 0.25em 0.75em;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 .user-grade tbody th {
   text-align: left;
+  font-weight: normal;
 }
 .user-grade td.oddd1,
 .user-grade th.oddd1 {
@@ -1475,34 +1477,33 @@ table.user-grade {
 .user-grade td.b2t,
 .user-grade th.b1t,
 .user-grade th.b2t {
-  border-top: 2px solid black;
+  border-top: 2px solid #eee;
 }
 .user-grade td.b1r,
 .user-grade td.b2r,
 .user-grade th.b1r,
 .user-grade th.b2r {
-  border-right: 1px solid black;
+  border-right: 1px solid #eee;
 }
 .user-grade td.b1b,
 .user-grade td.b2b,
 .user-grade th.b1b,
 .user-grade th.b2b {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #eee;
 }
 .user-grade td.baggt,
 .user-grade td.baggb,
 .user-grade th.baggt,
 .user-grade th.baggb {
   font-style: italic;
-  font-weight: bold;
 }
 .user-grade td.baggt,
 .user-grade th.baggt {
-  border-top: 2px double black;
+  border-top: 2px solid #eee;
 }
 .user-grade td.baggb,
 .user-grade th.baggb {
-  border-bottom: 2px double black;
+  border-bottom: 2px solid #eee;
 }
 .user-grade .itemcenter {
   text-align: center;
