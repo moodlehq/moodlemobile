@@ -181,7 +181,9 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
 
                             if (typeof(content) != "undefined") {
                                 img = MM.plugins.grades._findImage(content);
+                                content = content.replace(/<\/span>/gi, "\n");
                                 content = MM.util.cleanTags(content);
+                                content = content.replace("\n", "<br />");
                                 content = img + " " + content;
 
                                 html += "<" + celltype + " " + id + " " + headers + " " + "class='"+ tclass +"' " + colspan +">";
