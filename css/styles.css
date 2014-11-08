@@ -246,7 +246,6 @@ hr {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   /* Disable selection/Copy of UIWebView */
-
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -1225,6 +1224,9 @@ hr {
   -webkit-border-radius: 10px 10px 0 0;
   -moz-border-radius: 10px 10px 0 0;
   border-radius: 10px 10px 0 0;
+}
+#app-dialog .modalHeader a {
+  color: #FFFFFF;
 }
 #app-dialog .modalContent {
   padding: 20px;
