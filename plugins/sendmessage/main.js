@@ -65,6 +65,11 @@ define(function () {
             ';
 
             MM.widgets.dialog(html, options);
+            // Display keyboard.
+            setTimeout(function() {
+                $('#sendmessagetext').focus();
+                MM.util.showKeyboard();
+            }, 300);
         },
 
         sendMessage: function(courseId, userId) {
