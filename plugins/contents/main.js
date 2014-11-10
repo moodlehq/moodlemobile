@@ -149,18 +149,19 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             }
 
                             if (!sections.modules[index2].webOnly) {
-
-                                if (c.contents.length == 1) {
-                                    var cFile = c.contents[0];
-                                    downloaded = typeof(cFile.localpath) != "undefined";
-                                } else {
-                                    downloaded = true;
-                                    if (c.contents) {
-                                        $.each(c.contents, function (index5, filep) {
-                                            if (typeof(filep.localpath) == "undefined") {
-                                                downloaded = false;
-                                            }
-                                        });
+                                if (c.contents) {
+                                    if (c.contents.length == 1) {
+                                        var cFile = c.contents[0];
+                                        downloaded = typeof(cFile.localpath) != "undefined";
+                                    } else {
+                                        downloaded = true;
+                                        if (c.contents) {
+                                            $.each(c.contents, function (index5, filep) {
+                                                if (typeof(filep.localpath) == "undefined") {
+                                                    downloaded = false;
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                                 sections.modules[index2].downloaded = downloaded;
@@ -615,6 +616,13 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         downloadAll: function(courseId, sectionId, contentId, successCallback, errorCallback) {
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
+
+            if (!content.contents) {
+                if (typeof errorCallback == "function") {
+                    errorCallback();
+                }
+                return;
+            }
 
             var filesToDownload = content.contents.length;
             var paths = [];
