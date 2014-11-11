@@ -609,6 +609,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                         setTimeout(function() {
                             if (notificationSiteId &&
                                 typeof MM.config.current_site != "undefined" &&
+                                typeof MM.config.current_site.id != "undefined" &&
                                 MM.config.current_site.id == notificationSiteId) {
 
                                 if (typeof e.payload.notif != "undefined") {
@@ -712,6 +713,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 setTimeout(function() {
                     if (notificationSiteId &&
                         typeof MM.config.current_site != "undefined" &&
+                        typeof MM.config.current_site.id != "undefined" &&
                         MM.config.current_site.id == notificationSiteId) {
 
                         if (typeof event.notif != "undefined") {
