@@ -1,5 +1,8 @@
-<div class="back-row">
-    <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+<div class="back-row app-ico">
+    <a onclick="window.history.back();">
+        <span class="ico-back"></span>
+        <img src="img/back.png">
+    </a>
 </div>
 
 <div class="content-index">
@@ -20,7 +23,11 @@
             </div>
 
             <div class="post-info">
-                <span><img src="img/discussion.png"><%= forum.numdiscussions %> <%= MM.lang.s("discussions") %></span>
+                <span class="app-ico">
+                    <span class="ico-discussion"></span>
+                    <img src="img/discussion.png">
+                    <%= forum.numdiscussions %> <%= MM.lang.s("discussions") %>
+                </span>
 
                 <% if (!discussions || discussions.length == 0) { %>
                     <div class="forum-empty">
@@ -52,11 +59,17 @@
 
                 </div>
                 <div class="post-info">
-                    <span>
-                        <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
+                    <span class="app-ico">
+                        <span class="ico-reply"></span>
+                        <img src="img/reply.png">
+                        <%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
                     </span>
                     <% if (discussion.created != discussion.timemodified && discussion.timemodified > discussion.created) { %>
-                    <span><img src="img/time.png"><%= MM.util.printTimeAgo(discussion.timemodified) %></span>
+                    <span class="app-ico">
+                        <span class="ico-time"></span>
+                        <img src="img/time.png">
+                        <%= MM.util.printTimeAgo(discussion.timemodified) %>
+                    </span>
                     <% } %>
                 </div>
             </div>

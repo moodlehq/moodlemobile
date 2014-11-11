@@ -2,7 +2,13 @@
     <%= MM.util.formatText(discussion.message) %>
     <%= MM.plugins.forum._printAttachments(discussion) %>
 </div>
-<p class="counter" role="heading"><img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %></p>
+<div class="post-info">
+    <span class="app-ico" role="heading">
+        <span class="ico-reply"></span>
+        <img src="img/reply.png">
+        <%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
+    </span>
+</div>
 <div class="indent">
     <% _.each(posts, function(post) { %>
     <% if (post.id == discussion.id) return; %>
