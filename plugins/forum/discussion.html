@@ -21,8 +21,9 @@
                     <%= MM.plugins.forum._printAttachments(discussion) %>
                 </div>
                 <p class="post-info" role="heading">
-                    <span>
-                        <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
+                    <span class="app-ico" role="heading">
+                        <span class="ico-reply"></span>
+                        <img src="img/reply.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
                     </span>
                     <% if (discussion.created != discussion.timemodified && discussion.timemodified > discussion.created) { %>
                         <span>
@@ -40,7 +41,7 @@
                             <time><%= MM.util.timestampToUserDate(post.modified) %></time>
                         </div>
                         <p class="subject"><%= MM.util.formatText(post.subject) %></p>
-                        <div class="content">
+                        <div class="content" style="display: none">
                             <%= MM.util.formatText(post.message) %>
                             <%= MM.plugins.forum._printAttachments(post) %>
                         </div>
@@ -50,6 +51,7 @@
                 </div>
 
             </div>
+
         </div>
     </div>
 </div>

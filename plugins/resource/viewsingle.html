@@ -4,12 +4,20 @@
             <% if (!module.downloaded) { %>
                 <% downloadIcon = "download"; %>
             <% } else  { %>
-                <% downloadIcon = "reloadgrey"; %>
+                <% downloadIcon = "reload"; %>
             <% } %>
 
-            <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/<%= downloadIcon %>.png" border="0" id="download-<%= module.contentid %>" width="16" height="16"></a>&nbsp;
+            <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>">
+                <span id="download-<%= module.contentid %>">
+                    <span class="ico-<%= downloadIcon %>"></span>
+                    <img src="img/<%= downloadIcon %>.png" border="0">
+                </span>
+            </a>&nbsp;
 
-            <img src="img/info.png" border="0" id="info-<%= module.contentid %>" class="content-info" data-course="<%= courseId %>" data-section="<%= sectionId %>" data-content="<%= module.contentid %>">
+            <span id="info-<%= module.contentid %>" class="content-info" data-course="<%= courseId %>" data-section="<%= sectionId %>" data-content="<%= module.contentid %>">
+                <span class="ico-info"></span>
+                <img src="img/info.png" border="0">
+            </span>
         </div>
 
         <div class="content-name mod-resource">
