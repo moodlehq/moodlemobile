@@ -1530,8 +1530,7 @@ div.jqi button.jqidefaultbutton {
 }
 /* Font Icon
 --------------------------------------------------------*/
-.app-ico [class^="ico-"],
-.app-ico [class*=" ico-"] {
+.app-ico img {
   display: none;
 }
 @font-face {
