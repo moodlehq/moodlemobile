@@ -11,13 +11,19 @@
 
 @menuSectionHeadingColor:               @menuTextColor;
 @menuSectionHeadingTextShadow:          @menuTextShadow;
+
 @menuSectionHeadingBackground:          transparent;
 @menuSectionHeadingBoxShadow:           0 20px 40px -10px rgba(0, 0, 0, 0.1) inset;
 
+@menuIconColor:                         @menuTextColor;
 @menuIconBackground:                    transparent;
 
 @menuHeaderTextColor:                   @menuTextColor;
 @menuHeaderTextShadow:                  @menuTextShadow;
+
+@menuHeaderIconColor:                   @menuTextColor;
+@menuHeaderIconShadow:                  @menuTextShadow;
+
 @menuHeaderBackground:                  @themeColor;
 @menuHeaderBorder:                      1px solid rgba(0, 0, 0, 0.1);
 @menuHeaderBoxShadow:                   none;
@@ -36,20 +42,11 @@
 @textColor:                             #666;
 @linkColor:                             #08c;
 @headingsColor:                         @textColor;
+@iconColor:                             #767676;
 
 @sectionHeadingColor:                   @textColor;
 @sectionHeadingTextShadow:              0px 1px 1px rgba(0, 0, 0, 0.2);
 @sectionHeadingBackground:              #eee;
-
-/* Font Icon
---------------------------------------------------------*/
-@font-face {
-  font-family: 'icomoon';
-  src: url("fonts/icomoon.eot");
-  src: url("fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("fonts/icomoon.svg#icomoon") format("svg"), url("fonts/icomoon.woff") format("woff"), url("fonts/icomoon.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
 
 /* =1 - BASE STYLES (_base-styles.scss)
 ----------------------------------------------------------------------------*/
@@ -254,15 +251,6 @@ hr {
 ----------------------------------------------------------------------------*/
 /* =2.1 - HELPERS
 --------------------------------------------------------*/
-/* ICONS */
-
-[data-icon]:before {
-  font-family: 'icomoon';
-  content: attr(data-icon);
-  speak: none;
-  font-weight: normal;
-}
-
 /* IMAGE REPLACEMENT */
 .ir {
   background-color: transparent;
@@ -306,10 +294,9 @@ hr {
 }
 
 .selected-row {
-  background-image: url(../img/list-rightarrow.png);
+  background-image: url(../img/selected.png);
   background-repeat: no-repeat;
   background-position: 92% 50%;
-  background-size: 16px;
 }
 
 .touch-row {
@@ -378,7 +365,6 @@ hr {
   .img {
     float: left;
     img {
-      display: block;
       margin-right: 8px;
     }
   }
@@ -504,7 +490,7 @@ hr {
       padding: 0 15px 5px 10px;
       margin-left: 110px;
       margin-bottom: 10px;
-      background: url(../img/arrow-right2.png) no-repeat right;
+      background: url(../img/arrowright.png) no-repeat right;
       &:hover,
       &:focus {
         background-color: #f5f5f5;
@@ -556,7 +542,6 @@ hr {
       background-repeat: no-repeat;
       background-position: center center;
       border: 0;
-      background-size: 24px;
       > a {
         padding: 0;
         width: 40px;
@@ -575,11 +560,11 @@ hr {
 }
 
 .menu-home {
-  background-image: url(../img/header-home.png);
+  background-image: url(../img/ico-menu.png);
 }
 
 .menu-back {
-  background-image: url(../img/menu-back.png);
+  background-image: url(../img/ico-back.png);
 }
 
 /* - Common on three panels
@@ -625,6 +610,16 @@ hr {
       font-weight: normal;
       line-height: 20px;
     }
+    .refresh {
+      float: right;
+      width: 20px;
+      margin: 4px;
+    }
+    [class^="ico-"],
+    [class*=" ico-"] {
+      color: @menuHeaderIconColor;
+      text-shadow: @menuHeaderIconShadow;
+    }
   }
   h2 {
     color: @menuSectionHeadingColor;
@@ -653,16 +648,21 @@ hr {
       text-align: center;
       background-color: @menuIconBackground;
       border-radius: 50%;
+      display: block;
       img {
-        width: 16px;
         margin-top: -2px;
         padding: 0;
       }
+    }
+    [class^="ico-"],
+    [class*=" ico-"] {
+      color: @menuIconColor;
     }
     .plugin-name {
       margin-left: 32px;
       padding: 2px 26px 2px 0;
       line-height: 20px;
+      display: block;
     }
   }
   .no-arrow > a {
@@ -701,26 +701,19 @@ hr {
   }
 }
 
-.refresh {
-  float: right;
-  width: 20px;
-  margin: 4px;
-}
-
 .collapse,
 .expand {
-  background-position-x: 95%;
-  background-position-y: 16px;
+  background-position-x: 96%;
+  background-position-y: 14px;
   background-repeat: no-repeat;
-  background-size: 12px;
 }
 
 .collapse {
-  background-image: url(../img/collapse.png);
+  background-image: url(../img/ico-collapse.png);
 }
 
 .expand {
-  background-image: url(../img/expand.png);
+  background-image: url(../img/ico-expand.png);
 }
 
 /* - Welcome page on the center panel
@@ -762,6 +755,7 @@ hr {
     img {
       width: 24px;
       height: auto;
+      display: inherit;
     }
     &.mod-label {
       overflow: auto;
@@ -770,7 +764,7 @@ hr {
         font-weight: normal;
         margin: 0;
         padding-right: 80px;
-      };
+      }
       img {
         width: auto;
       }
@@ -785,9 +779,12 @@ hr {
     width: 80px;
     text-align: right;
     padding: 10px;
+    [class^="ico-"],
+    [class*=" ico-"] {
+      margin-left: 3px;
+      margin-right: 3px;
+    }
     img {
-      width: 16px;
-      height: auto;
       margin-left: 3px;
       margin-right: 3px;
     }
@@ -799,17 +796,16 @@ hr {
 
 .expand-label,
 .collapse-label {
-  background-position: right 15px top 16px;
+  background-position: right 13px top 16px;
   background-repeat: no-repeat;
-  background-size: 12px;
 }
 
 .expand-label {
-  background-image: url(../img/expandgrey.png);
+  background-image: url(../img/expand.png);
 }
 
 .collapse-label {
-  background-image: url(../img/collapsegrey.png);
+  background-image: url(../img/collapse.png);
 }
 
 .loading-icon {
@@ -945,10 +941,15 @@ hr {
     text-align: right;
     padding: 6px 10px;
     border-top: 1px solid #eee;
-    span {
+    > span {
       display: inline-block;
       padding-left: 2px;
       padding-right: 2px;
+    }
+    [class^="ico-"],
+    [class*=" ico-"] {
+      margin-left: 6px;
+      margin-right: 6px;
     }
     img {
       margin-left: 6px;
@@ -1028,6 +1029,10 @@ hr {
 
 //-----Calendar-----
 .events-list {
+  [class^="ico-"],
+  [class*=" ico-"] {
+    margin-right: 8px;
+  }
   .name {
     line-height: 20px;
   }
@@ -1046,8 +1051,13 @@ hr {
   border-bottom: 1px solid #e0e0e0;
   header {
     padding: 10px;
-    img {
-      margin-top: 8px;
+    .app-ico {
+      margin-top: 4px;
+      [class^="ico-"],
+      [class*=" ico-"] {
+        font-size: 18px;
+        margin-right: 8px;
+      }
     }
   }
   > div {
@@ -1066,8 +1076,13 @@ hr {
     font-size: 12px;
   }
   .app-ico img {
-      width: 18px;
-      height: auto;
+    width: 18px;
+    height: auto;
+  }
+  .content-name {
+    img {
+      display: inherit;
+    }
   }
   .description {
     padding-left: 36px;
@@ -1638,4 +1653,130 @@ div.jqi {
   .feedbacktext .no-overflow {
     overflow:auto;padding:0.25em;
   }
+}
+
+/* Font Icon
+--------------------------------------------------------*/
+.app-ico {
+  & img {
+    display: none;
+  }
+  & [class^="ico-"],
+  & [class*=" ico-"] {
+    // display: none;
+  }
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src:url('fonts/icomoon.eot');
+  src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.woff') format('woff'),
+    url('fonts/icomoon.ttf') format('truetype'),
+    url('fonts/icomoon.svg#icomoon') format('svg');
+}
+
+[class^="ico-"], [class*=" ico-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 16px;
+  color: @iconColor;
+  vertical-align: middle;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ico-menu:before {
+  content: "\e600";
+}
+.ico-events:before {
+  content: "\e601";
+}
+.ico-siteevent:before {
+  content: "\e602";
+}
+.ico-myfiles:before {
+  content: "\e603";
+}
+.ico-messages:before {
+  content: "\e604";
+}
+.ico-reply:before {
+  content: "\e605";
+}
+.ico-discussion:before {
+  content: "\e606";
+}
+.ico-userevent:before {
+  content: "\e607";
+}
+.ico-groupevent:before {
+  content: "\e608";
+}
+.ico-notifications:before {
+  content: "\e609";
+}
+.ico-settings:before {
+  content: "\e60a";
+}
+.ico-course:before {
+  content: "\e60b";
+}
+.ico-courseevent:before {
+  content: "\e60c";
+}
+.ico-reload:before {
+  content: "\e60d";
+}
+.ico-website:before {
+  content: "\e60e";
+}
+.ico-help:before {
+  content: "\e60f";
+}
+.ico-info:before {
+  content: "\e610";
+}
+.ico-time:before {
+  content: "\e611";
+}
+.ico-delete:before {
+  content: "\e612";
+}
+.ico-upload:before {
+  content: "\e613";
+}
+.ico-download:before {
+  content: "\e614";
+}
+.ico-logout:before {
+  content: "\e615";
+}
+.ico-share:before {
+  content: "\e616";
+}
+.ico-next:before {
+  content: "\e617";
+}
+.ico-back:before {
+  content: "\e618";
+}
+.ico-expand:before {
+  content: "\e619";
+}
+.ico-collapse:before {
+  content: "\e61a";
+}
+.ico-selected:before {
+  content: "\e61b";
+}
+.ico-arrowright:before {
+  content: "\e61c";
 }

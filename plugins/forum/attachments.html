@@ -1,13 +1,16 @@
 <div class="attachments">
     <% _.each(attachments, function(attachment) { %>
     <% if (attachment.localpath) { %>
-        <% var dImg = "reloadgrey"; %>
+        <% var dImg = "reload"; %>
         <% } else { %>
         <% var dImg = "download"; %>
     <% } %>
     <div class="attachment media">
-        <div class="content-actions app-icon">
-            <img id="downimg-<%= attachment.id %>" src="img/<%= dImg %>.png" class="forum-download" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
+        <div class="content-actions app-ico">
+            <span id="downimg-<%= attachment.id %>" class="forum-download" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
+                <span class="ico-<%= dImg %>"></span>
+                <img src="img/<%= dImg %>.png">
+            </span>
         </div>
         <div class="content-name">
             <div class="img app-ico">
