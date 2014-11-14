@@ -16,9 +16,7 @@
         </p>
         <div class="actions">
             &nbsp;
-            <% if (notification.contexturl) { %>
-            <a href="<%= notification.contexturl %>" target="_blank"><%= MM.lang.s("view") %></a>
-            <% } %>
+            <%= MM.plugins.notifications._getActionLinks(notification) %>
         </div>
         <% } else { %>
         <p class="message"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>

@@ -732,6 +732,21 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                     }
                 }, 2000);
             }
+        },
+
+        _getActionLinks: function(notification) {
+            if (notification.contexturl.indexOf("/mod/forum/")) {
+                var url = notification.contexturl;
+                // Discussion Id.
+                var d = url.match(/discuss\.php\?d=([^#]*)/);
+                // Course Id.
+                var c = notification.fullmessagehtml.match(/course\/view\.php\?id=([^"]*)/);
+
+                if (d && typeof d[1] != "undefined" && c && typeof c[1] != "undefined") {
+                    return '<a href="#forum/discussion/' + c[1] + '/' + d[1] +'">' + MM.lang.s("view") + '</a>';
+                }
+            }
+            return "";
         }
     };
 
