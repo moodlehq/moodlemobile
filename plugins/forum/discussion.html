@@ -5,20 +5,16 @@
 <div class="content-index">
     <div class="path-mod-forum">
 
-        <% _.each(posts, function(post) { %>
-            <% if (post.id == discussion.id) { %>
-        <div class="forum-post first-post" data-postdiscussion="<%= post.discussion %>">
+        <div class="forum-post first-post" data-postdiscussion="<%= discussion.discussion %>">
             <div class="header">
-                <img class="user-picture" src="<%= MM.util.getMoodleFilePath(post.userpictureurl) %>">
-                <a class="author-name" href="#participant/<%= courseId %>/<%= post.userid %>/1" rel="author"><%= post.userfullname %></a>
-                <time><%= MM.util.timestampToUserDate(post.created) %></time>
+                <img class="user-picture" src="<%= MM.util.getMoodleFilePath(discussion.userpictureurl) %>">
+                <a class="author-name" href="#participant/<%= courseId %>/<%= discussion.userid %>/1" rel="author"><%= discussion.userfullname %></a>
+                <time><%= MM.util.timestampToUserDate(discussion.created) %></time>
             </div>
-            <p role="heading" class="subject toogler" data-discussionid="<%= post.discussion %>">
-                <%= MM.util.formatText(post.subject) %>
+            <p role="heading" class="subject toogler" data-discussionid="<%= discussion.discussion %>">
+                <%= MM.util.formatText(discussion.subject) %>
             </p>
             <div class="discussion-body">
-            <% } %>
-        <% }); %>
 
                 <div class="content">
                     <%= MM.util.formatText(discussion.message) %>

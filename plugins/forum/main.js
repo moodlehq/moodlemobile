@@ -275,13 +275,34 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         }
                     }
 
+                    // Not found, search in the returned posts.
+                    if (!discussion) {
+                        for (el in posts.posts) {
+                            var post = posts.posts[el];
+                            if (post.parent == 0) {
+                                discussion = post;
+                                break;
+                            }
+                        }
+                    }
+
                     var data = {
                         "discussion": discussion,
                         "posts": posts.posts,
                         "courseId": courseId
                     };
                     var html = MM.tpl.render(MM.plugins.forum.templates.discussion.html, data);
-                    MM.panels.show("right", html, {keepTitle: true});
+                    MM.panels.show("right", html, {keepTitle: true, showRight: true});
+
+                    // Hack in tablet view.
+                    if (MM.deviceType == "tablet") {
+                        var panelCenter = $('#panel-center');
+                        var panelRight  = $('#panel-right');
+
+                        panelCenter.css("width", MM.panels.sizes.threePanels.center);
+                        panelRight.css("left",  MM.panels.sizes.threePanels.center);
+                        panelRight.css("width", MM.panels.sizes.threePanels.right);
+                    }
 
                     // Toggler effect.
                     $(".forum-post .subject", "#panel-right").on(MM.clickType, function(e) {
