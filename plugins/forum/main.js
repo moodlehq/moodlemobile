@@ -179,6 +179,14 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         MM.plugins.forum._showDiscussion(discussionId, forum.course);
                     });
 
+                    // Handlers for post-info (replies).
+                    $(".post-info").on(MM.clickType, function(e) {
+                        var parent = $(this).parent().find(".subject.toogler");
+                        if (parent) {
+                            parent.trigger(MM.clickType);
+                        }
+                    });
+
                     // Handler for sync.
                     if (MM.util.WebWorkersSupported()) {
                         $("#keepsynch").bind("change", function(e) {
