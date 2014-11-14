@@ -26,6 +26,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
         routes: [
             ["forum/view/:courseId/:cmid/:page", "view_forum", "viewForum"],
+            ["forum/discussion/:courseId/:discussionId", "show_discussion", "showDiscussion"],
         ],
 
         // Sync function, every 2 hours (time is in millisecs).
@@ -168,15 +169,8 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                     // Handlers for view complete discussions and posts.
                     $(".subject.toogler").on(MM.clickType, function(e) {
                         e.preventDefault();
-                        if ($(this).hasClass("discussion-loaded")) {
-                            $(this).parent().find(".discussion-body").toggle();
-                            return;
-                        }
-
                         var discussionId = $(this).data("discussionid");
-                        $(this).addClass("discussion-loaded");
-                        $(this).parent().find(".discussion-body").html('<div class="centered"><img src="img/loading.gif"></div>');
-                        MM.plugins.forum._showDiscussion(discussionId, forum.course);
+                        location.href = "#forum/discussion/" + forum.course + "/" + discussionId;
                     });
 
                     // Handlers for post-info (replies).
@@ -258,7 +252,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
          * Display a discussion with posts
          * @param  {Number} discussionId The discussion id
          */
-        _showDiscussion: function(discussionId, courseId) {
+        showDiscussion: function(courseId, discussionId) {
             var params = {
                 "discussionid": discussionId
             };
@@ -286,16 +280,15 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         "courseId": courseId
                     };
                     var html = MM.tpl.render(MM.plugins.forum.templates.discussion.html, data);
-
-                    fullDiscussion.find(".discussion-body").html(html);
+                    MM.panels.show("right", html, {keepTitle: true});
 
                     // Toggler effect.
-                    fullDiscussion.find(".forum-post .subject").on(MM.clickType, function(e) {
+                    $(".forum-post .subject", "#panel-right").on(MM.clickType, function(e) {
                         $(this).parent().find(".content").toggle();
                     });
 
                     // Bind downloads.
-                    fullDiscussion.find(".forum-download").on(MM.clickType, function(e) {
+                    $(".forum-download", "#panel-right").on(MM.clickType, function(e) {
                         e.preventDefault();
                         e.stopPropagation();
 

@@ -1,23 +1,58 @@
-<div class="content">
-    <%= MM.util.formatText(discussion.message) %>
-    <%= MM.plugins.forum._printAttachments(discussion) %>
+<div class="back-row">
+    <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
 </div>
-<p class="counter" role="heading"><img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %></p>
-<div class="indent">
-    <% _.each(posts, function(post) { %>
-    <% if (post.id == discussion.id) return; %>
-    <div class="forum-post">
-        <div class="header">
-            <img class="user-picture" src="<%= MM.util.getMoodleFilePath(post.userpictureurl) %>">
-            <a class="author-name" href="#participant/<%= courseId %>/<%= post.userid %>/1" rel="author"><%= post.userfullname %></a>
-            <time><%= MM.util.timestampToUserDate(post.modified) %></time>
-        </div>
-        <p class="subject"><%= MM.util.formatText(post.subject) %></p>
-        <div class="content" style="display: none">
-            <%= MM.util.formatText(post.message) %>
-            <%= MM.plugins.forum._printAttachments(post) %>
+
+<div class="content-index">
+    <div class="path-mod-forum">
+
+        <% _.each(posts, function(post) { %>
+            <% if (post.id == discussion.id) { %>
+        <div class="forum-post first-post" data-postdiscussion="<%= post.discussion %>">
+            <div class="header">
+                <img class="user-picture" src="<%= MM.util.getMoodleFilePath(post.userpictureurl) %>">
+                <a class="author-name" href="#participant/<%= courseId %>/<%= post.userid %>/1" rel="author"><%= post.userfullname %></a>
+                <time><%= MM.util.timestampToUserDate(post.created) %></time>
+            </div>
+            <p role="heading" class="subject toogler" data-discussionid="<%= post.discussion %>">
+                <%= MM.util.formatText(post.subject) %>
+            </p>
+            <div class="discussion-body">
+            <% } %>
+        <% }); %>
+
+                <div class="content">
+                    <%= MM.util.formatText(discussion.message) %>
+                    <%= MM.plugins.forum._printAttachments(discussion) %>
+                </div>
+                <p class="counter" role="heading"><img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %></p>
+                <div class="indent">
+                    <% _.each(posts, function(post) { %>
+                    <% if (post.id == discussion.id) return; %>
+                    <div class="forum-post">
+                        <div class="header">
+                            <img class="user-picture" src="<%= MM.util.getMoodleFilePath(post.userpictureurl) %>">
+                            <a class="author-name" href="#participant/<%= courseId %>/<%= post.userid %>/1" rel="author"><%= post.userfullname %></a>
+                            <time><%= MM.util.timestampToUserDate(post.modified) %></time>
+                        </div>
+                        <p class="subject"><%= MM.util.formatText(post.subject) %></p>
+                        <div class="content">
+                            <%= MM.util.formatText(post.message) %>
+                            <%= MM.plugins.forum._printAttachments(post) %>
+                        </div>
+                    </div>
+                    <% }); %>
+
+                </div>
+
+            </div>
+            <div class="post-info">
+                <span>
+                    <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
+                </span>
+                <% if (discussion.created != discussion.timemodified && discussion.timemodified > discussion.created) { %>
+                <span><img src="img/time.png"><%= MM.util.printTimeAgo(discussion.timemodified) %></span>
+                <% } %>
+            </div>
         </div>
     </div>
-    <% }); %>
-
 </div>
