@@ -226,6 +226,9 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
                 {},
                 function(e) {
                     $(menuEl, '#panel-left').removeClass('loading-row');
+                    if (e) {
+                        MM.popErrorMessage(e);
+                    }
                 }
             );
         },
