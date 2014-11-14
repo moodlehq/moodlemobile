@@ -9,7 +9,7 @@
     <div class="forum-post">
         <div class="header">
             <img class="user-picture" src="<%= MM.util.getMoodleFilePath(post.userpictureurl) %>">
-            <a class="author-name" href="#" rel="author"><%= post.userfullname %></a>
+            <a class="author-name" href="#participant/<%= courseId %>/<%= post.userid %>/1" rel="author"><%= post.userfullname %></a>
             <time><%= MM.util.timestampToUserDate(post.modified) %></time>
         </div>
         <p class="subject"><%= MM.util.formatText(post.subject) %></p>

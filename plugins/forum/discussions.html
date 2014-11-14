@@ -42,7 +42,7 @@
             <div class="forum-post first-post" data-postdiscussion="<%= discussion.discussion %>">
                 <div class="header">
                     <img class="user-picture" src="<%= MM.util.getMoodleFilePath(discussion.userpictureurl) %>">
-                    <a class="author-name" href="#" rel="author"><%= discussion.userfullname %></a>
+                    <a class="author-name" href="#participant/<%= forum.course %>/<%= discussion.userid %>/1" rel="author"><%= discussion.userfullname %></a>
                     <time><%= MM.util.timestampToUserDate(discussion.created) %></time>
                 </div>
                 <p role="heading" class="subject toogler" data-discussionid="<%= discussion.discussion %>">

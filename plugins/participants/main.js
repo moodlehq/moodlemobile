@@ -24,6 +24,7 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
         routes: [
             ["participants/:courseId", "participants", "showParticipants"],
             ["participant/:courseId/:userId", "participants", "showParticipant"],
+            ["participant/:courseId/:userId/:popup", "participants_pop", "showParticipant"],
         ],
 
         limitNumber: 100,
@@ -120,7 +121,9 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
             });
         },
 
-        showParticipant: function(courseId, userId) {
+        showParticipant: function(courseId, userId, popUp) {
+            popUp = popUp || false;
+
             var menuEl = 'a[href="#participant/' + courseId + '/' + userId + '"]';
             $(menuEl, '#panel-center').addClass('loading-row-black');
 
@@ -147,7 +150,13 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
 
-                var tpl = {"user": newUser, "plugins": userPlugins, "courseid": courseId};
+                var tpl = {
+                    "user": newUser,
+                    "plugins": userPlugins,
+                    "courseid": courseId,
+                    "popUp": popUp
+                };
+
                 var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
                 newUser.id = MM.config.current_site.id + "-" + newUser.id;
                 MM.db.insert("users", newUser);

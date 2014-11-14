@@ -176,7 +176,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         var discussionId = $(this).data("discussionid");
                         $(this).addClass("discussion-loaded");
                         $(this).parent().find(".discussion-body").html('<div class="centered"><img src="img/loading.gif"></div>');
-                        MM.plugins.forum._showDiscussion(discussionId);
+                        MM.plugins.forum._showDiscussion(discussionId, forum.course);
                     });
 
                     // Handler for sync.
@@ -250,7 +250,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
          * Display a discussion with posts
          * @param  {Number} discussionId The discussion id
          */
-        _showDiscussion: function(discussionId) {
+        _showDiscussion: function(discussionId, courseId) {
             var params = {
                 "discussionid": discussionId
             };
@@ -274,7 +274,8 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
                     var data = {
                         "discussion": discussion,
-                        "posts": posts.posts
+                        "posts": posts.posts,
+                        "courseId": courseId
                     };
                     var html = MM.tpl.render(MM.plugins.forum.templates.discussion.html, data);
 
