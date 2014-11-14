@@ -170,6 +170,9 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                     $(".subject.toogler").on(MM.clickType, function(e) {
                         e.preventDefault();
                         var discussionId = $(this).data("discussionid");
+                        // Loading...
+                        $(this).parent().find(".discussion-body").html('<div class="centered"><img src="img/loading.gif"></div>');
+
                         location.href = "#forum/discussion/" + forum.course + "/" + discussionId;
                     });
 
@@ -257,8 +260,6 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                 "discussionid": discussionId
             };
 
-            var fullDiscussion = $("#panel-right").find("[data-postdiscussion='" + discussionId + "']");
-
             MM.moodleWSCall(MM.plugins.forum.wsPrefix + "mod_forum_get_forum_discussion_posts",
                 params,
                 // Success callback.
@@ -303,7 +304,6 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                 },
                 null,
                 function (error) {
-                    fullDiscussion.find(".discussion-body").html("");
                     MM.popErrorMessage(error);
                 }
             );
