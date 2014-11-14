@@ -1,13 +1,24 @@
 <% if (notifications.length > 0) { %>
 <div class="panel-container">
     <div class="notifications">
+    <% var notifText; %>
     <% _.each(notifications, function(notification) {%>
     <div class="notification">
         <p class="name"><%= notification.userfromfullname %> <span class="time"><%= MM.util.timestampToUserDate(notification.timecreated) %></span></p>
         <% if (notification.notification) { %>
-        <p class="message"><%= MM.plugins.notifications._format(notification.fullmessage) %></p>
+            <% if (notification.contexturl.indexOf("/mod/forum/")) { %>
+                <% notifText = MM.plugins.notifications._format(notification.smallmessage); %>
+            <% } else { %>
+                <% notifText = MM.plugins.notifications._format(notification.fullmessage); %>
+            <% } %>
+        <p class="message">
+            <%= notifText %>
+        </p>
         <div class="actions">
             &nbsp;
+            <% if (notification.contexturl) { %>
+            <a href="<%= notification.contexturl %>" target="_blank"><%= MM.lang.s("view") %></a>
+            <% } %>
         </div>
         <% } else { %>
         <p class="message"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>
