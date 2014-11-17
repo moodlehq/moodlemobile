@@ -444,6 +444,8 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
 
             if (text.indexOf("/outcomes") > -1) {
                 img = '<img src="img/grades/outcomes.png" width="16">';
+            } else if (text.indexOf("i/folder") > -1) {
+                img = '<img src="img/folder.png" width="16">';
             } else if (text.indexOf("/manual_item") > -1) {
                 img = '<img src="img/grades/manual_item.png" width="16">';
             } else if (text.indexOf("/mod/") > -1) {
