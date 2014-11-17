@@ -735,7 +735,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
         },
 
         _getActionLinks: function(notification) {
-            if (notification.contexturl.indexOf("/mod/forum/")) {
+            if (notification.contexturl.indexOf("/mod/forum/") &&
+                MM.plugins.forum &&
+                MM.plugins.forum.isPluginVisible()) {
+
                 var url = notification.contexturl;
                 // Discussion Id.
                 var d = url.match(/discuss\.php\?d=([^#]*)/);
