@@ -16,8 +16,11 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
         },
 
         routes: [
-            ["course/grades/:courseid", "course_grades_activities", "viewActivities"]
+            ["course/grades/:courseid", "course_grades_activities", "viewActivities"],
+            ["course/grades/user/:courseid/:userid/:popup", "course_grades_user", "loadGradesTable"]
         ],
+
+        wsName: "",
 
         isPluginVisible: function() {
             // We store the WSName for later uses.
@@ -59,7 +62,7 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
 
             // Option 1.
             if (MM.plugins.grades.wsName == "local_mobile_gradereport_user_get_grades_table") {
-                MM.plugins.grades._loadGradesTable(courseId);
+                MM.plugins.grades.loadGradesTable(courseId, MM.config.current_site.userid);
             } else {
                 // Option 2 and 3.
 
@@ -201,12 +204,13 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
             return html;
         },
 
-        _loadGradesTable: function(courseId) {
+        loadGradesTable: function(courseId, userId, popUp) {
             var menuEl = 'a[href="#course/grades/' + courseId + '"]';
+            popUp = popUp || false;
 
             var data = {
                 "courseid" : courseId,
-                "userid"   : MM.config.current_site.userid
+                "userid"   : userId
             };
 
             MM.moodleWSCall(MM.plugins.grades.wsName, data,
@@ -215,17 +219,25 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
 
                     var tpl = {
                         table: MM.plugins.grades._createTable(table),
-                        course: course.toJSON()
+                        course: course.toJSON(),
+                        popUp: popUp
                     };
 
-                    $(menuEl, '#panel-left').removeClass('loading-row');
-
                     var html = MM.tpl.render(MM.plugins.grades.templates.gradesTable.html, tpl);
-                    MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
+
+                    // Display as popup in the right side (from participants page).
+                    if (popUp) {
+                        MM.panels.show("right", html, {keepTitle: true});
+                    } else {
+                        $(menuEl, '#panel-left').removeClass('loading-row');
+                        MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
+                    }
                 },
                 {},
                 function(e) {
-                    $(menuEl, '#panel-left').removeClass('loading-row');
+                    if (!popUp) {
+                        $(menuEl, '#panel-left').removeClass('loading-row');
+                    }
                     if (e) {
                         MM.popErrorMessage(e);
                     }

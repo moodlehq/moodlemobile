@@ -56,6 +56,9 @@
             <% _.each(plugins, function(plugin) { %>
             <div><a href="<%= plugin.menuURL %>/<%= courseid %>/<%= user.id %>"><button><%= MM.lang.s(plugin.name) %></button></a></div>
             <% }); %>
+            <% if (MM.plugins.participants._showGrades(courseid, user.id)) { %>
+            <div><a href="#course/grades/user/<%= courseid %>/<%= user.id %>/1"><button><%= MM.lang.s("grades") %></button></a></div>
+            <% } %>
         </div>
          <% } %>
     </div>

@@ -166,6 +166,18 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
             });
         },
 
+        /**
+         * Check if we can show the grades button for this user.
+         * @param  {integer} courseId The course id
+         * @param  {integer} userId   The user Id
+         * @return {boolean}          True or false
+         */
+        _showGrades: function(courseId, userId) {
+            if (MM.plugins.grades.wsName == 'local_mobile_gradereport_user_get_grades_table') {
+                return true;
+            }
+            return false;
+        },
 
         templates: {
             "participant": {
