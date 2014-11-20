@@ -454,7 +454,11 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
         _findImage: function(text) {
             var img = "";
 
-            if (text.indexOf("/outcomes") > -1) {
+            if (text.indexOf("/agg_mean") > -1) {
+                img = '<img src="img/grades/agg_mean.png" width="16">';
+            } else if (text.indexOf("/agg_sum") > -1) {
+                img = '<img src="img/grades/agg_sum.png" width="16">';
+            } else if (text.indexOf("/outcomes") > -1) {
                 img = '<img src="img/grades/outcomes.png" width="16">';
             } else if (text.indexOf("i/folder") > -1) {
                 img = '<img src="img/folder.png" width="16">';
