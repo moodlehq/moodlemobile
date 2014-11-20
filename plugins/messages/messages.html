@@ -2,7 +2,7 @@
 <div class="panel-container">
     <div class="messages">
     <% _.each(messages, function(message) {%>
-    <div class="notification">
+    <div class="message">
         <p class="name"><%= message.userfromfullname %> <span class="time"><%= MM.util.timestampToUserDate(message.timecreated) %></span></p>
         <% if (message.notification) { %>
         <p class="message"><%= MM.plugins.messages._format(message.fullmessage) %></p>

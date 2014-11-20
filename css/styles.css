@@ -246,6 +246,7 @@ hr {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   /* Disable selection/Copy of UIWebView */
+
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -888,40 +889,49 @@ hr {
   margin-bottom: 0;
   line-height: 20px;
 }
+.messages,
 .notifications {
   padding: 10px;
 }
+.message,
 .notification {
   padding: 0 10px;
   margin-bottom: 10px;
   background-color: #eee;
 }
+.message:first-of-type,
 .notification:first-of-type {
   border-top: none;
 }
+.message .name,
 .notification .name {
   font-weight: bold;
   line-height: 20px;
   padding: 10px 8px;
   margin-bottom: 0;
 }
+.message .time,
 .notification .time {
   font-size: 12px;
   font-weight: normal;
   display: block;
 }
+.message .message,
 .notification .message {
   word-break: break-word;
   padding: 20px;
   margin-bottom: 0;
   background-color: #fff;
 }
+.message .message a,
 .notification .message a {
   color: #0088cc;
 }
+.message .actions,
 .notification .actions {
   text-align: right;
 }
+.message .actions a,
 .notification .actions a {
   cursor: pointer;
   display: inline-block;
