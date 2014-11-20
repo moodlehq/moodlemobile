@@ -11,7 +11,7 @@
             <% } else { %>
                 <% notifText = MM.plugins.notifications._format(notification.fullmessage); %>
             <% } %>
-        <p class="message">
+        <p class="content">
             <%= notifText %>
         </p>
         <div class="actions">
@@ -19,7 +19,7 @@
             <%= MM.plugins.notifications._getActionLinks(notification) %>
         </div>
         <% } else { %>
-        <p class="message"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>
+        <p class="content"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>
 
         <div class="actions">
             <% if (notification.useridfrom) { %>

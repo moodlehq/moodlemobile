@@ -916,15 +916,15 @@ hr {
   font-weight: normal;
   display: block;
 }
-.message .message,
-.notification .message {
+.message .content,
+.notification .content {
   word-break: break-word;
   padding: 20px;
   margin-bottom: 0;
   background-color: #fff;
 }
-.message .message a,
-.notification .message a {
+.message .content a,
+.notification .content a {
   color: #0088cc;
 }
 .message .actions,
