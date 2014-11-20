@@ -466,6 +466,9 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
                     img = '<img src="img/mod/' + module[1] + '.png" width="16">';
                 }
             }
+            if (img) {
+                img = '<span class="app-ico">' + img + '</span>';
+            }
             return img;
         },
 
