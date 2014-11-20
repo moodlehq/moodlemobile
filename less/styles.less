@@ -1575,67 +1575,85 @@ div.jqi {
   line-height: 20px;
   width: 100%;
   border-top: 1px solid #e0e0e0;
-  .hidden,
-  .hidden a {
-    color:#aaaaaa;
+  tr {
+    border-bottom: 1px solid #eee;
   }
+  th,
   td {
-    margin: 1px;
-    padding: 10px;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
     vertical-align: top;
-    padding-left: 2px;
   }
-  th {
-    padding: 10px;
-  }
-  thead {
-    th {
-      padding-top: 12px;
-      padding-bottom: 12px;
-    }
+  thead th {
+    padding-left: 10px;
+    vertical-align: bottom;
   }
   tbody th {
-    text-align:left;
     font-weight: normal;
   }
-  td.oddd1,
-  th.oddd1 {background-color: #FAFAFA;}
-  td.oddd2,
-  th.oddd2 {background-color: #F4F4F4;}
-  td.oddd3,
-  th.oddd3 {background-color: #F1F1F1;}
-  td.oddd4,
-  th.oddd4 {background-color: #F6F6F6;}
-  td.evend2,
-  th.evend2 {background-color: #F1F1F1;}
-  td.evend3,
-  th.evend3 {background-color: #F4F4F4;}
-  td.evend4,
-  th.evend4 {background-color: #FAFAFA;}
-  td.b1t,
-  td.b2t,
-  th.b1t,
-  th.b2t {border-top: 2px solid #eee;}
-  td.b1r,
-  td.b2r,
-  th.b1r,
-  th.b2r {border-right: 1px solid #eee;}
-  td.b1b,
-  td.b2b,
-  th.b1b,
-  th.b2b {border-bottom: 1px solid #eee;}
-  td.baggt,
-  td.baggb,
-  th.baggt,
-  th.baggb {font-style: italic;}
-  td.baggt,
-  th.baggt {border-top: 2px solid #eee;}
-  td.baggb,
-  th.baggb {border-bottom: 2px solid #eee;}
+  th {
+    &.b1b {
+      padding-left: 20px;
+    }
+    &.item {
+      padding-left: 40px;
+    }
+    &.baggt {
+      padding-left: 40px;
+    }
+    img {
+      margin-left: -20px;
+      float: left;
+    }
+  }
+  .b1l {
+    width: 20px;
+    min-width: 20px;
+  }
+  .b1t,
+  .baggt {
+    font-weight: bold;
+  }
   .itemcenter {
-    text-align: center;
+    padding-left: 10px;
+    white-space: nowrap;
+  }
+  .feedbacktext {
+    padding-left: 10px;
   }
   .feedbacktext .no-overflow {
-    overflow:auto;padding:0.25em;
+    overflow:auto;
+  }
+  .dimmed_text,
+  .hidden,
+  .hidden a {
+    color: #aaa;
+  }
+  .oddd1,
+  .oddd3,
+  .evend3 {
+    background-color: #eee;
+    &.b1b,
+    &.b1l {
+      border-top: 1px solid #fff;
+    }
+  }
+  .oddd2,
+  .evend2,
+  .oddd4,
+  .evend4 {
+    background-color: #f9f9f9;
+  }
+  .levelodd {
+    background-color:#eee;
+    &.b1b,
+    &.b1l {
+      border-top: 1px solid #fff;
+    }
+  }
+  .leveleven {
+    background-color: #fff;
   }
 }
