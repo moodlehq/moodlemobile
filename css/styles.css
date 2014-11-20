@@ -246,6 +246,7 @@ hr {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   /* Disable selection/Copy of UIWebView */
+
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -1426,91 +1427,86 @@ div.jqi button.jqidefaultbutton {
   width: 100%;
   border-top: 1px solid #e0e0e0;
 }
-.user-grade .hidden,
-.user-grade .hidden a {
-  color: #aaaaaa;
-}
-.user-grade td {
-  margin: 1px;
-  padding: 10px;
-  vertical-align: top;
-  padding-left: 2px;
-}
-.user-grade th {
-  padding: 10px;
-}
-.user-grade thead th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-.user-grade tbody th {
-  text-align: left;
-  font-weight: normal;
-}
-.user-grade td.oddd1,
-.user-grade th.oddd1 {
-  background-color: #FAFAFA;
-}
-.user-grade td.oddd2,
-.user-grade th.oddd2 {
-  background-color: #F4F4F4;
-}
-.user-grade td.oddd3,
-.user-grade th.oddd3 {
-  background-color: #F1F1F1;
-}
-.user-grade td.oddd4,
-.user-grade th.oddd4 {
-  background-color: #F6F6F6;
-}
-.user-grade td.evend2,
-.user-grade th.evend2 {
-  background-color: #F1F1F1;
-}
-.user-grade td.evend3,
-.user-grade th.evend3 {
-  background-color: #F4F4F4;
-}
-.user-grade td.evend4,
-.user-grade th.evend4 {
-  background-color: #FAFAFA;
-}
-.user-grade td.b1t,
-.user-grade td.b2t,
-.user-grade th.b1t,
-.user-grade th.b2t {
-  border-top: 2px solid #eee;
-}
-.user-grade td.b1r,
-.user-grade td.b2r,
-.user-grade th.b1r,
-.user-grade th.b2r {
-  border-right: 1px solid #eee;
-}
-.user-grade td.b1b,
-.user-grade td.b2b,
-.user-grade th.b1b,
-.user-grade th.b2b {
+.user-grade tr {
   border-bottom: 1px solid #eee;
 }
-.user-grade td.baggt,
-.user-grade td.baggb,
-.user-grade th.baggt,
-.user-grade th.baggb {
-  font-style: italic;
+.user-grade th,
+.user-grade td {
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  vertical-align: top;
 }
-.user-grade td.baggt,
+.user-grade thead th {
+  padding-left: 10px;
+  vertical-align: bottom;
+}
+.user-grade tbody th {
+  font-weight: normal;
+}
+.user-grade th.b1b {
+  padding-left: 20px;
+}
+.user-grade th.item {
+  padding-left: 40px;
+}
 .user-grade th.baggt {
-  border-top: 2px solid #eee;
+  padding-left: 40px;
 }
-.user-grade td.baggb,
-.user-grade th.baggb {
-  border-bottom: 2px solid #eee;
+.user-grade th img {
+  margin-left: -20px;
+  float: left;
+}
+.user-grade .b1l {
+  width: 20px;
+  min-width: 20px;
+}
+.user-grade .b1t,
+.user-grade .baggt {
+  font-weight: bold;
 }
 .user-grade .itemcenter {
-  text-align: center;
+  padding-left: 10px;
+  white-space: nowrap;
+}
+.user-grade .feedbacktext {
+  padding-left: 10px;
 }
 .user-grade .feedbacktext .no-overflow {
   overflow: auto;
-  padding: 0.25em;
+}
+.user-grade .dimmed_text,
+.user-grade .hidden,
+.user-grade .hidden a {
+  color: #aaa;
+}
+.user-grade .oddd1,
+.user-grade .oddd3,
+.user-grade .evend3 {
+  background-color: #eee;
+}
+.user-grade .oddd1.b1b,
+.user-grade .oddd3.b1b,
+.user-grade .evend3.b1b,
+.user-grade .oddd1.b1l,
+.user-grade .oddd3.b1l,
+.user-grade .evend3.b1l {
+  border-top: 1px solid #fff;
+}
+.user-grade .oddd2,
+.user-grade .evend2,
+.user-grade .oddd4,
+.user-grade .evend4 {
+  background-color: #f9f9f9;
+}
+.user-grade .levelodd {
+  background-color: #eee;
+}
+.user-grade .levelodd.b1b,
+.user-grade .levelodd.b1l {
+  border-top: 1px solid #fff;
+}
+.user-grade .leveleven {
+  background-color: #fff;
 }
