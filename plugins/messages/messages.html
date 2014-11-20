@@ -5,9 +5,9 @@
     <div class="message">
         <p class="name"><%= message.userfromfullname %> <span class="time"><%= MM.util.timestampToUserDate(message.timecreated) %></span></p>
         <% if (message.notification) { %>
-        <p class="message"><%= MM.plugins.messages._format(message.fullmessage) %></p>
+        <p class="content"><%= MM.plugins.messages._format(message.fullmessage) %></p>
         <% } else { %>
-        <p class="message"><%= MM.plugins.messages._format(message.smallmessage) %></p>
+        <p class="content"><%= MM.plugins.messages._format(message.smallmessage) %></p>
         <div class="actions">
             <% if (message.useridfrom) { %>
                 <a class="reply-button" data-useridfrom="<%= message.useridfrom %>">Reply</a>
