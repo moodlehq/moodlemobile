@@ -868,10 +868,18 @@ hr {
       padding: 10px;
       border-top: 1px solid #eee;
     }
+    .post-info {
+      margin-left: 32px;
+    }
   }
   .intro {
     margin-left: 32px;
     padding: 0 10px 10px;
+  }
+  .first-post {
+    > .subject {
+      font-size: 1rem;
+    }
   }
   .forum-post {
     padding-top: 10px;
@@ -901,10 +909,11 @@ hr {
   }
   time {
     font-size: .75rem;
+    color: #888;
     display: block;
   }
   .subject {
-    font-size: 1rem;
+    color: @linkColor;
     padding: 10px;
     margin-left: 50px;
     border-top: 1px solid #eee;
@@ -913,6 +922,10 @@ hr {
   .content {
     padding: 0 10px 10px;
     margin-left: 50px;
+    ul,
+    ol {
+      margin-left: 20px;
+    }
   }
   .attachments {
     .attachment {
@@ -923,6 +936,7 @@ hr {
         padding: 0;
         line-height: 20px;
         margin-top: 2px;
+        color: @textColor;
       }
     }
     .content-actions {
@@ -930,21 +944,13 @@ hr {
       padding: 0;
     }
   }
-  .counter {
-    font-size: .75rem;
-    text-align: right;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    border-top: 1px solid #eee;
-    img {
-      margin-right: 6px;
-    }
-  }
   .post-info {
     font-size: .75rem;
+    color: #888;
     text-align: right;
     padding: 6px 10px;
     border-top: 1px solid #eee;
+    margin-left: 50px;
     span {
       display: inline-block;
       padding-left: 2px;
@@ -966,6 +972,15 @@ hr {
       display: inline-block;
       padding: 2px 6px;
       margin: 4px;
+    }
+  }
+  &.forum-discussion {
+    .first-post {
+      border-top: 15px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+    .indent {
+      border-top: 15px solid #eee;
     }
   }
 }
