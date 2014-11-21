@@ -59,7 +59,11 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                     var html = MM.tpl.render(MM.plugins.participants.templates.participants.html, tpl);
 
                     var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
-                    var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                    var pageTitle = "";
+
+                    if (course) {
+                        pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                    }
 
                     MM.panels.show('center', html, {title: pageTitle});
                     // Load the first user
@@ -148,7 +152,10 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                 var newUser = users.shift();
 
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
-                var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                var pageTitle = "";
+                if (course) {
+                    pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                }
 
                 var tpl = {
                     "user": newUser,
