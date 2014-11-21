@@ -783,9 +783,15 @@ hr {
   padding: 10px;
   border-top: 1px solid #eee;
 }
+.path-mod-forum .forum .post-info {
+  margin-left: 32px;
+}
 .path-mod-forum .intro {
   margin-left: 32px;
   padding: 0 10px 10px;
+}
+.path-mod-forum .first-post > .subject {
+  font-size: 1rem;
 }
 .path-mod-forum .forum-post {
   padding-top: 10px;
@@ -815,10 +821,11 @@ hr {
 }
 .path-mod-forum time {
   font-size: .75rem;
+  color: #888;
   display: block;
 }
 .path-mod-forum .subject {
-  font-size: 1rem;
+  color: #0088cc;
   padding: 10px;
   margin-left: 50px;
   border-top: 1px solid #eee;
@@ -828,6 +835,10 @@ hr {
   padding: 0 10px 10px;
   margin-left: 50px;
 }
+.path-mod-forum .content ul,
+.path-mod-forum .content ol {
+  margin-left: 20px;
+}
 .path-mod-forum .attachments .attachment {
   padding-top: 10px;
 }
@@ -835,26 +846,19 @@ hr {
   padding: 0;
   line-height: 20px;
   margin-top: 2px;
+  color: #666666;
 }
 .path-mod-forum .attachments .content-actions {
   width: 40px;
   padding: 0;
 }
-.path-mod-forum .counter {
-  font-size: .75rem;
-  text-align: right;
-  padding: 6px 12px;
-  margin-bottom: 0;
-  border-top: 1px solid #eee;
-}
-.path-mod-forum .counter img {
-  margin-right: 6px;
-}
 .path-mod-forum .post-info {
   font-size: .75rem;
+  color: #888;
   text-align: right;
   padding: 6px 10px;
   border-top: 1px solid #eee;
+  margin-left: 50px;
 }
 .path-mod-forum .post-info span {
   display: inline-block;
@@ -877,6 +881,13 @@ hr {
   display: inline-block;
   padding: 2px 6px;
   margin: 4px;
+}
+.path-mod-forum.forum-discussion .first-post {
+  border-top: 15px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.path-mod-forum.forum-discussion .indent {
+  border-top: 15px solid #eee;
 }
 .fullpath {
   width: 100%;

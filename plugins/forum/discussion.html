@@ -3,7 +3,7 @@
 </div>
 
 <div class="content-index">
-    <div class="path-mod-forum">
+    <div class="path-mod-forum forum-discussion">
 
         <div class="forum-post first-post" data-postdiscussion="<%= discussion.discussion %>">
             <div class="header">
@@ -20,7 +20,16 @@
                     <%= MM.util.formatText(discussion.message) %>
                     <%= MM.plugins.forum._printAttachments(discussion) %>
                 </div>
-                <p class="counter" role="heading"><img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %></p>
+                <p class="post-info" role="heading">
+                    <span>
+                        <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
+                    </span>
+                    <% if (discussion.created != discussion.timemodified && discussion.timemodified > discussion.created) { %>
+                        <span>
+                            <img src="img/time.png"><%= MM.util.printTimeAgo(discussion.timemodified) %>
+                        </span>
+                    <% } %>
+                </p>
                 <div class="indent">
                     <% _.each(posts, function(post) { %>
                     <% if (post.id == discussion.id) return; %>
@@ -40,14 +49,6 @@
 
                 </div>
 
-            </div>
-            <div class="post-info">
-                <span>
-                    <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
-                </span>
-                <% if (discussion.created != discussion.timemodified && discussion.timemodified > discussion.created) { %>
-                <span><img src="img/time.png"><%= MM.util.printTimeAgo(discussion.timemodified) %></span>
-                <% } %>
             </div>
         </div>
     </div>
