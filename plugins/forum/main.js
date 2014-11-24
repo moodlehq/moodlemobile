@@ -306,7 +306,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
                     // Toggler effect.
                     $(".forum-post .subject", "#panel-right").on(MM.clickType, function(e) {
-                        $(this).parent().find(".content").toggle();
+                        $(this).parent().find(".content").first().toggle();
                     });
 
                     // Bind downloads.
