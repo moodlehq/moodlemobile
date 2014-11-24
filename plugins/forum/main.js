@@ -171,7 +171,7 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         e.preventDefault();
                         var discussionId = $(this).data("discussionid");
                         // Loading...
-                        $(this).parent().find(".discussion-body").html('<div class="centered"><img src="img/loading.gif"></div>');
+                        $(this).append('<img src="img/loading.gif">');
 
                         location.href = "#forum/discussion/" + forum.course + "/" + discussionId;
                     });
