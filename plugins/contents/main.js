@@ -198,6 +198,12 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                 updateContentInDB = true;
                             }
 
+                            // Labels should be allways updated (the description may change).
+                            if (c.modname == "label") {
+                                c.description = content.description;
+                                updateContentInDB = true;
+                            }
+
                             if (updateContentInDB) {
                                 MM.db.insert("contents", c);
                             }
