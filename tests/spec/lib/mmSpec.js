@@ -277,7 +277,6 @@ describe("MM", function() {
                     ['settings/sites/add', 'settings_sites_add_site', 'Settings add site'],
                     ['settings/sites/delete/:siteid', 'settings_sites_delete_site', 'Settings delete site'],
                     ['settings/general/purgecaches', 'settings_general_purgecaches', 'Purge Cache Function'],
-                    ['settings/sync/lang', 'settings_sync_lang', MMSyncLangFunction],
                     ['settings/sync/css', 'settings_sync_css', MMSyncCSSFunction],
                     ['settings/development/log/:filter', 'settings_sync_css', 'Some logging function']
                 ]
