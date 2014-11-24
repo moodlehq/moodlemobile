@@ -498,7 +498,6 @@ hr {
   background-repeat: no-repeat;
   background-position: center center;
   border: 0;
-  background-size: 24px;
 }
 .header-main .nav-main .nav-item > a {
   padding: 0;
@@ -513,10 +512,10 @@ hr {
   letter-spacing: .5px;
 }
 .menu-home {
-  background-image: url(../img/header-home.png);
+  background-image: url(../img/ico-menu.png);
 }
 .menu-back {
-  background-image: url(../img/menu-back.png);
+  background-image: url(../img/ico-back.png);
 }
 /* - Common on three panels
 -------------------------------------------------------------------------- */
