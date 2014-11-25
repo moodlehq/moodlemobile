@@ -9,6 +9,8 @@
 @menuTextColor:                         #fff;
 @menuTextShadow:                        0px 1px 1px rgba(0, 0, 0, 0.2);
 
+@menuSubmenuBackground:                 #ed871a;
+
 @menuSectionHeadingColor:               @menuTextColor;
 @menuSectionHeadingTextShadow:          @menuTextShadow;
 @menuSectionHeadingBackground:          transparent;
@@ -637,12 +639,15 @@ hr {
     padding-left: 14px;
   }
   .nav-item {
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     > a {
       color: @menuTextColor;
       text-shadow: @menuTextShadow;
       letter-spacing: .5px;
+      &.collapse {
+        background-color: @menuSubmenuBackground;
+      }
     }
     .plugin-ico,
     .course-ico {
@@ -667,30 +672,17 @@ hr {
   .no-arrow > a {
     background-image: none;
   }
-  .section-header {
-    box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.1) inset;
-    .plugin-name {
-      color: @menuSectionHeadingColor;
-      font-size: .75rem;
-      text-transform: uppercase;
-      text-shadow: @menuSectionHeadingTextShadow;
-      margin-left: 4px;
-    }
-  }
   .submenu {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: @menuSubmenuBackground;
     .nav-item:last-of-type {
       border-bottom: 0;
     }
-    .divider {
-      border-bottom: 0
+    .submenu {
+      .plugin-name {
+        margin-left: 52px;
+      }
     }
-  }
-  .divider {
-    height: 22px;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: @menuSectionHeadingBoxShadow;
   }
   #general-menu a {
     padding-right: 36px;

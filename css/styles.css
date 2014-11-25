@@ -578,6 +578,9 @@ hr {
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   letter-spacing: .5px;
 }
+.user-menu .nav-item > a.collapse {
+  background-color: #ed871a;
+}
 .user-menu .nav-item .plugin-ico,
 .user-menu .nav-item .course-ico {
   float: left;
@@ -601,30 +604,15 @@ hr {
 .user-menu .no-arrow > a {
   background-image: none;
 }
-.user-menu .section-header {
-  box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.1) inset;
-}
-.user-menu .section-header .plugin-name {
-  color: #ffffff;
-  font-size: .75rem;
-  text-transform: uppercase;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
-  margin-left: 4px;
-}
 .user-menu .submenu {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #ed871a;
 }
 .user-menu .submenu .nav-item:last-of-type {
   border-bottom: 0;
 }
-.user-menu .submenu .divider {
-  border-bottom: 0;
-}
-.user-menu .divider {
-  height: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1) inset;
+.user-menu .submenu .submenu .plugin-name {
+  margin-left: 52px;
 }
 .user-menu #general-menu a {
   padding-right: 36px;
