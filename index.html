@@ -73,7 +73,13 @@
             );
             // Disable the back button, exists the app.
             document.addEventListener("backbutton", function() {
-                MM.panels.goBack();
+                if (MM.panels.currentPanel != 'left') {
+                       MM.panels.goBack();
+                } else {
+                   MM.panels.hide('center');
+                   MM.panels.hide('right');
+                   //window.history.back();
+                }
             }, false);
 
             // Call deviceIsReady function in plugins.
