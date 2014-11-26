@@ -1566,6 +1566,7 @@ hr {
   -moz-transition: opacity 400ms ease-in;
   transition: opacity 400ms ease-in;
   pointer-events: none;
+  display:none;
 }
 #app-dialog > div {
   width: 90%;
