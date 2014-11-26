@@ -56,8 +56,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 visible = true;
             }
 
-            visible =       visible ||
-                            ((MM.deviceOS == "ios" || MM.deviceOS == "android") &&
+            visible = visible ||
+                            ((MM.deviceOS == "ios" || MM.deviceOS == "android" || MM.deviceOS == "wp8" || MM.deviceOS == "windows8") &&
                             (MM.util.wsAvailable('core_user_add_user_device') || MM.util.wsAvailable('local_mobile_core_user_add_user_device')) &&
                             MM.util.wsAvailable('message_airnotifier_is_system_configured') &&
                             MM.util.wsAvailable('message_airnotifier_are_notification_preferences_configured'));
@@ -473,6 +473,93 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
 
         },
 
+        /**
+         * Register a device in Windows MPNS using the Phonegap PushPlugin
+         * It also register the device in the Moodle site using the core_user_add_user_device WebService
+         * We need the device registered in Moodle so we can connect the device with
+         * the message output Moode plugin airnotifier
+         *
+         * @param  {function} successCallback Callback for win
+         * @param  {function} errorCallback   Callback for fail
+         */
+        registerDeviceMPNS: function (successCallback, errorCallback) {
+
+            var pushNotification = window.plugins.pushNotification;
+
+            pushNotification.register(
+                function (URI) {
+                    MM.plugins.notifications._MPNSChannelHandler(URI, successCallback, errorCallback);
+                },
+                function (error) {
+                    errorCallback(MM.lang.s("errorduringdevicetokenrequesttoapns"));
+                    MM.log("Error during device token request: " + error, "Notifications");
+                },
+                {
+                    "channelName": "com.moodle.moodlemobile",
+                    "ecb": "MM.plugins.notifications.MPNSSsaveAndDisplay",
+                    "uccb": function (URI) {
+                        MM.plugins.notifications._MPNSChannelHandler(URI, successCallback, errorCallback);
+                    },
+                    "errcb": function (error) {
+                        MM.log("Error MPNS. Code: " + error.code + "  Message: " + error.message, "Notifications");
+                    }
+                }
+            );
+
+        },
+
+        /**
+         * Register a device in Windows 8 MPNS using the Phonegap PushPlugin
+         * It also register the device in the Moodle site using the core_user_add_user_device WebService
+         * We need the device registered in Moodle so we can connect the device with
+         * the message output Moode plugin airnotifier
+         *
+         * @param  {function} successCallback Callback for win
+         * @param  {function} errorCallback   Callback for fail
+         */
+        registerDeviceMPNSW8: function (successCallback, errorCallback) {
+
+            var pushNotifications = Windows.Networking.PushNotifications;
+            var channel;
+
+            var channelOperation = pushNotifications.PushNotificationChannelManager.createPushNotificationChannelForApplicationAsync();
+            return channelOperation.then(function (newChannel) {
+                // Success. The channel URI is found in newChannel.uri.
+                channel = newChannel;
+
+                //channel.addEventListener("pushnotificationreceived", pushNotificationReceivedHandler);
+                MM.plugins.notifications._MPNSChannelHandler(channel, successCallback, errorCallback);
+            },
+                function (error) {
+                    // Could not create a channel. Retrieve the error through error.number.
+                    MM.log("Error MPNS W8. Code: " + error.number, "Notifications");
+                }
+            );
+
+            function pushNotificationReceivedHandler(e) {
+                var notificationTypeName = "";
+                var notificationPayload;
+                switch (e.notificationType) {
+                    // You can get the toast, tile, or badge notification object.
+                    // In this example, we take the XML from the notification.
+                    case pushNotifications.PushNotificationType.toast:
+                        notificationTypeName = "Toast";
+                        notificationPayload = e.toastNotification.content.getXml();
+                        break;
+                    case pushNotifications.PushNotificationType.tile:
+                        notificationTypeName = "Tile";
+                        notificationPayload = e.tileNotification.content.getXml();
+                        break;
+                    case pushNotifications.PushNotificationType.badge:
+                        notificationTypeName = "Badge";
+                        notificationPayload = e.badgeNotification.content.getXml();
+                        break;
+                }
+                e.cancel = true;
+            }
+
+        },
+
 
         /**
          * Register a device in Apple APNS or Google GCM
@@ -492,6 +579,10 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 MM.plugins.notifications.registerDeviceAPNS(successCallback, errorCallback);
             } else if (MM.deviceOS == 'android') {
                 MM.plugins.notifications.registerDeviceGCM(successCallback, errorCallback);
+            } else if (MM.deviceOS == 'wp8') {
+                MM.plugins.notifications.registerDeviceMPNS(successCallback, errorCallback);
+            } else if (MM.deviceOS == 'windows8') {
+                MM.plugins.notifications.registerDeviceMPNSW8(successCallback, errorCallback);
             }
         },
 
