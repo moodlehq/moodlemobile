@@ -1,4 +1,4 @@
-var templates = [
+﻿var templates = [
     "root/externallib/text!root/plugins/contents/sections.html",
     "root/externallib/text!root/plugins/contents/contents.html",
     "root/externallib/text!root/plugins/contents/folder.html",
@@ -428,6 +428,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                     MM.moodleDownloadFile(downloadURL, path.file,
                         function(fullpath) {
+
+                            fullpath = fullpath.replace("LocalState\\", "LocalState/");
+
                             MM.log("Content: Download of content finished " + fullpath + " URL: " + downloadURL + " Index: " +index + "Local path: " + path.file);
                             content.contents[index].localpath = path.file;
                             var downloadTime = MM.util.timestamp();
@@ -652,14 +655,14 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             filename = MM.fs.normalizeFileName(filename);
 
             // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
-            var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
+            var path = MM.config.current_site.id + "\\" + courseId + "\\" + modId;
 
             // Check if the file is in a Moodle virtual directory.
             if (file.filepath) {
                 path += file.filepath;
                 newfile = path + filename;
             } else {
-                newfile = path + "/" + filename;
+                newfile = path + "\\" + filename;
             }
 
             return {
