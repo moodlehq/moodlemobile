@@ -221,8 +221,10 @@ define(templates, function (filesTpl) {
 
             filename = MM.fs.normalizeFileName(filename);
 
-            var directory = siteId + "/files/" + linkId;
-            var filePath = directory + "/" + filename;
+            var directory = siteId + "\\files\\" + linkId;
+            directory = directory.replace("/", "\\");
+            var filePath = directory + "\\" + filename;
+            filePath = filePath.replace("/", "\\");
 
             MM.fs.init(function() {
                 if (MM.deviceConnected()) {
@@ -234,6 +236,10 @@ define(templates, function (filesTpl) {
                         $(downCssId).attr("src", "img/loadingblack.gif");
                         MM.moodleDownloadFile(downloadURL, filePath,
                             function(fullpath) {
+
+                                // Issue - 17310
+                                fullpath = fullpath.replace("LocalState\\", "LocalState/");
+
                                 MM.log("Download of content finished " + fullpath + " URL: " + downloadURL);
 
                                 var uniqueId = siteId + "-" + hex_md5(url);
