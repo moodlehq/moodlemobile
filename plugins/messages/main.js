@@ -1,9 +1,13 @@
 var requires = [
-    "root/externallib/text!root/plugins/messages/messages.html"
+    "root/externallib/text!root/plugins/messages/messages.html",
+    "root/externallib/text!root/plugins/messages/recent.html",
+    "root/externallib/text!root/plugins/messages/conversation.html",
+    "root/externallib/text!root/plugins/messages/contact.html",
+    "root/externallib/text!root/plugins/messages/contacts.html"
 ];
 
 
-define(requires, function (messagesTpl) {
+define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, contactsTpl) {
 
     var plugin = {
         settings: {
@@ -17,12 +21,27 @@ define(requires, function (messagesTpl) {
         },
 
         routes: [
-            ["messages", "messages", "showMessages"]
+            ["messages", "messages", "showMessages"],
+            ["messages/conversation/:userId", "messages_conversation", "showConversation"],
+            ["messages/contacts", "messages_contacts", "showContacts"],
+            ["messages/contact/:userId", "messages_contact", "showContact"]
         ],
 
         templates: {
             "messages": {
                 html: messagesTpl
+            },
+            "recent": {
+                html: recentTpl
+            },
+            "conversation": {
+                html: conversationTpl
+            },
+            "contact": {
+                html: contactTpl
+            },
+            "contacts": {
+                html: contactsTpl
             }
         },
 
@@ -86,8 +105,12 @@ define(requires, function (messagesTpl) {
             MM.panels.hide("right", "");
             MM.Router.navigate('');
 
-
             $('a[href="#messages"]').addClass('loading-row');
+
+            setTimeout(function() {
+                MM.plugins.messages._showRecentConversations();
+            }, 600);
+            return;
 
             var limit = 50;
 
@@ -151,6 +174,45 @@ define(requires, function (messagesTpl) {
                     MM.popErrorMessage(e);
                 }
             );
+        },
+
+        _showRecentConversations: function() {
+            $('a[href="#messages"]').removeClass('loading-row');
+            html = MM.tpl.render(MM.plugins.messages.templates.recent.html, {});
+            MM.panels.show('center', html, {title: MM.lang.s("messages")});
+
+            $("#header-action-contacts").css("position", "fixed");
+            $("#header-action-contacts").css("z-index", "9999");
+            $("#header-action-contacts").css("top", "2px");
+            $("#header-action-contacts").css("right", "4px");
+            $("#header-action-contacts").html('<a href="#messages/contacts"><img border="0" src="img/userimage.png" width="16"></a>');
+        },
+
+        showContacts: function() {
+            html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {});
+            MM.panels.show('center', html, {title: MM.lang.s("contacts")});
+
+            $("#header-action-recent").css("position", "fixed");
+            $("#header-action-recent").css("z-index", "9999");
+            $("#header-action-recent").css("top", "2px");
+            $("#header-action-recent").css("right", "4px");
+            $("#header-action-recent").html('<a href="#messages"><img border="0" src="plugins/messages/icon.png" width="16"></a>');
+        },
+
+        showContact: function(userId) {
+            html = MM.tpl.render(MM.plugins.messages.templates.contact.html, {});
+            MM.panels.show('right', html, {title: MM.lang.s("info")});
+        },
+
+        showConversation: function(userId) {
+            html = MM.tpl.render(MM.plugins.messages.templates.conversation.html, {});
+            MM.panels.show('right', html, {title: "John Smith"});
+
+            $("#header-action-contact").css("position", "fixed");
+            $("#header-action-contact").css("z-index", "9999");
+            $("#header-action-contact").css("top", "2px");
+            $("#header-action-contact").css("right", "4px");
+            $("#header-action-contact").html('<a href="#messages/contact/1"><img border="0" src="img/time.png" width="16"></a>');
         }
     };
 
