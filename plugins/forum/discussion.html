@@ -41,7 +41,7 @@
                             <time><%= MM.util.timestampToUserDate(post.modified) %></time>
                         </div>
                         <p class="subject"><%= MM.util.formatText(post.subject) %></p>
-                        <div class="content" style="display: none">
+                        <div class="content">
                             <%= MM.util.formatText(post.message) %>
                             <%= MM.plugins.forum._printAttachments(post) %>
                         </div>
