@@ -44,7 +44,7 @@
 @textColor:                             #666;
 @linkColor:                             #08c;
 @headingsColor:                         @textColor;
-@iconColor:                             #767676;
+@iconColor:                             #999;
 
 @sectionHeadingColor:                   @textColor;
 @sectionHeadingTextShadow:              0px 1px 1px rgba(0, 0, 0, 0.2);
@@ -1627,9 +1627,17 @@ div.jqi {
     &.baggt {
       padding-left: 40px;
     }
-    img {
+    .app-ico span {
       margin-left: -20px;
       float: left;
+    }
+    img {
+      width: 16px;
+      margin-left: -20px;
+      float: left;
+      &:first-child {
+        display: inherit;
+      }
     }
   }
   .b1l {
@@ -1729,81 +1737,96 @@ div.jqi {
 .ico-siteevent:before {
   content: "\e602";
 }
-.ico-myfiles:before {
+.ico-manual_item:before {
   content: "\e603";
 }
-.ico-messages:before {
+.ico-myfiles:before {
   content: "\e604";
 }
-.ico-reply:before {
+.ico-folder:before {
   content: "\e605";
 }
-.ico-discussion:before {
+.ico-messages:before {
   content: "\e606";
 }
-.ico-userevent:before {
+.ico-reply:before {
   content: "\e607";
 }
-.ico-groupevent:before {
+.ico-discussion:before {
   content: "\e608";
 }
-.ico-notifications:before {
+.ico-userevent:before {
   content: "\e609";
 }
-.ico-settings:before {
+.ico-groupevent:before {
   content: "\e60a";
 }
-.ico-course:before {
+.ico-notifications:before {
   content: "\e60b";
 }
-.ico-courseevent:before {
+.ico-settings:before {
   content: "\e60c";
 }
-.ico-reload:before {
+.ico-course:before {
   content: "\e60d";
 }
-.ico-website:before {
+.ico-courseevent:before {
   content: "\e60e";
 }
-.ico-help:before {
+.ico-reload:before {
   content: "\e60f";
 }
-.ico-info:before {
+.ico-website:before {
   content: "\e610";
 }
-.ico-time:before {
+.ico-help:before {
   content: "\e611";
 }
-.ico-delete:before {
+.ico-info:before {
   content: "\e612";
 }
-.ico-upload:before {
+.ico-time:before {
   content: "\e613";
 }
-.ico-download:before {
+.ico-outcomes:before {
   content: "\e614";
 }
-.ico-logout:before {
+.ico-upload:before {
   content: "\e615";
 }
-.ico-share:before {
+.ico-download:before {
   content: "\e616";
 }
-.ico-next:before {
+.ico-logout:before {
   content: "\e617";
 }
-.ico-back:before {
+.ico-share:before {
   content: "\e618";
 }
-.ico-expand:before {
+.ico-next:before {
   content: "\e619";
 }
-.ico-collapse:before {
+.ico-back:before {
   content: "\e61a";
 }
-.ico-selected:before {
+.ico-expand:before {
   content: "\e61b";
 }
-.ico-arrowright:before {
+.ico-collapse:before {
   content: "\e61c";
+}
+.ico-selected:before {
+  content: "\e61d";
+}
+.ico-arrowright:before {
+  content: "\e61e";
+}
+.ico-delete:before {
+  content: "\e61f";
+}
+.ico-agg_mean:before {
+  content: "\e620";
+}
+.ico-agg_sum:before {
+  content: "\e621";
 }
