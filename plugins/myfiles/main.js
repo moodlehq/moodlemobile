@@ -190,6 +190,9 @@ define(templates, function (filesTpl) {
 
                         MM.plugins.myfiles._downloadFile(url, filename, linkId);
                     });
+
+                    // Hack, in iPad this page is not rendered well, it needs a refresh doing a DOM change.
+                    $(".nav.nav-v", "#panel-center").css("display", "block");
                 },
                 null,
                 function (error) {
