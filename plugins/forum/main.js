@@ -320,8 +320,6 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
 
                         MM.plugins.forum._downloadFile(url, filename, attachmentId);
                     });
-                    // Force attachments to open.
-                    MM.handleFiles('#panel-right a[rel="external"]');
                 },
                 null,
                 function (error) {
@@ -395,6 +393,10 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                                 $(downCssId).remove();
                                 $(linkCssId).attr("href", fullpath);
                                 $(linkCssId).attr("rel", "external");
+                                // Remove class and events.
+                                $(linkCssId).removeClass("forum-download");
+                                $(linkCssId).off(MM.clickType);
+
                                 // Android, open in new browser
                                 MM.handleFiles(linkCssId);
                                 MM._openFile(fullpath);

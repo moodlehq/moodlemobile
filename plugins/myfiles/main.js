@@ -234,6 +234,10 @@ define(templates, function (filesTpl) {
                                 $(downCssId).remove();
                                 $(linkCssId).attr("href", fullpath);
                                 $(linkCssId).attr("rel", "external");
+                                // Remove class and events.
+                                $(linkCssId).removeClass("myfiles-download");
+                                $(linkCssId).off(MM.clickType);
+
                                 // Android, open in new browser
                                 MM.handleFiles(linkCssId);
                                 MM._openFile(fullpath);
