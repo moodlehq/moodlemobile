@@ -192,7 +192,10 @@ define(templates, function (filesTpl) {
                     });
 
                     // Hack, in iPad this page is not rendered well, it needs a refresh doing a DOM change.
-                    $(".nav.nav-v", "#panel-center").css("display", "block");
+                    setTimeout(function() {
+                        $(".nav.nav-v", "#panel-center").css("display", "block");
+                        $("#panel-center").css("width", "99%");
+                    }, 200);
                 },
                 null,
                 function (error) {
