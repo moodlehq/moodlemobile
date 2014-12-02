@@ -579,7 +579,8 @@ hr {
   letter-spacing: .5px;
 }
 .user-menu .nav-item > a.collapse {
-  background-color: #ed871a;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .user-menu .nav-item .plugin-ico,
 .user-menu .nav-item .course-ico {
@@ -604,12 +605,17 @@ hr {
 .user-menu .no-arrow > a {
   background-image: none;
 }
-.user-menu .submenu {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: #ed871a;
+.user-menu .submenu .nav-item {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 .user-menu .submenu .nav-item:last-of-type {
   border-bottom: 0;
+}
+.user-menu .submenu .nav-item .collapse {
+  background-color: transparent;
+}
+.user-menu .submenu .submenu .nav-item {
+  background-color: transparent;
 }
 .user-menu .submenu .submenu .plugin-name {
   margin-left: 52px;
