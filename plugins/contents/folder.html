@@ -1,10 +1,9 @@
 <div class="back-row">
-    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>"><img src="img/arrowleft.png" border="0"></a>
+    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>"><img src="img/arrowleft.png" border="0"><span id="back-arrow-title">%= MM.util.formatText(sectionName) %></span></a>
 </div>
 
 <div class="content-index">
     <section>
-        <h2><%= MM.util.formatText(sectionName) %></h2>
         <ul class="nav nav-v">
             <li class="nav-item media">
                 <div class="content-actions app-ico">

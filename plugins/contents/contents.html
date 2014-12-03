@@ -3,8 +3,8 @@
     <header>
         <div>
             <div class="bd">
-                <h1><%= course.fullname %></h1>
-                <p><%= course.summary %></p>
+                <h1><%= MM.util.formatText(course.fullname) %></h1>
+                <p><%= MM.util.formatText(course.summary) %></p>
             </div>
         </div>
     </header>
