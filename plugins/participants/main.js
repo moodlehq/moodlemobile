@@ -62,7 +62,7 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                     var pageTitle = "";
 
                     if (course) {
-                        pageTitle = MM.lang.s("participants");
+                        pageTitle = course.get("shortname");;
                     }
 
                     MM.panels.show('center', html, {title: pageTitle});
