@@ -157,7 +157,6 @@ define(requires, function (messagesTpl) {
          * Get contacts
          * @param  {object} successCallback Success callback function
          * @param  {object} errorCallback   Error callback function
-         * @return {object}                 Array containing online, offline and strangers
          */
         _getContacts: function(successCallback, errorCallback) {
 
@@ -165,6 +164,40 @@ define(requires, function (messagesTpl) {
                 MM.plugins.messages.wsPrefix + 'get_contacts',
                 {},
                 function(contacts) {
+                    if (typeof successCallback == "function") {
+                        successCallback(contacts);
+                    }
+                },
+                null,
+                function(e) {
+                    if (typeof errorCallback == "function") {
+                        errorCallback(e);
+                    }
+                }
+            );
+        },
+
+        /**
+         * Create a contact
+         * @param  {number} userId userId to be added as contact
+         * @param  {object} successCallback Success callback function
+         * @param  {object} errorCallback   Error callback function
+         */
+        _createContact: function(userId, successCallback, errorCallback) {
+            var data = {
+                "userids[0]" : userId
+            };
+
+            MM.moodleWSCall(
+                MM.plugins.messages.wsPrefix + 'create_contacts',
+                data,
+                function(warnings) {
+                    if (warnings && warnings.length) {
+                        if (typeof errorCallback == "function") {
+                            errorCallback(warnings[0]['message']);
+                        }
+                        return;
+                    }
                     if (typeof successCallback == "function") {
                         successCallback(contacts);
                     }
