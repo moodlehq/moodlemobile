@@ -105,8 +105,7 @@ define(requires, function (messagesTpl) {
                 limitnum: limit
             };
 
-            MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'core_message_get_messages',
+            MM.plugins.messages._getMessages(
                 params,
                 function(messages) {
                     if (messages.messages) {
@@ -115,8 +114,8 @@ define(requires, function (messagesTpl) {
                         } else {
                             params.limitnum = limit - messages.messages.length;
                             params.read = 1;
-                            MM.moodleWSCall(
-                                MM.plugins.messages.wsPrefix + 'core_message_get_messages',
+                            // Load more messages but now read messages.
+                            MM.plugins.messages._getMessages(
                                 params,
                                 function(moremessages) {
                                     $('a[href="#messages"]').removeClass('loading-row');
@@ -126,10 +125,6 @@ define(requires, function (messagesTpl) {
                                     } else {
                                         MM.plugins.messages._renderMessages(messages.messages);
                                     }
-                                },
-                                {
-                                    getFromCache: false,
-                                    saveToCache: true
                                 },
                                 function() {
                                     $('a[href="#messages"]').removeClass('loading-row');
@@ -146,13 +141,30 @@ define(requires, function (messagesTpl) {
                         }
                     }
                 },
+                function(e) {
+                    $('a[href="#messages"]').removeClass('loading-row');
+                    MM.popErrorMessage(e);
+                }
+            );
+        },
+
+        _getMessages: function(params, successCallback, errorCallback) {
+            MM.moodleWSCall(
+                MM.plugins.messages.wsPrefix + 'core_message_get_messages',
+                params,
+                function(messages) {
+                    if (typeof successCallback == "function") {
+                        successCallback(messages);
+                    }
+                },
                 {
                     getFromCache: false,
                     saveToCache: true
                 },
                 function(e) {
-                    $('a[href="#messages"]').removeClass('loading-row');
-                    MM.popErrorMessage(e);
+                    if (typeof errorCallback == "function") {
+                        errorCallback(e);
+                    }
                 }
             );
         },
