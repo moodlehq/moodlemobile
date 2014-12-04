@@ -300,6 +300,36 @@ define(requires, function (messagesTpl) {
                 }
             );
         },
+
+        /**
+         * Search contacts
+         * @param  {string} text search text
+         * @param  {string} onlyMyCourses search only in my courses
+         * @param  {object} successCallback Success callback function
+         * @param  {object} errorCallback   Error callback function
+         */
+        _searchContacts: function(text, onlyMyCourses, successCallback, errorCallback) {
+            var data = {
+                "searchtext" : text,
+                "onlymycourses": onlyMyCourses
+            };
+
+            MM.moodleWSCall(
+                MM.plugins.messages.wsPrefix + 'search_contacts',
+                data,
+                function(contacts) {
+                    if (typeof successCallback == "function") {
+                        successCallback(contacts);
+                    }
+                },
+                null,
+                function(e) {
+                    if (typeof errorCallback == "function") {
+                        errorCallback(e);
+                    }
+                }
+            );
+        },
     };
 
     MM.registerPlugin(plugin);
