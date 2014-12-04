@@ -210,6 +210,36 @@ define(requires, function (messagesTpl) {
                 }
             );
         },
+
+        /**
+         * Delete a contact
+         * @param  {number} userId userId to be deleted as contact
+         * @param  {object} successCallback Success callback function
+         * @param  {object} errorCallback   Error callback function
+         */
+        _deleteContact: function(userId, successCallback, errorCallback) {
+            var data = {
+                "userids[0]" : userId
+            };
+
+            MM.moodleWSCall(
+                MM.plugins.messages.wsPrefix + 'delete_contacts',
+                data,
+                function(result) {
+                    if (typeof successCallback == "function") {
+                        successCallback();
+                    }
+                },
+                null,
+                function(e) {
+                    if (typeof errorCallback == "function") {
+                        errorCallback(e);
+                    }
+                }
+            );
+        },
+
+
     };
 
     MM.registerPlugin(plugin);
