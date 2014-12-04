@@ -88,9 +88,26 @@ define(requires, function (messagesTpl) {
 
             $('a[href="#messages"]').addClass('loading-row');
 
-            MM.plugins.messages._renderMessageList();
+            // Checks if all the messaging WS are available.
+            if (MM.util.wsAvailable(MM.plugins.messages.wsPrefix + 'core_message_get_contacts')) {
+                MM.plugins.messages._renderRecentMessages();
+            } else {
+                MM.plugins.messages._renderMessageList();
+            }
         },
 
+        /**
+         * Render the recent messages page.
+         * Displays a list of contacts with last message (whatsapp/telegram style).
+         */
+        _renderRecentMessages: function() {
+            $('a[href="#messages"]').removeClass('loading-row');
+        },
+
+        /**
+         * Render a list of messages.
+         * This function is used when the Moodle site doesn't have all the messaging functions available.
+         */
         _renderMessageList: function() {
 
             var limit = 50;
@@ -177,7 +194,7 @@ define(requires, function (messagesTpl) {
         _getContacts: function(successCallback, errorCallback) {
 
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'get_contacts',
+                MM.plugins.messages.wsPrefix + 'core_message_get_contacts',
                 {},
                 function(contacts) {
                     if (typeof successCallback == "function") {
@@ -205,7 +222,7 @@ define(requires, function (messagesTpl) {
             };
 
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'create_contacts',
+                MM.plugins.messages.wsPrefix + 'core_message_create_contacts',
                 data,
                 function(warnings) {
                     if (warnings && warnings.length) {
@@ -239,7 +256,7 @@ define(requires, function (messagesTpl) {
             };
 
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'delete_contacts',
+                MM.plugins.messages.wsPrefix + 'core_message_delete_contacts',
                 data,
                 function(result) {
                     if (typeof successCallback == "function") {
@@ -267,7 +284,7 @@ define(requires, function (messagesTpl) {
             };
 
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'block_contacts',
+                MM.plugins.messages.wsPrefix + 'core_message_block_contacts',
                 data,
                 function(warnings) {
                     if (warnings && warnings.length) {
@@ -301,7 +318,7 @@ define(requires, function (messagesTpl) {
             };
 
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'unblock_contacts',
+                MM.plugins.messages.wsPrefix + 'core_message_unblock_contacts',
                 data,
                 function(result) {
                     if (typeof successCallback == "function") {
@@ -331,7 +348,7 @@ define(requires, function (messagesTpl) {
             };
 
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'search_contacts',
+                MM.plugins.messages.wsPrefix + 'core_message_search_contacts',
                 data,
                 function(contacts) {
                     if (typeof successCallback == "function") {
