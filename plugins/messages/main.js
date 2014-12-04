@@ -86,8 +86,12 @@ define(requires, function (messagesTpl) {
             MM.panels.hide("right", "");
             MM.Router.navigate('');
 
-
             $('a[href="#messages"]').addClass('loading-row');
+
+            MM.plugins.messages._renderMessageList();
+        },
+
+        _renderMessageList: function() {
 
             var limit = 50;
 
