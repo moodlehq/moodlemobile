@@ -151,7 +151,32 @@ define(requires, function (messagesTpl) {
                     MM.popErrorMessage(e);
                 }
             );
-        }
+        },
+
+        /**
+         * Get contacts
+         * @param  {object} successCallback Success callback function
+         * @param  {object} errorCallback   Error callback function
+         * @return {object}                 Array containing online, offline and strangers
+         */
+        _getContacts: function(successCallback, errorCallback) {
+
+            MM.moodleWSCall(
+                MM.plugins.messages.wsPrefix + 'get_contacts',
+                {},
+                function(contacts) {
+                    if (typeof successCallback == "function") {
+                        successCallback(contacts);
+                    }
+                },
+                null,
+                function(e) {
+                    if (typeof errorCallback == "function") {
+                        errorCallback(e);
+                    }
+                }
+            );
+        },
     };
 
     MM.registerPlugin(plugin);
