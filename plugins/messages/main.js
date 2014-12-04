@@ -101,7 +101,57 @@ define(requires, function (messagesTpl) {
          * Displays a list of contacts with last message (whatsapp/telegram style).
          */
         _renderRecentMessages: function() {
-            $('a[href="#messages"]').removeClass('loading-row');
+            MM.plugins.messages._renderMessageList(); // Temporary allow this
+
+            var recentContactMessages = [];
+            var recentContactsIds = {};
+
+            // Get recent messages (and sender).
+            MM.plugins.messages._getRecentMessages(
+                function(messages) {
+                    // Find different senders in the messages list, in the latest 50 messages.
+                    if (messages.length > 0) {
+                        messages.forEach(function(m) {
+                            if (!(m.useridfrom in recentContactsIds)) {
+                                recentContactsIds[m.useridfrom] = {fullname: m.userfromfullname};
+                                recentContactMessages.push({
+                                    user: m.useridfrom,
+                                    message: m.smallmessage,
+                                    timecreated: m.timecreated,
+                                });
+                            }
+                        });
+                    }
+                    // Now, get my contacts (the function returns unread messages count for contacts,
+                    // maybe some are not included in the latest 50).
+                    MM.plugins.messages._getContacts(
+                        function(contacts) {
+                            var types = ["online", "offline", "strangers"];
+                            types.forEach(function(type) {
+                                if (contacts[type] && contacts[type].length > 0) {
+                                    contacts[type].forEach(function(contact) {
+                                        if (contact.id in recentContactsIds) {
+                                            recentContactsIds[contact.id]["profileimageurlsmall"] = contact.profileimageurlsmall;
+                                            recentContactsIds[contact.id]["unread"] = contact.unread;
+                                        }
+                                    });
+                                }
+                            });
+                        },
+                        function(e) {
+                            MM.log("Error retrieving contacts", "Messages");
+                        }
+                    );
+
+                },
+                function(e) {
+                    $('a[href="#messages"]').removeClass('loading-row');
+                    MM.popErrorMessage(e);
+                }
+            );
+
+
+            //$('a[href="#messages"]').removeClass('loading-row');
         },
 
         /**
@@ -110,53 +160,10 @@ define(requires, function (messagesTpl) {
          */
         _renderMessageList: function() {
 
-            var limit = 50;
-
-            var params = {
-                useridto: MM.config.current_site.userid,
-                useridfrom: 0,
-                type: 'conversations',
-                read: 0,
-                newestfirst: 1,
-                limitfrom: 0,
-                limitnum: limit
-            };
-
-            MM.plugins.messages._getMessages(
-                params,
+            MM.plugins.messages._getRecentMessages(
                 function(messages) {
-                    if (messages.messages) {
-                        if (messages.messages.length >= limit) {
-                            MM.plugins.messages._renderMessages(messages);
-                        } else {
-                            params.limitnum = limit - messages.messages.length;
-                            params.read = 1;
-                            // Load more messages but now read messages.
-                            MM.plugins.messages._getMessages(
-                                params,
-                                function(moremessages) {
-                                    $('a[href="#messages"]').removeClass('loading-row');
-                                    if (moremessages.messages) {
-                                        MM.plugins.messages._renderMessages(
-                                            messages.messages.concat(moremessages.messages));
-                                    } else {
-                                        MM.plugins.messages._renderMessages(messages.messages);
-                                    }
-                                },
-                                function() {
-                                    $('a[href="#messages"]').removeClass('loading-row');
-                                    MM.plugins.messages._renderMessages([]);
-                                }
-                            );
-                        }
-                    } else {
-                        $('a[href="#messages"]').removeClass('loading-row');
-                        if (messages.exception && messages.errorcode == "disabled") {
-                            MM.popErrorMessage(messages.message);
-                        } else {
-                            MM.plugins.messages._renderMessages([]);
-                        }
-                    }
+                    $('a[href="#messages"]').removeClass('loading-row');
+                    MM.plugins.messages._renderMessages(messages);
                 },
                 function(e) {
                     $('a[href="#messages"]').removeClass('loading-row');
@@ -182,6 +189,58 @@ define(requires, function (messagesTpl) {
                     if (typeof errorCallback == "function") {
                         errorCallback(e);
                     }
+                }
+            );
+        },
+
+        _getRecentMessages: function(successCallback, errorCallback) {
+
+            var limit = 50;
+
+            var params = {
+                useridto: MM.config.current_site.userid,
+                useridfrom: 0,
+                type: 'conversations',
+                read: 0,
+                newestfirst: 1,
+                limitfrom: 0,
+                limitnum: limit
+            };
+
+            MM.plugins.messages._getMessages(
+                params,
+                function(messages) {
+                    if (messages.messages) {
+                        if (messages.messages.length >= limit) {
+                            successCallback(messages);
+                        } else {
+                            params.limitnum = limit - messages.messages.length;
+                            params.read = 1;
+                            // Load more messages but now read messages.
+                            MM.plugins.messages._getMessages(
+                                params,
+                                function(moremessages) {
+                                    if (moremessages.messages) {
+                                        successCallback(messages.messages.concat(moremessages.messages));
+                                    } else {
+                                        successCallback(messages.messages);
+                                    }
+                                },
+                                function() {
+                                    successCallback(messages);
+                                }
+                            );
+                        }
+                    } else {
+                        if (messages.exception && messages.errorcode == "disabled") {
+                            errorCallback(messages.message);
+                        } else {
+                            successCallback([]);
+                        }
+                    }
+                },
+                function(e) {
+                    errorCallback(e);
                 }
             );
         },
