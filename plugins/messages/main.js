@@ -239,7 +239,67 @@ define(requires, function (messagesTpl) {
             );
         },
 
+        /**
+         * Block a contact
+         * @param  {number} userId userId to be blocked
+         * @param  {object} successCallback Success callback function
+         * @param  {object} errorCallback   Error callback function
+         */
+        _blockContact: function(userId, successCallback, errorCallback) {
+            var data = {
+                "userids[0]" : userId
+            };
 
+            MM.moodleWSCall(
+                MM.plugins.messages.wsPrefix + 'block_contacts',
+                data,
+                function(warnings) {
+                    if (warnings && warnings.length) {
+                        if (typeof errorCallback == "function") {
+                            errorCallback(warnings[0]['message']);
+                        }
+                        return;
+                    }
+                    if (typeof successCallback == "function") {
+                        successCallback(contacts);
+                    }
+                },
+                null,
+                function(e) {
+                    if (typeof errorCallback == "function") {
+                        errorCallback(e);
+                    }
+                }
+            );
+        },
+
+        /**
+         * Unblock a contact
+         * @param  {number} userId userId to be unblocked
+         * @param  {object} successCallback Success callback function
+         * @param  {object} errorCallback   Error callback function
+         */
+        _unblockContact: function(userId, successCallback, errorCallback) {
+            var data = {
+                "userids[0]" : userId
+            };
+
+            MM.moodleWSCall(
+                MM.plugins.messages.wsPrefix + 'unblock_contacts',
+                data,
+                function(result) {
+                    if (typeof successCallback == "function") {
+                        successCallback();
+                    }
+                },
+                null,
+                function(e) {
+                    if (typeof errorCallback == "function") {
+                        errorCallback(e);
+                    }
+                }
+            );
+        },
     };
 
     MM.registerPlugin(plugin);
