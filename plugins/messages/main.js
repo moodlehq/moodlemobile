@@ -17,7 +17,8 @@ define(requires, function (messagesTpl) {
         },
 
         routes: [
-            ["messages", "messages", "showMessages"]
+            ["messages", "messages", "showMessages"],
+            ["messages/conversation/:userId", "messages_conversation", "showConversation"]
         ],
 
         templates: {
@@ -51,6 +52,76 @@ define(requires, function (messagesTpl) {
             return visible;
         },
 
+        /**
+         * Messages plugin main entry point for the user
+         * It may display the button for enable messages or the list of messages received
+         *
+         */
+        showMessages: function() {
+            var html, tpl;
+
+            MM.panels.showLoading('center');
+            MM.panels.hide("right", "");
+            MM.Router.navigate('');
+
+            $('a[href="#messages"]').addClass('loading-row');
+
+            // Checks if all the messaging WS are available.
+            if (MM.util.wsAvailable(MM.plugins.messages.wsPrefix + 'core_message_get_contacts')) {
+                MM.plugins.messages._renderRecentMessages();
+            } else {
+                MM.plugins.messages._renderMessageList();
+            }
+        },
+
+        showConversation: function(userId) {
+
+            var params = {
+                useridto: MM.config.current_site.userid,
+                useridfrom: userId,
+                type: 'conversations',
+                read: 0,
+                newestfirst: 1,
+                limitfrom: 0,
+                limitnum: 50
+            };
+
+            // First, messages received.
+            MM.plugins.messages._getRecentMessages(
+                params,
+                function(messagesReceived) {
+                    // Now, messages sent.
+                    params.useridto = userId;
+                    params.useridfrom = MM.config.current_site.userid;
+
+                    MM.plugins.messages._getRecentMessages(
+                        params,
+                        function(messagesSent) {
+                            MM.plugins.messages._renderConversation(userId, messagesReceived, messagesSent);
+                        },
+                        function(e) {
+                            MM.popErrorMessage(e);
+                        }
+                    );
+                },
+                function(e) {
+                    MM.popErrorMessage(e);
+                }
+            );
+        },
+
+        _renderConversation: function(userId, messagesReceived, messagesSent) {
+            // Join the arrays and sort.
+            var messages = messagesReceived.concat(messagesSent);
+            // Sort by timecreated.
+            messages = messages.sort(function (a, b) {
+                a = parseInt(a.timecreated, 10);
+                b = parseInt(b.timecreated, 10);
+
+                return a - b;
+            });
+        },
+
         _renderMessages: function(messages) {
             tpl = {messages: messages};
             html = MM.tpl.render(MM.plugins.messages.templates.messages.html, tpl);
@@ -75,28 +146,6 @@ define(requires, function (messagesTpl) {
         },
 
         /**
-         * Messages plugin main entry point for the user
-         * It may display the button for enable messages or the list of messages received
-         *
-         */
-        showMessages: function() {
-            var html, tpl;
-
-            MM.panels.showLoading('center');
-            MM.panels.hide("right", "");
-            MM.Router.navigate('');
-
-            $('a[href="#messages"]').addClass('loading-row');
-
-            // Checks if all the messaging WS are available.
-            if (MM.util.wsAvailable(MM.plugins.messages.wsPrefix + 'core_message_get_contacts')) {
-                MM.plugins.messages._renderRecentMessages();
-            } else {
-                MM.plugins.messages._renderMessageList();
-            }
-        },
-
-        /**
          * Render the recent messages page.
          * Displays a list of contacts with last message (whatsapp/telegram style).
          */
@@ -106,8 +155,19 @@ define(requires, function (messagesTpl) {
             var recentContactMessages = [];
             var recentContactsIds = {};
 
-            // Get recent messages (and sender).
+            var params = {
+                useridto: MM.config.current_site.userid,
+                useridfrom: 0,
+                type: 'conversations',
+                read: 0,
+                newestfirst: 1,
+                limitfrom: 0,
+                limitnum: 50
+            };
+
+            // Get recent messages received (and sender).
             MM.plugins.messages._getRecentMessages(
+                params,
                 function(messages) {
                     // Find different senders in the messages list, in the latest 50 messages.
                     if (messages.length > 0) {
@@ -122,27 +182,68 @@ define(requires, function (messagesTpl) {
                             }
                         });
                     }
-                    // Now, get my contacts (the function returns unread messages count for contacts,
-                    // maybe some are not included in the latest 50).
-                    MM.plugins.messages._getContacts(
-                        function(contacts) {
-                            var types = ["online", "offline", "strangers"];
-                            types.forEach(function(type) {
-                                if (contacts[type] && contacts[type].length > 0) {
-                                    contacts[type].forEach(function(contact) {
-                                        if (contact.id in recentContactsIds) {
-                                            recentContactsIds[contact.id]["profileimageurlsmall"] = contact.profileimageurlsmall;
-                                            recentContactsIds[contact.id]["unread"] = contact.unread;
+
+                    // Now get my latest messages send. Maybe I didn't receive a response.
+                    params.useridfrom = MM.config.current_site.userid;
+                    params.useridto = 0;
+
+                    MM.plugins.messages._getRecentMessages(
+                        params,
+                        function(messagesSent) {
+
+                            if (messagesSent.length > 0) {
+                                messagesSent.forEach(function(m) {
+                                    if (!(m.useridto in recentContactsIds)) {
+                                        recentContactsIds[m.useridto] = {fullname: m.usertofullname};
+                                        recentContactMessages.push({
+                                            user: m.useridto,
+                                            message: m.smallmessage,
+                                            timecreated: m.timecreated,
+                                        });
+                                    }
+                                });
+                            }
+
+                            // Now, get my contacts (the function returns unread messages count for contacts,
+                            // maybe some are not included in the latest 50).
+                            MM.plugins.messages._getContacts(
+                                function(contacts) {
+                                    var types = ["online", "offline", "strangers"];
+                                    types.forEach(function(type) {
+                                        if (contacts[type] && contacts[type].length > 0) {
+                                            contacts[type].forEach(function(contact) {
+                                                if (contact.id in recentContactsIds) {
+                                                    if (contact.profileimageurlsmall) {
+                                                        recentContactsIds[contact.id]["profileimageurlsmall"] = contact.profileimageurlsmall;
+                                                    }
+                                                    if (typeof contact.unread != "undefined") {
+                                                        recentContactsIds[contact.id]["unread"] = contact.unread;
+                                                    }
+                                                } else if (contact.unread) {
+                                                    // Is a contact with unread messages, add it to the recent contact messages.
+                                                    recentContactsIds[contact.id] = {
+                                                        fullname: contact.fullname,
+                                                        unread: contact.unread
+                                                    };
+                                                    recentContactMessages.push({
+                                                        user: contact.id,
+                                                        message: "...",
+                                                        timecreated: 0,
+                                                    });
+                                                }
+                                            });
                                         }
                                     });
+                                },
+                                function(e) {
+                                    MM.log("Error retrieving contacts", "Messages");
                                 }
-                            });
+                            );
                         },
                         function(e) {
                             MM.log("Error retrieving contacts", "Messages");
                         }
                     );
-
                 },
                 function(e) {
                     $('a[href="#messages"]').removeClass('loading-row');
@@ -160,7 +261,18 @@ define(requires, function (messagesTpl) {
          */
         _renderMessageList: function() {
 
+            var params = {
+                useridto: MM.config.current_site.userid,
+                useridfrom: 0,
+                type: 'conversations',
+                read: 0,
+                newestfirst: 1,
+                limitfrom: 0,
+                limitnum: 50
+            };
+
             MM.plugins.messages._getRecentMessages(
+                params,
                 function(messages) {
                     $('a[href="#messages"]').removeClass('loading-row');
                     MM.plugins.messages._renderMessages(messages);
@@ -193,28 +305,17 @@ define(requires, function (messagesTpl) {
             );
         },
 
-        _getRecentMessages: function(successCallback, errorCallback) {
+        _getRecentMessages: function(params, successCallback, errorCallback) {
 
-            var limit = 50;
-
-            var params = {
-                useridto: MM.config.current_site.userid,
-                useridfrom: 0,
-                type: 'conversations',
-                read: 0,
-                newestfirst: 1,
-                limitfrom: 0,
-                limitnum: limit
-            };
-
+            params.read = 0;
             MM.plugins.messages._getMessages(
                 params,
                 function(messages) {
                     if (messages.messages) {
-                        if (messages.messages.length >= limit) {
+                        if (messages.messages.length >= params.limitnum) {
                             successCallback(messages);
                         } else {
-                            params.limitnum = limit - messages.messages.length;
+                            params.limitnum = params.limitnum - messages.messages.length;
                             params.read = 1;
                             // Load more messages but now read messages.
                             MM.plugins.messages._getMessages(
