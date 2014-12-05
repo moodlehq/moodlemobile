@@ -66,12 +66,25 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                     }
 
                     MM.panels.show('center', html, {title: pageTitle});
+
                     // Load the first user
                     if (MM.deviceType == "tablet" && users.length > 0) {
                         $("#panel-center li:eq(0)").addClass("selected-row");
                         MM.plugins.participants.showParticipant(courseId, users.shift().id);
                         $("#panel-center li:eq(0)").addClass("selected-row");
                     }
+
+                    // Save the users in the users table.
+                    var newUser;
+                    users.forEach(function(user) {
+                        newUser = {
+                            'id': MM.config.current_site.id + '-' + user.id,
+                            'userid': user.id,
+                            'fullname': user.fullname,
+                            'profileimageurl': user.profileimageurl
+                        };
+                        MM.db.insert('users', newUser);
+                    });
 
                     // Show more button.
                     $("#participants-showmore").on(MM.clickType, function(e) {

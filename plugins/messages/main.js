@@ -176,9 +176,12 @@ define(requires, function (messagesTpl) {
                     // Find different senders in the messages list, in the latest 50 messages.
                     if (messages.length > 0) {
                         messages.forEach(function(m) {
-                            if (!(m.useridfrom in recentContactsIds)) {
-                                recentContactsIds[m.useridfrom] = {fullname: m.userfromfullname};
-                                recentContactMessages.push({
+                            if (!(m.useridfrom in MM.plugins.messages.recentContactsIds)) {
+                                MM.plugins.messages.recentContactsIds[m.useridfrom] = {
+                                    fullname: m.userfromfullname,
+                                    profileimageurl: ""
+                                };
+                                MM.plugins.messages.recentContactMessages.push({
                                     user: m.useridfrom,
                                     message: m.smallmessage,
                                     timecreated: m.timecreated,
@@ -197,9 +200,12 @@ define(requires, function (messagesTpl) {
 
                             if (messagesSent.length > 0) {
                                 messagesSent.forEach(function(m) {
-                                    if (!(m.useridto in recentContactsIds)) {
-                                        recentContactsIds[m.useridto] = {fullname: m.usertofullname};
-                                        recentContactMessages.push({
+                                    if (!(m.useridto in MM.plugins.messages.recentContactsIds)) {
+                                        MM.plugins.messages.recentContactsIds[m.useridto] = {
+                                            fullname: m.usertofullname,
+                                            profileimageurl: ""
+                                        };
+                                        MM.plugins.messages.recentContactMessages.push({
                                             user: m.useridto,
                                             message: m.smallmessage,
                                             timecreated: m.timecreated,
@@ -216,28 +222,48 @@ define(requires, function (messagesTpl) {
                                     types.forEach(function(type) {
                                         if (contacts[type] && contacts[type].length > 0) {
                                             contacts[type].forEach(function(contact) {
-                                                if (contact.id in recentContactsIds) {
-                                                    if (contact.profileimageurlsmall) {
-                                                        recentContactsIds[contact.id]["profileimageurlsmall"] = contact.profileimageurlsmall;
-                                                    }
-                                                    if (typeof contact.unread != "undefined") {
-                                                        recentContactsIds[contact.id]["unread"] = contact.unread;
-                                                    }
-                                                } else if (contact.unread) {
+                                                if (!(contact.id in MM.plugins.messages.recentContactsIds) &&contact.unread) {
                                                     // Is a contact with unread messages, add it to the recent contact messages.
-                                                    recentContactsIds[contact.id] = {
+                                                    MM.plugins.messages.recentContactsIds[contact.id] = {
                                                         fullname: contact.fullname,
-                                                        unread: contact.unread
+                                                        profileimageurl: ""
                                                     };
-                                                    recentContactMessages.push({
+                                                    MM.plugins.messages.recentContactMessages.push({
                                                         user: contact.id,
                                                         message: "...",
                                                         timecreated: 0,
                                                     });
                                                 }
+                                                if (contact.profileimageurl) {
+                                                    MM.plugins.messages.recentContactsIds[contact.id]["profileimageurl"] = contact.profileimageurl;
+                                                }
+                                                if (typeof contact.unread != "undefined") {
+                                                    MM.plugins.messages.recentContactsIds[contact.id]["unread"] = contact.unread;
+                                                }
                                             });
                                         }
                                     });
+                                    // Save the users. Using a cache.
+                                    var usersStored = [];
+                                    MM.db.each("users", function(el){
+                                        usersStored.push(el.get("id"));
+                                    });
+
+                                    var newUser;
+                                    for (var userId in MM.plugins.messages.recentContactsIds) {
+                                        if(MM.plugins.messages.recentContactsIds.hasOwnProperty(userId)){
+                                            if (usersStored.indexOf(MM.config.current_site.id + "-" + userId) < 0) {
+                                                newUser = {
+                                                    'id': MM.config.current_site.id + '-' + userId,
+                                                    'userid': userId,
+                                                    'fullname': MM.plugins.messages.recentContactsIds[userId].fullname,
+                                                    'profileimageurl': MM.plugins.messages.recentContactsIds[userId].profileimageurl
+                                                };
+                                                MM.db.insert('users', newUser);
+                                            }
+                                        }
+                                    }
+
                                 },
                                 function(e) {
                                     MM.log("Error retrieving contacts", "Messages");
