@@ -29,6 +29,10 @@ define(requires, function (messagesTpl) {
 
         wsPrefix: "",
 
+        recentContactMessages: [],
+
+        recentContactsIds: {},
+
         /**
          * Determines is the plugin is visible.
          * It may check Moodle remote site version, device OS, device type, etc...
@@ -152,8 +156,8 @@ define(requires, function (messagesTpl) {
         _renderRecentMessages: function() {
             MM.plugins.messages._renderMessageList(); // Temporary allow this
 
-            var recentContactMessages = [];
-            var recentContactsIds = {};
+            MM.plugins.messages.recentContactMessages = [];
+            MM.plugins.messages.recentContactsIds = {};
 
             var params = {
                 useridto: MM.config.current_site.userid,
