@@ -455,19 +455,19 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
             var img = "";
 
             if (text.indexOf("/agg_mean") > -1) {
-                img = '<img src="img/grades/agg_mean.png" width="16">';
+                img = '<span class="ico-agg_mean"></span><img src="img/grades/agg_mean.png">';
             } else if (text.indexOf("/agg_sum") > -1) {
-                img = '<img src="img/grades/agg_sum.png" width="16">';
+                img = '<span class="ico-agg_sum"></span><img src="img/grades/agg_sum.png">';
             } else if (text.indexOf("/outcomes") > -1) {
-                img = '<img src="img/grades/outcomes.png" width="16">';
+                img = '<span class="ico-outcomes"></span><img src="img/grades/outcomes.png">';
             } else if (text.indexOf("i/folder") > -1) {
-                img = '<img src="img/folder.png" width="16">';
+                img = '<span class="ico-folder"></span><img src="img/folder.png">';
             } else if (text.indexOf("/manual_item") > -1) {
-                img = '<img src="img/grades/manual_item.png" width="16">';
+                img = '<span class="ico-manual_item"></span><img src="img/grades/manual_item.png">';
             } else if (text.indexOf("/mod/") > -1) {
                 var module = text.match(/mod\/([^\/]*)\//);
                 if (typeof module[1] != "undefined") {
-                    img = '<img src="img/mod/' + module[1] + '.png" width="16">';
+                    img = '<img src="img/mod/' + module[1] + '.png">';
                 }
             }
             if (img) {

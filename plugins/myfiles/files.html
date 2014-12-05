@@ -2,8 +2,11 @@
     <ul class="nav nav-v">
         <% if (goBack) { %>
         <li class="nav-item">
-            <div class="back-row">
-                <a href="javascript: window.history.back();"><img src="img/arrowleft.png" border="0"></a>
+            <div class="back-row app-ico">
+                <a href="javascript: window.history.back();">
+                    <span class="ico-back"></span>
+                    <img src="img/back.png" border="0">
+                </a>
             </div>
         </li>
         <% } %>
@@ -15,11 +18,14 @@
                         <% if (!entry.isdir) { %>
                         <div class="content-actions app-ico">
                             <% if (!entry.isdir && entry.localpath) { %>
-                            <% var dImg = "reloadgrey"; %>
+                            <% var dImg = "reload"; %>
                             <% } else { %>
                             <% var dImg = "download"; %>
                             <% } %>
-                            <img id="img-<%= entry.linkId %>" class="myfiles-download" src="img/<%= dImg %>.png" border="0" data-url="<%= entry.url %>" data-filename="<%= entry.filename %>" data-linkid="<%= entry.linkId %>">
+                            <span id="img-<%= entry.linkId %>" class="myfiles-download" data-url="<%= entry.url %>" data-filename="<%= entry.filename %>" data-linkid="<%= entry.linkId %>">
+                                <span class="ico-<%= dImg %>"></span>
+                                <img src="img/<%= dImg %>.png" border="0">
+                            </span>
                         </div>
                         <% } %>
                         <div class="content-name">

@@ -2,7 +2,8 @@
     <div class="event">
         <header>
             <div class="media">
-                <div class="img">
+                <div class="img app-ico">
+                    <span class="ico-<%= event.eventtype %>"></span>
                     <img src="img/event-<%= event.eventtype %>.png">
                 </div>
                 <div class="bd">
@@ -34,12 +35,14 @@
         <% } %>
 
         <% if (event.modulename != "0") { %>
-            <div class="media">
-                <div class="img app-ico">
-                    <img src="img/mod/<%= event.modulename %>.png">
-                </div>
-                <div class="bd">
-                    <%= event.modulename %>
+            <div class="content-name">
+                <div class="media">
+                    <div class="img app-ico">
+                        <img src="img/mod/<%= event.modulename %>.png">
+                    </div>
+                    <div class="bd">
+                        <%= event.modulename %>
+                    </div>
                 </div>
             </div>
         <% } %>

@@ -26,19 +26,40 @@
 
                     <div class="content-actions app-ico">
                         <% if (module.multiplefiles){ %>
-                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
+                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>">
+                                    <span id="download-<%= module.contentid %>">
+                                        <span class="ico-next"></span>
+                                        <img src="img/next.png" border="0">
+                                    </span>
+                                </a>&nbsp;
                         <% } else { %>
                             <% if (!module.downloaded) { %>
                                 <% if (!module.webOnly) { %>
-                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
+                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>">
+                                        <span id="download-<%= module.contentid %>">
+                                            <span class="ico-download"></span>
+                                            <img src="img/download.png" border="0">
+                                        </span>
+                                    </a>&nbsp;
                                 <% } else { %>
-                                    <img src="img/website.png" border="0">&nbsp;
+                                    <span>
+                                        <span class="ico-website"></span>
+                                        <img src="img/website.png" border="0">
+                                    </span>&nbsp;
                                 <% } %>
                             <% } else  { %>
-                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/reloadgrey.png" border="0" id="download-<%= module.contentid %>" width="16" height="16"></a>&nbsp;
+                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>">
+                                        <span id="download-<%= module.contentid %>">
+                                            <span class="ico-reload"></span>
+                                            <img src="img/reload.png" border="0">
+                                        </span>
+                                    </a>&nbsp;
                             <% } %>
                         <% } %>
-                        <img src="img/info.png" border="0" id="info-<%= module.contentid %>" class="content-info" data-course="<%= courseId %>" data-section="<%= sectionId %>" data-content="<%= module.contentid %>">
+                        <span id="info-<%= module.contentid %>" class="content-info" data-course="<%= courseId %>" data-section="<%= sectionId %>" data-content="<%= module.contentid %>">
+                            <span class="ico-info"></span>
+                            <img src="img/info.png" border="0" >
+                        </span>
                     </div>
 
                     <div class="content-name mod-<%= module.modname %>">

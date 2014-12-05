@@ -1,14 +1,5 @@
 /* Default theme
 --------------------------------------------------------*/
-/* Font Icon
---------------------------------------------------------*/
-@font-face {
-  font-family: 'icomoon';
-  src: url("fonts/icomoon.eot");
-  src: url("fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("fonts/icomoon.svg#icomoon") format("svg"), url("fonts/icomoon.woff") format("woff"), url("fonts/icomoon.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
 /* =1 - BASE STYLES (_base-styles.scss)
 ----------------------------------------------------------------------------*/
 /* =1.1 - HTML5 display definitions
@@ -187,13 +178,6 @@ hr {
 ----------------------------------------------------------------------------*/
 /* =2.1 - HELPERS
 --------------------------------------------------------*/
-/* ICONS */
-[data-icon]:before {
-  font-family: 'icomoon';
-  content: attr(data-icon);
-  speak: none;
-  font-weight: normal;
-}
 /* IMAGE REPLACEMENT */
 .ir {
   background-color: transparent;
@@ -234,10 +218,9 @@ hr {
   float: none;
 }
 .selected-row {
-  background-image: url(../img/list-rightarrow.png);
+  background-image: url(../img/selected.png);
   background-repeat: no-repeat;
   background-position: 92% 50%;
-  background-size: 16px;
 }
 .touch-row {
   min-height: 42px;
@@ -303,7 +286,6 @@ hr {
   float: left;
 }
 .media .img img {
-  display: block;
   margin-right: 8px;
 }
 .media .bd {
@@ -449,7 +431,7 @@ hr {
   padding: 0 15px 5px 10px;
   margin-left: 110px;
   margin-bottom: 10px;
-  background: url(../img/arrow-right2.png) no-repeat right;
+  background: url(../img/arrowright.png) no-repeat right;
 }
 #manage-accounts .account-details div:hover,
 #manage-accounts .account-details div:focus {
@@ -558,6 +540,16 @@ hr {
   font-weight: normal;
   line-height: 20px;
 }
+.user-menu header .refresh {
+  float: right;
+  width: 20px;
+  margin: 4px;
+}
+.user-menu header [class^="ico-"],
+.user-menu header [class*=" ico-"] {
+  color: #ffffff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
 .user-menu h2 {
   color: #ffffff;
   font-size: .75rem;
@@ -590,17 +582,22 @@ hr {
   text-align: center;
   background-color: transparent;
   border-radius: 50%;
+  display: block;
 }
 .user-menu .nav-item .plugin-ico img,
 .user-menu .nav-item .course-ico img {
-  width: 16px;
   margin-top: -2px;
   padding: 0;
+}
+.user-menu .nav-item [class^="ico-"],
+.user-menu .nav-item [class*=" ico-"] {
+  color: #ffffff;
 }
 .user-menu .nav-item .plugin-name {
   margin-left: 32px;
   padding: 2px 26px 2px 0;
   line-height: 20px;
+  display: block;
 }
 .user-menu .no-arrow > a {
   background-image: none;
@@ -626,23 +623,17 @@ hr {
 .user-menu #general-menu a > span {
   margin-right: 8px;
 }
-.refresh {
-  float: right;
-  width: 20px;
-  margin: 4px;
-}
 .collapse,
 .expand {
-  background-position-x: 95%;
-  background-position-y: 16px;
+  background-position-x: 96%;
+  background-position-y: 14px;
   background-repeat: no-repeat;
-  background-size: 12px;
 }
 .collapse {
-  background-image: url(../img/collapse.png);
+  background-image: url(../img/ico-collapse.png);
 }
 .expand {
-  background-image: url(../img/expand.png);
+  background-image: url(../img/ico-expand.png);
 }
 /* - Welcome page on the center panel
 -------------------------------------------------------------------------- */
@@ -682,6 +673,7 @@ hr {
 .content-index .content-name img {
   width: 24px;
   height: auto;
+  display: inherit;
 }
 .content-index .content-name.mod-label {
   overflow: auto;
@@ -705,9 +697,12 @@ hr {
   text-align: right;
   padding: 10px;
 }
+.content-index .content-actions [class^="ico-"],
+.content-index .content-actions [class*=" ico-"] {
+  margin-left: 3px;
+  margin-right: 3px;
+}
 .content-index .content-actions img {
-  width: 16px;
-  height: auto;
   margin-left: 3px;
   margin-right: 3px;
 }
@@ -716,15 +711,14 @@ hr {
 }
 .expand-label,
 .collapse-label {
-  background-position: right 15px top 16px;
+  background-position: right 13px top 16px;
   background-repeat: no-repeat;
-  background-size: 12px;
 }
 .expand-label {
-  background-image: url(../img/expandgrey.png);
+  background-image: url(../img/expand.png);
 }
 .collapse-label {
-  background-image: url(../img/collapsegrey.png);
+  background-image: url(../img/collapse.png);
 }
 .loading-icon {
   text-align: center;
@@ -853,10 +847,15 @@ hr {
   border-top: 1px solid #eee;
   margin-left: 50px;
 }
-.path-mod-forum .post-info span {
+.path-mod-forum .post-info > span {
   display: inline-block;
   padding-left: 2px;
   padding-right: 2px;
+}
+.path-mod-forum .post-info [class^="ico-"],
+.path-mod-forum .post-info [class*=" ico-"] {
+  margin-left: 6px;
+  margin-right: 6px;
 }
 .path-mod-forum .post-info img {
   margin-left: 6px;
@@ -941,6 +940,10 @@ hr {
   display: inline-block;
   padding: 8px;
 }
+.events-list [class^="ico-"],
+.events-list [class*=" ico-"] {
+  margin-right: 8px;
+}
 .events-list .name {
   line-height: 20px;
 }
@@ -959,8 +962,13 @@ hr {
 .event header {
   padding: 10px;
 }
-.event header img {
-  margin-top: 8px;
+.event header .app-ico {
+  margin-top: 4px;
+}
+.event header .app-ico [class^="ico-"],
+.event header .app-ico [class*=" ico-"] {
+  font-size: 18px;
+  margin-right: 8px;
 }
 .event > div {
   padding: 10px;
@@ -978,6 +986,9 @@ hr {
 .event .app-ico img {
   width: 18px;
   height: auto;
+}
+.event .content-name img {
+  display: inherit;
 }
 .event .description {
   padding-left: 36px;
@@ -1467,9 +1478,17 @@ div.jqi button.jqidefaultbutton {
 .user-grade th.baggt {
   padding-left: 40px;
 }
-.user-grade th img {
+.user-grade th .app-ico span {
   margin-left: -20px;
   float: left;
+}
+.user-grade th img {
+  width: 16px;
+  margin-left: -20px;
+  float: left;
+}
+.user-grade th img:first-child {
+  display: inherit;
 }
 .user-grade .b1l {
   width: 20px;
@@ -1522,4 +1541,133 @@ div.jqi button.jqidefaultbutton {
 }
 .user-grade .leveleven {
   background-color: #fff;
+}
+/* Font Icon
+--------------------------------------------------------*/
+.app-ico img {
+  display: none;
+}
+@font-face {
+  font-family: 'icomoon';
+  src: url('fonts/icomoon.eot');
+  src: url('fonts/icomoon.eot?#iefix') format('embedded-opentype'), url('fonts/icomoon.woff') format('woff'), url('fonts/icomoon.ttf') format('truetype'), url('fonts/icomoon.svg#icomoon') format('svg');
+}
+[class^="ico-"],
+[class*=" ico-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 16px;
+  color: #999999;
+  vertical-align: middle;
+  /* Better Font Rendering =========== */
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ico-menu:before {
+  content: "\e600";
+}
+.ico-events:before {
+  content: "\e601";
+}
+.ico-siteevent:before {
+  content: "\e602";
+}
+.ico-manual_item:before {
+  content: "\e603";
+}
+.ico-myfiles:before {
+  content: "\e604";
+}
+.ico-folder:before {
+  content: "\e605";
+}
+.ico-messages:before {
+  content: "\e606";
+}
+.ico-reply:before {
+  content: "\e607";
+}
+.ico-discussion:before {
+  content: "\e608";
+}
+.ico-userevent:before {
+  content: "\e609";
+}
+.ico-groupevent:before {
+  content: "\e60a";
+}
+.ico-notifications:before {
+  content: "\e60b";
+}
+.ico-settings:before {
+  content: "\e60c";
+}
+.ico-course:before {
+  content: "\e60d";
+}
+.ico-courseevent:before {
+  content: "\e60e";
+}
+.ico-reload:before {
+  content: "\e60f";
+}
+.ico-website:before {
+  content: "\e610";
+}
+.ico-help:before {
+  content: "\e611";
+}
+.ico-info:before {
+  content: "\e612";
+}
+.ico-time:before {
+  content: "\e613";
+}
+.ico-outcomes:before {
+  content: "\e614";
+}
+.ico-upload:before {
+  content: "\e615";
+}
+.ico-download:before {
+  content: "\e616";
+}
+.ico-logout:before {
+  content: "\e617";
+}
+.ico-share:before {
+  content: "\e618";
+}
+.ico-next:before {
+  content: "\e619";
+}
+.ico-back:before {
+  content: "\e61a";
+}
+.ico-expand:before {
+  content: "\e61b";
+}
+.ico-collapse:before {
+  content: "\e61c";
+}
+.ico-selected:before {
+  content: "\e61d";
+}
+.ico-arrowright:before {
+  content: "\e61e";
+}
+.ico-delete:before {
+  content: "\e61f";
+}
+.ico-agg_mean:before {
+  content: "\e620";
+}
+.ico-agg_sum:before {
+  content: "\e621";
 }

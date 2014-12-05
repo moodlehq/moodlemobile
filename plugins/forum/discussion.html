@@ -21,8 +21,9 @@
                     <%= MM.plugins.forum._printAttachments(discussion) %>
                 </div>
                 <p class="post-info" role="heading">
-                    <span>
-                        <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
+                    <span class="app-ico" role="heading">
+                        <span class="ico-reply"></span>
+                        <img src="img/reply.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
                     </span>
                     <% if (discussion.created != discussion.timemodified && discussion.timemodified > discussion.created) { %>
                         <span>
@@ -50,6 +51,7 @@
                 </div>
 
             </div>
+
         </div>
     </div>
 </div>

@@ -1,5 +1,8 @@
-<div class="back-row">
-    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>"><img src="img/arrowleft.png" border="0"></a>
+<div class="back-row app-ico">
+    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>">
+        <span class="ico-back"></span>
+        <img src="img/back.png" border="0">
+    </a>
 </div>
 
 <div class="content-index">
@@ -7,8 +10,9 @@
         <h2><%= MM.util.formatText(sectionName) %></h2>
         <ul class="nav nav-v">
             <li class="nav-item media">
-                <div class="content-actions app-ico">
-                    <img src="img/download.png" border="0" id="download-all" data-courseid="<%= courseId %>" data-sectionid="<%= sectionId %>" data-contentid="<%= contentId %>">&nbsp;
+                <div class="content-actions app-ico" id="download-all" data-courseid="<%= courseId %>" data-sectionid="<%= sectionId %>" data-contentid="<%= contentId %>">
+                    <span class="ico-download"></span>
+                    <img src="img/download.png" border="0">
                 </div>
                 <div class="content-name folder">
                     <div class="img app-ico">
@@ -24,11 +28,24 @@
                 <li class="nav-item media media-folder">
                     <div class="content-actions app-ico">
                         <% if (typeof(file.localpath) == "undefined") { %>
-                            <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>"><img src="img/download.png" border="0" id="download-<%= contentId %>-<%= index %>"></a>&nbsp;
+                            <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>">
+                                <span id="download-<%= contentId %>-<%= index %>">
+                                    <span class="ico-download"></span>
+                                    <img src="img/download.png" border="0">
+                                </span>
+                            </a>&nbsp;
                         <% } else { %>
-                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>"><img src="img/reloadgrey.png" border="0" id="download-<%= contentId %>-<%= index %>"></a>&nbsp;
+                            <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= contentId %>/<%= index %>">
+                                <span id="download-<%= contentId %>-<%= index %>">
+                                    <span class="ico-reload"></span>
+                                    <img src="img/reload.png" border="0">
+                                </span>
+                            </a>&nbsp;
                         <% } %>
-                        <img src="img/info.png" border="0" id="info-<%= contentId %>-<%= index %>" class="content-info" data-course="<%= courseId %>" data-section="<%= sectionId %>" data-content="<%= contentId %>" data-index="<%= index %>">
+                        <span id="info-<%= contentId %>-<%= index %>" class="content-info" data-course="<%= courseId %>" data-section="<%= sectionId %>" data-content="<%= contentId %>" data-index="<%= index %>">
+                            <span class="ico-info"></span>
+                            <img src="img/info.png" border="0">
+                        </span>
                     </div>
                     <div class="content-name">
                     <% if (file.localpath) { %>

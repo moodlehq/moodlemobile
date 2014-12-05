@@ -3,7 +3,8 @@
 	<% $.each(events, function(index, event) { %>
 	    <li class="nav-item media">
             <a class="name" href="#events/show/<%= index %>" class="menu1 touch-row">
-            	<div class="img">
+            	<div class="img app-ico">
+                    <span class="ico-<%= event.eventtype %>event"></span>
             		<img src="img/event-<%= event.eventtype %>.png">
             	</div>
             	<div class="bd">
