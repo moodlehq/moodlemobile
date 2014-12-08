@@ -233,6 +233,9 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                             fullname: m.usertofullname,
                                             profileimageurl: ""
                                         };
+                                        if (!m.timeread) {
+                                            MM.plugins.messages.recentContactsIds[m.useridto]["unread"] = 1;
+                                        }
                                         MM.plugins.messages.recentContactMessages.push({
                                             user: m.useridto,
                                             message: m.smallmessage,
