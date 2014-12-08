@@ -1,9 +1,13 @@
 var requires = [
-    "root/externallib/text!root/plugins/messages/messages.html"
+    "root/externallib/text!root/plugins/messages/messages.html",
+    "root/externallib/text!root/plugins/messages/recent.html",
+    "root/externallib/text!root/plugins/messages/conversation.html",
+    "root/externallib/text!root/plugins/messages/contact.html",
+    "root/externallib/text!root/plugins/messages/contacts.html"
 ];
 
 
-define(requires, function (messagesTpl) {
+define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, contactsTpl) {
 
     var plugin = {
         settings: {
@@ -18,12 +22,26 @@ define(requires, function (messagesTpl) {
 
         routes: [
             ["messages", "messages", "showMessages"],
-            ["messages/conversation/:userId", "messages_conversation", "showConversation"]
+            ["messages/conversation/:userId", "messages_conversation", "showConversation"],
+            ["messages/contacts", "messages_contacts", "showContacts"],
+            ["messages/contact/:userId", "messages_contact", "showContact"]
         ],
 
         templates: {
             "messages": {
                 html: messagesTpl
+            },
+            "recent": {
+                html: recentTpl
+            },
+            "conversation": {
+                html: conversationTpl
+            },
+            "contact": {
+                html: contactTpl
+            },
+            "contacts": {
+                html: contactsTpl
             }
         },
 
@@ -154,7 +172,17 @@ define(requires, function (messagesTpl) {
          * Displays a list of contacts with last message (whatsapp/telegram style).
          */
         _renderRecentMessages: function() {
-            MM.plugins.messages._renderMessageList(); // Temporary allow this
+
+            $('a[href="#messages"]').removeClass('loading-row');
+            html = MM.tpl.render(MM.plugins.messages.templates.recent.html, {});
+            MM.panels.show('center', html, {title: MM.lang.s("messages")});
+
+            $("#header-action-contacts").css("position", "fixed");
+            $("#header-action-contacts").css("z-index", "9999");
+            $("#header-action-contacts").css("top", "2px");
+            $("#header-action-contacts").css("right", "4px");
+            $("#header-action-contacts").html('<a href="#messages/contacts"><img src="img/ico-contacts.png"></a>');
+
 
             MM.plugins.messages.recentContactMessages = [];
             MM.plugins.messages.recentContactsIds = {};
@@ -553,6 +581,33 @@ define(requires, function (messagesTpl) {
                 }
             );
         },
+
+        showContacts: function() {
+            html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {});
+            MM.panels.show('center', html, {title: MM.lang.s("contacts")});
+
+            $("#header-action-recent").css("position", "fixed");
+            $("#header-action-recent").css("z-index", "9999");
+            $("#header-action-recent").css("top", "2px");
+            $("#header-action-recent").css("right", "4px");
+            $("#header-action-recent").html('<a href="#messages"><img src="plugins/messages/icon.png"></a>');
+        },
+
+        showContact: function(userId) {
+            html = MM.tpl.render(MM.plugins.messages.templates.contact.html, {});
+            MM.panels.show('right', html, {title: MM.lang.s("info")});
+        },
+
+        showConversation: function(userId) {
+            html = MM.tpl.render(MM.plugins.messages.templates.conversation.html, {});
+            MM.panels.show('right', html, {title: "John Smith"});
+
+            $("#header-action-contact").css("position", "fixed");
+            $("#header-action-contact").css("z-index", "9999");
+            $("#header-action-contact").css("top", "2px");
+            $("#header-action-contact").css("right", "4px");
+            $("#header-action-contact").html('<a href="#messages/contact/1"><img src="img/userimage.png"></a>');
+        }
     };
 
     MM.registerPlugin(plugin);
