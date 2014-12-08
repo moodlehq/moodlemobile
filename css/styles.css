@@ -935,6 +935,154 @@ hr {
   display: inline-block;
   padding: 8px;
 }
+.path-messages.recent-messages img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.path-messages.recent-messages p {
+  font-weight: bold;
+  line-height: 20px;
+  margin: 0;
+}
+.path-messages.recent-messages .preview {
+  font-weight: normal;
+}
+.path-messages .conversation .conversation-area {
+  padding: 20px;
+}
+.path-messages .conversation .conversation-area .datestamp {
+  color: #8b91a0;
+  text-align: center;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+  margin-bottom: 10px;
+  display: block;
+}
+.path-messages .conversation .conversation-area .bubble {
+  line-height: 20px;
+  word-wrap: break-word;
+  padding: 6px 12px;
+  margin-bottom: 10px;
+  width: auto;
+  max-width: 90%;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  float: left;
+  clear: both;
+  position: relative;
+}
+.path-messages .conversation .conversation-area .bubble:before,
+.path-messages .conversation .conversation-area .bubble:after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-style: solid;
+  border-color: transparent;
+}
+.path-messages .conversation .conversation-area .bubble:before {
+  border-width: 8px;
+  border-right-color: rgba(0, 0, 0, 0.3);
+  top: 8px;
+  left: -16px;
+}
+.path-messages .conversation .conversation-area .bubble:after {
+  border-width: 7px;
+  border-right-color: #ffffff;
+  top: 9px;
+  left: -14px;
+}
+.path-messages .conversation .conversation-area .bubble-alt {
+  background-color: #ffffff;
+  border-color: #fa8f1c;
+  float: right;
+}
+.path-messages .conversation .conversation-area .bubble-alt:before {
+  border-color: transparent;
+  border-left-color: #fa8f1c;
+  left: auto;
+  right: -16px;
+}
+.path-messages .conversation .conversation-area .bubble-alt:after {
+  border-color: transparent;
+  border-left-color: #ffffff;
+  left: auto;
+  right: -14px;
+}
+.path-messages .conversation .input-area {
+  padding: 8px 10px;
+  background-color: #eee;
+  border-top: 1px solid #ccc;
+  position: absolute;
+  bottom: 40px;
+  display: block;
+  width: 100%;
+}
+.path-messages .conversation .input-area form > div {
+  position: relative;
+  margin-right: 110px;
+}
+.path-messages .conversation .input-area form input[type="text"] {
+  display: block;
+  width: 100%;
+  border: 1px solid #eee;
+}
+.path-messages .conversation .input-area form input[type="submit"] {
+  display: block;
+  width: 100px;
+  position: absolute;
+  top: 0px;
+  left: 100%;
+  margin-left: 10px;
+  border: none;
+  color: #0088cc;
+  background: transparent;
+}
+.path-messages.contacts input[type="search"] {
+  width: 100%;
+  margin: 10px 0;
+}
+.path-messages.contacts .nav-item > a {
+  padding-top: 6px;
+}
+.path-messages.contacts img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.path-messages.contacts p {
+  line-height: 30px;
+  margin: 0;
+}
+.path-messages.contact {
+  border-top: 1px solid #eee;
+}
+.path-messages.contact .media {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+  padding-top: 20px;
+}
+.path-messages.contact .media .img {
+  display: block;
+  vertical-align: baseline;
+}
+.path-messages.contact .media img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  vertical-align: bottom;
+}
+.path-messages.contact .media .bd {
+  font-size: 1rem;
+}
+.path-messages.contact .nav-item {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.path-messages.contact .nav-item a {
+  color: #0088cc;
+}
 .events-list .name {
   line-height: 20px;
 }

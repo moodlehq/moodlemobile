@@ -185,7 +185,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             $("#header-action-contacts").css("z-index", "9999");
             $("#header-action-contacts").css("top", "2px");
             $("#header-action-contacts").css("right", "4px");
-            $("#header-action-contacts").html('<a href="#messages/contacts"><img border="0" src="img/userimage.png" width="16"></a>');
+            $("#header-action-contacts").html('<a href="#messages/contacts"><img src="img/ico-contacts.png"></a>');
         },
 
         showContacts: function() {
@@ -196,7 +196,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             $("#header-action-recent").css("z-index", "9999");
             $("#header-action-recent").css("top", "2px");
             $("#header-action-recent").css("right", "4px");
-            $("#header-action-recent").html('<a href="#messages"><img border="0" src="plugins/messages/icon.png" width="16"></a>');
+            $("#header-action-recent").html('<a href="#messages"><img src="plugins/messages/icon.png"></a>');
         },
 
         showContact: function(userId) {
@@ -212,7 +212,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             $("#header-action-contact").css("z-index", "9999");
             $("#header-action-contact").css("top", "2px");
             $("#header-action-contact").css("right", "4px");
-            $("#header-action-contact").html('<a href="#messages/contact/1"><img border="0" src="img/time.png" width="16"></a>');
+            $("#header-action-contact").html('<a href="#messages/contact/1"><img src="img/userimage.png"></a>');
         }
     };
 

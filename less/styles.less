@@ -1034,6 +1034,178 @@ hr {
   }
 }
 
+//-----Messages-----
+.header-action {
+  // position: fixed;
+  // z-index: 9999!important;
+  // top: 7px;
+  // right: 0px;
+  // width: 40px;
+  // height: 40px;
+}
+.path-messages {
+  &.recent-messages {
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    p {
+      font-weight: bold;
+      line-height: 20px;
+      margin: 0;
+    }
+    .preview {
+      font-weight: normal;
+    }
+  }
+  .conversation {
+    @bubbleBackground: #fff;
+    @bubbleBackgroundAlt: #fff;
+    @bubbleBorder: rgba(0,0,0,0.3);
+    @bubbleBorderAlt: rgba(250,143,28,1);
+    .conversation-area {
+      padding: 20px;
+      .datestamp {
+        color: #8b91a0;
+        text-align: center;
+        text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
+        margin-bottom: 10px;
+        display: block;
+      }
+      .bubble {
+        // color: #000;
+        // text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+        line-height: 20px;
+        word-wrap: break-word;
+        padding: 6px 12px;
+        margin-bottom: 10px;
+        width: auto;
+        max-width: 90%;
+        background: @bubbleBackground;
+        border: 1px solid @bubbleBorder;
+        border-radius: 6px;
+        float: left;
+        clear: both;
+        position: relative;
+      }
+      .bubble:before,
+      .bubble:after {
+        content: "";
+        display: block;
+        position: absolute;
+        border-style: solid;
+        border-color: transparent;
+      }
+      .bubble:before {
+        border-width: 8px;
+        border-right-color: @bubbleBorder;
+        top: 8px;
+        left: -16px;
+      }
+      .bubble:after {
+        border-width: 7px;
+        border-right-color: @bubbleBackground;
+        top: 9px;
+        left: -14px;
+      }
+      .bubble-alt {
+        background-color: @bubbleBackgroundAlt;
+        border-color: @bubbleBorderAlt;
+        float: right;
+      }
+      .bubble-alt:before {
+        border-color: transparent;
+        border-left-color: @bubbleBorderAlt;
+        left: auto;
+        right: -16px;
+      }
+      .bubble-alt:after {
+        border-color: transparent;
+        border-left-color:@bubbleBackgroundAlt;
+        left: auto;
+        right: -14px;
+      }
+    }
+    .input-area {
+      padding: 8px 10px;
+      background-color: #eee;
+      border-top: 1px solid #ccc;
+      position: absolute;
+      bottom: 40px;
+      display: block;
+      width: 100%;
+      form > div {
+        position: relative;
+        margin-right: 110px;
+      }
+      form input[type="text"] {
+        display: block;
+        width: 100%;
+        border: 1px solid #eee;
+      }
+      form input[type="submit"] {
+        display: block;
+        width: 100px;
+        position: absolute;
+        top: 0px;
+        left: 100%;
+        margin-left: 10px;
+        border: none;
+        color: @linkColor;
+        background: transparent;
+      }
+    }
+  }
+  &.contacts {
+    input[type="search"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+    .nav-item > a {
+      padding-top: 6px;
+    }
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    p {
+      line-height: 30px;
+      margin: 0;
+    }
+  }
+  &.contact {
+    border-top: 1px solid #eee;
+    .media {
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 40px;
+      padding-top: 20px;
+      .img {
+        display: block;
+        vertical-align: baseline;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        vertical-align: bottom;
+      }
+      .bd {
+        font-size: 1rem;
+      }
+    }
+    .nav-item {
+      padding-left: 15px;
+      padding-right: 15px;
+      a {
+        color: @linkColor;
+      }
+    }
+  }
+}
+
 //-----Calendar-----
 .events-list {
   .name {
@@ -1539,6 +1711,13 @@ div.jqi {
 /* - Tablet minimum width 768px
 -------------------------------------------------------------------------- */
 .tablet {
+  .path-messages {
+    .conversation {
+      .input-area {
+        // left: 320px;
+      }
+    }
+  }
   .grades {
     thead {
       display: table-header-group;

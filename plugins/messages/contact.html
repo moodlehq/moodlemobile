@@ -3,10 +3,24 @@
 </div>
 <div class="panel-container">
     <div class="path-messages contact">
-        <img src="img/userimage.png"> John Smith
-
-        <p><a href="#messages/conversation/1"> <%= MM.lang.s("sendmessage") %></a></p>
-        <p><span><%= MM.lang.s("removecontact") %></span></p>
-        <p><span><%= MM.lang.s("blockcontact") %></span></p>
+        <div class="media">
+            <div class="img">
+                <img src="img/userimage.png">
+            </div>
+            <div class="bd">
+                <p>John Smith</p>
+            </div>
+        </div>
+        <ul class="nav nav-v">
+            <li class="nav-item">
+                <a href="#messages/conversation/1"> <%= MM.lang.s("sendmessage") %></a>
+            </li>
+            <li class="nav-item">
+                <a><%= MM.lang.s("removecontact") %></a>
+            </li>
+            <li class="nav-item">
+                <a><%= MM.lang.s("blockcontact") %></a>
+            </li>
+        </ul>
     </div>
 </div>
