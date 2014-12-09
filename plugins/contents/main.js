@@ -57,7 +57,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.sections.html, tpl);
 
-                pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
+                pageTitle = course.get("shortname");
 
                 MM.panels.show("center", html, {title: pageTitle});
                 if (MM.deviceType == "tablet" && contents.length > 0) {
@@ -81,6 +81,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             if (MM.deviceType == "tablet") {
                 MM.panels.showLoading('right');
             }
+
+            var sectionName = "";
 
             var data = {
             "options[0][name]" : "",
@@ -106,6 +108,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         // This is a continue.
                         return true;
                     }
+                    sectionName = sections.name;
                     $.each(sections.modules, function(index2, content){
 
                         content.contentid = content.id;
@@ -282,7 +285,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 };
 
-                var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
+                var pageTitle = MM.util.formatText(sectionName);
+                if (sectionId == -1) {
+                    pageTitle = MM.lang.s("showall");
+                }
 
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('right', html, {title: pageTitle});
@@ -440,7 +446,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 sectionName: sectionName
             };
 
-            var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
+            var pageTitle = sectionName;
             var html = MM.tpl.render(MM.plugins.contents.templates.folder.html, tpl);
             MM.panels.show('right', html, {title: pageTitle});
             $(document).scrollTop(0);

@@ -62,7 +62,7 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                     var pageTitle = "";
 
                     if (course) {
-                        pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                        pageTitle = course.get("shortname");;
                     }
 
                     MM.panels.show('center', html, {title: pageTitle});
@@ -167,7 +167,7 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var pageTitle = "";
                 if (course) {
-                    pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                    pageTitle = MM.lang.s("participants");
                 }
 
                 var tpl = {
