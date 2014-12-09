@@ -4,54 +4,16 @@
         <div class="conversation">
             <div class="conversation-area">
                 <p class="datestamp">May 20, 2014, 4:16 PM</p>
+
+                <% _.each(messages, function(m) { %>
+                <% if (m.useridfrom == otherUser) { %>
                 <div class="bubble">
-                    Hi!
-                </div>
+                <% } else { %>
                 <div class="bubble bubble-alt">
-                    are you there?
+                <% } %><%= MM.util.formatText(m.smallmessage) %>
                 </div>
-                <div class="bubble">
-                    The quick brown fox jumps over the lazy dog.
-                </div>
-                <div class="bubble">
-                    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-                </div>
-                <div class="bubble bubble-alt">
-                    did you received my message?
-                </div>
-                <div class="bubble bubble-alt">
-                    The one about the fruits?
-                </div>
-                <div class="bubble bubble-alt">
-                    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.?
-                </div>
-                <div class="bubble">
-                    ¿?...
-                </div>
-                <div class="bubble">
-                    Hi!
-                </div>
-                <div class="bubble bubble-alt">
-                    are you there?
-                </div>
-                <div class="bubble">
-                    The quick brown fox jumps over the lazy dog.
-                </div>
-                <div class="bubble">
-                    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-                </div>
-                <div class="bubble bubble-alt">
-                    did you received my message?
-                </div>
-                <div class="bubble bubble-alt">
-                    The one about the fruits?
-                </div>
-                <div class="bubble bubble-alt">
-                    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.?
-                </div>
-                <div class="bubble">
-                    ¿?...
-                </div>
+                <% }); %>
+
             </div>
 
             <div style="clear:both"></div>

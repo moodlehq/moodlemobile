@@ -98,6 +98,19 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
         showConversation: function(userId) {
 
+            var userName = "";
+            var user = MM.db.get('users', MM.config.current_site.id + "-" + userId);
+            if (user) {
+                userName = user.get("fullname");
+            }
+
+            var data = {
+                userName: userName
+            };
+
+            MM.panels.show('right', "", {title: userName});
+            MM.panels.showLoading('right');
+
             var params = {
                 useridto: MM.config.current_site.userid,
                 useridfrom: userId,
@@ -119,7 +132,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                     MM.plugins.messages._getRecentMessages(
                         params,
                         function(messagesSent) {
-                            MM.plugins.messages._renderConversation(userId, messagesReceived, messagesSent);
+                            MM.plugins.messages._renderConversation(userId, userName, messagesReceived, messagesSent);
                         },
                         function(e) {
                             MM.popErrorMessage(e);
@@ -132,7 +145,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             );
         },
 
-        _renderConversation: function(userId, messagesReceived, messagesSent) {
+        _renderConversation: function(userId, userName, messagesReceived, messagesSent) {
             // Join the arrays and sort.
             var messages = messagesReceived.concat(messagesSent);
             // Sort by timecreated.
@@ -143,19 +156,18 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                 return a - b;
             });
 
-            var userName = "";
-            var user = MM.db.get('users', MM.config.current_site.id + "-" + userId);
-            if (user) {
-                userName = user.get("fullname");
-            }
+            console.log(messages);
 
             var data = {
+                messages: messages,
+                otherUser: userId,
                 userName: userName
             };
+
             html = MM.tpl.render(MM.plugins.messages.templates.conversation.html, data);
             MM.panels.show('right', html, {title: userName});
 
-            MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/1"><img src="img/ico-contacts.png"></a>');
+            MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/' + userId + '"><img src="img/ico-contacts.png"></a>');
         },
 
         _renderMessages: function(messages) {
