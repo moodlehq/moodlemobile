@@ -142,6 +142,20 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
                 return a - b;
             });
+
+            var userName = "";
+            var user = MM.db.get('users', MM.config.current_site.id + "-" + userId);
+            if (user) {
+                userName = user.get("fullname");
+            }
+
+            var data = {
+                userName: userName
+            };
+            html = MM.tpl.render(MM.plugins.messages.templates.conversation.html, data);
+            MM.panels.show('right', html, {title: userName});
+
+            MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/1"><img src="img/ico-contacts.png"></a>');
         },
 
         _renderMessages: function(messages) {
@@ -173,17 +187,6 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
          */
         _renderRecentMessages: function() {
 
-            $('a[href="#messages"]').removeClass('loading-row');
-            html = MM.tpl.render(MM.plugins.messages.templates.recent.html, {});
-            MM.panels.show('center', html, {title: MM.lang.s("messages")});
-
-            $("#header-action-contacts").css("position", "fixed");
-            $("#header-action-contacts").css("z-index", "9999");
-            $("#header-action-contacts").css("top", "2px");
-            $("#header-action-contacts").css("right", "4px");
-            $("#header-action-contacts").html('<a href="#messages/contacts"><img src="img/ico-contacts.png"></a>');
-
-
             MM.plugins.messages.recentContactMessages = [];
             MM.plugins.messages.recentContactsIds = {};
 
@@ -209,6 +212,9 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                     fullname: m.userfromfullname,
                                     profileimageurl: ""
                                 };
+                                if (!m.timeread) {
+                                    MM.plugins.messages.recentContactsIds[m.useridfrom]["unread"] = 1;
+                                }
                                 MM.plugins.messages.recentContactMessages.push({
                                     user: m.useridfrom,
                                     message: m.smallmessage,
@@ -233,9 +239,6 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                             fullname: m.usertofullname,
                                             profileimageurl: ""
                                         };
-                                        if (!m.timeread) {
-                                            MM.plugins.messages.recentContactsIds[m.useridto]["unread"] = 1;
-                                        }
                                         MM.plugins.messages.recentContactMessages.push({
                                             user: m.useridto,
                                             message: m.smallmessage,
@@ -294,6 +297,17 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                             }
                                         }
                                     }
+
+                                    $('a[href="#messages"]').removeClass('loading-row');
+                                    var data = {
+                                        messages: MM.plugins.messages.recentContactMessages,
+                                        contacts: MM.plugins.messages.recentContactsIds
+                                    };
+                                    html = MM.tpl.render(MM.plugins.messages.templates.recent.html, data);
+                                    MM.panels.show('center', html, {title: MM.lang.s("messages")});
+
+                                    MM.plugins.messages._showTopIcon('#header-action-contacts', '<a href="#messages/contacts"><img src="img/ico-contacts.png"></a>');
+
 
                                 },
                                 function(e) {
@@ -589,11 +603,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {});
             MM.panels.show('center', html, {title: MM.lang.s("contacts")});
 
-            $("#header-action-recent").css("position", "fixed");
-            $("#header-action-recent").css("z-index", "9999");
-            $("#header-action-recent").css("top", "2px");
-            $("#header-action-recent").css("right", "4px");
-            $("#header-action-recent").html('<a href="#messages"><img src="plugins/messages/icon.png"></a>');
+            MM.plugins.messages._showTopIcon('#header-action-recent', '<a href="#messages"><img src="plugins/messages/icon.png"></a>');
         },
 
         showContact: function(userId) {
@@ -601,15 +611,12 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             MM.panels.show('right', html, {title: MM.lang.s("info")});
         },
 
-        showConversation: function(userId) {
-            html = MM.tpl.render(MM.plugins.messages.templates.conversation.html, {});
-            MM.panels.show('right', html, {title: "John Smith"});
-
-            $("#header-action-contact").css("position", "fixed");
-            $("#header-action-contact").css("z-index", "9999");
-            $("#header-action-contact").css("top", "2px");
-            $("#header-action-contact").css("right", "4px");
-            $("#header-action-contact").html('<a href="#messages/contact/1"><img src="img/userimage.png"></a>');
+        _showTopIcon: function (id, link) {
+            $(id).css("position", "fixed");
+            $(id).css("z-index", "9999");
+            $(id).css("top", "6px");
+            $(id).css("right", "10px");
+            $(id).html(link);
         }
     };
 
