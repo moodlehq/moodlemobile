@@ -43,6 +43,15 @@
 @sectionHeadingTextShadow:              0px 1px 1px rgba(0, 0, 0, 0.2);
 @sectionHeadingBackground:              #eee;
 
+
+//-----Messages-----
+@messageBackground:                     @contentBackground;
+
+@bubbleBackground:                      #fff;
+@bubbleBackgroundAlt:                   #fff;
+@bubbleBorder:                          rgba(0,0,0,0.3);
+@bubbleBorderAlt:                       rgba(250,143,28,1);
+
 /* Font Icon
 --------------------------------------------------------*/
 @font-face {
@@ -1068,12 +1077,15 @@ hr {
     }
   }
   .conversation {
-    @bubbleBackground: #fff;
-    @bubbleBackgroundAlt: #fff;
-    @bubbleBorder: rgba(0,0,0,0.3);
-    @bubbleBorderAlt: rgba(250,143,28,1);
+    background-color: @messageBackground;
+    position: absolute;
+    height: 100%;
+    margin-right: 50px;
     .conversation-area {
-      padding: 20px;
+      padding: 15px;
+      height: 100%;
+      overflow: auto;
+      padding-bottom: 90px;
       .datestamp {
         color: #8b91a0;
         text-align: center;
@@ -1140,28 +1152,34 @@ hr {
       background-color: #eee;
       border-top: 1px solid #ccc;
       position: absolute;
-      bottom: 40px;
+      bottom: 44px;
       display: block;
       width: 100%;
-      form > div {
-        position: relative;
-        margin-right: 110px;
-      }
-      form input[type="text"] {
-        display: block;
-        width: 100%;
-        border: 1px solid #eee;
-      }
-      form input[type="submit"] {
-        display: block;
-        width: 100px;
-        position: absolute;
-        top: 0px;
-        left: 100%;
-        margin-left: 10px;
-        border: none;
-        color: @linkColor;
-        background: transparent;
+      form {
+        > div {
+          position: relative;
+          margin-right: 60px;
+        }
+        input {
+          display: block;
+          line-height: 20px;
+          padding: 6px 6px 4px;
+        }
+        input[type="text"] {
+          width: 100%;
+          border: 1px solid #eee;
+        }
+        input[type="submit"] {
+          color: @linkColor;
+          font-weight: bold;
+          background: transparent;
+          border: none;
+          position: absolute;
+          top: 0px;
+          left: 100%;
+          width: 50px;
+          margin-left: 10px;
+        }
       }
     }
   }
@@ -1721,9 +1739,7 @@ div.jqi {
 .tablet {
   .path-messages {
     .conversation {
-      .input-area {
-        // left: 320px;
-      }
+      margin-right: 0;
     }
   }
   .grades {
