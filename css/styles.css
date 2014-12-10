@@ -963,12 +963,12 @@ hr {
 .path-messages .conversation .conversation-area {
   padding: 15px;
   height: 100%;
-  overflow: auto;
   padding-bottom: 90px;
 }
 .path-messages .conversation .conversation-area .datestamp {
   text-align: center;
   margin-bottom: 10px;
+  clear: both;
 }
 .path-messages .conversation .conversation-area .datestamp span {
   color: #fff;

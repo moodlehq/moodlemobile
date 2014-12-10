@@ -166,6 +166,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             MM.panels.show('right', html, {title: userName});
 
             MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/' + userId + '"><img src="img/ico-contacts.png"></a>');
+            document.getElementById("conversation-bottom").scrollIntoView();
         },
 
         _renderMessages: function(messages) {

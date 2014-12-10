@@ -3,20 +3,29 @@
     <div class="path-messages">
         <div class="conversation">
             <div class="conversation-area">
-                <div class="datestamp"><span>May 20, 2014</span></div>
+                <% previousDate = ""; %>
 
                 <% _.each(messages, function(m) { %>
+                <% d = new Date(m.timecreated * 1000); %>
+                <% date = d.toLocaleDateString(navigator.language, {year: 'numeric', month:'long', day: '2-digit'}); %>
+
+                <% if (date != previousDate) { %>
+                <div class="datestamp"><span><%= date %></span></div>
+                <% }%>
+                <% previousDate = date; %>
+
                 <% if (m.useridfrom == otherUser) { %>
                 <div class="bubble">
                 <% } else { %>
                 <div class="bubble bubble-alt">
-                <% } %><%= MM.util.formatText(m.smallmessage) %><span class="time">4:12</span>
+                <% hour = d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'}); %>
+                <% } %><%= MM.util.formatText(m.smallmessage) %><span class="time"><%= hour %></span>
                 </div>
                 <% }); %>
 
             </div>
 
-            <div style="clear:both"></div>
+            <div id ="conversation-bottom" style="clear:both"></div>
 
             <div class="input-area">
                 <form>
