@@ -1087,15 +1087,18 @@ hr {
       overflow: auto;
       padding-bottom: 90px;
       .datestamp {
-        color: #8b91a0;
         text-align: center;
-        text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
         margin-bottom: 10px;
-        display: block;
+        span {
+          color: #fff;
+          font-size: .75rem;
+          font-weight: bold;
+          background-color: #c9c9c9;
+          padding: 2px 10px;
+          border-radius: 10px;
+        }
       }
       .bubble {
-        // color: #000;
-        // text-shadow: 0 1px 1px rgba(255,255,255,0.8);
         line-height: 20px;
         word-wrap: break-word;
         padding: 6px 12px;
@@ -1108,43 +1111,50 @@ hr {
         float: left;
         clear: both;
         position: relative;
-      }
-      .bubble:before,
-      .bubble:after {
-        content: "";
-        display: block;
-        position: absolute;
-        border-style: solid;
-        border-color: transparent;
-      }
-      .bubble:before {
-        border-width: 8px;
-        border-right-color: @bubbleBorder;
-        top: 8px;
-        left: -16px;
-      }
-      .bubble:after {
-        border-width: 7px;
-        border-right-color: @bubbleBackground;
-        top: 9px;
-        left: -14px;
+        &:before,
+        &:after {
+          content: "";
+          display: block;
+          position: absolute;
+          border-style: solid;
+          border-color: transparent;
+        }
+        &:before {
+          border-width: 8px;
+          border-right-color: @bubbleBorder;
+          top: 8px;
+          left: -16px;
+        }
+        &:after {
+          border-width: 7px;
+          border-right-color: @bubbleBackground;
+          top: 9px;
+          left: -14px;
+        }
       }
       .bubble-alt {
         background-color: @bubbleBackgroundAlt;
         border-color: @bubbleBorderAlt;
         float: right;
+        &:before {
+          border-color: transparent;
+          border-left-color: @bubbleBorderAlt;
+          left: auto;
+          right: -16px;
+        }
+        &:after {
+          border-color: transparent;
+          border-left-color:@bubbleBackgroundAlt;
+          left: auto;
+          right: -14px;
+        }
       }
-      .bubble-alt:before {
-        border-color: transparent;
-        border-left-color: @bubbleBorderAlt;
-        left: auto;
-        right: -16px;
-      }
-      .bubble-alt:after {
-        border-color: transparent;
-        border-left-color:@bubbleBackgroundAlt;
-        left: auto;
-        right: -14px;
+      .time {
+        color: #999;
+        font-size: .65rem;
+        float: right;
+        padding-left: 8px;
+        padding-top: 2px;
       }
     }
     .input-area {

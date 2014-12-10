@@ -3,14 +3,14 @@
     <div class="path-messages">
         <div class="conversation">
             <div class="conversation-area">
-                <p class="datestamp">May 20, 2014, 4:16 PM</p>
+                <div class="datestamp"><span>May 20, 2014</span></div>
 
                 <% _.each(messages, function(m) { %>
                 <% if (m.useridfrom == otherUser) { %>
                 <div class="bubble">
                 <% } else { %>
                 <div class="bubble bubble-alt">
-                <% } %><%= MM.util.formatText(m.smallmessage) %>
+                <% } %><%= MM.util.formatText(m.smallmessage) %><span class="time">4:12</span>
                 </div>
                 <% }); %>
 
@@ -26,9 +26,6 @@
                     </div>
                 </form>
             </div>
-<!--         <div style="position: fixed; bottom: 0px">
-            <input type="text" style="display: inline"> <span style="display: inline"><%= MM.lang.s("send") %></span>
-        </div> -->
 
         </div>
     </div>
