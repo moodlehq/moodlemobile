@@ -267,18 +267,22 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                     types.forEach(function(type) {
                                         if (contacts[type] && contacts[type].length > 0) {
                                             contacts[type].forEach(function(contact) {
-                                                if (!(contact.id in MM.plugins.messages.recentContactsIds) &&contact.unread) {
+                                                if (!(contact.id in MM.plugins.messages.recentContactsIds)) {
                                                     // Is a contact with unread messages, add it to the recent contact messages.
                                                     MM.plugins.messages.recentContactsIds[contact.id] = {
                                                         fullname: contact.fullname,
                                                         profileimageurl: ""
                                                     };
+                                                }
+
+                                                if (contact.unread) {
                                                     MM.plugins.messages.recentContactMessages.push({
                                                         user: contact.id,
                                                         message: "...",
                                                         timecreated: 0,
                                                     });
                                                 }
+
                                                 if (contact.profileimageurl) {
                                                     MM.plugins.messages.recentContactsIds[contact.id]["profileimageurl"] = contact.profileimageurl;
                                                 }

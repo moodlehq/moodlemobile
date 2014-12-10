@@ -5,10 +5,6 @@
 
         <% var types = ["online", "offline", "strangers"]; %>
         <% types.forEach(function(type) { %>
-
-        <% _.each(contacts[type], function(contact) { %>
-        <% var user = MM.plugins.messages.recentContactsIds[contact.id]; %>
-        <% if (!user) return; %>
         <h2>
             <% if (type == "online") { %>
                 <%= MM.lang.s("onlinecontacts") %>
@@ -18,6 +14,9 @@
                 <%= MM.lang.s("others") %>
             <% } %>
         </h2>
+        <% _.each(contacts[type], function(contact) { %>
+        <% var user = MM.plugins.messages.recentContactsIds[contact.id]; %>
+        <% if (!user) return; %>
         <ul class="nav nav-v">
             <li class="nav-item">
                 <a class="media touch-row" href="#messages/conversation/<%= contact.id %>">

@@ -3,7 +3,7 @@
     <div class="path-messages">
         <div class="conversation">
             <div class="conversation-area">
-                <% previousDate = ""; %>
+                <% previousDate = ""; var date; var hour;%>
 
                 <% _.each(messages, function(m) { %>
                 <% d = new Date(m.timecreated * 1000); %>
