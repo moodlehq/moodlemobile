@@ -1,5 +1,7 @@
 <div class="back-row">
-    <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+    <a onclick="window.history.back();"><img src="img/arrowleft.png">
+    <span id="back-arrow-title"><%= MM.lang.s("info") %></span>
+    </a>
 </div>
 <div class="panel-container">
     <div class="path-messages contact">
@@ -21,9 +23,9 @@
             </li>
             <li class="nav-item">
                 <% if (isContact) { %>
-                <a><%= MM.lang.s("removecontact") %></a>
+                <a href="#" class="add-remove-contact" data-add="0" data-userid="<%= user.userid %>"><%= MM.lang.s("removecontact") %></a>
                 <% } else { %>
-                <a><%= MM.lang.s("addcontact") %></a>
+                <ahref="#" class="add-remove-contact" data-add="1" data-userid="<%= user.userid %>"><%= MM.lang.s("addcontact") %></a>
                 <% } %>
             </li>
         </ul>
