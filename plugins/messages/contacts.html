@@ -2,64 +2,40 @@
 <div class="panel-container">
     <div class="path-messages contacts">
         <input type="search">
-        <h2><%= MM.lang.s("onlinecontacts") %></h2>
+
+        <% var types = ["online", "offline", "strangers"]; %>
+        <% types.forEach(function(type) { %>
+
+        <% _.each(contacts[type], function(contact) { %>
+        <% var user = MM.plugins.messages.recentContactsIds[contact.id]; %>
+        <% if (!user) return; %>
+        <h2>
+            <% if (type == "online") { %>
+                <%= MM.lang.s("onlinecontacts") %>
+            <% } else if (type == "offline") { %>
+                <%= MM.lang.s("offlinecontacts") %>
+            <% } else  { %>
+                <%= MM.lang.s("others") %>
+            <% } %>
+        </h2>
         <ul class="nav nav-v">
             <li class="nav-item">
-                <a class="media touch-row" href="#messages/conversation/2">
+                <a class="media touch-row" href="#messages/conversation/<%= contact.id %>">
                     <div class="img">
+                        <% if (user.profileimageurl) { %>
+                        <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>">
+                        <% } else { %>
                         <img src="img/userimage.png">
+                        <% } %>
                     </div>
                     <div class="bd">
-                        <p>John Smith</p>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="media touch-row" href="#messages/conversation/2">
-                    <div class="img">
-                        <img src="img/userimage.png">
-                    </div>
-                    <div class="bd">
-                        <p>Barbara Grey</p>
+                        <p><%= user.fullname %></p>
                     </div>
                 </a>
             </li>
         </ul>
-        <h2><%= MM.lang.s("offlinecontacts") %></h2>
-        <ul class="nav nav-v">
-            <li class="nav-item">
-                <a class="media touch-row" href="#messages/conversation/2">
-                    <div class="img">
-                        <img src="img/userimage.png">
-                    </div>
-                    <div class="bd">
-                        <p>Taylor Springsteim</p>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="media touch-row" href="#messages/conversation/2">
-                    <div class="img">
-                        <img src="img/userimage.png">
-                    </div>
-                    <div class="bd">
-                        <p>Olivia Halah</p>
-                    </div>
-                </a>
-            </li>
-        </ul>
-        <h2><%= MM.lang.s("blockedusers") %></h2>
-        <ul class="nav nav-v">
-            <li class="nav-item">
-                <a class="media touch-row" href="#messages/conversation/2">
-                    <div class="img">
-                        <img src="img/userimage.png">
-                    </div>
-                    <div class="bd">
-                        <p>John Black</p>
-                    </div>
-                </a>
-            </li>
-        </ul>
+        <% }); %>
+        <% }); %>
+
     </div>
 </div>

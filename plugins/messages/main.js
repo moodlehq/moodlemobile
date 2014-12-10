@@ -624,10 +624,23 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
         },
 
         showContacts: function() {
-            html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {});
-            MM.panels.show('center', html, {title: MM.lang.s("contacts")});
 
+            MM.panels.show('center', "", {title: MM.lang.s("contacts")});
+            MM.panels.showLoading('center');
             MM.plugins.messages._showTopIcon('#header-action-recent', '<a href="#messages"><img src="plugins/messages/icon.png"></a>');
+
+            MM.plugins.messages._getContacts(
+                function(contacts) {
+                    html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {contacts: contacts});
+                    MM.panels.show('center', html, {title: MM.lang.s("contacts")});
+                    MM.plugins.messages._showTopIcon('#header-action-recent', '<a href="#messages"><img src="plugins/messages/icon.png"></a>');
+                },
+                function(e) {
+                    MM.log("Error retrieving contacts", "Messages");
+                }
+            );
+
+
         },
 
         showContact: function(userId) {
