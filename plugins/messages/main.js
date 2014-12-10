@@ -166,7 +166,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             MM.panels.show('right', html, {title: userName});
 
             MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/' + userId + '"><img src="img/ico-contacts.png"></a>');
-            document.getElementById("conversation-bottom").scrollIntoView();
+            //document.getElementById("conversation-bottom").scrollIntoView();
         },
 
         _renderMessages: function(messages) {
@@ -322,6 +322,13 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                     MM.panels.show('center', html, {title: MM.lang.s("messages")});
 
                                     MM.plugins.messages._showTopIcon('#header-action-contacts', '<a href="#messages/contacts"><img src="img/ico-contacts.png"></a>');
+
+                                    // Load the first event.
+                                    if (MM.deviceType == "tablet" && messages.length > 0) {
+                                        $("#panel-center li:eq(0)").addClass("selected-row");
+                                        MM.plugins.messages.showConversation(data.messages[0]["user"]);
+                                        $("#panel-center li:eq(0)").addClass("selected-row");
+                                    }
 
 
                                 },
