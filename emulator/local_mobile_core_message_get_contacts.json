@@ -1,0 +1,18 @@
+{
+    "online": [],
+    "offline": [],
+    "strangers": [
+        {
+            "id": 2,
+            "fullname": "Admin User",
+            "unread": 5
+        },
+        {
+            "id": 9,
+            "fullname": "Terry Teacher",
+            "profileimageurl": "http://localhost/m/stable_24/pluginfile.php/62/user/icon/f1",
+            "profileimageurlsmall": "http://localhost/m/stable_24/pluginfile.php/62/user/icon/f2",
+            "unread": 1
+        }
+    ]
+}
