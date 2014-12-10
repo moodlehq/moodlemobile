@@ -437,7 +437,8 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
          * @param  {object} successCallback Success callback function
          * @param  {object} errorCallback   Error callback function
          */
-        _getContacts: function(successCallback, errorCallback) {
+        _getContacts: function(successCallback, errorCallback, settings) {
+            settings = settings || {};
 
             MM.moodleWSCall(
                 MM.plugins.messages.wsPrefix + 'core_message_get_contacts',
@@ -447,7 +448,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                         successCallback(contacts);
                     }
                 },
-                null,
+                settings,
                 function(e) {
                     if (typeof errorCallback == "function") {
                         errorCallback(e);
@@ -478,10 +479,13 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                         return;
                     }
                     if (typeof successCallback == "function") {
-                        successCallback(contacts);
+                        successCallback();
                     }
                 },
-                null,
+                {
+                    getFromCache: false,
+                    saveToCache: false
+                },
                 function(e) {
                     if (typeof errorCallback == "function") {
                         errorCallback(e);
@@ -498,7 +502,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
          */
         _deleteContact: function(userId, successCallback, errorCallback) {
             var data = {
-                "userids[0]" : userId
+                "userids[0]": userId
             };
 
             MM.moodleWSCall(
@@ -509,7 +513,10 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                         successCallback();
                     }
                 },
-                null,
+                {
+                    getFromCache: false,
+                    saveToCache: false
+                },
                 function(e) {
                     if (typeof errorCallback == "function") {
                         errorCallback(e);
@@ -543,7 +550,10 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                         successCallback(contacts);
                     }
                 },
-                null,
+                {
+                    getFromCache: false,
+                    saveToCache: false
+                },
                 function(e) {
                     if (typeof errorCallback == "function") {
                         errorCallback(e);
@@ -571,7 +581,10 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                         successCallback();
                     }
                 },
-                null,
+                {
+                    getFromCache: false,
+                    saveToCache: false
+                },
                 function(e) {
                     if (typeof errorCallback == "function") {
                         errorCallback(e);
@@ -641,9 +654,33 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                     });
                     var html = MM.tpl.render(MM.plugins.messages.templates.contact.html, {user: user, isContact: isContact});
                     MM.panels.show('right', html, {title: MM.lang.s("info")});
+                    $(".add-remove-contact").on(MM.clickType, function(e) {
+                        var userId = $(this).data("userid");
+                        var add = $(this).data("add");
+                        $(this).addClass("loading-row-black");
+
+                        var fn = "_createContact";
+                        if (parseInt(add, 10) === 0) {
+                            fn = "_deleteContact";
+                        }
+                        MM.plugins.messages[fn](
+                            userId,
+                            function() {
+                                MM.plugins.messages.showContact(userId);
+                            },
+                            function(e) {
+                                $(this).removeClass("loading-row-black");
+                                MM.popErrorMessage(e);
+                            }
+                        );
+                    });
                 },
                 function(e) {
                     MM.log("Error retrieving contacts", "Messages");
+                },
+                {
+                    getFromCache: false,
+                    saveToCache: true
                 }
             );
         },
