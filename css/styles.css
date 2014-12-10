@@ -952,11 +952,16 @@ hr {
   padding: 20px;
 }
 .path-messages .conversation .conversation-area .datestamp {
-  color: #8b91a0;
   text-align: center;
-  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
   margin-bottom: 10px;
-  display: block;
+}
+.path-messages .conversation .conversation-area .datestamp span {
+  color: #fff;
+  font-size: .75rem;
+  font-weight: bold;
+  background-color: #c9c9c9;
+  padding: 2px 10px;
+  border-radius: 10px;
 }
 .path-messages .conversation .conversation-area .bubble {
   line-height: 20px;
@@ -1008,6 +1013,13 @@ hr {
   border-left-color: #ffffff;
   left: auto;
   right: -14px;
+}
+.path-messages .conversation .conversation-area .time {
+  color: #999;
+  font-size: .65rem;
+  float: right;
+  padding-left: 8px;
+  padding-top: 2px;
 }
 .path-messages .conversation .input-area {
   padding: 8px 10px;
