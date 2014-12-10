@@ -5,21 +5,26 @@
     <div class="path-messages contact">
         <div class="media">
             <div class="img">
+                <% if (user.profileimageurl) { %>
+                <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>">
+                <% } else { %>
                 <img src="img/userimage.png">
+                <% } %>
             </div>
             <div class="bd">
-                <p>John Smith</p>
+                <p><%= user.fullname %></p>
             </div>
         </div>
         <ul class="nav nav-v">
             <li class="nav-item">
-                <a href="#messages/conversation/1"> <%= MM.lang.s("sendmessage") %></a>
+                <a href="#messages/conversation/<%= user.userid %>"> <%= MM.lang.s("sendmessage") %></a>
             </li>
             <li class="nav-item">
+                <% if (isContact) { %>
                 <a><%= MM.lang.s("removecontact") %></a>
-            </li>
-            <li class="nav-item">
-                <a><%= MM.lang.s("blockcontact") %></a>
+                <% } else { %>
+                <a><%= MM.lang.s("addcontact") %></a>
+                <% } %>
             </li>
         </ul>
     </div>

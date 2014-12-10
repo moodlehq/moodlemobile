@@ -156,8 +156,6 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                 return a - b;
             });
 
-            console.log(messages);
-
             var data = {
                 messages: messages,
                 otherUser: userId,
@@ -619,8 +617,34 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
         },
 
         showContact: function(userId) {
-            html = MM.tpl.render(MM.plugins.messages.templates.contact.html, {});
-            MM.panels.show('right', html, {title: MM.lang.s("info")});
+            var user = MM.db.get('users', MM.config.current_site.id + "-" + userId);
+            if (!user) {
+                MM.popErrorMessage("Invalid user");
+                return;
+            }
+            user = user.toJSON();
+
+            MM.plugins.messages._getContacts(
+                function(contacts) {
+                    var isContact = false;
+                    var types = ["online", "offline"];
+                    types.forEach(function(type) {
+                        if (contacts[type] && contacts[type].length > 0) {
+                            contacts[type].forEach(function(contact) {
+                                if (contact.id == user.userid) {
+                                    isContact = true;
+                                    return;
+                                }
+                            });
+                        }
+                    });
+                    var html = MM.tpl.render(MM.plugins.messages.templates.contact.html, {user: user, isContact: isContact});
+                    MM.panels.show('right', html, {title: MM.lang.s("info")});
+                },
+                function(e) {
+                    MM.log("Error retrieving contacts", "Messages");
+                }
+            );
         },
 
         _showTopIcon: function (id, link) {
