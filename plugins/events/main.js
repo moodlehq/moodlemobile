@@ -161,7 +161,11 @@ define(templates, function (eventsTpl, eventTpl) {
                 }
                 var tpl = {"event": fullEvent};
                 var html = MM.tpl.render(MM.plugins.events.templates.event.html, tpl);
-                MM.panels.show('right', html, {title: pageTitle});
+
+                var title = '<div class="img"><img src="img/event-' + fullEvent.eventtype + '.png"></div>';
+                title += '<div class="bd"><h1>' + MM.util.formatText(fullEvent.name) + '</h1></div>';
+
+                MM.panels.show('right', html, {title: title});
             }
         },
 

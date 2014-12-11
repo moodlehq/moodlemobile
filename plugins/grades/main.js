@@ -230,7 +230,7 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
                         MM.panels.show("right", html, {keepTitle: true});
                     } else {
                         $(menuEl, '#panel-left').removeClass('loading-row');
-                        MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
+                        MM.panels.show("center", html, {title: MM.util.formatText(course.get("fullname")), hideRight: true});
                     }
                 },
                 {},

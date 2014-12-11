@@ -1,20 +1,18 @@
 <div class="back-row">
     <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
 </div>
+<div id="back-arrow-title">
+    <div class="img app-ico">
+        <img src="img/mod/forum.png" alt="img">
+    </div>
+    <div class="bd">
+        <p><%= MM.util.formatText(forum.name) %></p>
+    </div>
+</div>
 
 <div class="content-index">
-    <h2><%= sectionName %></h2>
     <div class="path-mod-forum">
         <div class="forum media">
-            <div class="content-name">
-                <div class="img app-ico">
-                    <img src="img/mod/forum.png" alt="img">
-                </div>
-                <div class="bd">
-                    <p><%= MM.util.formatText(forum.name) %></p>
-                </div>
-            </div>
-
             <div class="intro">
                 <%= MM.util.formatText(forum.intro) %>
             </div>
