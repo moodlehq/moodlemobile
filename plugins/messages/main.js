@@ -3,11 +3,12 @@ var requires = [
     "root/externallib/text!root/plugins/messages/recent.html",
     "root/externallib/text!root/plugins/messages/conversation.html",
     "root/externallib/text!root/plugins/messages/contact.html",
-    "root/externallib/text!root/plugins/messages/contacts.html"
+    "root/externallib/text!root/plugins/messages/contacts.html",
+    "root/externallib/text!root/plugins/messages/search.html"
 ];
 
 
-define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, contactsTpl) {
+define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, contactsTpl, searchTpl) {
 
     var plugin = {
         settings: {
@@ -42,6 +43,9 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             },
             "contacts": {
                 html: contactsTpl
+            },
+            "search": {
+                html: searchTpl
             }
         },
 
@@ -685,9 +689,52 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
             MM.plugins.messages._getContacts(
                 function(contacts) {
+                    MM.db.each("users", function(user) {
+                        user = user.toJSON();
+                        user.id = user.userid;
+                        contacts["strangers"].push(user);
+                    });
+
                     html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {contacts: contacts});
+
                     MM.panels.show('center', html, {title: MM.lang.s("contacts")});
                     MM.plugins.messages._showTopIcon('#header-action-recent', '<a href="#messages"><img src="plugins/messages/icon.png"></a>');
+
+                    $('#search-contacts').on('submit', function(e) {
+                        e.preventDefault();
+                        var text = $('#search-text').val();
+
+                        if (!text.trim()) {
+                            return;
+                        }
+                        MM.plugins.messages._searchContacts(text, 0,
+                            function(contacts) {
+                                var data = {
+                                    users: contacts
+                                };
+                                var result = MM.lang.s('nousersfound');
+
+                                if (contacts.length) {
+                                    result = MM.tpl.render(MM.plugins.messages.templates.search.html, data);
+                                }
+
+                                $("#contacts-list").css("display", "none");
+                                $("#search-result").css("display", "block");
+                                $("#search-result").html(result);
+                            },
+                            function(e) {
+                                MM.popErrorMessage(e);
+                            }
+                        );
+                    });
+
+                    $("#search-text").keyup(function(e) {
+                        if ($(this).val() == "") {
+                            $("#contacts-list").css("display", "block");
+                            $("#search-result").css("display", "none");
+                        }
+                    });
+
                 },
                 function(e) {
                     MM.log("Error retrieving contacts", "Messages");

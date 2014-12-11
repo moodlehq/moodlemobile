@@ -149,6 +149,7 @@
 "notificationsdisabled": "Notifications are disabled",
 "notificationpreferencesnotconfigured": "Your mobile notification preferences are not yet configured. To do this log into your Moodle site using a web browser and go to the Messaging settings under your user profile.",
 "notificationshowtoenable": "",
+"nousersfound": "No users found",
 "offlinemode": "Offline mode",
 "ok": "OK",
 "onlinecontacts": "Online contacts",
