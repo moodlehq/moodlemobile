@@ -167,6 +167,18 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
             MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/' + userId + '"><img src="img/ico-contacts.png"></a>');
             //document.getElementById("conversation-bottom").scrollIntoView();
+
+            $('#message-send-form').on('submit', function(e) {
+                e.preventDefault();
+                MM.plugins.messages._sendMessage(userId, $(this).find("#message-text").val(),
+                    function(m) {
+                        $("#message-text").val("");
+                    },
+                    function(e) {
+                        MM.popErrorMessage(e);
+                    }
+                );
+            });
         },
 
         _renderMessages: function(messages) {
@@ -626,6 +638,37 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                     }
                 },
                 null,
+                function(e) {
+                    if (typeof errorCallback == "function") {
+                        errorCallback(e);
+                    }
+                }
+            );
+        },
+
+        _sendMessage: function(userTo, message, successCallback, errorCallback) {
+            message = message.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+            if (!message.trim()) {
+                return;
+            }
+
+            var data = {
+                "messages[0][touserid]" : userTo,
+                "messages[0][text]" : message,
+                "messages[0][textformat]" : 1
+            };
+
+            MM.moodleWSCall('moodle_message_send_instantmessages', data,
+                function(r){
+                    if (typeof successCallback == "function") {
+                        successCallback(r);
+                    }
+                },
+                {
+                    getFromCache: false,
+                    saveToCache: false
+                },
                 function(e) {
                     if (typeof errorCallback == "function") {
                         errorCallback(e);
