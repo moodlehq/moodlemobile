@@ -957,13 +957,11 @@ hr {
 .path-messages .conversation {
   background-color: #ffffff;
   position: absolute;
-  height: 100%;
   margin-right: 50px;
 }
 .path-messages .conversation .conversation-area {
   padding: 15px;
-  height: 100%;
-  padding-bottom: 90px;
+  overflow: scroll;
 }
 .path-messages .conversation .conversation-area .datestamp {
   text-align: center;
@@ -1040,8 +1038,6 @@ hr {
   padding: 8px 10px;
   background-color: #eee;
   border-top: 1px solid #ccc;
-  position: absolute;
-  bottom: 44px;
   display: block;
   width: 100%;
 }

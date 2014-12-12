@@ -1078,13 +1078,11 @@ hr {
   }
   .conversation {
     background-color: @messageBackground;
-    position: absolute;
-    height: 100%;
+    position: absolute;;
     margin-right: 50px;
     .conversation-area {
       padding: 15px;
-      height: 100%;
-      padding-bottom: 90px;
+      overflow: scroll;
       .datestamp {
         text-align: center;
         margin-bottom: 10px;
@@ -1161,8 +1159,6 @@ hr {
       padding: 8px 10px;
       background-color: #eee;
       border-top: 1px solid #ccc;
-      position: absolute;
-      bottom: 44px;
       display: block;
       width: 100%;
       form {
