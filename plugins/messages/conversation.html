@@ -3,25 +3,9 @@
     <div class="path-messages">
         <div class="conversation">
             <div class="conversation-area">
-                <% previousDate = ""; var date; var hour;%>
+                <% previousDate = ""; %>
 
-                <% _.each(messages, function(m) { %>
-                <% d = new Date(m.timecreated * 1000); %>
-                <% date = d.toLocaleDateString(navigator.language, {year: 'numeric', month:'long', day: '2-digit'}); %>
-
-                <% if (date != previousDate) { %>
-                <div class="datestamp"><span><%= date %></span></div>
-                <% }%>
-                <% previousDate = date; %>
-
-                <% if (m.useridfrom == otherUser) { %>
-                <div class="bubble">
-                <% } else { %>
-                <div class="bubble bubble-alt">
-                <% hour = d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'}); %>
-                <% } %><%= MM.util.formatText(m.smallmessage) %><span class="time"><%= hour %></span>
-                </div>
-                <% }); %>
+                <%= MM.plugins.messages._renderConversationArea(messages, otherUser, previousDate) %>
 
             </div>
 

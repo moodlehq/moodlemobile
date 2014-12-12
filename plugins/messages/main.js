@@ -4,11 +4,12 @@ var requires = [
     "root/externallib/text!root/plugins/messages/conversation.html",
     "root/externallib/text!root/plugins/messages/contact.html",
     "root/externallib/text!root/plugins/messages/contacts.html",
-    "root/externallib/text!root/plugins/messages/search.html"
+    "root/externallib/text!root/plugins/messages/search.html",
+    "root/externallib/text!root/plugins/messages/bubbles.html"
 ];
 
 
-define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, contactsTpl, searchTpl) {
+define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, contactsTpl, searchTpl, bubblesTpl) {
 
     var plugin = {
         settings: {
@@ -46,6 +47,9 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             },
             "search": {
                 html: searchTpl
+            },
+            "bubbles": {
+                html: bubblesTpl
             }
         },
 
@@ -54,6 +58,8 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
         recentContactMessages: [],
 
         recentContactsIds: {},
+
+        pollingInterval: 5000,
 
         /**
          * Determines is the plugin is visible.
@@ -150,6 +156,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
         },
 
         _renderConversation: function(userId, userName, messagesReceived, messagesSent) {
+
             // Join the arrays and sort.
             var messages = messagesReceived.concat(messagesSent);
             // Sort by timecreated.
@@ -190,6 +197,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
             MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/' + userId + '"><img src="img/ico-contacts.png"></a>');
             //document.getElementById("conversation-bottom").scrollIntoView();
+            //
 
             $('#message-send-form').on('submit', function(e) {
                 e.preventDefault();
@@ -202,6 +210,10 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                     }
                 );
             });
+
+            setTimeout(function() {
+                MM.plugins.messages._pollingMessages(userId);
+            }, MM.plugins.messages.pollingInterval);
         },
 
         _renderMessages: function(messages) {
@@ -445,7 +457,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                 function(messages) {
                     if (messages.messages) {
                         if (messages.messages.length >= params.limitnum) {
-                            successCallback(messages);
+                            successCallback(messages.messages);
                         } else {
                             params.limitnum = params.limitnum - messages.messages.length;
                             params.read = 1;
@@ -460,7 +472,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                     }
                                 },
                                 function() {
-                                    successCallback(messages);
+                                    successCallback(messages.messages);
                                 }
                             );
                         }
@@ -816,6 +828,96 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                     saveToCache: true
                 }
             );
+        },
+
+        _pollingMessages: function(userId) {
+            if (location.href.indexOf("#messages/conversation/" + userId) > -1) {
+                var params = {
+                    useridto: MM.config.current_site.userid,
+                    useridfrom: userId,
+                    type: 'conversations',
+                    read: 0,
+                    newestfirst: 1,
+                    limitfrom: 0,
+                    limitnum: 5
+                };
+
+                // First, messages received.
+                MM.plugins.messages._getRecentMessages(
+                    params,
+                    function(messagesReceived) {
+                        // Now, messages sent.
+                        params.useridto = userId;
+                        params.useridfrom = MM.config.current_site.userid;
+
+                        MM.plugins.messages._getRecentMessages(
+                            params,
+                            function(messagesSent) {
+                                // Remove rendered messages.
+                                var rendered = [];
+
+                                $(".bubble").each(function() {
+                                    rendered.push($(this).data("messageid"));
+                                });
+
+                                var messages = messagesReceived.concat(messagesSent);
+                                // Sort by timecreated.
+                                messages = messages.sort(function (a, b) {
+                                    a = parseInt(a.timecreated, 10);
+                                    b = parseInt(b.timecreated, 10);
+
+                                    return a - b;
+                                });
+
+                                for(var i = messages.length -1; i >= 0 ; i--){
+                                    var m = messages[i];
+                                    var id = m.useridfrom + "-" + m.id + "-" + m.timecreated;
+                                    if(rendered.indexOf(id) > -1){
+                                        messages.splice(i, 1);
+                                    }
+                                }
+
+                                if (messages.length > 0) {
+                                    var d = new Date(messages[0].timecreated * 1000);
+                                    var previousDate = d.toLocaleDateString(navigator.language, {year: 'numeric', month:'long', day: '2-digit'});
+
+                                    var html = MM.plugins.messages._renderConversationArea(messages, userId, previousDate);
+                                    // Double check we are in the correct conversation window.
+                                    if (location.href.indexOf("#messages/conversation/" + userId) > -1) {
+                                        conversationArea = $(".conversation-area");
+                                        conversationArea.append(html);
+                                        conversationArea.scrollTop(conversationArea.prop("scrollHeight"));
+                                    }
+                                }
+
+                                setTimeout(function() {
+                                    MM.plugins.messages._pollingMessages(userId);
+                                }, MM.plugins.messages.pollingInterval);
+                            },
+                            function(e) {
+                                setTimeout(function() {
+                                    MM.plugins.messages._pollingMessages(userId);
+                                }, MM.plugins.messages.pollingInterval);
+                            }
+                        );
+                    },
+                    function(e) {
+                        setTimeout(function() {
+                            MM.plugins.messages._pollingMessages(userId);
+                        }, MM.plugins.messages.pollingInterval);
+                    }
+                );
+            }
+        },
+
+        _renderConversationArea: function(messages, userId, previousDate) {
+            var data = {
+                messages: messages,
+                otherUser: userId,
+                previousDate: previousDate
+            };
+
+            return MM.tpl.render(MM.plugins.messages.templates.bubbles.html, data);
         },
 
         _showTopIcon: function (id, link) {
