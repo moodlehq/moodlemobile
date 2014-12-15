@@ -1,6 +1,7 @@
 <div id="header-action-contacts" class="header-action"></div>
 <div class="panel-container">
     <div class="path-messages recent-messages">
+        <% if (messages.length > 0) {%>
         <ul class="nav nav-v">
             <% _.each(messages, function(message) { %>
             <% var user = contacts[message.user]; %>
@@ -27,5 +28,8 @@
             </li>
             <% }); %>
         </ul>
+        <% } else { %>
+        <h3><strong><%= MM.lang.s("nomessagesfound") %></strong></h3>
+        <% } %>
     </div>
 </div>

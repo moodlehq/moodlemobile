@@ -99,7 +99,8 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             $('a[href="#messages"]').addClass('loading-row');
 
             // Checks if all the messaging WS are available.
-            if (MM.util.wsAvailable(MM.plugins.messages.wsPrefix + 'core_message_get_contacts')) {
+            if (MM.util.wsAvailable('core_message_get_contacts') ||
+                    MM.util.wsAvailable(MM.plugins.messages.wsPrefix + 'core_message_get_contacts')) {
                 MM.plugins.messages._renderRecentMessages();
             } else {
                 MM.plugins.messages._renderMessageList();
@@ -498,8 +499,13 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
         _getContacts: function(successCallback, errorCallback, settings) {
             settings = settings || {};
 
+            var wsFn = 'core_message_get_contacts';
+            if (MM.util.wsAvailable('local_mobile_core_message_get_contacts')) {
+                wsFn = 'local_mobile_core_message_get_contacts';
+            }
+
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'core_message_get_contacts',
+                wsFn,
                 {},
                 function(contacts) {
                     if (typeof successCallback == "function") {
@@ -526,8 +532,13 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                 "userids[0]" : userId
             };
 
+            var wsFn = 'core_message_create_contacts';
+            if (MM.util.wsAvailable('local_mobile_core_message_create_contacts')) {
+                wsFn = 'local_mobile_core_message_create_contacts';
+            }
+
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'core_message_create_contacts',
+                wsFn,
                 data,
                 function(warnings) {
                     if (warnings && warnings.length) {
@@ -563,8 +574,13 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                 "userids[0]": userId
             };
 
+            var wsFn = 'core_message_delete_contacts';
+            if (MM.util.wsAvailable('local_mobile_core_message_delete_contacts')) {
+                wsFn = 'local_mobile_core_message_delete_contacts';
+            }
+
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'core_message_delete_contacts',
+                wsFn,
                 data,
                 function(result) {
                     if (typeof successCallback == "function") {
@@ -594,8 +610,13 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                 "userids[0]" : userId
             };
 
+            var wsFn = 'core_message_block_contacts';
+            if (MM.util.wsAvailable('local_mobile_core_message_block_contacts')) {
+                wsFn = 'local_mobile_core_message_block_contacts';
+            }
+
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'core_message_block_contacts',
+                wsFn,
                 data,
                 function(warnings) {
                     if (warnings && warnings.length) {
@@ -631,8 +652,13 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                 "userids[0]" : userId
             };
 
+            var wsFn = 'core_message_unblock_contacts';
+            if (MM.util.wsAvailable('local_mobile_core_message_unblock_contacts')) {
+                wsFn = 'local_mobile_core_message_unblock_contacts';
+            }
+
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'core_message_unblock_contacts',
+                wsFn,
                 data,
                 function(result) {
                     if (typeof successCallback == "function") {
@@ -664,11 +690,34 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                 "onlymycourses": onlyMyCourses
             };
 
+            var wsFn = 'core_message_search_contacts';
+            if (MM.util.wsAvailable('local_mobile_core_message_search_contacts')) {
+                wsFn = 'local_mobile_core_message_search_contacts';
+            }
+
             MM.moodleWSCall(
-                MM.plugins.messages.wsPrefix + 'core_message_search_contacts',
+                wsFn,
                 data,
                 function(contacts) {
                     if (typeof successCallback == "function") {
+                        // Save the users in the cache/db.
+                        var usersStored = [];
+                        MM.db.each("users", function(el){
+                            usersStored.push(el.get("id"));
+                        });
+
+                        var newUser;
+                        _.each(contacts, function(contact) {
+                            if (usersStored.indexOf(MM.config.current_site.id + "-" + contact.id) < 0) {
+                                newUser = {
+                                    'id': MM.config.current_site.id + '-' + contact.id,
+                                    'userid': contact.id,
+                                    'fullname': contact.fullname,
+                                    'profileimageurl': (contact.profileimageurl)? contact.profileimageurl : ''
+                                };
+                                MM.db.insert('users', newUser);
+                            }
+                        });
                         successCallback(contacts);
                     }
                 },

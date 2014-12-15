@@ -140,6 +140,7 @@
 "next": "Next",
 "no": "No",
 "noevents": "There are no events",
+"nomessagesfound": "No messages were found",
 "norefreshdisconnected": "The refresh option requires network connection",
 "notaskstobesynchronized": "No tasks to be synchronized",
 "noteadded": "Note added",
