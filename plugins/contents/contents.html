@@ -11,7 +11,9 @@
     <% _.each(sections, function(section) { %>
     <% if (section.modules && section.modules.length >0) { %>
     <section>
-        <h2><%= MM.util.formatText(section.name) %></h2>
+        <% if (sections.length > 1) { %>
+        <h3><%= MM.util.formatText(section.name) %></h3>
+        <% } %>
         <ul class="nav nav-v">
             <% _.each(section.modules, function(module) { %>
 
