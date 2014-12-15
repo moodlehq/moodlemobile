@@ -16,9 +16,9 @@
             <% if (!contacts[type].length) return; %>
             <h2>
                 <% if (type == "online") { %>
-                    <%= MM.lang.s("onlinecontacts") %>
+                    <%= MM.lang.s("onlinecontacts", "core", contacts[type].length) %>
                 <% } else if (type == "offline") { %>
-                    <%= MM.lang.s("offlinecontacts") %>
+                    <%= MM.lang.s("offlinecontacts", "core", contacts[type].length) %>
                 <% } else  { %>
                     <%= MM.lang.s("others") %>
                 <% } %>
