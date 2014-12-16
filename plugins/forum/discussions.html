@@ -1,12 +1,14 @@
-<div class="back-row">
-    <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
-</div>
-<div id="back-arrow-title">
-    <div class="img app-ico">
-        <img src="img/mod/forum.png" alt="img">
+<div class="header-sub">
+    <div class="back-row">
+        <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
     </div>
-    <div class="bd">
-        <p><%= MM.util.formatText(forum.name) %></p>
+    <div id="back-arrow-title" class="media">
+        <div class="img app-ico">
+            <img src="img/mod/forum.png" alt="img">
+        </div>
+        <div class="bd">
+            <h2><%= MM.util.formatText(forum.name) %></h2>
+        </div>
     </div>
 </div>
 

@@ -42,8 +42,8 @@ html {
 body {
   color: #666666;
   font-family: Helvetica, sans-serif;
-  font-size: 14px;
-  font-size: .875rem;
+  font-size: 16px;
+  font-size: 1rem;
   line-height: 24px;
   background: #fa8f1c url(../img/bg-orange.png);
 }
@@ -76,10 +76,15 @@ ol {
 h1 {
   font-size: 18px;
   font-size: 1.125rem;
-  color: #666666;
-  margin: 5px 0 0;
+  font-weight: normal;
 }
 h2 {
+  font-size: 17px;
+  font-size: 1.0625rem;
+  font-weight: normal;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
+h3 {
   color: #666666;
   font-size: 100%;
   font-weight: normal;
@@ -505,17 +510,42 @@ hr {
   height: 40px;
   margin-left: 5px;
 }
-#page-title {
-  font-size: 16px;
-  font-size: 1rem;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
-  letter-spacing: .5px;
-}
-.menu-home {
+.header-main .menu-home {
   background-image: url(../img/ico-menu.png);
 }
-.menu-back {
+.header-main .menu-back {
   background-image: url(../img/ico-back.png);
+}
+.header-main #page-title {
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  letter-spacing: .5px;
+  display: block;
+  text-align: center;
+}
+.header-sub {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 44px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.header-sub .back-row {
+  float: left;
+  padding-bottom: 10px;
+  margin-left: 5px;
+  display: block;
+}
+.header-sub .back-row a {
+  padding: 10px;
+}
+.header-sub h2 {
+  margin-bottom: 0;
+  overflow: hidden;
+}
+.header-sub h2 .img {
+  margin-top: 5px;
+}
+.header-sub #tablet-page-title {
+  padding-left: 10px;
 }
 /* - Common on three panels
 -------------------------------------------------------------------------- */
@@ -553,10 +583,11 @@ hr {
   border-radius: 50%;
 }
 .user-menu header h1 {
+  font-size: 20px;
+  font-size: 1.25rem;
   color: #ffffff;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
-  font-weight: normal;
-  line-height: 20px;
+  margin: 5px 0 0;
 }
 .user-menu h2 {
   color: #ffffff;
@@ -658,7 +689,12 @@ hr {
   position: relative;
 }
 .content-index header {
+  border-top: 1px solid #eee;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.content-index header h2 {
   padding: 10px;
+  margin-bottom: 0;
 }
 .content-index section:last-of-type {
   border-bottom: 1px solid #eee;
@@ -686,7 +722,7 @@ hr {
 .content-index .content-name.mod-label {
   overflow: auto;
 }
-.content-index .content-name.mod-label h3 {
+.content-index .content-name.mod-label h4 {
   font-size: 100%;
   font-weight: normal;
   margin: 0;
@@ -765,10 +801,6 @@ hr {
   padding-right: 10px;
   word-wrap: break-word;
 }
-.back-row a {
-  display: block;
-  padding: 10px;
-}
 .path-mod-forum .forum {
   border-bottom: 15px solid #eee;
 }
@@ -780,8 +812,8 @@ hr {
   margin-left: 32px;
 }
 .path-mod-forum .intro {
-  margin-left: 32px;
-  padding: 0 10px 10px;
+  padding: 10px;
+  margin-left: 4px;
 }
 .path-mod-forum .first-post > .subject {
   font-size: 1rem;
@@ -789,9 +821,6 @@ hr {
 .path-mod-forum .forum-post {
   padding-top: 10px;
   border-bottom: 1px solid #eee;
-}
-.path-mod-forum .forum-post:first-of-type {
-  border-top: 1px solid #eee;
 }
 .path-mod-forum .forum-post:last-child {
   border-bottom: 0;
@@ -827,6 +856,10 @@ hr {
 .path-mod-forum .content {
   padding: 0 10px 10px;
   margin-left: 50px;
+}
+.path-mod-forum .content:first-of-type {
+  padding-top: 10px;
+  margin-left: 4px;
 }
 .path-mod-forum .content ul,
 .path-mod-forum .content ol {
@@ -875,21 +908,25 @@ hr {
   padding: 2px 6px;
   margin: 4px;
 }
-.path-mod-forum.forum-discussion .first-post {
-  border-top: 15px solid #eee;
-  border-bottom: 1px solid #eee;
-}
 .path-mod-forum.forum-discussion .indent {
   border-top: 15px solid #eee;
 }
-.fullpath {
+.content-index .back-row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 5px;
+}
+.content-index .back-row a {
+  padding: 10px;
+}
+.content-index .fullpath {
   width: 100%;
   background-color: #eee;
   position: fixed;
   bottom: 0;
   padding: 4px 10px;
 }
-.fullpath p {
+.content-index .fullpath p {
   margin-bottom: 0;
   line-height: 20px;
 }
@@ -1123,7 +1160,7 @@ hr {
   padding: 10px;
 }
 .event {
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #eee;
 }
 .event header {
   padding: 10px;
@@ -1133,7 +1170,7 @@ hr {
 }
 .event > div {
   padding: 10px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #eee;
   overflow: hidden;
 }
 .event .date p,
@@ -1141,10 +1178,11 @@ hr {
   padding-left: 26px;
   margin-bottom: 0;
 }
-.event .time {
+.event .date .time,
+.event .course .time {
   font-size: 12px;
 }
-.event .app-ico img {
+.event .media .app-ico img {
   width: 18px;
   height: auto;
 }
@@ -1232,6 +1270,9 @@ hr {
 }
 /* - Participant on the right panel and Notification page on the center panel
 -------------------------------------------------------------------------- */
+.user-card {
+  border-top: 1px solid #eee;
+}
 .user-card .content {
   border-bottom: 1px solid #eee;
 }
@@ -1275,6 +1316,9 @@ hr {
 }
 /* - Settings on the right panel
 -------------------------------------------------------------------------- */
+.settings {
+  border-top: 1px solid #eee;
+}
 .settings .nav-item {
   padding: 10px;
 }
@@ -1610,7 +1654,7 @@ div.jqi button.jqidefaultbutton {
   border-collapse: collapse;
   line-height: 20px;
   width: 100%;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #eee;
 }
 .user-grade tr {
   border-bottom: 1px solid #eee;

@@ -151,7 +151,16 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         sectionName = MM.plugins.forum.sectionsCache[forum.cmid];
                     }
 
-                    var pageTitle = MM.util.formatText(forum.name);
+                    var pageTitle = '<div id="back-arrow-title" class="media">\
+                            <div class="img app-ico">\
+                                <img src="img/mod/forum.png" alt="img">\
+                            </div>\
+                            <div class="bd">\
+                                <h2>' + MM.util.formatText(forum.name) + '</h2>\
+                            </div>\
+                        </div>';
+
+                    // var pageTitle = MM.util.formatText(forum.name);
                     var data = {
                         "page": page,
                         "perpage": MM.plugins.forum.perPage,

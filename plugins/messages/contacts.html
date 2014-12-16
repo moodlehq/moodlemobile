@@ -14,7 +14,7 @@
             <% var displayed = []; %>
             <% types.forEach(function(type) { %>
             <% if (!contacts[type].length) return; %>
-            <h2>
+            <h3>
                 <% if (type == "online") { %>
                     <%= MM.lang.s("onlinecontacts", "core", contacts[type].length) %>
                 <% } else if (type == "offline") { %>
@@ -22,7 +22,7 @@
                 <% } else  { %>
                     <%= MM.lang.s("others") %>
                 <% } %>
-            </h2>
+            </h3>
             <ul class="nav nav-v">
             <% _.each(contacts[type], function(contact) { %>
             <%  contact.id = parseInt(contact.id) %>
