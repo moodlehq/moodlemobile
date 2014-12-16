@@ -177,29 +177,6 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             html = MM.tpl.render(MM.plugins.messages.templates.conversation.html, data);
             MM.panels.show('right', html, {title: userName});
 
-            var headerHeight = $('.header-wrapper').height();
-            var inputArea = $(".path-messages .conversation .input-area");
-            var inputHeight  = inputArea.height();
-            // Heading height.
-            var phoneHeading = $("#back-arrow-title");
-            if (phoneHeading) {
-                headerHeight += phoneHeading.height();
-            }
-            var tabletHeading = $("#tablet-page-title");
-            if (tabletHeading) {
-                headerHeight += tabletHeading.height();
-            }
-            var conversationArea = $('.path-messages .conversation .conversation-area');
-
-            // Height of the conversation area.
-            conversationArea.css('height', $(document).innerHeight() - headerHeight - inputHeight - 25);
-            // Scroll bottom.
-            conversationArea.scrollTop(conversationArea.height());
-
-            MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/' + userId + '"><img src="img/ico-contacts.png"></a>');
-            //document.getElementById("conversation-bottom").scrollIntoView();
-            //
-
             $('#message-send-form').on('submit', function(e) {
                 e.preventDefault();
                 MM.plugins.messages._sendMessage(userId, $(this).find("#message-text").val(),
@@ -215,6 +192,21 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             setTimeout(function() {
                 MM.plugins.messages._pollingMessages(userId);
             }, MM.plugins.messages.pollingInterval);
+
+            // Conversation area height.
+            var headerHeight = $('.header-wrapper').height();
+            var inputArea = $(".path-messages .conversation .input-area");
+            var inputHeight  = inputArea.height();
+            var conversationArea = $('.path-messages .conversation .conversation-area');
+
+            // Height of the conversation area.
+            conversationArea.css('height', $(document).innerHeight() - headerHeight - inputHeight - 100);
+            conversationArea.css('width', $("#panel-right").width());
+            // Scroll bottom.
+            conversationArea.scrollTop(conversationArea.prop("scrollHeight"));
+
+            MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/' + userId + '"><img src="img/ico-contacts.png"></a>');
+
         },
 
         _renderMessages: function(messages) {
@@ -321,14 +313,14 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                                         fullname: contact.fullname,
                                                         profileimageurl: ""
                                                     };
-                                                }
 
-                                                if (contact.unread) {
-                                                    MM.plugins.messages.recentContactMessages.push({
-                                                        user: contact.id,
-                                                        message: "...",
-                                                        timecreated: 0,
-                                                    });
+                                                    if (contact.unread) {
+                                                        MM.plugins.messages.recentContactMessages.push({
+                                                            user: contact.id,
+                                                            message: "...",
+                                                            timecreated: 0,
+                                                        });
+                                                    }
                                                 }
 
                                                 if (contact.profileimageurl) {
