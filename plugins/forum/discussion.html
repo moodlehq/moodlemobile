@@ -1,8 +1,12 @@
-<div class="back-row">
-    <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
-</div>
-<div id="back-arrow-title">
-<%= MM.util.formatText(discussion.subject) %>
+<div class="header-sub">
+    <div class="back-row">
+        <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+    </div>
+    <div id="back-arrow-title">
+         <div class="bd">
+            <h2><%= MM.util.formatText(discussion.subject) %></h2>
+        </div>
+    </div>
 </div>
 
 <div class="content-index">

@@ -32,12 +32,13 @@
 @headerBorder:                          0;
 @headerBoxShadow:                       10px 0 20px rgba(0, 0, 0, 0.3);
 
+@subHeaderBoxShadow:                    0 0 10px rgba(0, 0, 0, 0.1);
+
 //-----Content-----
 @contentBackground:                     #fff;
 
 @textColor:                             #666;
 @linkColor:                             #08c;
-@headingsColor:                         @textColor;
 
 @sectionHeadingColor:                   @textColor;
 @sectionHeadingTextShadow:              0px 1px 1px rgba(0, 0, 0, 0.2);
@@ -98,8 +99,8 @@ html {
 body {
   color: @textColor;
   font-family: Helvetica, sans-serif;
-  font-size: 14px;
-  font-size: .875rem;
+  font-size: 16px;
+  font-size: 1rem;
   line-height: 24px;
   background: @bodyBackground;
 }
@@ -135,11 +136,17 @@ ol {
 h1 {
   font-size: 18px;
   font-size: 1.125rem;
-  color: @headingsColor;
-  margin: 5px 0 0;
+  font-weight: normal;
 }
 
 h2 {
+  font-size: 17px;
+  font-size: 1.0625rem;
+  font-weight: normal;
+  text-shadow: @sectionHeadingTextShadow;
+}
+
+h3 {
   color: @sectionHeadingColor;
   font-size: 100%;
   font-weight: normal;
@@ -575,21 +582,44 @@ hr {
       }
     }
   }
+  .menu-home {
+    background-image: url(../img/ico-menu.png);
+  }
+  .menu-back {
+    background-image: url(../img/ico-back.png);
+  }
+  #page-title {
+    text-shadow: @headerTextShadow;
+    letter-spacing: .5px;
+    display: block;
+    text-align: center;
+  }
 }
 
-#page-title {
-  font-size: 16px;
-  font-size: 1rem;
-  text-shadow: @headerTextShadow;
-  letter-spacing: .5px;
-}
-
-.menu-home {
-  background-image: url(../img/ico-menu.png);
-}
-
-.menu-back {
-  background-image: url(../img/ico-back.png);
+.header-sub {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 44px;
+  box-shadow: @subHeaderBoxShadow;
+  .back-row {
+    float: left;
+    padding-bottom: 10px;
+    margin-left: 5px;
+    display: block;
+    a {
+      padding: 10px;
+    }
+  }
+  h2 {
+    margin-bottom: 0;
+    overflow: hidden;
+    .img {
+      margin-top: 5px;
+    }
+  }
+  #tablet-page-title {
+    padding-left: 10px;
+  }
 }
 
 /* - Common on three panels
@@ -630,10 +660,11 @@ hr {
       border-radius: 50%;
     }
     h1 {
+      font-size: 20px;
+      font-size: 1.25rem;
       color: @menuHeaderTextColor;
       text-shadow: @menuHeaderTextShadow;
-      font-weight: normal;
-      line-height: 20px;
+      margin: 5px 0 0;
     }
   }
   h2 {
@@ -745,7 +776,12 @@ hr {
   width: 100%;
   position: relative;
   header {
-    padding: 10px;
+    border-top: 1px solid #eee;
+    box-shadow: @subHeaderBoxShadow;
+    h2 {
+      padding: 10px;
+      margin-bottom: 0;
+    }
   }
   section:last-of-type {
     border-bottom: 1px solid #eee;
@@ -773,7 +809,7 @@ hr {
     }
     &.mod-label {
       overflow: auto;
-      h3 {
+      h4 {
         font-size: 100%;
         font-weight: normal;
         margin: 0;
@@ -862,12 +898,6 @@ hr {
   word-wrap: break-word;
 }
 
-//-----Folder, Forum discussions and My files-----
-.back-row a {
-  display: block;
-  padding: 10px;
-}
-
 //-----Forum discussions-----
 .path-mod-forum {
   .forum {
@@ -881,8 +911,8 @@ hr {
     }
   }
   .intro {
-    margin-left: 32px;
-    padding: 0 10px 10px;
+    padding: 10px;
+    margin-left: 4px;
   }
   .first-post {
     > .subject {
@@ -892,9 +922,6 @@ hr {
   .forum-post {
     padding-top: 10px;
     border-bottom: 1px solid #eee;
-    &:first-of-type {
-      border-top: 1px solid #eee;
-    }
     &:last-child {
       border-bottom: 0;
     }
@@ -930,6 +957,10 @@ hr {
   .content {
     padding: 0 10px 10px;
     margin-left: 50px;
+    &:first-of-type {
+      padding-top: 10px;
+      margin-left: 4px;
+    }
     ul,
     ol {
       margin-left: 20px;
@@ -983,27 +1014,32 @@ hr {
     }
   }
   &.forum-discussion {
-    .first-post {
-      border-top: 15px solid #eee;
-      border-bottom: 1px solid #eee;
-    }
     .indent {
       border-top: 15px solid #eee;
     }
   }
 }
 
-
 //-----My Files-----
-.fullpath {
-  width: 100%;
-  background-color: #eee;
-  position: fixed;
-  bottom: 0;
-  padding: 4px 10px;
-  p {
-    margin-bottom: 0;
-    line-height: 20px;
+.content-index {
+  .back-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 5px;
+    a {
+      padding: 10px;
+    }
+  }
+  .fullpath {
+    width: 100%;
+    background-color: #eee;
+    position: fixed;
+    bottom: 0;
+    padding: 4px 10px;
+    p {
+      margin-bottom: 0;
+      line-height: 20px;
+    }
   }
 }
 
@@ -1255,7 +1291,7 @@ hr {
 }
 
 .event {
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #eee;
   header {
     padding: 10px;
     img {
@@ -1264,7 +1300,7 @@ hr {
   }
   > div {
     padding: 10px;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #eee;
     overflow: hidden;
   }
   .date,
@@ -1273,13 +1309,15 @@ hr {
       padding-left: 26px;
       margin-bottom: 0;
     }
+    .time {
+      font-size: 12px;
+    }
   }
-  .time {
-    font-size: 12px;
-  }
-  .app-ico img {
-      width: 18px;
-      height: auto;
+  .media {
+    .app-ico img {
+        width: 18px;
+        height: auto;
+    }
   }
   .description {
     padding-left: 36px;
@@ -1374,6 +1412,7 @@ hr {
 /* - Participant on the right panel and Notification page on the center panel
 -------------------------------------------------------------------------- */
 .user-card {
+  border-top: 1px solid #eee;
   .content {
     border-bottom: 1px solid #eee;
   }
@@ -1420,6 +1459,7 @@ hr {
 /* - Settings on the right panel
 -------------------------------------------------------------------------- */
 .settings {
+  border-top: 1px solid #eee;
   .nav-item {
     padding: 10px;
   }
@@ -1791,7 +1831,7 @@ div.jqi {
   border-collapse: collapse;
   line-height: 20px;
   width: 100%;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #eee;
   tr {
     border-bottom: 1px solid #eee;
   }
