@@ -74,7 +74,7 @@
     "error": "エラー",
     "errorcamera": "カメラへのアクセスエラー",
     "errorcameramsg": "デバイスはカメラをサポートしていません",
-    "errorcapturingaudio": "音声キャプチャのエラー",
+    "errorcapturingaudio": "音声キャプチャーのエラー",
     "errorcapturingvideo": "ビデオキャプチャーのエラー",
     "errordownloading": "ファイルのダウンロードのエラー",
     "errorduringdevicetokenrequest": "デバイストークン要求中のエラー",
