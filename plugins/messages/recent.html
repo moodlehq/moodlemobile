@@ -4,6 +4,7 @@
         <% if (messages.length > 0) {%>
         <ul class="nav nav-v">
             <% _.each(messages, function(message) { %>
+            <% if (message.user != MM.config.current_site.userid) { %>
             <% var user = contacts[message.user]; %>
             <li class="nav-item recent-conversation">
                 <a class="media touch-row" href="#messages/conversation/<%= message.user %>">
@@ -26,6 +27,7 @@
                     </div>
                 </a>
             </li>
+            <% } %>
             <% }); %>
         </ul>
         <% } else { %>
