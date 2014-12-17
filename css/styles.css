@@ -934,6 +934,21 @@ hr {
 .notifications {
   padding: 10px;
 }
+.messages .no-content,
+.notifications .no-content {
+  display: table;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  margin-top: -32px;
+  margin-left: -10px;
+}
+.messages .no-content p,
+.notifications .no-content p {
+  display: table-cell;
+  vertical-align: middle;
+}
 .message,
 .notification {
   padding: 0 10px;
