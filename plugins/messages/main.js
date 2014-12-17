@@ -92,17 +92,18 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
         showMessages: function() {
             var html, tpl;
 
-            MM.panels.showLoading('center');
-            MM.panels.hide("right", "");
-            MM.Router.navigate('');
-
             $('a[href="#messages"]').addClass('loading-row');
 
             // Checks if all the messaging WS are available.
             if (MM.util.wsAvailable('core_message_get_contacts') ||
                     MM.util.wsAvailable(MM.plugins.messages.wsPrefix + 'core_message_get_contacts')) {
+                MM.panels.showLoading('center');
+                MM.panels.showLoading('right');
                 MM.plugins.messages._renderRecentMessages();
             } else {
+                MM.panels.showLoading('center');
+                MM.panels.hide("right", "");
+                MM.Router.navigate('');
                 MM.plugins.messages._renderMessageList();
             }
         },
@@ -204,9 +205,6 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             conversationArea.css('width', $("#panel-right").width());
             // Scroll bottom.
             conversationArea.scrollTop(conversationArea.prop("scrollHeight"));
-
-            MM.plugins.messages._showTopIcon('#header-action-contact', '<a href="#messages/contact/' + userId + '"><img src="img/ico-contacts.png"></a>');
-
         },
 
         _renderMessages: function(messages) {
@@ -360,8 +358,6 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                     };
                                     html = MM.tpl.render(MM.plugins.messages.templates.recent.html, data);
                                     MM.panels.show('center', html, {title: MM.lang.s("messages")});
-
-                                    MM.plugins.messages._showTopIcon('#header-action-contacts', '<a href="#messages/contacts"><img src="img/ico-contacts.png"></a>');
 
                                     // Load the first event.
                                     if (MM.deviceType == "tablet" && messages.length > 0) {
@@ -755,9 +751,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
         showContacts: function() {
 
-            MM.panels.show('center', "", {title: MM.lang.s("contacts")});
             MM.panels.showLoading('center');
-            MM.plugins.messages._showTopIcon('#header-action-recent', '<a href="#messages"><img src="plugins/messages/icon.png"></a>');
 
             MM.plugins.messages._getContacts(
                 function(contacts) {
@@ -770,7 +764,6 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                     html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {contacts: contacts});
 
                     MM.panels.show('center', html, {title: MM.lang.s("contacts")});
-                    MM.plugins.messages._showTopIcon('#header-action-recent', '<a href="#messages"><img src="plugins/messages/icon.png"></a>');
 
                     $('#search-contacts').on('submit', function(e) {
                         e.preventDefault();
@@ -959,14 +952,6 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             };
 
             return MM.tpl.render(MM.plugins.messages.templates.bubbles.html, data);
-        },
-
-        _showTopIcon: function (id, link) {
-            $(id).css("position", "fixed");
-            $(id).css("z-index", "9999");
-            $(id).css("top", "6px");
-            $(id).css("right", "10px");
-            $(id).html(link);
         }
     };
 
