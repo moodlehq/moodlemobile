@@ -1,4 +1,5 @@
                 <% _.each(messages, function(m) { %>
+                <% if (m.smallmessage != "") { %>
                 <% var d = new Date(m.timecreated * 1000); %>
                 <% var date = d.toLocaleDateString(navigator.language, {year: 'numeric', month:'long', day: '2-digit'}); %>
 
@@ -15,4 +16,5 @@
                 <% var hour = d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'}); %>
                 <% } %><%= MM.util.formatText(m.smallmessage, true) %><span class="time"><%= hour %></span>
                 </div>
+                <% } %>
                 <% }); %>
