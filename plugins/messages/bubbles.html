@@ -13,8 +13,9 @@
                 <div data-messageid="<%= messageId %>" class="bubble">
                 <% } else { %>
                 <div data-messageid="<%= messageId %>" class="bubble bubble-alt">
+                <% } %>
                 <% var hour = d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'}); %>
-                <% } %><%= MM.util.formatText(m.smallmessage, true) %><span class="time"><%= hour %></span>
+                <%= MM.util.formatText(m.smallmessage, true) %><span class="time"><%= hour %></span>
                 </div>
                 <% } %>
                 <% }); %>
