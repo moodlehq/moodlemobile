@@ -1132,6 +1132,7 @@ hr {
 .path-messages .conversation .conversation-area {
   padding: 15px;
   overflow-y: scroll;
+  padding-right: 70px;
 }
 .path-messages .conversation .conversation-area .datestamp {
   text-align: center;
@@ -1221,7 +1222,7 @@ hr {
   padding: 6px 6px 4px;
 }
 .path-messages .conversation .input-area form input[type="text"] {
-  width: 100%;
+  width: 80%;
   border: 1px solid #eee;
 }
 .path-messages .conversation .input-area form input[type="submit"] {
@@ -1231,7 +1232,7 @@ hr {
   border: none;
   position: absolute;
   top: 0px;
-  left: 100%;
+  right: 0px;
   width: 50px;
   margin-left: 10px;
 }
