@@ -586,6 +586,49 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             }
         },
 
+        _MPNSChannelHandler: function (URI, successCallback, errorCallback) {
+            URI = URI.uri;
+            //console.log(URI);
+            // Save the device URI setting
+            MM.setConfig('mpns_device_uri', URI);
+            MM.log("Device registered in MPNS Push: ..." + URI.substring(0, 16), "Notifications");
+
+            if (typeof (device.name) == "undefined") {
+                device.name = '';
+            }
+
+            var data = {
+                appid: MM.config.app_id,
+                name: device.name,
+                model: device.model,
+                platform: device.platform,
+                version: device.version,
+                pushid: URI,
+                uuid: device.uuid
+            };
+
+            var wsFunction = "core_user_add_user_device";
+            if (!MM.util.wsAvailable(wsFunction)) {
+                wsFunction = 'local_mobile_core_user_add_user_device';
+            }
+            MM.moodleWSCall(
+                wsFunction,
+                data,
+                function () {
+                    successCallback();
+                    MM.log("Device registered in Moodle", "Notifications");
+                },
+                {
+                    getFromCache: false,
+                    saveToCache: false
+                },
+                function () {
+                    errorCallback(MM.lang.s("errorregisteringdeviceinmoodle"));
+                    MM.log("Error registering device in Moodle", "Notifications");
+                }
+            );
+        },
+
         /**
          * This function is called from the PushPlugin when we receive a Notification from GCM
          * The app can be in foreground or background,
