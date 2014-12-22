@@ -333,7 +333,9 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                     // Save the users. Using a cache.
                                     var usersStored = [];
                                     MM.db.each("users", function(el){
-                                        usersStored.push(el.get("id"));
+                                        if(el.get("site") == MM.config.current_site.id) {
+                                            usersStored.push(el.get("id"));
+                                        }
                                     });
 
                                     var newUser;
@@ -691,7 +693,9 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                         // Save the users in the cache/db.
                         var usersStored = [];
                         MM.db.each("users", function(el){
-                            usersStored.push(el.get("id"));
+                            if(el.get("site") == MM.config.current_site.id) {
+                                usersStored.push(el.get("id"));
+                            }
                         });
 
                         var newUser;
@@ -757,8 +761,10 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                 function(contacts) {
                     MM.db.each("users", function(user) {
                         user = user.toJSON();
-                        user.id = user.userid;
-                        contacts["strangers"].push(user);
+                        if(user.site == MM.config.current_site.id) {
+                            user.id = user.userid;
+                            contacts["strangers"].push(user);
+                        }
                     });
 
                     html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {contacts: contacts});
