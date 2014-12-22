@@ -1562,16 +1562,19 @@ hr {
 
 //-----About-----
 .settings {
-  header {
-    padding: 10px;
-  }
   .about {
     border-collapse: collapse;
     line-height: 20px;
     width: 100%;
+    thead th {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
     th {
+      font-weight: normal;
       text-align: left;
-      padding: 0 10px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
     td {
       padding: 10px;
@@ -1585,9 +1588,6 @@ hr {
       text-shadow: @sectionHeadingTextShadow;
       background-color: @sectionHeadingBackground;
       border-bottom: 1px solid @contentBackground;
-      th {
-        font-weight: normal;
-      }
     }
   }
 }

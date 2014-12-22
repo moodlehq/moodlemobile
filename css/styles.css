@@ -1405,17 +1405,20 @@ hr {
 .row-left {
   margin-right: 80px;
 }
-.settings header {
-  padding: 10px;
-}
 .settings .about {
   border-collapse: collapse;
   line-height: 20px;
   width: 100%;
 }
+.settings .about thead th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 .settings .about th {
+  font-weight: normal;
   text-align: left;
-  padding: 0 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .settings .about td {
   padding: 10px;
@@ -1429,9 +1432,6 @@ hr {
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   background-color: #eeeeee;
   border-bottom: 1px solid #ffffff;
-}
-.settings .about .section-name th {
-  font-weight: normal;
 }
 /* - Dialog window
 -------------------------------------------------------------------------- */
