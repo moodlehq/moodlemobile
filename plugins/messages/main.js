@@ -111,9 +111,13 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
         showConversation: function(userId) {
 
             var userName = "";
+            var userPicture = "img/userimage.png";
             var user = MM.db.get('users', MM.config.current_site.id + "-" + userId);
             if (user) {
                 userName = user.get("fullname");
+                if (user.get("profileimageurl")) {
+                    userPicture = user.get("profileimageurl");
+                }
             }
 
             var data = {
@@ -144,7 +148,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                     MM.plugins.messages._getRecentMessages(
                         params,
                         function(messagesSent) {
-                            MM.plugins.messages._renderConversation(userId, userName, messagesReceived, messagesSent);
+                            MM.plugins.messages._renderConversation(userId, userName, userPicture, messagesReceived, messagesSent);
                         },
                         function(e) {
                             MM.popErrorMessage(e);
@@ -157,7 +161,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             );
         },
 
-        _renderConversation: function(userId, userName, messagesReceived, messagesSent) {
+        _renderConversation: function(userId, userName, userPicture, messagesReceived, messagesSent) {
 
             // Join the arrays and sort.
             var messages = messagesReceived.concat(messagesSent);
@@ -172,7 +176,8 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             var data = {
                 messages: messages,
                 otherUser: userId,
-                userName: userName
+                userName: userName,
+                userPicture: userPicture
             };
 
             html = MM.tpl.render(MM.plugins.messages.templates.conversation.html, data);
@@ -200,8 +205,13 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             var inputHeight  = inputArea.height();
             var conversationArea = $('.path-messages .conversation .conversation-area');
 
+            var fixFactor = 115;
+            if (MM.deviceType == "tablet") {
+                fixFactor = 65;
+            }
+
             // Height of the conversation area.
-            conversationArea.css('height', $(document).innerHeight() - headerHeight - inputHeight - 100);
+            conversationArea.css('height', $(document).innerHeight() - headerHeight - inputHeight - fixFactor);
             conversationArea.css('width', $("#panel-right").width());
             // Scroll bottom.
             conversationArea.scrollTop(conversationArea.prop("scrollHeight"));

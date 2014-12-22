@@ -1018,7 +1018,7 @@ hr {
 }
 .path-messages .conversation .conversation-area {
   padding: 15px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 .path-messages .conversation .conversation-area .datestamp {
   text-align: center;
