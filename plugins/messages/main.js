@@ -205,9 +205,12 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             var inputHeight  = inputArea.height();
             var conversationArea = $('.path-messages .conversation .conversation-area');
 
+            // Uggly hack.
             var fixFactor = 115;
             if (MM.deviceType == "tablet") {
                 fixFactor = 65;
+            } else if (MM.deviceOS == "ios") {
+                fixFactor = 20;
             }
 
             // Height of the conversation area.
