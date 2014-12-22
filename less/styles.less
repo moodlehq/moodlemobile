@@ -563,7 +563,6 @@ hr {
   color: @headerTextColor;
   height: 44px;
   line-height: 44px;
-  padding-right: 20px;
   overflow: hidden;
   background: @headerBackground;
   border-bottom: @headerBorder;
@@ -593,6 +592,9 @@ hr {
     letter-spacing: .5px;
     display: block;
     text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: hidden;
   }
 }
 
@@ -603,7 +605,7 @@ hr {
   box-shadow: @subHeaderBoxShadow;
   .back-row {
     float: left;
-    padding-bottom: 10px;
+    margin-bottom: 10px;
     margin-left: 5px;
     display: block;
     a {
@@ -617,8 +619,12 @@ hr {
       margin-top: 5px;
     }
   }
-  #tablet-page-title {
+  #tablet-page-title,
+  #back-arrow-title {
+    display: table;
+    margin: 0 auto;
     padding-left: 10px;
+    padding-right: 10px;
   }
 }
 
