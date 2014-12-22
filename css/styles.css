@@ -490,7 +490,6 @@ hr {
   color: #ffffff;
   height: 44px;
   line-height: 44px;
-  padding-right: 20px;
   overflow: hidden;
   background: #fa8f1c;
   border-bottom: 0;
@@ -521,6 +520,9 @@ hr {
   letter-spacing: .5px;
   display: block;
   text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow: hidden;
 }
 .header-sub {
   padding-top: 10px;
@@ -530,7 +532,7 @@ hr {
 }
 .header-sub .back-row {
   float: left;
-  padding-bottom: 10px;
+  margin-bottom: 10px;
   margin-left: 5px;
   display: block;
 }
@@ -544,8 +546,12 @@ hr {
 .header-sub h2 .img {
   margin-top: 5px;
 }
-.header-sub #tablet-page-title {
+.header-sub #tablet-page-title,
+.header-sub #back-arrow-title {
+  display: table;
+  margin: 0 auto;
   padding-left: 10px;
+  padding-right: 10px;
 }
 /* - Common on three panels
 -------------------------------------------------------------------------- */
@@ -1399,17 +1405,20 @@ hr {
 .row-left {
   margin-right: 80px;
 }
-.settings header {
-  padding: 10px;
-}
 .settings .about {
   border-collapse: collapse;
   line-height: 20px;
   width: 100%;
 }
+.settings .about thead th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 .settings .about th {
+  font-weight: normal;
   text-align: left;
-  padding: 0 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .settings .about td {
   padding: 10px;
@@ -1423,9 +1432,6 @@ hr {
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   background-color: #eeeeee;
   border-bottom: 1px solid #ffffff;
-}
-.settings .about .section-name th {
-  font-weight: normal;
 }
 /* - Dialog window
 -------------------------------------------------------------------------- */
