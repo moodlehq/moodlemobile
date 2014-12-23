@@ -43,7 +43,7 @@ define(templates, function (filesTpl) {
                         MM.handleExternalLinks('#link-' + contentId + ' a[target="_blank"]');
                     }
                 } else {
-                    $(this).html("<h4>" + MM.plugins.label.shortenText(content.description) + "</h4>");
+                    $(this).html("<div>" + MM.plugins.label.shortenText(content.description) + "</div>");
                 }
                 $(this).toggleClass("collapse-label expand-label");
             });
