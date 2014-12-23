@@ -185,12 +185,25 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
             $('#message-send-form').on('submit', function(e) {
                 e.preventDefault();
-                MM.plugins.messages._sendMessage(userId, $(this).find("#message-text").val(),
+                var message = $(this).find("#message-text").val();
+
+                $("#message-text").val("");
+                conversationArea = $(".conversation-area");
+                messageId = hex_md5(message + MM.util.timestamp());
+
+                message = '<div id="' + messageId + '" class="bubble bubble-alt">' + MM.util.formatText(message, true);
+                message += '<span class="time"><span class="app-ico tick-gray"><img width="10" src="img/sent.png"></span></span></div>';
+                conversationArea.append(message);
+                // Scroll bottom.
+                conversationArea.scrollTop(conversationArea.prop("scrollHeight"));
+
+                MM.plugins.messages._sendMessage(userId, message,
                     function(m) {
+                        $("#" + messageId).addClass("removeMessage");
                         $("#message-text").val("");
                     },
                     function(e) {
-                        MM.popErrorMessage(e);
+                        $("#" + messageId).find("img").attr("src", "img/error.png");
                     }
                 );
             });
@@ -938,6 +951,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                                     // Double check we are in the correct conversation window.
                                     if (location.href.indexOf("#messages/conversation/" + userId) > -1) {
                                         conversationArea = $(".conversation-area");
+                                        conversationArea.find(".removeMessage").remove();
                                         conversationArea.append(html);
                                         conversationArea.scrollTop(conversationArea.prop("scrollHeight"));
                                     }

@@ -15,7 +15,9 @@
                 <div data-messageid="<%= messageId %>" class="bubble bubble-alt">
                 <% } %>
                 <% var hour = d.toLocaleTimeString(MM.lang.current, {hour: '2-digit', minute:'2-digit'}); %>
-                <%= MM.util.formatText(m.smallmessage, true) %><span class="time"><%= hour %></span>
+                <%= MM.util.formatText(m.smallmessage, true) %><span class="time"><%= hour %>
+                <span class="app-ico tick-green"><img width="10" src="img/received.png"></span>
+                </span>
                 </div>
                 <% } %>
                 <% }); %>
