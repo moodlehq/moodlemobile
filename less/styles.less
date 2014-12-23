@@ -158,6 +158,21 @@ h3 {
   background-color: @sectionHeadingBackground;
 }
 
+h4 {
+  font-size: 15px;
+  font-size: 0.9375rem;
+}
+
+h5 {
+  font-size: 14px;
+  font-size: 0.875;
+}
+
+h6 {
+  font-size: 13px;
+  font-size: 0.8125rem;
+}
+
 b,
 strong {
   font-weight: bold;
@@ -805,7 +820,7 @@ hr {
     width: 100%;
   }
   .content-name {
-    a {
+    > a {
       display: block;
       padding: 10px;
     }
@@ -815,12 +830,23 @@ hr {
     }
     &.mod-label {
       overflow: auto;
-      h4 {
-        font-size: 100%;
-        font-weight: normal;
-        margin: 0;
+      a > div {
         padding-right: 80px;
-      };
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          color: @textColor;
+          font-weight: bold;
+          line-height: inherit;
+          letter-spacing: 0;
+          background-color: transparent;
+          text-shadow: none;
+          padding: 0;
+        }
+      }
       img {
         width: auto;
       }
@@ -1440,7 +1466,9 @@ hr {
       position: absolute;
       bottom: 0;
       padding-left: 110px;
-      h1 {
+      p {
+        font-size: 18px;
+        font-size: 1.125rem;
         margin-bottom: 12px;
       }
     }

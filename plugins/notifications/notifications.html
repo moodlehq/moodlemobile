@@ -8,7 +8,9 @@
     <% }); %>
 </ul>
 <% } else { %>
-    <h4><strong><%= MM.lang.s("therearentnotificationsyet") %></strong></h4>
+    <div class="no-content">
+        <p><%= MM.lang.s("therearentnotificationsyet") %></p>
+    </div>
 <% } %>
 <div class="centered">
     <i><%= MM.lang.s("uselocalmobileplugin") %></i>
