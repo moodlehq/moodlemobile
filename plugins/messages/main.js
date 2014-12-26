@@ -185,19 +185,19 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
             $('#message-send-form').on('submit', function(e) {
                 e.preventDefault();
-                var message = $(this).find("#message-text").val();
+                var originalMessage = $(this).find("#message-text").val();
 
                 $("#message-text").val("");
                 conversationArea = $(".conversation-area");
                 messageId = hex_md5(message + MM.util.timestamp());
 
-                message = '<div id="' + messageId + '" class="bubble bubble-alt">' + MM.util.formatText(message, true);
+                var message = '<div id="' + messageId + '" class="bubble bubble-alt">' + MM.util.formatText(originalMessage, true);
                 message += '<span class="time"><span class="app-ico tick-gray"><img width="10" src="img/sent.png"></span></span></div>';
                 conversationArea.append(message);
                 // Scroll bottom.
                 conversationArea.scrollTop(conversationArea.prop("scrollHeight"));
 
-                MM.plugins.messages._sendMessage(userId, message,
+                MM.plugins.messages._sendMessage(userId, originalMessage,
                     function(m) {
                         $("#" + messageId).addClass("removeMessage");
                         $("#message-text").val("");
@@ -221,7 +221,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             // Uggly hack.
             var fixFactor = 115;
             if (MM.deviceType == "tablet") {
-                fixFactor = 65;
+                fixFactor = 45;
             } else if (MM.deviceOS == "ios") {
                 fixFactor = 20;
             }
