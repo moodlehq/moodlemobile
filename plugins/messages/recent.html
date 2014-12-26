@@ -2,8 +2,8 @@
     <a href="#messages/contacts"><img src="img/ico-contacts.png"></a>
 </script>
 <div class="panel-container">
+    <% if (messages.length > 0) {%>
     <div class="path-messages recent-messages">
-        <% if (messages.length > 0) {%>
         <ul class="nav nav-v">
             <% _.each(messages, function(message) { %>
             <% if (message.user != MM.config.current_site.userid) { %>
@@ -32,8 +32,12 @@
             <% } %>
             <% }); %>
         </ul>
-        <% } else { %>
-        <h3><strong><%= MM.lang.s("nomessagesfound") %></strong></h3>
-        <% } %>
     </div>
+    <% } else { %>
+    <div class="messages">
+        <div class="no-content">
+            <p><%= MM.lang.s("nomessagesfound") %></p>
+        </div>
+    </div>
+    <% } %>
 </div>

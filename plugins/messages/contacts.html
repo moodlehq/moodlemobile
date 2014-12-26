@@ -17,7 +17,6 @@
             <% var types = ["online", "offline", "strangers"]; %>
             <% var displayed = []; %>
             <% types.forEach(function(type) { %>
-            <% if (!contacts[type].length) return; %>
             <h3>
                 <% if (type == "online") { %>
                     <%= MM.lang.s("onlinecontacts", "core", contacts[type].length) %>
