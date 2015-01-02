@@ -117,32 +117,14 @@ define(templates, function (eventsTpl, eventTpl) {
             // Adding loading icon.
             $('a[href="' + MM.plugins.events.settings.menuURL + '"]', '#panel-left').addClass('loading-row');
 
-            // The core_calendar_get_calendar_events needs all the current user courses and groups.
-            var params = {
-                "options[userevents]": 1,
-                "options[siteevents]": 1,
-                "options[timestart]": MM.util.timestamp(),
-                "options[timeend]": MM.util.timestamp() + (MM.util.SECONDS_DAY * days)
-            };
-
-            var courses = MM.db.where("courses", {siteid: MM.config.current_site.id});
-            $.each(courses, function(index, course) {
-                params["events[courseids][" + index + "]"] = course.get("courseid");
-            });
-
-            var wsFunction = "core_calendar_get_calendar_events";
-            if (!MM.util.wsAvailable(wsFunction)) {
-                wsFunction = 'local_mobile_core_calendar_get_calendar_events';
-            }
-
-            MM.moodleWSCall(wsFunction,
-                params,
-                function(r) {
-                    MM.plugins.events._getCalendarEventsSucces(r, days)
-                },
+            MM.plugins.events._getEvents(
+                days,
                 null,
+                function(r) {
+                    MM.plugins.events._getCalendarEventsSucces(r, days);
+                },
                 MM.plugins.events._getCalendarEventsFailure
-                );
+            );
         },
 
         /**
@@ -169,6 +151,47 @@ define(templates, function (eventsTpl, eventTpl) {
             }
         },
 
+        _getEvents: function(days, settings, successCallback, errorCallback) {
+            settings = settings || null;
+            // The core_calendar_get_calendar_events needs all the current user courses and groups.
+            var params = {
+                "options[userevents]": 1,
+                "options[siteevents]": 1,
+                "options[timestart]": MM.util.timestamp(),
+                "options[timeend]": MM.util.timestamp() + (MM.util.SECONDS_DAY * days)
+            };
+
+            var courses = MM.db.where("courses", {siteid: MM.config.current_site.id});
+            $.each(courses, function(index, course) {
+                params["events[courseids][" + index + "]"] = course.get("courseid");
+            });
+
+            var wsFunction = "core_calendar_get_calendar_events";
+            if (!MM.util.wsAvailable(wsFunction)) {
+                wsFunction = 'local_mobile_core_calendar_get_calendar_events';
+            }
+
+            MM.moodleWSCall(wsFunction,
+                params,
+                function(r) {
+                    successCallback(r);
+                },
+                settings,
+                errorCallback
+            );
+        },
+
+        checkLocalNotifications: function() {
+            MM.plugins.events._getEvents(
+                30,
+                {
+                    getFromCache: false,
+                    saveToCache: true
+                },
+                function() {},
+                function() {}
+            );
+        },
 
         templates: {
             "event": {

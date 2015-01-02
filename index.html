@@ -89,6 +89,20 @@
                 }
             }, 5000);
             MM.fs.init();
+
+            // Check calendar events for new notifications.
+            if (MM.plugins.events && MM.plugins.events.isPluginVisible()) {
+                MM.plugins.events.checkLocalNotifications();
+            }
+
+            // App resume event.
+            $(document).bind('resume', function() {
+
+                // Check calendar events for new notifications.
+                if (MM.plugins.events && MM.plugins.events.isPluginVisible()) {
+                    MM.plugins.events.checkLocalNotifications();
+                }
+            });
         });
 
         // This function is for handling when the app is opened using a custom URL SCHEME.
