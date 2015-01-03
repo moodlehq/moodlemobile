@@ -2,21 +2,21 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
-        id        = "com.moodle.moodlemobile"
-        versionCode = "384"
-        version   = "1.10">
-    <name>Moodle Mobile</name>
+        id        = "pro.makarkinpro.edu"
+        versionCode = "1"
+        version   = "0.1">
+    <name>Курсы (Макаркин и Партнеры)</name>
 
     <description>
-        Moodle Mobile official app
+        Компания "Макаркин и Партнеры" специализируется на обучение в сфере интернет маркетинга. От понимания философии заработка и формирования как личности (бренда Вашей компании) в Интернет до получения заказов, клиентов, прибыли.
     </description>
 
-    <author href="http://moodle.com" email="juan@moodle.com">
-        Juan Leyva
+    <author href="http://edu.makarkin.pro" email="support@makarkin.pro">
+        Виталий Макаркин
     </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-        <string>1.10</string>
+        <string>0.1</string>
     </gap:config-file>
 
     <feature name="http://api.phonegap.com/1.0/device" />
@@ -100,7 +100,7 @@
     <gap:plugin name="com.phonegap.plugins.pushplugin" />
     <gap:plugin name="net.tunts.webintent" />
     <gap:plugin name="nl.x-services.plugins.launchmyapp">
-        <param name="URL_SCHEME" value="moodlemobile" />
+        <param name="URL_SCHEME" value="edu" />
     </gap:plugin>
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
 
