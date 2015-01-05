@@ -1217,20 +1217,23 @@ hr {
   overflow: hidden;
 }
 .event .date p,
-.event .course p {
-  padding-left: 26px;
+.event .course p,
+.event .option p {
   margin-bottom: 0;
 }
 .event .date .time,
-.event .course .time {
+.event .course .time,
+.event .option .time {
   font-size: 12px;
+}
+.event .date input,
+.event .course input,
+.event .option input {
+  margin-right: 8px;
 }
 .event .media .app-ico img {
   width: 18px;
   height: auto;
-}
-.event .description {
-  padding-left: 36px;
 }
 .event .description img {
   margin: 20px 0 20px 20px;
