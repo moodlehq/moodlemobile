@@ -56,6 +56,7 @@
 "downloadtime": "Downloaded",
 "disablenotifications": "Disable notifications",
 "disablerdebugger": "Disable remote debugging",
+"enableeventnotifications": "Enable events notifications",
 "enablecss3transitions": "Enable CSS3 Transitions",
 "errorcapturingaudio": "Error capturing audio",
 "events": "Calendar events",

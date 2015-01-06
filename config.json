@@ -14,6 +14,7 @@
 "sync_cron": 300000,
 "sync_ws" : 300000,
 "sync_css" : 3600000,
+"event_notif_on": true,
 "log_length" : 100,
 "dev_debug": false,
 "extra_js": [],
