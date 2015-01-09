@@ -303,6 +303,14 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         -1);
                 });
 
+                // Show info for sections.
+                $("h3", "#panel-right").on(MM.quickClick, function(e) {
+                    var sectionId = $(this).data("sectionid");
+                    if (sectionId) {
+                        $("#section-" + sectionId).toggle();
+                    }
+                });
+
                 // Mod plugins should now that the page has been rendered.
                 for (var pluginName in MM.plugins) {
                     var plugin = MM.plugins[pluginName];

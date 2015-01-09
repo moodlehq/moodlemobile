@@ -10,7 +10,17 @@
     <% if (section.modules && section.modules.length >0) { %>
     <section>
         <% if (sections.length > 1) { %>
-        <h3><%= MM.util.formatText(section.name) %></h3>
+
+            <% if(section.summary) { %>
+            <h3 data-sectionid="<%= section.id %>" style="background-image: url(img/expandgrey.png); background-position-x: 95%; background-repeat: no-repeat;"><%= MM.util.formatText(section.name) %></h3>
+            <div id="section-<%= section.id %>" style="display: none">
+                <%= MM.util.formatText(section.summary) %>
+            </div>
+            <% } else { %>
+            <h3><%= MM.util.formatText(section.name) %></h3>
+            <% } %>
+        <% } else if(section.summary) { %>
+            <%= MM.util.formatText(section.summary) %>
         <% } %>
         <ul class="nav nav-v">
             <% _.each(section.modules, function(module) { %>
