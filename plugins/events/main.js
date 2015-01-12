@@ -255,18 +255,23 @@ define(templates, function (eventsTpl, eventTpl) {
                     if (events.events) {
                         _.each(events.events, function(event) {
                             var eventId = MM.plugins.events._getLocalEventUniqueId(event);
-                            // We insert the event allways, if already exists it will be updated.
-                            var d = new Date(event.timestart * 1000);
 
-                            window.plugin.notification.local.add(
-                                {
-                                    id: eventId,
-                                    date: d,
-                                    title: MM.lang.s("events"),
-                                    message: event.name,
-                                    badge: 1
-                                }
-                            );
+                            var disabled = MM.db.get("eventsDisabled", eventId);
+
+                            if (!disabled) {
+                                // We insert the event allways, if already exists it will be updated.
+                                var d = new Date(event.timestart * 1000);
+
+                                window.plugin.notification.local.add(
+                                    {
+                                        id: eventId,
+                                        date: d,
+                                        title: MM.lang.s("events"),
+                                        message: event.name,
+                                        badge: 1
+                                    }
+                                );
+                            }
                         });
                     }
                 },
