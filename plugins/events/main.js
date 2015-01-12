@@ -153,6 +153,29 @@ define(templates, function (eventsTpl, eventTpl) {
                 title += '<div class="bd">' + MM.util.formatText(fullEvent.name) + '</div></div>';
 
                 MM.panels.show('right', html, {title: title});
+
+                $("#disable-event").on(MM.clickType, function() {
+                    var eventId = MM.plugins.events._getLocalEventUniqueId(fullEvent);
+
+                    if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
+                        var disable = $(this).prop('checked');
+                        if (disable) {
+                            window.plugin.notification.local.cancel(eventId);
+                        } else {
+                            var d = new Date(fullEvent.timestart * 1000);
+
+                            window.plugin.notification.local.add(
+                                {
+                                    id: eventId,
+                                    date: d,
+                                    title: MM.lang.s("events"),
+                                    message: fullEvent.name,
+                                    badge: 1
+                                }
+                            );
+                        }
+                    }
+                });
             }
         },
 
@@ -198,7 +221,7 @@ define(templates, function (eventsTpl, eventTpl) {
             siteCode += "" + MM.config.current_site.id.charCodeAt(2);
             siteCode += "" + MM.config.current_site.id.charCodeAt(3);
 
-            return MM.config.current_site.userid + "" + event.id;
+            return siteCode + "" + event.id;
         },
 
         checkLocalNotifications: function() {
