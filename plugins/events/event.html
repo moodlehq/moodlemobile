@@ -35,11 +35,13 @@
 
         <div class="description"><%= MM.util.formatText(event.description) %></div>
 
+        <% if (MM.getConfig("event_notif_on", false)) { %>
         <div class="option">
             <p>
                 <input id="disable-event" data-eventid="<%= event.id %>" type="checkbox" <%= checked %>>
                 <label for="notification">Disable notification for this event</label>
             </p>
         </div>
+        <% } %>
     </div>
 </div>
