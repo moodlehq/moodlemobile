@@ -17,7 +17,7 @@ define(templates, function (eventsTpl, eventTpl) {
 
         storage: {
             "event": {type: "model"},
-            "events": {type: "collection", model: "event"}
+            "eventsDisabled": {type: "collection", model: "event"}
         },
 
         routes: [
@@ -146,7 +146,18 @@ define(templates, function (eventsTpl, eventTpl) {
                 if (course) {
                     fullEvent.courseName = MM.util.formatText(course.get("fullname"));
                 }
-                var tpl = {"event": fullEvent};
+
+                var localEventId = MM.plugins.events._getLocalEventUniqueId(fullEvent);
+                var disabled = MM.db.get("eventsDisabled", localEventId);
+                var checked = "";
+                if (disabled) {
+                    checked = "checked";
+                }
+
+                var tpl = {
+                    "event": fullEvent,
+                    "checked": checked
+                };
                 var html = MM.tpl.render(MM.plugins.events.templates.event.html, tpl);
 
                 var title = '<div class="media"><div class="img"><img src="img/event-' + fullEvent.eventtype + '.png"></div>';
@@ -155,24 +166,25 @@ define(templates, function (eventsTpl, eventTpl) {
                 MM.panels.show('right', html, {title: title});
 
                 $("#disable-event").on(MM.clickType, function() {
-                    var eventId = MM.plugins.events._getLocalEventUniqueId(fullEvent);
 
                     if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
                         var disable = $(this).prop('checked');
                         if (disable) {
-                            window.plugin.notification.local.cancel(eventId);
+                            window.plugin.notification.local.cancel(localEventId);
+                            MM.db.insert("eventsDisabled", {id: localEventId});
                         } else {
                             var d = new Date(fullEvent.timestart * 1000);
 
                             window.plugin.notification.local.add(
                                 {
-                                    id: eventId,
+                                    id: localEventId,
                                     date: d,
                                     title: MM.lang.s("events"),
                                     message: fullEvent.name,
                                     badge: 1
                                 }
                             );
+                            MM.db.remove("eventsDisabled", localEventId);
                         }
                     }
                 });
