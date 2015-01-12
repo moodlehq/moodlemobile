@@ -1,10 +1,11 @@
 var templates = [
     "root/externallib/text!root/plugins/participants/participants.html",
     "root/externallib/text!root/plugins/participants/participant.html",
-    "root/externallib/text!root/plugins/participants/participants_row.html"
+    "root/externallib/text!root/plugins/participants/participants_row.html",
+    "root/externallib/text!root/plugins/participants/countries.json"
 ];
 
-define(templates,function (participantsTpl, participantTpl, participantsRowTpl) {
+define(templates,function (participantsTpl, participantTpl, participantsRowTpl, countriesJSON) {
     var plugin = {
         settings: {
             name: "participants",
@@ -170,6 +171,11 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                     pageTitle = MM.lang.s("participant");
                 }
 
+                var countries = JSON.parse(MM.plugins.participants.templates.countries.json);
+                if (newUser.country && typeof countries[newUser.country] != "undefined") {
+                    newUser.country = countries[newUser.country];
+                }
+
                 var tpl = {
                     "user": newUser,
                     "plugins": userPlugins,
@@ -209,6 +215,9 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
             },
             "participantsRow": {
                 html: participantsRowTpl
+            },
+            "countries": {
+                json: countriesJSON
             }
         }
     }
