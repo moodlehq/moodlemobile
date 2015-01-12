@@ -168,7 +168,7 @@ define(templates, function (eventsTpl, eventTpl) {
                 $("#disable-event").on(MM.clickType, function() {
 
                     if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
-                        var disable = $(this).prop('checked');
+                        var disable = $(this).is(':checked');
                         if (disable) {
                             window.plugin.notification.local.cancel(localEventId);
                             MM.db.insert("eventsDisabled", {id: localEventId});
