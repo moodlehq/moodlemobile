@@ -165,7 +165,7 @@ define(templates, function (eventsTpl, eventTpl) {
 
                 MM.panels.show('right', html, {title: title});
 
-                $("#disable-event").on(MM.clickType, function() {
+                $("#disable-event").bind("change", function() {
 
                     if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
                         var disable = $(this).is(':checked');
