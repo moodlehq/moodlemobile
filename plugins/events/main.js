@@ -15,6 +15,11 @@ define(templates, function (eventsTpl, eventTpl) {
             }
         },
 
+        storage: {
+            "event": {type: "model"},
+            "events": {type: "collection", model: "event"}
+        },
+
         routes: [
             ["events/:days", "show_events", "showEvents"],
             ["events/show/:id", "show_event", "showEvent"]
@@ -181,16 +186,58 @@ define(templates, function (eventsTpl, eventTpl) {
             );
         },
 
+        /**
+         * We create an event Id, note that we try to make this id unique between sites but colissions may exists.
+         * It must be an integer convertible value (Android limitation).
+         * @param  {object} event An event object
+         * @return {string}       A string convertible to number
+         */
+        _getLocalEventUniqueId: function(event) {
+            var siteCode = MM.config.current_site.id.charCodeAt(0) + "";
+            siteCode += "" + MM.config.current_site.id.charCodeAt(1);
+            siteCode += "" + MM.config.current_site.id.charCodeAt(2);
+            siteCode += "" + MM.config.current_site.id.charCodeAt(3);
+
+            return MM.config.current_site.userid + "" + event.id;
+        },
+
         checkLocalNotifications: function() {
-            MM.plugins.events._getEvents(
+            // Check if the plugin is loaded.
+            var enabled = MM.getConfig("event_notif_on", false);
+
+            if (!enabled) {
+                return false;
+            }
+
+            if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
+                MM.plugins.events._getEvents(
                 30,
                 {
                     getFromCache: false,
                     saveToCache: true
                 },
-                function() {},
+                function(events) {
+                    if (events.events) {
+                        _.each(events.events, function(event) {
+                            var eventId = MM.plugins.events._getLocalEventUniqueId(event);
+                            // We insert the event allways, if already exists it will be updated.
+                            var d = new Date(event.timestart * 1000);
+
+                            window.plugin.notification.local.add(
+                                {
+                                    id: eventId,
+                                    date: d,
+                                    title: MM.lang.s("events"),
+                                    message: event.name,
+                                    badge: 1
+                                }
+                            );
+                        });
+                    }
+                },
                 function() {}
             );
+            }
         },
 
         templates: {

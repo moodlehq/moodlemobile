@@ -103,6 +103,7 @@
         <param name="URL_SCHEME" value="moodlemobile" />
     </gap:plugin>
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.0" />
 
     <gap:config-file platform="android" parent="/manifest">
          <application android:debuggable="false" />
