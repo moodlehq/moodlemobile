@@ -120,6 +120,7 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
                 MM.widgets.dialogClose();
             });
 
+            // Handle external links inside the iframe.
             setTimeout(function() {
                 $('#page-view-resource').contents().find('a').click(function(e) {
                     var href = $(this).attr('href');

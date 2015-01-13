@@ -102,6 +102,8 @@ define(templates, function (viewTpl, dialogTpl) {
             $("#dialog-close").on(MM.clickType, function(e){
                 MM.widgets.dialogClose();
             });
+
+            // Handle external links inside the iframe.
             setTimeout(function() {
                 $('#page-view-iframe').contents().find('a').click(function(e) {
                     var href = $(this).attr('href');
