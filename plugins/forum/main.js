@@ -175,24 +175,6 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                     var html = MM.tpl.render(MM.plugins.forum.templates.discussions.html, data);
                     MM.panels.show("right", html, {title: pageTitle});
 
-                    // Handlers for view complete discussions and posts.
-                    $(".subject.toogler").on(MM.clickType, function(e) {
-                        e.preventDefault();
-                        var discussionId = $(this).data("discussionid");
-                        // Loading...
-                        $(this).append('<img src="img/loading.gif">');
-
-                        location.href = "#forum/discussion/" + forum.course + "/" + discussionId;
-                    });
-
-                    // Handlers for post-info (replies).
-                    $(".post-info").on(MM.clickType, function(e) {
-                        var parent = $(this).parent().find(".subject.toogler");
-                        if (parent) {
-                            parent.trigger(MM.clickType);
-                        }
-                    });
-
                     // Handler for sync.
                     if (MM.util.WebWorkersSupported()) {
                         $("#keepsynch").bind("change", function(e) {

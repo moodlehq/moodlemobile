@@ -46,7 +46,7 @@
                     <time><%= MM.util.timestampToUserDate(discussion.created) %></time>
                 </div>
                 <p role="heading" class="subject toogler" data-discussionid="<%= discussion.discussion %>">
-                    <%= MM.util.formatText(discussion.subject) %>
+                    <a href="#forum/discussion/<%= forum.course %>/<%= discussion.discussion %>"><%= MM.util.formatText(discussion.subject) %></a>
                 </p>
                 <div class="discussion-body"></div>
                 <div class="post-info">
