@@ -99,7 +99,7 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
         _showResource: function(path) {
             var height= $(document).innerHeight() - 200;
             var style = 'border: none; width: 100%; height: ' + height + 'px';
-            var iframe = '<iframe style="' + style + '" src="' + path + '">';
+            var iframe = '<iframe id="page-view-resource" style="' + style + '" src="' + path + '">';
             iframe += '</iframe>';
 
             var data = {
@@ -119,6 +119,17 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
             $("#dialog-close").on(MM.clickType, function(e){
                 MM.widgets.dialogClose();
             });
+
+            setTimeout(function() {
+                $('#page-view-resource').contents().find('a').click(function(e) {
+                    var href = $(this).attr('href');
+                    if (href.indexOf("http") > -1) {
+                        e.preventDefault();
+                        window.open(href, '_blank');
+                    }
+                });
+            }, 1000);
+
         },
 
         templates: {
