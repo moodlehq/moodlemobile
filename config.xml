@@ -3,8 +3,8 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.moodle.moodlemobile"
-        versionCode = "384"
-        version   = "1.10">
+        versionCode = "385"
+        version   = "1.11">
     <name>Moodle Mobile</name>
 
     <description>
@@ -16,7 +16,7 @@
     </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-        <string>1.10</string>
+        <string>1.11</string>
     </gap:config-file>
 
     <feature name="http://api.phonegap.com/1.0/device" />
