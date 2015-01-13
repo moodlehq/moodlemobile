@@ -153,7 +153,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                             if (!sections.modules[index2].webOnly) {
                                 if (c.contents) {
-                                    if (c.contents.length == 1) {
+                                    var extension = MM.util.getFileExtension(c.contents[0].filename);
+
+                                    if (c.contents.length == 1 || (content.modname == "resource" && extension != "html" && extension != "htm")) {
                                         var cFile = c.contents[0];
                                         downloaded = typeof(cFile.localpath) != "undefined";
                                     } else {
@@ -178,6 +180,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             for (var indexEl in c.contents) {
                                 _.each(contentElements, function(el) {
                                     if (typeof(c.contents[indexEl][el]) != "undefined" &&
+                                        typeof(content.contents[indexEl]) != "undefined" &&
                                         typeof(content.contents[indexEl][el]) != "undefined" &&
                                         c.contents[indexEl][el] != content.contents[indexEl][el]
                                         ) {
