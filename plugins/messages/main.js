@@ -221,9 +221,9 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
             // Uggly hack.
             var fixFactor = 115;
             if (MM.deviceType == "tablet") {
-                fixFactor = 45;
+                fixFactor = 55;
             } else if (MM.deviceOS == "ios") {
-                fixFactor = 20;
+                fixFactor = 50;
             }
 
             // Height of the conversation area.
