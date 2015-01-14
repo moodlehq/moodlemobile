@@ -526,7 +526,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             if (! skipFiles) {
                 var file = content.contents[index];
 
-                var fileParams = ["author", "license", "timecreated", "timemodified", "filesize", "localpath", "downloadtime"];
+                var fileParams = ["author", "license", "timecreated", "timemodified", "filesize", "downloadtime"];
+                if (MM.debugging) {
+                    fileParams.push("localpath");
+                }
                 for (var el in fileParams) {
                     var param = fileParams[el];
                     if (typeof(file[param]) != "undefined" && file[param]) {
