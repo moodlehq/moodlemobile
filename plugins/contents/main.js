@@ -145,7 +145,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                             if (c.contents) {
                                 $.each(c.contents, function (index5, filep) {
-                                    if (typeof(filep.localpath) != "undefined") {
+                                    if (typeof(filep.localpath) != "undefined" &&
+                                            typeof(sections.modules[index2].contents[index5]) != "undefined") {
+
                                         sections.modules[index2].contents[index5].localpath = filep.localpath;
                                     }
                                 });
@@ -191,7 +193,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             }
 
                             // Check file additions.
-                            for (indexEl in content.contents) {
+                            for (var indexEl in content.contents) {
                                 if (typeof c.contents[indexEl] == "undefined") {
                                     updateContentInDB = true;
                                     c.contents[indexEl] = content.contents[indexEl];
