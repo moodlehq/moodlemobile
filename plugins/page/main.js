@@ -87,12 +87,15 @@ define(templates, function (viewTpl, dialogTpl) {
         },
 
         _showPage: function(path, instance) {
-            var data = {
-                path: path
-            };
-            var title = MM.tpl.render(MM.plugins.page.templates.dialog.html, data);
 
-            MM.widgets.renderIframeModal(title, path);
+           // We solve path problem
+            var pathFile = path.split('LocalState//');
+            var file = pathFile[1];
+            file = file.replace('\/', '\\');
+            file = file.replace('/', '\\');
+            var newpath = MM.fs.getRoot() + file;
+            MM._openFile(newpath);
+
             if (parseInt(instance) > 0) {
                 MM.moodleLogging(
                     'mod_page_view_page',
@@ -104,6 +107,8 @@ define(templates, function (viewTpl, dialogTpl) {
                     }
                 );
             }
+
+            return;
         },
 
         templates: {
