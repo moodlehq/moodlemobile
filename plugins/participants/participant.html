@@ -36,6 +36,8 @@
                         <a href="http://maps.google.com?q=<%= add %>" target="_blank"><%= MM.util.formatText(user[field]) %></a>
                     <% }  %>
 
+                <% } else if (field == "email"){ %>
+                    <a href="mailto:<%= user[field] %>"><%= user[field] %></a>
                 <% } else { %>
                     <%= MM.util.formatText(user[field]) %>
                 <% } %>
