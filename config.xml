@@ -97,6 +97,14 @@
          <application android:debuggable="false" />
     </gap:config-file>
 
+    <!-- See MOBILE-892 -->
+    <gap:config-file platform="android" parent="/manifest" mode="delete">
+        <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+        <uses-permission android:name="android.permission.WAKE_LOCK" />
+        <uses-permission android:name="android.permission.VIBRATE"/>
+    </gap:config-file>
+
+
     <access origin="*" />
 
 </widget>
