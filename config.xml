@@ -101,15 +101,8 @@
     <preference name="permissions" value="none"/>
 
     <gap:config-file platform="android" parent="/manifest" mode="delete">
-        <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-        <uses-permission android:name="android.permission.WAKE_LOCK" />
-        <uses-permission android:name="android.permission.VIBRATE"/>
         <uses-permission android:name="android.permission.WRITE_CONTACTS" />
         <uses-permission android:name="android.permission.READ_CONTACTS" />
-        <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-        <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     </gap:config-file>
 
 
