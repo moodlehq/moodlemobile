@@ -17,7 +17,8 @@ define(templates, function (eventsTpl, eventTpl) {
 
         storage: {
             "event": {type: "model"},
-            "eventsDisabled": {type: "collection", model: "event"}
+            "eventsDisabled": {type: "collection", model: "event"},
+            "events": {type: "collection", model: "event"}
         },
 
         routes: [
@@ -171,6 +172,7 @@ define(templates, function (eventsTpl, eventTpl) {
                         var disable = $(this).is(':checked');
                         if (disable) {
                             window.plugin.notification.local.cancel(localEventId);
+                            MM.db.remove("events", localEventId);
                             MM.db.insert("eventsDisabled", {id: localEventId});
                         } else {
                             var d = new Date(fullEvent.timestart * 1000);
@@ -184,6 +186,7 @@ define(templates, function (eventsTpl, eventTpl) {
                                     badge: 1
                                 }
                             );
+                            MM.db.insert("events", {id: localEventId});
                             MM.db.remove("eventsDisabled", localEventId);
                         }
                     }
@@ -245,6 +248,14 @@ define(templates, function (eventsTpl, eventTpl) {
             }
 
             if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
+                // Cancell all to resync.
+                var events = MM.db.where("events", {'site': MM.config.current_site.id});
+                console.log(events);
+                _.each(events, function(e) {
+                    MM.db.remove("events", e.get("id"));
+                    window.plugin.notification.local.cancel(e.get("id"));
+                });
+
                 MM.plugins.events._getEvents(
                 30,
                 {
@@ -271,6 +282,7 @@ define(templates, function (eventsTpl, eventTpl) {
                                         badge: 1
                                     }
                                 );
+                                MM.db.insert("events", {id: eventId});
                             }
                         });
                     }
