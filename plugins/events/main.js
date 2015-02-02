@@ -149,14 +149,8 @@ define(templates, function (eventsTpl, eventTpl) {
 
                 var localEventId = MM.plugins.events._getLocalEventUniqueId(fullEvent);
 
-                var checked = "";
-                if (MM.plugins.events._eventIsDisabled(localEventId)) {
-                    checked = "checked";
-                }
-
                 var tpl = {
-                    "event": fullEvent,
-                    "checked": checked
+                    "event": fullEvent
                 };
                 var html = MM.tpl.render(MM.plugins.events.templates.event.html, tpl);
 
@@ -165,14 +159,22 @@ define(templates, function (eventsTpl, eventTpl) {
 
                 MM.panels.show('right', html, {title: title});
 
-                $("#disable-event").bind("change", function() {
+                var notificationTime = 60; // Default time.
+                var event = MM.db.get("events", localEventId);
+                if (event) {
+                    notificationTime = event.get("notification");
+                }
+                $("#notification-time").val(notificationTime);
+
+                $("#notification-time").bind("change", function() {
 
                     if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
-                        var disable = $(this).is(':checked');
+                        var disable = parseInt($(this).val(), 10) === 0;
                         if (disable) {
                             window.plugin.notification.local.cancel(localEventId);
                             MM.plugins.events._setEnabled(localEventId, false);
                         } else {
+                            fullEvent.notification = parseInt($(this).val(), 10);
                             MM.plugins.events._createLocalEvent(fullEvent);
                         }
                     }
@@ -235,9 +237,11 @@ define(templates, function (eventsTpl, eventTpl) {
 
             if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
                 // Cancell all to resync.
+                var existingEvents = {};
                 var events = MM.db.where("events", {'site': MM.config.current_site.id});
                 _.each(events, function(e) {
                     if (e.get("enabled")) {
+                        existingEvents[e.get("id")] = e;
                         MM.db.remove("events", e.get("id"));
                         window.plugin.notification.local.cancel(e.get("id"));
                     }
@@ -255,6 +259,12 @@ define(templates, function (eventsTpl, eventTpl) {
                             var eventId = MM.plugins.events._getLocalEventUniqueId(event);
 
                             if (!MM.plugins.events._eventIsDisabled(eventId)) {
+                                if (typeof existingEvents[eventId] != "undefined") {
+                                    event.notification = parseInt(existingEvents[eventId].get("notification"), 10);
+                                } else {
+                                    // 60 minutes of pre-notification.
+                                    event.notification = 60;
+                                }
                                 MM.plugins.events._createLocalEvent(event);
                             }
                         });
@@ -282,6 +292,9 @@ define(templates, function (eventsTpl, eventTpl) {
             var event = MM.db.get("events", localEventId);
             if (event) {
                 event.set("enabled", status);
+                if (!status) {
+                    event.set("notification", 0);
+                }
                 MM.db.insert("events", event);
             }
         },
@@ -290,7 +303,8 @@ define(templates, function (eventsTpl, eventTpl) {
             var eventId = MM.plugins.events._getLocalEventUniqueId(event);
 
             // We insert the event allways, if already exists it will be updated.
-            var d = new Date(event.timestart * 1000);
+            // We discount the notification time in minutes.
+            var d = new Date((event.timestart - (event.notification * 60)) * 1000);
 
             window.plugin.notification.local.add(
                 {
@@ -301,7 +315,13 @@ define(templates, function (eventsTpl, eventTpl) {
                     badge: 1
                 }
             );
-            MM.db.insert("events", {id: eventId, enabled: true});
+            MM.db.insert("events",
+                {
+                    id: eventId,
+                    enabled: true,
+                    notification: event.notification
+                }
+            );
 
         },
 

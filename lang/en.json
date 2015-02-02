@@ -54,6 +54,7 @@
 "development": "Development",
 "discussions": "discussions",
 "downloadtime": "Downloaded",
+"disabled": "Disabled",
 "disablenotificationforevent": "Disable notification for this event",
 "disablenotifications": "Disable notifications",
 "disablerdebugger": "Disable remote debugging",
