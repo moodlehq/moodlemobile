@@ -301,17 +301,19 @@ define(templates, function (eventsTpl, eventTpl) {
 
         _createLocalEvent: function(event) {
             var eventId = MM.plugins.events._getLocalEventUniqueId(event);
+            event.notification = event.notification || 60;
 
             // We insert the event allways, if already exists it will be updated.
             // We discount the notification time in minutes.
             var d = new Date((event.timestart - (event.notification * 60)) * 1000);
+            var realDate = new Date(event.timestart * 1000);
 
             window.plugin.notification.local.add(
                 {
                     id: eventId,
                     date: d,
-                    title: MM.lang.s("events"),
-                    message: event.name,
+                    title: event.name,
+                    message: realDate.toLocaleString(),
                     badge: 1
                 }
             );
