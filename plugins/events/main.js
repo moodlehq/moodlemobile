@@ -17,7 +17,6 @@ define(templates, function (eventsTpl, eventTpl) {
 
         storage: {
             "event": {type: "model"},
-            "eventsDisabled": {type: "collection", model: "event"},
             "events": {type: "collection", model: "event"}
         },
 
@@ -149,9 +148,9 @@ define(templates, function (eventsTpl, eventTpl) {
                 }
 
                 var localEventId = MM.plugins.events._getLocalEventUniqueId(fullEvent);
-                var disabled = MM.db.get("eventsDisabled", localEventId);
+
                 var checked = "";
-                if (disabled) {
+                if (MM.plugins.events._eventIsDisabled(localEventId)) {
                     checked = "checked";
                 }
 
@@ -172,22 +171,9 @@ define(templates, function (eventsTpl, eventTpl) {
                         var disable = $(this).is(':checked');
                         if (disable) {
                             window.plugin.notification.local.cancel(localEventId);
-                            MM.db.remove("events", localEventId);
-                            MM.db.insert("eventsDisabled", {id: localEventId});
+                            MM.plugins.events._setEnabled(localEventId, false);
                         } else {
-                            var d = new Date(fullEvent.timestart * 1000);
-
-                            window.plugin.notification.local.add(
-                                {
-                                    id: localEventId,
-                                    date: d,
-                                    title: MM.lang.s("events"),
-                                    message: fullEvent.name,
-                                    badge: 1
-                                }
-                            );
-                            MM.db.insert("events", {id: localEventId});
-                            MM.db.remove("eventsDisabled", localEventId);
+                            MM.plugins.events._createLocalEvent(fullEvent);
                         }
                     }
                 });
@@ -250,10 +236,11 @@ define(templates, function (eventsTpl, eventTpl) {
             if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
                 // Cancell all to resync.
                 var events = MM.db.where("events", {'site': MM.config.current_site.id});
-                console.log(events);
                 _.each(events, function(e) {
-                    MM.db.remove("events", e.get("id"));
-                    window.plugin.notification.local.cancel(e.get("id"));
+                    if (e.get("enabled")) {
+                        MM.db.remove("events", e.get("id"));
+                        window.plugin.notification.local.cancel(e.get("id"));
+                    }
                 });
 
                 MM.plugins.events._getEvents(
@@ -267,22 +254,8 @@ define(templates, function (eventsTpl, eventTpl) {
                         _.each(events.events, function(event) {
                             var eventId = MM.plugins.events._getLocalEventUniqueId(event);
 
-                            var disabled = MM.db.get("eventsDisabled", eventId);
-
-                            if (!disabled) {
-                                // We insert the event allways, if already exists it will be updated.
-                                var d = new Date(event.timestart * 1000);
-
-                                window.plugin.notification.local.add(
-                                    {
-                                        id: eventId,
-                                        date: d,
-                                        title: MM.lang.s("events"),
-                                        message: event.name,
-                                        badge: 1
-                                    }
-                                );
-                                MM.db.insert("events", {id: eventId});
+                            if (!MM.plugins.events._eventIsDisabled(eventId)) {
+                                MM.plugins.events._createLocalEvent(event);
                             }
                         });
                     }
@@ -290,6 +263,46 @@ define(templates, function (eventsTpl, eventTpl) {
                 function() {}
             );
             }
+        },
+
+        _eventIsDisabled: function(localEventId) {
+            var event = MM.db.get("events", localEventId);
+
+            if (!event) {
+                return false;
+            }
+
+            if (event.get("enabled")) {
+                return false;
+            }
+            return true;
+        },
+
+        _setEnabled: function(localEventId, status) {
+            var event = MM.db.get("events", localEventId);
+            if (event) {
+                event.set("enabled", status);
+                MM.db.insert("events", event);
+            }
+        },
+
+        _createLocalEvent: function(event) {
+            var eventId = MM.plugins.events._getLocalEventUniqueId(event);
+
+            // We insert the event allways, if already exists it will be updated.
+            var d = new Date(event.timestart * 1000);
+
+            window.plugin.notification.local.add(
+                {
+                    id: eventId,
+                    date: d,
+                    title: MM.lang.s("events"),
+                    message: event.name,
+                    badge: 1
+                }
+            );
+            MM.db.insert("events", {id: eventId, enabled: true});
+
         },
 
         templates: {
