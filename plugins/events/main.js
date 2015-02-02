@@ -36,6 +36,14 @@ define(templates, function (eventsTpl, eventTpl) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
+
+            // Local notification click handler.
+            if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
+                window.plugin.notification.local.onclick = function (id, state, json) {
+                    location.href = "#events/7";
+                };
+            }
+
             return MM.util.wsAvailable('core_calendar_get_calendar_events') ||
                     MM.util.wsAvailable('local_mobile_core_calendar_get_calendar_events');
         },
