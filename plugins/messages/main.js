@@ -59,6 +59,8 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
         recentContactsIds: {},
 
+        blockedUsersIds: {},
+
         pollingInterval: 5000,
 
         /**
@@ -563,6 +565,16 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                         }
                         return;
                     }
+                    result.users.forEach(function(user) {
+                        MM.plugins.messages.blockedUsersIds[user.id] = user.id;
+                        newUser = {
+                            'id': MM.config.current_site.id + '-' + user.id,
+                            'userid': user.id,
+                            'fullname': user.fullname,
+                            'profileimageurl': user.profileimageurl
+                        };
+                        MM.db.insert('users', newUser);
+                    });
                     if (typeof successCallback == "function") {
                         successCallback(result.users);
                     }
@@ -685,7 +697,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                         return;
                     }
                     if (typeof successCallback == "function") {
-                        successCallback(contacts);
+                        successCallback();
                     }
                 },
                 {
@@ -918,8 +930,21 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                             });
                         }
                     });
-                    var html = MM.tpl.render(MM.plugins.messages.templates.contact.html, {user: user, isContact: isContact});
+
+                    var isBlocked = false;
+                    if (typeof MM.plugins.messages.blockedUsersIds[userId] != "undefined") {
+                        isBlocked = true;
+                    }
+
+                    var data = {
+                        user: user,
+                        isContact: isContact,
+                        isBlocked: isBlocked
+                    };
+
+                    var html = MM.tpl.render(MM.plugins.messages.templates.contact.html, data);
                     MM.panels.show('right', html, {title: MM.lang.s("info")});
+
                     $(".add-remove-contact").on(MM.clickType, function(e) {
                         var userId = $(this).data("userid");
                         var add = $(this).data("add");
@@ -940,6 +965,34 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
                             }
                         );
                     });
+
+                    $(".block-unblock-contact").on(MM.clickType, function(e) {
+                        var userId = $(this).data("userid");
+                        var block = parseInt($(this).data("block"), 10);
+                        $(this).addClass("loading-row-black");
+
+                        var fn = "_blockContact";
+                        if (block === 0) {
+                            fn = "_unblockContact";
+                        }
+                        MM.plugins.messages[fn](
+                            userId,
+                            function() {
+                                // Refresh cache of blocked users.
+                                if (block === 0) {
+                                    delete MM.plugins.messages.blockedUsersIds[userId];
+                                } else {
+                                    MM.plugins.messages.blockedUsersIds[userId] = userId;
+                                }
+                                MM.plugins.messages.showContact(userId);
+                            },
+                            function(e) {
+                                $(this).removeClass("loading-row-black");
+                                MM.popErrorMessage(e);
+                            }
+                        );
+                    });
+
                 },
                 function(e) {
                     MM.log("Error retrieving contacts", "Messages");

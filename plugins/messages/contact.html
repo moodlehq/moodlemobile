@@ -29,6 +29,13 @@
                 <a href="#" class="add-remove-contact" data-add="1" data-userid="<%= user.userid %>"><%= MM.lang.s("addcontact") %></a>
                 <% } %>
             </li>
+            <li class="nav-item">
+                <% if (isBlocked) { %>
+                <a href="#" class="block-unblock-contact" data-block="0" data-userid="<%= user.userid %>"><%= MM.lang.s("unblockcontact") %></a>
+                <% } else { %>
+                <a href="#" class="block-unblock-contact" data-block="1" data-userid="<%= user.userid %>"><%= MM.lang.s("blockcontact") %></a>
+                <% } %>
+            </li>
         </ul>
     </div>
 </div>
