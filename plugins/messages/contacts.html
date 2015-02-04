@@ -14,7 +14,7 @@
         <div id="search-result">
         </div>
         <div id="contacts-list">
-            <% var types = ["online", "offline", "strangers"]; %>
+            <% var types = ["online", "offline", "blocked", "strangers"]; %>
             <% var displayed = []; %>
             <% types.forEach(function(type) { %>
             <h3>
@@ -22,6 +22,8 @@
                     <%= MM.lang.s("onlinecontacts", "core", contacts[type].length) %>
                 <% } else if (type == "offline") { %>
                     <%= MM.lang.s("offlinecontacts", "core", contacts[type].length) %>
+                <% } else if (type == "blocked") { %>
+                    <%= MM.lang.s("blockedusers", "core", contacts[type].length) %>
                 <% } else  { %>
                     <%= MM.lang.s("others") %>
                 <% } %>
@@ -33,6 +35,7 @@
 
             <% if (displayed.indexOf(contact.id) > -1) return; %>
             <% if (parseInt(contact.id, 10) == parseInt(MM.config.current_site.userid, 10)) return; %>
+            <% displayed.push(contact.id) %>
                 <li class="nav-item">
                     <a class="media touch-row" href="#messages/conversation/<%= contact.id %>">
                         <div class="img">

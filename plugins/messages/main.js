@@ -538,6 +538,49 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
         },
 
         /**
+         * Retrieve a list of blocked users
+         * @param  {number} userId who is blocking the users
+         * @param  {object} successCallback Success callback function
+         * @param  {object} errorCallback   Error callback function
+         */
+        _getBlockedUsers: function(userId, successCallback, errorCallback) {
+            var data = {
+                "userid" : userId
+            };
+
+            var wsFn = 'core_message_get_blocked_users';
+            if (MM.util.wsAvailable('local_mobile_core_message_get_blocked_users')) {
+                wsFn = 'local_mobile_core_message_get_blocked_users';
+            }
+
+            MM.moodleWSCall(
+                wsFn,
+                data,
+                function(result) {
+                    if (result.warnings && result.warnings.length) {
+                        if (typeof errorCallback == "function") {
+                            errorCallback(result.warnings[0]['message']);
+                        }
+                        return;
+                    }
+                    if (typeof successCallback == "function") {
+                        successCallback(result.users);
+                    }
+                },
+                {
+                    getFromCache: false,
+                    saveToCache: true
+                },
+                function(e) {
+                    if (typeof errorCallback == "function") {
+                        errorCallback(e);
+                    }
+                }
+            );
+        },
+
+
+        /**
          * Create a contact
          * @param  {number} userId userId to be added as contact
          * @param  {object} successCallback Success callback function
@@ -783,61 +826,73 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
             MM.panels.showLoading('center');
 
-            MM.plugins.messages._getContacts(
-                function(contacts) {
-                    MM.db.each("users", function(user) {
-                        user = user.toJSON();
-                        if(user.site == MM.config.current_site.id) {
-                            user.id = user.userid;
-                            contacts["strangers"].push(user);
-                        }
-                    });
+            var fillContacts = function(blockedUsers) {
+                MM.plugins.messages._getContacts(
+                    function(contacts) {
 
-                    html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {contacts: contacts});
+                        contacts["blocked"] = blockedUsers;
 
-                    MM.panels.show('center', html, {title: MM.lang.s("contacts")});
-
-                    $('#search-contacts').on('submit', function(e) {
-                        e.preventDefault();
-                        var text = $('#search-text').val();
-
-                        if (!text.trim()) {
-                            return;
-                        }
-                        MM.plugins.messages._searchContacts(text, 0,
-                            function(contacts) {
-                                var data = {
-                                    users: contacts
-                                };
-                                var result = MM.lang.s('nousersfound');
-
-                                if (contacts.length) {
-                                    result = MM.tpl.render(MM.plugins.messages.templates.search.html, data);
-                                }
-
-                                $("#contacts-list").css("display", "none");
-                                $("#search-result").css("display", "block");
-                                $("#search-result").html(result);
-                            },
-                            function(e) {
-                                MM.popErrorMessage(e);
+                        MM.db.each("users", function(user) {
+                            user = user.toJSON();
+                            if(user.site == MM.config.current_site.id) {
+                                user.id = user.userid;
+                                contacts["strangers"].push(user);
                             }
-                        );
-                    });
+                        });
 
-                    $("#search-text").keyup(function(e) {
-                        if ($(this).val() == "") {
-                            $("#contacts-list").css("display", "block");
-                            $("#search-result").css("display", "none");
-                        }
-                    });
+                        html = MM.tpl.render(MM.plugins.messages.templates.contacts.html, {contacts: contacts});
 
-                },
+                        MM.panels.show('center', html, {title: MM.lang.s("contacts")});
+
+                        $('#search-contacts').on('submit', function(e) {
+                            e.preventDefault();
+                            var text = $('#search-text').val();
+
+                            if (!text.trim()) {
+                                return;
+                            }
+                            MM.plugins.messages._searchContacts(text, 0,
+                                function(contacts) {
+                                    var data = {
+                                        users: contacts
+                                    };
+                                    var result = MM.lang.s('nousersfound');
+
+                                    if (contacts.length) {
+                                        result = MM.tpl.render(MM.plugins.messages.templates.search.html, data);
+                                    }
+
+                                    $("#contacts-list").css("display", "none");
+                                    $("#search-result").css("display", "block");
+                                    $("#search-result").html(result);
+                                },
+                                function(e) {
+                                    MM.popErrorMessage(e);
+                                }
+                            );
+                        });
+
+                        $("#search-text").keyup(function(e) {
+                            if ($(this).val() == "") {
+                                $("#contacts-list").css("display", "block");
+                                $("#search-result").css("display", "none");
+                            }
+                        });
+
+                    },
+                    function(e) {
+                        MM.log("Error retrieving contacts", "Messages");
+                    }
+                );
+            };
+
+            MM.plugins.messages._getBlockedUsers(
+                MM.config.current_site.userid,
+                fillContacts,
                 function(e) {
-                    MM.log("Error retrieving contacts", "Messages");
+                    fillContacts([]);
                 }
             );
-
 
         },
 
