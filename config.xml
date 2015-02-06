@@ -19,7 +19,7 @@
         <string>1.0</string>
     </gap:config-file>
 
-    <preference name="phonegap-version" value="4.2.0-0.24.2" />
+    <preference name="phonegap-version" value="3.6.3" />
     <preference name="orientation"      value="default" />
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
