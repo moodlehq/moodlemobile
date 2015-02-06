@@ -970,6 +970,10 @@ hr {
   width: 100%;
   height: 100%;
   text-align: center;
+<<<<<<< HEAD
+=======
+  margin-top: -32px;
+>>>>>>> FETCH_HEAD
   margin-left: -10px;
 }
 .messages .no-content p,
