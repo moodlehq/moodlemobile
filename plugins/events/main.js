@@ -205,6 +205,11 @@ define(templates, function (eventsTpl, eventTpl) {
                 params["events[courseids][" + index + "]"] = course.get("courseid");
             });
 
+            var groups = MM.db.where("usergroups", {site: MM.config.current_site.id, userid: MM.config.current_site.userid});
+            $.each(groups, function(index, group) {
+                params["events[groupids][" + index + "]"] = group.get("groupid");
+            });
+
             var wsFunction = "core_calendar_get_calendar_events";
             if (!MM.util.wsAvailable(wsFunction)) {
                 wsFunction = 'local_mobile_core_calendar_get_calendar_events';
