@@ -1,10 +1,15 @@
 {
-"name": "Moodle Mobile",
+"name": "Mi Campus UDV Móvil",
 "license": {
     "name": "Apache 2.0",
     "link": "http://www.apache.org/licenses/LICENSE-2.0"
 },
 "credits": [
+{
+    "fullname": "Rodrigo Rodriguez",
+    "contribution": "IT Director",
+    "company": "Universidad Da Vinci"
+},
 {
     "fullname": "Juan Leyva",
     "contribution": "Main developer",
