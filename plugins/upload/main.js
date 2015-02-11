@@ -1,4 +1,7 @@
 define(function () {
+
+    var photoIsNew = false; // Used to determine if an image file should be deleted after being uploaded.
+
     var plugin = {
         settings: {
             name: "upload",
@@ -50,6 +53,8 @@ define(function () {
             // iPad popOver, see https://tracker.moodle.org/browse/MOBILE-208
             var popover = new CameraPopoverOptions(10, 10, width, height, Camera.PopoverArrowDirection.ARROW_ANY);
 
+            photoIsNew = false;
+
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
                 destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -61,6 +66,8 @@ define(function () {
         takeMedia: function() {
             MM.log('Trying to get a image from camera', 'Upload');
             MM.Router.navigate("");
+
+            photoIsNew = true;
 
             navigator.camera.getPicture(MM.plugins.upload.photoSuccess, MM.plugins.upload.photoFails, {
                 quality: 50,
@@ -85,6 +92,12 @@ define(function () {
 
         photoSuccess: function(uri) {
 
+            if(typeof(uri) == 'undefined' || uri == ''){
+                // In Node-Webkit, if you successfully upload a picture and then you open the file picker again
+                // and cancel, this function is called with an empty uri. Let's filter it.
+                return;
+            }
+
             MM.log('Uploading an image to Moodle', 'Upload');
             var d = new Date();
 
@@ -100,9 +113,29 @@ define(function () {
 
             options.mimeType="image/jpeg";
 
+            // Delete image after upload in iOS (always copies the image to the tmp folder)
+            // or if the photo is taken with the camera, not browsed.
+            var deleteAfterUpload = MM.getOS() == 'ios' || photoIsNew;
+
             MM.moodleUploadFile(uri, options,
-                                function(){ MM.popMessage(MM.lang.s("imagestored")); },
-                                function(){ MM.popErrorMessage(MM.lang.s("erroruploading")) }
+                                function(){
+                                    MM.popMessage(MM.lang.s("imagestored"));
+                                    if(deleteAfterUpload) {
+                                        // Use set timeout, otherwise in Node-Webkit the upload throws an error.
+                                        setTimeout(function(){
+                                            MM.fs.removeExternalFile(uri);
+                                        }, 500);
+                                    }
+                                },
+                                function(){
+                                    MM.popErrorMessage(MM.lang.s("erroruploading"));
+                                    if(deleteAfterUpload) {
+                                        // Use set timeout, otherwise in Node-Webkit the upload throws an error.
+                                        setTimeout(function(){
+                                            MM.fs.removeExternalFile(uri);
+                                        }, 500);
+                                    }
+                                }
             );
 
         },
@@ -111,9 +144,10 @@ define(function () {
             MM.log('Error trying getting a photo', 'Upload');
             if (message) {
                 MM.log('Error message: ' + JSON.stringify(message));
-            }
-            if (message.toLowerCase().indexOf("error") > -1 || message.toLowerCase().indexOf("unable") > -1) {
-                MM.popErrorMessage(message);
+
+                if (message.toLowerCase().indexOf("error") > -1 || message.toLowerCase().indexOf("unable") > -1) {
+                    MM.popErrorMessage(message);
+                }
             }
         },
 
@@ -121,22 +155,29 @@ define(function () {
 
             MM.log('Auddio sucesfully recorded', 'Upload');
 
-            var i, len;
-            for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            $.each(mediaFiles, function(index, mediaFile) {
                 var options = {};
                 options.fileKey = null;
-                options.fileName = mediaFiles[i].name;
+                options.fileName = mediaFile.name;
                 options.mimeType = null;
 
-                MM.moodleUploadFile(mediaFiles[i].fullPath, options,
+                MM.moodleUploadFile(mediaFile.fullPath, options,
                                     function(){
                                         MM.popMessage(MM.lang.s("recordstored"));
+                                        // Use set timeout, otherwise in Node-Webkit the upload throws an error.
+                                        setTimeout(function(){
+                                            MM.fs.removeExternalFile(mediaFile.localURL);
+                                        }, 5000);
                                     },
                                     function(){
-                                        MM.popErrorMessage(MM.lang.s("erroruploading"))
+                                        MM.popErrorMessage(MM.lang.s("erroruploading"));
+                                        // Use set timeout, otherwise in Node-Webkit the upload throws an error.
+                                        setTimeout(function(){
+                                            MM.fs.removeExternalFile(mediaFile.localURL);
+                                        }, 5000);
                                     }
                 );
-            }
+            });
         },
 
         recordAudioFails: function(error) {
@@ -159,22 +200,23 @@ define(function () {
 
             MM.log('Video sucesfully recorded', 'Upload');
 
-            var i, len;
-            for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            $.each(mediaFiles, function(index, mediaFile) {
                 var options = {};
                 options.fileKey = null;
-                options.fileName = mediaFiles[i].name;
+                options.fileName = mediaFile.name;
                 options.mimeType = null;
 
-                MM.moodleUploadFile(mediaFiles[i].fullPath, options,
+                MM.moodleUploadFile(mediaFile.fullPath, options,
                                     function(){
-                                        MM.popMessage(MM.lang.s("videostored"));
+                                        MM.popMessage(MM.lang.s("recordstored"));
+                                        MM.fs.removeExternalFile(mediaFile.localURL);
                                     },
                                     function(){
-                                        MM.popErrorMessage(MM.lang.s("erroruploading"))
+                                        MM.popErrorMessage(MM.lang.s("erroruploading"));
+                                        MM.fs.removeExternalFile(mediaFile.localURL);
                                     }
                 );
-            }
+            });
         },
 
         uploadVideoFails: function(error) {
