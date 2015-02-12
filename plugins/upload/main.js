@@ -1,4 +1,8 @@
-define(function () {
+var requires = [
+    "root/externallib/text!root/plugins/upload/uploadfile.html"
+];
+
+define(requires, function (uploadFileTpl) {
 
     var photoIsNew = false; // Used to determine if an image file should be deleted after being uploaded.
 
@@ -11,7 +15,8 @@ define(function () {
                 {name: "browsephotoalbums", menuURL: "#upload/browse", icon: ""},
                 {name: "takepicture", menuURL: "#upload/take", icon: ""},
                 {name: "recordaudio", menuURL: "#upload/record", icon: ""},
-                {name: "video", menuURL: "#upload/video", icon: ""}
+                {name: "video", menuURL: "#upload/video", icon: ""},
+                {name: "file", menuURL: "#upload/file", icon: ""}
             ],
             lang: {
                 component: "core"
@@ -23,8 +28,15 @@ define(function () {
             ["upload/browse", "upload_browse", "browseAlbums"],
             ["upload/take", "upload_take", "takeMedia"],
             ["upload/record", "upload_record", "recordAudio"],
-            ["upload/video", "upload_video", "uploadVideo"]
+            ["upload/video", "upload_video", "uploadVideo"],
+            ["upload/file", "upload_file", "chooseFile"]
         ],
+
+        templates: {
+            "uploadfile": {
+                html: uploadFileTpl
+            }
+        },
 
         /**
          * Determines is the plugin is visible.
@@ -228,7 +240,66 @@ define(function () {
             if (error.code != CaptureError.CAPTURE_NO_MEDIA_FILES) {
                 MM.popErrorMessage(MM.lang.s("errorcapturingvideo"));
             }
+        },
+
+        /**
+         * Show a page with a button to open the file chooser.
+         */
+        chooseFile: function() {
+            var html = MM.tpl.render(MM.plugins.upload.templates.uploadfile.html, {});
+            MM.panels.show('center', html, {hideRight: true, title: MM.lang.s("uploadfile")});
+            $('#uploadFileChooser').on('change', function(e) {
+                e.preventDefault();
+                var file = this.files[0];
+                if(file) {
+                    MM.plugins.upload.uploadChosenFile(file);
+                }
+            });
+        },
+
+        /**
+         * Uploads the chosen file.
+         * @param  {Object} file File to upload.
+         */
+        uploadChosenFile: function(file) {
+            MM.fs.readFileAsArrayBuffer(file, function(data) {
+
+                var fileextension = file.name.substr(file.name.lastIndexOf('.'));
+                var filename = 'tmpfileupload'+fileextension;
+                MM.fs.getFileAndWriteInIt(filename, data,
+                    function(fileURL) {
+                        var options = {};
+                        options.fileKey = null;
+                        options.fileName = file.name;
+                        options.mimeType = file.type;
+
+                        MM.moodleUploadFile(fileURL, options,
+                                            function(){
+                                                MM.popMessage(MM.lang.s("fileuploaded"));
+                                                $('#uploadFileChooser').val('');
+                                                MM.fs.removeFile(filename);
+                                            },
+                                            function(){
+                                                MM.popErrorMessage(MM.lang.s("erroruploading"));
+                                                $('#uploadFileChooser').val('');
+                                                MM.fs.removeFile(filename);
+                                            }
+                        );
+                    }, function(error) {
+                        MM.log('Error creating tmp file', 'Upload');
+                        MM.popErrorMessage(MM.lang.s('erroruploading'));
+                    }
+                );
+            }, function() {
+                MM.log('Error reading file', 'Upload');
+                MM.popErrorMessage(MM.lang.s('errorreadingfile'));
+            });
         }
+    }
+
+    if(MM.inNodeWK || MM.getOS() != 'android') {
+        // Remove the not supported upload file.
+        plugin.settings.subMenus.pop();
     }
 
     if (MM.inNodeWK) {

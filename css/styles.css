@@ -960,7 +960,8 @@ hr {
   line-height: 20px;
 }
 .messages,
-.notifications {
+.notifications,
+.uploadinstructions {
   padding: 10px;
 }
 .messages .no-content,
@@ -1786,4 +1787,18 @@ div.jqi button.jqidefaultbutton {
 }
 .user-grade .leveleven {
   background-color: #fff;
+}
+/* - Upload file (Android)
+-------------------------------------------------------------------------- */
+.uploadfilecontainer {
+  position: relative;
+}
+.uploadfilecontainer input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0;
+  outline: none;
 }
