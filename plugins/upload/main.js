@@ -251,10 +251,37 @@ define(requires, function (uploadFileTpl) {
             $('#uploadFileChooser').on('change', function(e) {
                 e.preventDefault();
                 var file = this.files[0];
+                $(this).val('');
                 if(file) {
-                    MM.plugins.upload.uploadChosenFile(file);
+                    MM.plugins.upload.showUploadConfirmIfNeeded(file);
                 }
             });
+        },
+
+        /**
+         * Shows a confirm message before uploading the file. The message is shown when:
+         *     -The device has not a Wifi Connection.
+         *      OR
+         *     -The file size is above 5MB.
+         * @param  {Object} file File to upload.
+         */
+        showUploadConfirmIfNeeded: function(file) {
+            var message = '';
+            if(MM.deviceWifiConnected()) {
+                if(file.size >= 5242880) {
+                    message = MM.lang.s("confirmuploadfile", "core", MM.util.bytesToSize(file.size, 2));
+                }
+            } else {
+                message = MM.lang.s("confirmuploadfile", "core", MM.util.bytesToSize(file.size, 2));
+            }
+
+            if(message != '') {
+                MM.popConfirm(message, function() {
+                    MM.plugins.upload.uploadChosenFile(file);
+                });
+            } else {
+                MM.plugins.upload.uploadChosenFile(file);
+            }
         },
 
         /**
@@ -262,6 +289,8 @@ define(requires, function (uploadFileTpl) {
          * @param  {Object} file File to upload.
          */
         uploadChosenFile: function(file) {
+            MM.showModalLoading(MM.lang.s("uploading"), MM.lang.s('readingfile'));
+
             MM.fs.readFileAsArrayBuffer(file, function(data) {
 
                 var fileextension = file.name.substr(file.name.lastIndexOf('.'));
@@ -276,12 +305,10 @@ define(requires, function (uploadFileTpl) {
                         MM.moodleUploadFile(fileURL, options,
                                             function(){
                                                 MM.popMessage(MM.lang.s("fileuploaded"));
-                                                $('#uploadFileChooser').val('');
                                                 MM.fs.removeFile(filename);
                                             },
                                             function(){
                                                 MM.popErrorMessage(MM.lang.s("erroruploading"));
-                                                $('#uploadFileChooser').val('');
                                                 MM.fs.removeFile(filename);
                                             }
                         );
