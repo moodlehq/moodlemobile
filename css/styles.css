@@ -263,7 +263,6 @@ hr {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   /* Disable selection/Copy of UIWebView */
-
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -960,8 +959,7 @@ hr {
   line-height: 20px;
 }
 .messages,
-.notifications,
-.uploadinstructions {
+.notifications {
   padding: 10px;
 }
 .messages .no-content,
@@ -1790,6 +1788,9 @@ div.jqi button.jqidefaultbutton {
 }
 /* - Upload file (Android)
 -------------------------------------------------------------------------- */
+.uploadinstructions {
+  padding: 10px;
+}
 .uploadfilecontainer {
   position: relative;
 }
