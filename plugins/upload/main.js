@@ -319,7 +319,7 @@ define(requires, function (uploadFileTpl) {
                 );
             }, function() {
                 MM.log('Error reading file', 'Upload');
-                MM.popErrorMessage(MM.lang.s('errorreadingfile'));
+                MM.popErrorMessage(MM.lang.s('errorreadingfile', 'core', file.name));
             });
         }
     }
