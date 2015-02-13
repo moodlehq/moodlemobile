@@ -263,7 +263,6 @@ hr {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   /* Disable selection/Copy of UIWebView */
-
 }
 /* =2.3 - BUTTON MODULE
 --------------------------------------------------------*/
@@ -1786,4 +1785,21 @@ div.jqi button.jqidefaultbutton {
 }
 .user-grade .leveleven {
   background-color: #fff;
+}
+/* - Upload file (Android)
+-------------------------------------------------------------------------- */
+.uploadinstructions {
+  padding: 10px;
+}
+.uploadfilecontainer {
+  position: relative;
+}
+.uploadfilecontainer input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0;
+  outline: none;
 }
