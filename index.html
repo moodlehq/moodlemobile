@@ -383,5 +383,27 @@
 </div>
 </script>
 
+<script type="text/template" id="choose-account-upload_template">
+<h1 class="app-ico">
+    <img src="img/login-logo.png" alt="Moodle">
+</h1>
+<h2><%= MM.lang.s('chooseaccountuploadfile') %></h2>
+<% _.each(sites, function(site) { %>
+    <div class="accounts">
+        <a class="account-details" data-siteid="<%= site.id %>" >
+            <img src="<%= MM.util.getMoodleFilePath(site.userpictureurl, 1, site.id) %>">
+            <div>
+                <span class="account-fullname"><%= MM.util.formatText(site.fullname) %></span>
+                <span class="account-sitename"><%= MM.util.formatText(site.sitename) %></span>
+                <span class="account-siteurl"><%= site.siteurl %></span>
+            </div>
+        </a>
+    </div>
+<% });%>
+<div >
+    <a id="btn-cancel-upload" class="btn"><%= MM.lang.s("cancel") %></a>
+</div>
+</script>
+
 </body>
 </html>
