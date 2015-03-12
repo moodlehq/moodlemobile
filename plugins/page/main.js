@@ -30,7 +30,7 @@ define(templates, function (viewTpl, dialogTpl) {
          */
         contentsPageRendered: function() {
 
-            $(".page-downloaded").on('click', function(e) {
+            $(".page-downloaded").on(MM.clickType, function(e) {
                 e.preventDefault();
                 var path = $(this).data("path");
                 path = path.substring(0, path.lastIndexOf("/") + 1) + "index.html";
@@ -39,7 +39,7 @@ define(templates, function (viewTpl, dialogTpl) {
                 MM.plugins.page._showPage(path);
             });
 
-            $(".page-download-all").on('click', function(e) {
+            $(".page-download-all").on(MM.clickType, function(e) {
                 e.preventDefault();
 
                 var contentId = $(this).data("content");
