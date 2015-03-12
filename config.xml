@@ -94,7 +94,7 @@
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
 
     <gap:config-file platform="android" parent="/manifest">
-         <application android:debuggable="false" />
+         <application android:debuggable="true" />
     </gap:config-file>
 
     <!-- See MOBILE-892 -->
