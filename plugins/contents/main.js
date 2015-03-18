@@ -54,16 +54,24 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 var tpl = {
                     sections: contents,
                     course: course.toJSON() // Convert a model to a plain javascript object.
-                }
+                };
                 var html = MM.tpl.render(MM.plugins.contents.templates.sections.html, tpl);
 
                 pageTitle = course.get("shortname");
 
                 MM.panels.show("center", html, {title: pageTitle});
                 if (MM.deviceType == "tablet" && contents.length > 0) {
-                    $("#panel-center li:eq(1)").addClass("selected-row");
                     // First section.
-                    MM.plugins.contents.viewCourseContentsSection(courseId, 0);
+                    var firstSection = 0;
+
+                    // Special case, frontpage. Avoid the rest of sections
+                    if (courseId == 1) {
+                        firstSection = -1;
+                        $("#panel-center li:eq(0)").addClass("selected-row");
+                    } else {
+                        $("#panel-center li:eq(1)").addClass("selected-row");
+                    }
+                    MM.plugins.contents.viewCourseContentsSection(courseId, firstSection);
                 }
             }, null, function(m) {
                 // Error callback.
