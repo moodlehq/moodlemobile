@@ -92,7 +92,7 @@
     </gap:plugin>
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
-    <gap:plugin name="io.github.siegfriedbolz.cordova.plugins.fileopener2" version="1.0.6" />
+    <gap:plugin name="ch.ti8m.documenthandler" version="0.2.1" />
 
     <gap:config-file platform="android" parent="/manifest">
          <application android:debuggable="true" />
