@@ -16,7 +16,7 @@
             if (typeof(msg) === "string") {
                 var error = msg + "\n\nFile: " + url + "\nLine: " + lineNumber;
                 // Ommit cordova and 3rd party libs errors.
-                if (url.indexOf("cordova.js") == -1 && url.indexOf("externallib") == -1 &&
+                if (url.indexOf("cordova") == -1 && url.indexOf("externallib") == -1 &&
                         url.indexOf("org.apache.cordova") == -1) {
                     window.alert(error);
                 }
