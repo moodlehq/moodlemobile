@@ -92,7 +92,6 @@
     </gap:plugin>
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
-    <gap:plugin name="nl.x-services.plugins.socialsharing" source="plugins.cordova.io" />
 
     <gap:config-file platform="android" parent="/manifest">
          <application android:debuggable="true" />
