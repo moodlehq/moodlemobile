@@ -41,10 +41,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             $('a[href="#course/contents/' +courseId+ '"]').addClass('loading-row');
 
             var data = {
-            "options[0][name]" : "",
-            "options[0][value]" : ""
+                'courseid': courseId
             };
-            data.courseid = courseId;
 
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
                 // Removing loading icon.
@@ -93,10 +91,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var sectionName = "";
 
             var data = {
-            "options[0][name]" : "",
-            "options[0][value]" : ""
+                'courseid': courseId
             };
-            data.courseid = courseId;
 
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
@@ -162,7 +158,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             }
 
                             if (!sections.modules[index2].webOnly) {
-                                if (c.contents) {
+                                if (c.contents && c.contents[0]) {
                                     var extension = MM.util.getFileExtension(c.contents[0].filename);
 
                                     if (c.contents.length == 1 || (content.modname == "resource" && extension != "html" && extension != "htm")) {
