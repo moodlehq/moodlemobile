@@ -132,7 +132,7 @@ define(templates, function (assignTpl, submissionsTpl) {
                         "sectionName": sectionName,
                         "activityLink": MM.config.current_site.siteurl + '/mod/assign/view.php?id=' + assign.cmid,
                         "submissions": [],
-                        "users": []
+                        "users": {}
                     };
 
                     // Check if we can view submissions, with enought permissions.
@@ -168,6 +168,13 @@ define(templates, function (assignTpl, submissionsTpl) {
                         // In this case, we would need additional information (like pre-fetching the course participants).
                         MM.plugins.participants._loadParticipants(assign.course, 0, 0,
                             function(users) {
+
+                                // Recover the users who has made submissions, we need to retrieve the full information later.
+                                var userIds = [];
+                                data.submissions.forEach(function(sub) {
+                                    userIds.push(sub.userid);
+                                });
+
                                 // Save the users in the users table. We are going to need the user names.
                                 var newUser;
                                 users.forEach(function(user) {
@@ -178,9 +185,10 @@ define(templates, function (assignTpl, submissionsTpl) {
                                         'profileimageurl': user.profileimageurl
                                     };
                                     MM.db.insert('users', newUser);
+                                    if (userIds.indexOf(user.id) > -1) {
+                                        data.users[user.id] = newUser;
+                                    }
                                 });
-                                data.users = users;
-
                                 // Render the submissions page.
                                 MM.plugins.assign._renderSubmissionsPage(data, pageTitle);
                             },

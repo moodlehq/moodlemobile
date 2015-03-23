@@ -68,12 +68,14 @@
                     </div>
                 <% } %>
 
+                <div class="date">
                 <% if (assign.duedate) { %>
-                    <div class="date">
                         <span><%= MM.lang.s('duedate') %></span>
                         <time><%= MM.util.timestampToUserDate(assign.duedate) %></time>
-                    </div>
+                <% } else { %>
+                        <%= MM.lang.s('duedateno') %>
                 <% } %>
+                 </div>
 
                 <% if (assign.cutoffdate) { %>
                     <div class="date">
@@ -90,18 +92,21 @@
 
         <% if (canviewsubmissions) { %>
         <% _.each(submissions, function(submission) { %>
+            <% user = {'fullname': 'User with Id' + submission.userid, 'profileimageurl': ''}; %>
+            <% if (typeof users[submission.userid] != 'undefined') { %>
+                <% user = users[submission.userid]; %>
+            <% } %>
             <div class="assign-assign first-assign" data-assignsubmission="<%= submission.submission %>">
                 <div class="header">
-                    <img class="user-picture" src="<%= MM.util.getMoodleFilePath(submission.userpictureurl) %>">
-                    <a class="author-name" href="#participant/<%= assign.course %>/<%= submission.userid %>/1" rel="author"><%= submission.userfullname %></a>
-                    <time><%= MM.util.timestampToUserDate(submission.created) %></time>
+                    <img class="user-picture" src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>">
+                    <a class="author-name" href="#participant/<%= assign.course %>/<%= submission.userid %>/1" rel="author"><%= user.fullname %></a>
+                    <%= submission.status %>
                 </div>
                 <div class="assign-info">
-                    <span>
-                        <img src="img/message.png"><%= submission.numreplies %> <%= MM.lang.s("assignnumreplies") %>
-                    </span>
+                    <time><img src="img/time.png"><%= MM.util.timestampToUserDate(submission.timemodified) %></time>
+                    <p><%= MM.lang.s('attempnumber') %> <%= submission.attemptnumber %></p>
 
-                    <span><img src="img/time.png"><%= MM.util.printTimeAgo(submission.timemodified) %></span>
+                    <a href=""><%= MM.lang.s('viewsubmission') %></a>
 
                 </div>
             </div>
