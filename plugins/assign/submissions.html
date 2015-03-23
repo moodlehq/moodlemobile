@@ -96,17 +96,13 @@
                     <a class="author-name" href="#participant/<%= assign.course %>/<%= submission.userid %>/1" rel="author"><%= submission.userfullname %></a>
                     <time><%= MM.util.timestampToUserDate(submission.created) %></time>
                 </div>
-                <p role="heading" class="subject toogler" data-submissionid="<%= submission.submission %>">
-                    <a href="#assign/submission/<%= assign.course %>/<%= submission.submission %>"><%= MM.util.formatText(submission.subject) %></a>
-                </p>
-                <div class="submission-body"></div>
                 <div class="assign-info">
                     <span>
                         <img src="img/message.png"><%= submission.numreplies %> <%= MM.lang.s("assignnumreplies") %>
                     </span>
-                    <% if (submission.created != submission.timemodified && submission.timemodified > submission.created) { %>
+
                     <span><img src="img/time.png"><%= MM.util.printTimeAgo(submission.timemodified) %></span>
-                    <% } %>
+
                 </div>
             </div>
         <% }); %>

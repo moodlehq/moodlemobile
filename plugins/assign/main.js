@@ -127,12 +127,12 @@ define(templates, function (assignTpl, submissionsTpl) {
                         </div>';
 
 
-                    // var pageTitle = MM.util.formatText(assign.name);
                     var data = {
                         "assign": assign,
                         "sectionName": sectionName,
                         "activityLink": MM.config.current_site.siteurl + '/mod/assign/view.php?id=' + assign.cmid,
-                        "submissions": []
+                        "submissions": [],
+                        "users": []
                     };
 
                     // Check if we can view submissions, with enought permissions.
@@ -143,6 +143,7 @@ define(templates, function (assignTpl, submissionsTpl) {
                         data.submissions = result.assignments[0].submissions;
                     }
 
+                    // Handle attachments.
                     for (var el in assign.introattachments) {
                         var attachment = assign.introattachments[el];
 
@@ -160,23 +161,35 @@ define(templates, function (assignTpl, submissionsTpl) {
                         }
                     }
 
-                    MM.plugins.assign.submissionsCache = data.submissions;
+                    // Render the page if the user is likely an student.
+                    if (! data.canviewsubmissions) {
+                        MM.plugins.assign._renderSubmissionsPage(data, pageTitle);
+                    } else {
+                        // In this case, we would need additional information (like pre-fetching the course participants).
+                        MM.plugins.participants._loadParticipants(assign.course, 0, 0,
+                            function(users) {
+                                // Save the users in the users table. We are going to need the user names.
+                                var newUser;
+                                users.forEach(function(user) {
+                                    newUser = {
+                                        'id': MM.config.current_site.id + '-' + user.id,
+                                        'userid': user.id,
+                                        'fullname': user.fullname,
+                                        'profileimageurl': user.profileimageurl
+                                    };
+                                    MM.db.insert('users', newUser);
+                                });
+                                data.users = users;
 
-                    var html = MM.tpl.render(MM.plugins.assign.templates.submissions.html, data);
-                    MM.panels.show("right", html, {title: pageTitle});
-
-                    // Intro files downloads.
-                    $(".assign-download", "#panel-right").on(MM.clickType, function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        var url = $(this).data("downloadurl");
-                        var filename = $(this).data("filename");
-                        var attachmentId = $(this).data("attachmentid");
-
-                        MM.plugins.assign._downloadFile(url, filename, attachmentId);
-                    });
-
+                                // Render the submissions page.
+                                MM.plugins.assign._renderSubmissionsPage(data, pageTitle);
+                            },
+                            function(m) {
+                                $("#info-" + assign.cmid, "#panel-right").attr("src", "img/info.png");
+                                MM.popErrorMessage(error);
+                            }
+                        );
+                    }
                 },
                 null,
                 function (error) {
@@ -184,6 +197,26 @@ define(templates, function (assignTpl, submissionsTpl) {
                     MM.popErrorMessage(error);
                 }
             );
+        },
+
+        _renderSubmissionsPage: function(data, pageTitle) {
+
+            MM.plugins.assign.submissionsCache = data.submissions;
+
+            var html = MM.tpl.render(MM.plugins.assign.templates.submissions.html, data);
+            MM.panels.show("right", html, {title: pageTitle});
+
+            // Handle intro files downloads.
+            $(".assign-download", "#panel-right").on(MM.clickType, function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var url = $(this).data("downloadurl");
+                var filename = $(this).data("filename");
+                var attachmentId = $(this).data("attachmentid");
+
+                MM.plugins.assign._downloadFile(url, filename, attachmentId);
+            });
         },
 
         _downloadFile: function(url, filename, attachmentId) {
