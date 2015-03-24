@@ -34,7 +34,17 @@
                             "name": "File submissions",
                             "fileareas": [
                                 {
-                                    "area": "submission_files"
+                                    "area": "submission_files",
+                                    "files": [
+                                        {
+                                            "filepath": "APDFfile.pdf",
+                                            "fileurl": "http://localhost/m/stable_master/webservice/pluginfile.php/247/assignsubmission_file/submission_files/12/somefile.pdf"
+                                        },
+                                        {
+                                            "filepath": "anotherfile.docx",
+                                            "fileurl": "http://localhost/m/stable_master/webservice/pluginfile.php/247/assignsubmission_file/submission_files/12/somefile.pdf"
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -81,7 +91,13 @@
                             "name": "File submissions",
                             "fileareas": [
                                 {
-                                    "area": "submission_files"
+                                    "area": "submission_files",
+                                    "files": [
+                                        {
+                                            "filepath": "somefile.pdf",
+                                            "fileurl": "http://localhost/m/stable_master/webservice/pluginfile.php/247/assignsubmission_file/submission_files/12/somefile.pdf"
+                                        }
+                                    ]
                                 }
                             ]
                         },

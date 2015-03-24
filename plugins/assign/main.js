@@ -225,6 +225,23 @@ define(templates, function (assignTpl, submissionsTpl) {
 
                 MM.plugins.assign._downloadFile(url, filename, attachmentId);
             });
+
+            // View submission texts.
+            $(".submissiontext", "#panel-right").on(MM.clickType, function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var submissionid = $(this).data("submissionid");
+                var submission = {};
+                data.submissions.forEach(function(s) {
+                    if (s.id == submissionid) {
+                        submission = s;
+                    }
+                })
+                var text = MM.plugins.assign._getSubmissionText(submission);
+                MM.widgets.renderIframeModalContents(pageTitle, text);
+
+            });
         },
 
         _getSubmissionText: function(submission) {
@@ -243,13 +260,14 @@ define(templates, function (assignTpl, submissionsTpl) {
             var files = [];
             if (submission.plugins) {
                 submission.plugins.forEach(function(plugin) {
-                    if (plugin.type == 'file' && plugin.fileareas) {
+                    if (plugin.type == 'file' && plugin.fileareas && plugin.fileareas[0] && plugin.fileareas[0].files) {
                         files = plugin.fileareas[0].files;
                     }
                 });
             }
             // Find local path of files.
             if (files.length > 0) {
+                console.log(files);
                 for (var el in files) {
                     var file = files[el];
 
@@ -261,7 +279,7 @@ define(templates, function (assignTpl, submissionsTpl) {
                         files[el].localpath = path.get("localpath");
                     }
 
-                    var extension = MM.util.getFileExtension(file.filename);
+                    var extension = MM.util.getFileExtension(file.filepath);
                     if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
                         files[el].icon = MM.plugins.contents.templates.mimetypes[extension]["icon"] + "-64.png";
                     }

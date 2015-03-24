@@ -191,7 +191,7 @@
                             "value": "0"
                         }
                     ],
-                    "intro": "<p>lecture</p>",
+                    "intro": "<p>lecture description here</p>",
                     "introformat": 1
                 },
                 {
@@ -302,7 +302,7 @@
                             "value": "0"
                         }
                     ],
-                    "intro": "<p>Assignment: Requirements for night in the Alps<br></p>",
+                    "intro": "<p>Assignment description here<br></p>",
                     "introformat": 1,
                     "introattachments": [
                         {
