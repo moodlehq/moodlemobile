@@ -231,8 +231,8 @@ define(templates, function (assignTpl, submissionsTpl) {
             var text = '';
             if (submission.plugins) {
                 submission.plugins.forEach(function(plugin) {
-                    if (plugin.type == 'onlinetext') {
-                        return plugin.editorfields.text;
+                    if (plugin.type == 'onlinetext' && plugin.editorfields) {
+                        text = plugin.editorfields[0].text;
                     }
                 });
             }
@@ -243,10 +243,29 @@ define(templates, function (assignTpl, submissionsTpl) {
             var files = [];
             if (submission.plugins) {
                 submission.plugins.forEach(function(plugin) {
-                    if (plugin.type == 'file') {
-                        return plugin.fileareas.files;
+                    if (plugin.type == 'file' && plugin.fileareas) {
+                        files = plugin.fileareas[0].files;
                     }
                 });
+            }
+            // Find local path of files.
+            if (files.length > 0) {
+                for (var el in files) {
+                    var file = files[el];
+
+                    files[el].id = submission.id + el;
+
+                    var uniqueId = MM.config.current_site.id + "-" + hex_md5(file.fileurl);
+                    var path = MM.db.get("assign_files", uniqueId);
+                    if (path) {
+                        files[el].localpath = path.get("localpath");
+                    }
+
+                    var extension = MM.util.getFileExtension(file.filename);
+                    if (typeof(MM.plugins.contents.templates.mimetypes[extension]) != "undefined") {
+                        files[el].icon = MM.plugins.contents.templates.mimetypes[extension]["icon"] + "-64.png";
+                    }
+                }
             }
             return files;
         },
