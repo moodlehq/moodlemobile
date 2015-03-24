@@ -227,6 +227,30 @@ define(templates, function (assignTpl, submissionsTpl) {
             });
         },
 
+        _getSubmissionText: function(submission) {
+            var text = '';
+            if (submission.plugins) {
+                submission.plugins.forEach(function(plugin) {
+                    if (plugin.type == 'onlinetext') {
+                        return plugin.editorfields.text;
+                    }
+                });
+            }
+            return text;
+        },
+
+        _getSubmissionFiles: function(submission) {
+            var files = [];
+            if (submission.plugins) {
+                submission.plugins.forEach(function(plugin) {
+                    if (plugin.type == 'file') {
+                        return plugin.fileareas.files;
+                    }
+                });
+            }
+            return files;
+        },
+
         _downloadFile: function(url, filename, attachmentId) {
             // Add the token.
             var downloadURL = MM.fixPluginfile(url);
