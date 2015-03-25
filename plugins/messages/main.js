@@ -1053,7 +1053,7 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
 
                                 if (messages.length > 0) {
                                     var d = new Date(messages[0].timecreated * 1000);
-                                    var previousDate = d.toLocaleDateString(MM.lang.current, {year: 'numeric', month:'long', day: '2-digit'});
+                                    var previousDate = MM.util.toLocaleDateString(d, MM.lang.current, {year: 'numeric', month:'long', day: '2-digit'});
 
                                     var html = MM.plugins.messages._renderConversationArea(messages, userId, previousDate);
                                     // Double check we are in the correct conversation window.

@@ -1,7 +1,7 @@
                 <% _.each(messages, function(m) { %>
                 <% if (m.smallmessage != "") { %>
                 <% var d = new Date(m.timecreated * 1000); %>
-                <% var date = d.toLocaleDateString(MM.lang.current, {year: 'numeric', month:'long', day: '2-digit'}); %>
+                <% var date = MM.util.toLocaleDateString(d, MM.lang.current, {year: 'numeric', month:'long', day: '2-digit'}); %>
 
                 <% if (date != previousDate) { %>
                 <div class="datestamp"><span><%= date %></span></div>
@@ -14,7 +14,7 @@
                 <% } else { %>
                 <div data-messageid="<%= messageId %>" class="bubble bubble-alt">
                 <% } %>
-                <% var hour = d.toLocaleTimeString(MM.lang.current, {hour: '2-digit', minute:'2-digit'}); %>
+                <% var hour = MM.util.toLocaleTimeString(d, MM.lang.current, {hour: '2-digit', minute:'2-digit'}); %>
                 <%= MM.util.formatText(m.smallmessage, true) %><span class="time"><%= hour %>
                 <span class="app-ico tick-green"><img width="10" src="img/received.png"></span>
                 </span>

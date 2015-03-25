@@ -62,12 +62,12 @@ define(templates, function (eventsTpl, eventTpl) {
 
                 d = new Date(event.timestart * 1000);
                 event.startdate = d.toLocaleDateString();
-                event.starttime = d.toLocaleTimeString(MM.lang.current, {hour: '2-digit', minute:'2-digit'});
+                event.starttime = MM.util.toLocaleTimeString(d, MM.lang.current, {hour: '2-digit', minute:'2-digit'});
 
                 if (event.timeduration) {
                     d = new Date((event.timestart + event.timeduration) * 1000);
                     event.enddate = d.toLocaleDateString();
-                    event.endtime = d.toLocaleTimeString(MM.lang.current, {hour: '2-digit', minute:'2-digit'});
+                    event.endtime = MM.util.toLocaleTimeString(d, MM.lang.current, {hour: '2-digit', minute:'2-digit'});
                 } else {
                     event.enddate = 0;
                     event.endtime = 0;
