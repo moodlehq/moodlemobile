@@ -950,6 +950,86 @@ hr {
 .path-mod-forum.forum-discussion .indent {
   border-top: 15px solid #eee;
 }
+.path-mod-assign .intro {
+  padding: 10px;
+  margin-left: 4px;
+}
+.path-mod-assign .info {
+  padding: 10px 10px 10px 0;
+  border-top: 1px solid #eee;
+  margin-left: 14px;
+}
+.path-mod-assign .info p {
+  display: table-row;
+}
+.path-mod-assign .info span {
+  display: table-cell;
+  padding-right: 20px;
+  text-align: right;
+}
+.path-mod-assign .info time {
+  font-size: .9375rem;
+  display: table-cell;
+}
+.path-mod-assign .post {
+  padding-top: 10px;
+  border-bottom: 15px solid #eee;
+}
+.path-mod-assign .header {
+  line-height: 20px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+.path-mod-assign .user-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.path-mod-assign .author-name {
+  display: block;
+}
+.path-mod-assign time {
+  font-size: .75rem;
+  color: #888;
+  display: inline;
+}
+.path-mod-assign .status {
+  float: right;
+}
+.path-mod-assign .content {
+  padding: 0 10px 10px;
+  margin-left: 50px;
+  clear: right;
+  border-top: 1px solid #eee;
+}
+.path-mod-assign .content p {
+  padding-top: 10px;
+}
+.path-mod-assign .attachments .attachment {
+  padding-top: 10px;
+}
+.path-mod-assign .attachments .content-name a {
+  padding: 0;
+  line-height: 20px;
+  margin-top: 2px;
+  color: #666666;
+}
+.path-mod-assign .attachments .content-actions {
+  width: 40px;
+  padding: 0;
+}
+.path-mod-assign .paging-bar {
+  padding: 6px 10px;
+}
+.path-mod-assign .paging-bar a,
+.path-mod-assign .paging-bar .current {
+  display: inline-block;
+  padding: 2px 6px;
+  margin: 4px;
+}
 .content-index .back-row {
   padding-top: 10px;
   padding-bottom: 10px;
