@@ -14,7 +14,7 @@
 
 <div class="content-index">
     <div class="path-mod-assign">
-        <div class="assign media">
+        <div class="assign">
             <div class="intro">
                 <% if (assign.intro) { %>
                 <%= MM.util.formatText(assign.intro) %>
@@ -59,29 +59,29 @@
 
             </div>
 
-            <div class="assign-info">
+            <div class="info">
 
                 <% if (assign.allowsubmissionsfromdate) { %>
-                    <div class="date">
+                    <p>
                         <span><%= MM.lang.s('allowsubmissionsfromdate') %></span>
                         <time><%= MM.util.timestampToUserDate(assign.allowsubmissionsfromdate) %></time>
-                    </div>
+                    </p>
                 <% } %>
 
-                <div class="date">
+                <p>
                 <% if (assign.duedate) { %>
                         <span><%= MM.lang.s('duedate') %></span>
                         <time><%= MM.util.timestampToUserDate(assign.duedate) %></time>
                 <% } else { %>
                         <%= MM.lang.s('duedateno') %>
                 <% } %>
-                 </div>
+                </p>
 
                 <% if (assign.cutoffdate) { %>
-                    <div class="date">
+                    <p>
                         <span><%= MM.lang.s('cutoffdate') %></span>
                         <time><%= MM.util.timestampToUserDate(assign.cutoffdate) %></time>
-                    </div>
+                    </p>
                 <% } %>
 
                 <% if (canviewsubmissions && (!submissions || submissions.length == 0)) { %>
@@ -97,33 +97,33 @@
             <% if (typeof users[submission.userid] != 'undefined') { %>
                 <% user = users[submission.userid]; %>
             <% } %>
-            <div class="assign-assign first-assign" data-assignsubmission="<%= submission.submission %>">
+            <div class="post" data-assignsubmission="<%= submission.submission %>">
                 <div class="header">
                     <img class="user-picture" src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>">
                     <a class="author-name" href="#participant/<%= assign.course %>/<%= submission.userid %>/1" rel="author"><%= user.fullname %></a>
-                    <%= submission.status %>
+                    <time><%= MM.util.timestampToUserDate(submission.timemodified) %></time>
+                    <span class="status"><%= submission.status %></span>
                 </div>
-                <div class="assign-info">
-                    <time><img src="img/time.png"><%= MM.util.timestampToUserDate(submission.timemodified) %></time>
+                <div class="content">
                     <p><%= MM.lang.s('attempnumber') %> <%= submission.attemptnumber %></p>
 
                     <% var text = MM.plugins.assign._getSubmissionText(submission); %>
                     <% var files = MM.plugins.assign._getSubmissionFiles(submission); %>
 
                     <% if (text != '') { %>
-                        <a href="#" class="submissiontext" data-submissionid="<%= submission.id %>"><%= MM.lang.s('viewsubmission') %></a>
+                        <p><a href="#" class="submissiontext" data-submissionid="<%= submission.id %>"><%= MM.lang.s('viewsubmission') %></a></p>
                     <% } %>
 
                     <% if (files.length > 0) { %>
 
-                        <div class="files">
+                        <div class="attachments">
                             <% _.each(files, function(file) { %>
                             <% if (file.localpath) { %>
                                 <% var dImg = "reloadgrey"; %>
                                 <% } else { %>
                                 <% var dImg = "download"; %>
                             <% } %>
-                            <div class="file media">
+                            <div class="attachment media">
                                 <div class="content-actions app-icon">
                                     <img id="downimg-<%= file.id %>" src="img/<%= dImg %>.png" class="assign-download" data-downloadurl="<%= file.fileurl %>" data-filename="<%= file.filepath %>" data-attachmentid="<%= file.id %>">
                                 </div>
