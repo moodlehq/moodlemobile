@@ -3,8 +3,8 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.moodle.moodlemobile"
-        versionCode = "386"
-        version   = "1.12">
+        versionCode = "387"
+        version   = "1.13">
     <name>Moodle Mobile</name>
 
     <description>
@@ -16,7 +16,7 @@
     </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-        <string>1.12</string>
+        <string>1.13</string>
     </gap:config-file>
 
     <preference name="phonegap-version" value="3.6.3" />
@@ -95,7 +95,7 @@
     <gap:plugin name="ch.ti8m.documenthandler" version="0.2.1" />
 
     <gap:config-file platform="android" parent="/manifest">
-         <application android:debuggable="true" />
+         <application android:debuggable="false" />
     </gap:config-file>
 
     <!-- See MOBILE-892 -->
