@@ -8,7 +8,7 @@
 "plugins" : ["notifications", "upload", "events", "myfiles", "contents", "participants", "grades","addcontact", "addnote", "sendmessage"],
 "wsservice" : "moodle_mobile_app",
 "wsextservice" : "local_mobile",
-"presets" : {"url": "http://campus.ifaaonline.com", "username": ""},
+"presets" : {"url": "", "username": ""},
 "sync_ws_on" : true,
 "sync_lang_on" : true,
 "sync_css_on" : true,
