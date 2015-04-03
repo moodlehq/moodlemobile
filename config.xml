@@ -2,17 +2,17 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
-        id        = "com.moodle.moodlemobile"
-        versionCode = "378"
-        version   = "1.6">
-    <name>Moodle Mobile</name>
+        id        = "com.ifaaonline.campus"
+        versionCode = "1"
+        version   = "1.0">
+    <name>Ifaa Campus</name>
 
     <description>
-        Moodle Mobile official app
+        International Fine Art Academy Online Campus
     </description>
 
-    <author href="http://moodle.com" email="juan@moodle.com">
-        Juan Leyva
+    <author href="http://ifaaonline.com" email="mail@ifaaonline.com">
+        Tech Team
     </author>
 
     <feature name="http://api.phonegap.com/1.0/device" />
@@ -26,7 +26,7 @@
     <feature name="http://api.phonegap.com/1.0/media"/>
     <feature name="http://api.phonegap.com/1.0/file"/>
 
-    <preference name="phonegap-version" value="3.4.0" />
+    <preference name="phonegap-version" value="3.7.0" />
     <preference name="orientation"      value="default" />
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
@@ -84,7 +84,7 @@
     <gap:plugin name="com.phonegap.plugins.pushplugin" />
     <gap:plugin name="net.tunts.webintent" />
     <gap:plugin name="nl.x-services.plugins.launchmyapp">
-        <param name="URL_SCHEME" value="moodlemobile" />
+        <param name="URL_SCHEME" value="campus" />
     </gap:plugin>
 
     <access origin="*" />

@@ -1,14 +1,14 @@
 {
-"app_id" : "com.moodle.moodlemobile",
-"versioncode" : "378",
-"versionname" : "1.6",
+"app_id" : “com.ifaaonline.campus”,
+"versioncode" : “1”,
+"versionname" : “1.0”,
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
 "languages": {"ar": "عربي", "ca": "Català", "cs": "Čeština", "de": "Deutsch","en": "English", "es": "Español", "es_mx": "Español - México", "eu": "Euskara", "fr" : "Français", "it": "Italiano", "hu": "magyar", "nl": "Nederlands", "sv": "Svenska", "zh_tw" : "正體中文"},
 "plugins" : ["notifications", "upload", "events", "myfiles", "contents", "participants", "grades","addcontact", "addnote", "sendmessage"],
 "wsservice" : "moodle_mobile_app",
 "wsextservice" : "local_mobile",
-"presets" : {"url": "", "username": ""},
+"presets" : {"url": "http://campus.ifaaonline.com", "username": ""},
 "sync_ws_on" : true,
 "sync_lang_on" : true,
 "sync_css_on" : true,
@@ -19,8 +19,7 @@
 "log_length" : 100,
 "dev_debug": false,
 "extra_js": [],
-"demo_sites": [{"key": "student", "url": "http://school.demo.moodle.net", "username": "student", "password": "moodle"}, {"key": "teacher", "url": "http://school.demo.moodle.net", "username": "teacher", "password": "moodle"}, {"key": "cva", "url": "http://mm.cvaconsulting.com/moodle", "username": "student", "password": "student"}],
 "notifications_enabled": true,
 "gcmpn": "694767596569",
-"reportbugmail": "mobile@moodle.com"
+"reportbugmail": “mail@ifaaonline.com”
 }
