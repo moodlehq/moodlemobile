@@ -26,7 +26,7 @@
     <feature name="http://api.phonegap.com/1.0/media"/>
     <feature name="http://api.phonegap.com/1.0/file"/>
 
-    <preference name="phonegap-version" value="3.7.0" />
+    <preference name="phonegap-version" value="3.4.0" />
     <preference name="orientation"      value="default" />
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
