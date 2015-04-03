@@ -1,0 +1,67 @@
+<div class="back-row">
+    <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+</div>
+
+<div class="content-index">
+    <h2><%= sectionName %></h2>
+    <div class="path-mod-forum">
+        <div class="forum media">
+            <div class="content-name">
+                <div class="img app-ico">
+                    <img src="img/mod/forum.png" alt="img">
+                </div>
+                <div class="bd">
+                    <p><%= MM.util.formatText(forum.name) %></p>
+                </div>
+            </div>
+
+            <div class="intro">
+                <%= MM.util.formatText(forum.intro) %>
+            </div>
+
+            <div class="post-info">
+                <span><img src="img/discussion.png"><%= forum.numdiscussions %> <%= MM.lang.s("discussions") %></span>
+
+                <% if (!discussions || discussions.length == 0) { %>
+                    <div class="forum-empty">
+                        <%= MM.lang.s("forumnodiscussionsyet") %>
+                    </div>
+                <% } else { %>
+
+                <% if (MM.util.WebWorkersSupported()) { %>
+                <span>
+                    <label>
+                        <input type="checkbox" name="keepsynch" id="keepsynch" data-cmid="<%= forum.cmid %>" data-forumid="<%= forum.id %>" <%= syncStatus %>><%= MM.lang.s("keepsynchronising") %>
+                    </label>
+                </span>
+                <% } %>
+            </div>
+        </div>
+
+        <% _.each(discussions, function(discussion) { %>
+            <div class="forum-post first-post" data-postdiscussion="<%= discussion.discussion %>">
+                <div class="header">
+                    <img class="user-picture" src="<%= MM.util.getMoodleFilePath(discussion.userpictureurl) %>">
+                    <a class="author-name" href="#participant/<%= forum.course %>/<%= discussion.userid %>/1" rel="author"><%= discussion.userfullname %></a>
+                    <time><%= MM.util.timestampToUserDate(discussion.created) %></time>
+                </div>
+                <p role="heading" class="subject toogler" data-discussionid="<%= discussion.discussion %>">
+                    <%= MM.util.formatText(discussion.subject) %>
+                </p>
+                <div class="discussion-body"></div>
+                <div class="post-info">
+                    <span>
+                        <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
+                    </span>
+                    <% if (discussion.created != discussion.timemodified && discussion.timemodified > discussion.created) { %>
+                    <span><img src="img/time.png"><%= MM.util.printTimeAgo(discussion.timemodified) %></span>
+                    <% } %>
+                </div>
+            </div>
+        <% }); %>
+
+        <%= MM.util.pagingBar(forum.numdiscussions, page, perpage, "#forum/view/" + forum.course + "/" + forum.cmid + "/:page", ":page") %>
+
+        <% } %>
+    </div>
+</div>

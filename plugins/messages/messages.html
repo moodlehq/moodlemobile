@@ -1,0 +1,25 @@
+<% if (messages.length > 0) { %>
+<div class="panel-container">
+    <div class="messages">
+    <% _.each(messages, function(message) {%>
+    <div class="message">
+        <p class="name"><%= message.userfromfullname %> <span class="time"><%= MM.util.timestampToUserDate(message.timecreated) %></span></p>
+        <% if (message.notification) { %>
+        <p class="content"><%= MM.plugins.messages._format(message.fullmessage) %></p>
+        <% } else { %>
+        <p class="content"><%= MM.plugins.messages._format(message.smallmessage) %></p>
+        <div class="actions">
+            <% if (message.useridfrom) { %>
+                <a class="reply-button" data-useridfrom="<%= message.useridfrom %>">Reply</a>
+            <% } else { %>
+                &nbsp;
+            <% } %>
+        </div>
+        <% } %>
+    </div>
+    <% }); %>
+</div>
+</div>
+<% } else { %>
+    <h3><strong><%= MM.lang.s("therearentmessagesyet") %></strong></h3>
+<% } %>

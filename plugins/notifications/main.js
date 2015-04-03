@@ -32,6 +32,8 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             ["notifications/view/:id", "notifications_view", "viewNotification"]
         ],
 
+        wsPrefix: "",
+
         /**
          * Determines is the plugin is visible.
          * It may check Moodle remote site version, device OS, device type, etc...
@@ -43,7 +45,16 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             // The plugin is visible either if is available the remote service for pulling notifications or
             // the platform support Push notifications.
 
-            var visible = MM.util.wsAvailable('local_mobile_core_message_get_messages');
+            var visible = false;
+
+            if (MM.util.wsAvailable('local_mobile_core_message_get_messages')) {
+                MM.plugins.notifications.wsPrefix = "local_mobile_";
+                visible = true;
+            }
+
+            if (MM.util.wsAvailable('core_message_get_messages')) {
+                visible = true;
+            }
 
             visible =       visible ||
                             ((MM.deviceOS == "ios" || MM.deviceOS == "android") &&
@@ -212,7 +223,9 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
             MM.Router.navigate('');
 
             // We display the notifications in different ways depending if the notifications are Push or via the WS.
-            if (MM.util.wsAvailable('local_mobile_core_message_get_messages')) {
+            if (MM.util.wsAvailable('local_mobile_core_message_get_messages') ||
+                    MM.util.wsAvailable('core_message_get_messages')) {
+
                 $('a[href="#notifications"]').addClass('loading-row');
 
                 var limit = 50;
@@ -220,7 +233,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 var params = {
                     useridto: MM.config.current_site.userid,
                     useridfrom: 0,
-                    type: 'both',
+                    type: 'notifications',
                     read: 0,
                     newestfirst: 1,
                     limitfrom: 0,
@@ -228,7 +241,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 };
 
                 MM.moodleWSCall(
-                    'local_mobile_core_message_get_messages',
+                    MM.plugins.notifications.wsPrefix + 'core_message_get_messages',
                     params,
                     function(notifications) {
                         if (notifications.messages) {
@@ -238,7 +251,7 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                                 params.limitnum = limit - notifications.messages.length;
                                 params.read = 1;
                                 MM.moodleWSCall(
-                                    'local_mobile_core_message_get_messages',
+                                    MM.plugins.notifications.wsPrefix + 'core_message_get_messages',
                                     params,
                                     function(morenotifications) {
                                         $('a[href="#notifications"]').removeClass('loading-row');
@@ -541,6 +554,11 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
 
                 case 'message':
                     MM.log("Push notification message received", "Notifications");
+                    try {
+                        MM.log(JSON.stringify(e), "Notifications");
+                    } catch(err) {
+                        MM.log("Error decoding content", "Notifications");
+                    }
 
                     var notificationSiteId = 0;
 
@@ -582,6 +600,35 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                         notification: e.payload
                     });
 
+                    // Show the notification.
+                    if (typeof e.foreground != "undefined" &&
+                            (e.foreground === false ||
+                            e.foreground === "0" ||
+                            e.foreground === 0)) {
+
+                        setTimeout(function() {
+                            if (notificationSiteId &&
+                                typeof MM.config.current_site != "undefined" &&
+                                typeof MM.config.current_site.id != "undefined" &&
+                                MM.config.current_site.id == notificationSiteId) {
+
+                                if (typeof e.payload.notif != "undefined") {
+                                    if (e.payload.notif === "1" ||
+                                        e.payload.notif === 1 ||
+                                        e.payload.notif === true) {
+
+                                        location.href = "#notifications";
+                                    } else {
+                                        location.href = "#messages";
+                                    }
+
+                                } else {
+                                    location.href = "#notifications";
+                                }
+                            }
+                        }, 2000);
+                    }
+
                     break;
 
                 case 'error':
@@ -609,6 +656,11 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
         APNSsaveAndDisplay: function(event) {
 
             MM.log("Push notification received", "Notifications");
+            try {
+                MM.log(JSON.stringify(event), "Notifications");
+            } catch(err) {
+                MM.log("Error decoding content", "Notifications");
+            }
 
             var notificationSiteId = 0;
 
@@ -652,6 +704,52 @@ define(requires, function (notifsTpl, notifTpl, notifsEnableTpl, notifAlert, not
                 notification: event
             });
 
+            // Show the notification.
+            if (typeof event.foreground != "undefined" &&
+                    (event.foreground === false ||
+                    event.foreground === "0" ||
+                    event.foreground === 0)) {
+
+                setTimeout(function() {
+                    if (notificationSiteId &&
+                        typeof MM.config.current_site != "undefined" &&
+                        typeof MM.config.current_site.id != "undefined" &&
+                        MM.config.current_site.id == notificationSiteId) {
+
+                        if (typeof event.notif != "undefined") {
+                            if (event.notif === "1" ||
+                                event.notif === 1 ||
+                                event.notif === true) {
+
+                                location.href = "#notifications";
+                            } else {
+                                location.href = "#messages";
+                            }
+
+                        } else {
+                            location.href = "#notifications";
+                        }
+                    }
+                }, 2000);
+            }
+        },
+
+        _getActionLinks: function(notification) {
+            if (notification.contexturl && notification.contexturl.indexOf("/mod/forum/") &&
+                MM.plugins.forum &&
+                MM.plugins.forum.isPluginVisible()) {
+
+                var url = notification.contexturl;
+                // Discussion Id.
+                var d = url.match(/discuss\.php\?d=([^#]*)/);
+                // Course Id.
+                var c = notification.fullmessagehtml.match(/course\/view\.php\?id=([^"]*)/);
+
+                if (d && typeof d[1] != "undefined" && c && typeof c[1] != "undefined") {
+                    return '<a href="#forum/discussion/' + c[1] + '/' + d[1] +'">' + MM.lang.s("view") + '</a>';
+                }
+            }
+            return "";
         }
     };
 

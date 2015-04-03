@@ -1,16 +1,32 @@
 <% if (notifications.length > 0) { %>
 <div class="panel-container">
     <div class="notifications">
+    <% var notifText; %>
     <% _.each(notifications, function(notification) {%>
     <div class="notification">
         <p class="name"><%= notification.userfromfullname %> <span class="time"><%= MM.util.timestampToUserDate(notification.timecreated) %></span></p>
-        <% if (notifications.notification) { %>
-        <p class="message"><%= MM.plugins.notifications._format(notification.fullmessage) %></p>
-        <% } else { %>
-        <p class="message"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>
+        <% if (notification.notification) { %>
+            <% if (notification.contexturl && notification.contexturl.indexOf("/mod/forum/")) { %>
+                <% notifText = MM.plugins.notifications._format(notification.smallmessage); %>
+            <% } else { %>
+                <% notifText = MM.plugins.notifications._format(notification.fullmessage); %>
+            <% } %>
+        <p class="content">
+            <%= notifText %>
+        </p>
         <div class="actions">
-            <a class="reply-button" data-useridfrom="<%= notification.useridfrom %>">Reply</a>
+            &nbsp;
+            <%= MM.plugins.notifications._getActionLinks(notification) %>
         </div>
+        <% } else { %>
+        <p class="content"><%= MM.plugins.notifications._format(notification.smallmessage) %></p>
+
+        <div class="actions">
+            <% if (notification.useridfrom) { %>
+            <a class="reply-button" data-useridfrom="<%= notification.useridfrom %>">Reply</a>
+            <% } %>
+        </div>
+
         <% } %>
     </div>
     <% }); %>

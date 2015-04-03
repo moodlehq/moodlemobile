@@ -498,7 +498,6 @@ hr {
   background-repeat: no-repeat;
   background-position: center center;
   border: 0;
-  background-size: 24px;
 }
 .header-main .nav-main .nav-item > a {
   padding: 0;
@@ -513,10 +512,10 @@ hr {
   letter-spacing: .5px;
 }
 .menu-home {
-  background-image: url(../img/header-home.png);
+  background-image: url(../img/ico-menu.png);
 }
 .menu-back {
-  background-image: url(../img/menu-back.png);
+  background-image: url(../img/ico-back.png);
 }
 /* - Common on three panels
 -------------------------------------------------------------------------- */
@@ -579,6 +578,10 @@ hr {
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   letter-spacing: .5px;
 }
+.user-menu .nav-item > a.collapse {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
 .user-menu .nav-item .plugin-ico,
 .user-menu .nav-item .course-ico {
   float: left;
@@ -602,30 +605,20 @@ hr {
 .user-menu .no-arrow > a {
   background-image: none;
 }
-.user-menu .section-header {
-  box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.1) inset;
-}
-.user-menu .section-header .plugin-name {
-  color: #ffffff;
-  font-size: .75rem;
-  text-transform: uppercase;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
-  margin-left: 4px;
-}
-.user-menu .submenu {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+.user-menu .submenu .nav-item {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 .user-menu .submenu .nav-item:last-of-type {
   border-bottom: 0;
 }
-.user-menu .submenu .divider {
-  border-bottom: 0;
+.user-menu .submenu .nav-item .collapse {
+  background-color: transparent;
 }
-.user-menu .divider {
-  height: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1) inset;
+.user-menu .submenu .submenu .nav-item {
+  background-color: transparent;
+}
+.user-menu .submenu .submenu .plugin-name {
+  margin-left: 52px;
 }
 .user-menu #general-menu a {
   padding-right: 36px;
@@ -663,10 +656,12 @@ hr {
 .content-index {
   width: 100%;
   position: relative;
-  border-bottom: 1px solid #eee;
 }
 .content-index header {
   padding: 10px;
+}
+.content-index section:last-of-type {
+  border-bottom: 1px solid #eee;
 }
 .content-index p {
   margin: 0;
@@ -696,6 +691,9 @@ hr {
   font-weight: normal;
   margin: 0;
   padding-right: 80px;
+}
+.content-index .content-name.mod-label img {
+  width: auto;
 }
 .content-index .content-name.folder {
   padding: 10px;
@@ -771,6 +769,119 @@ hr {
   display: block;
   padding: 10px;
 }
+.path-mod-forum .forum {
+  border-bottom: 15px solid #eee;
+}
+.path-mod-forum .forum > .content-name {
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
+.path-mod-forum .forum .post-info {
+  margin-left: 32px;
+}
+.path-mod-forum .intro {
+  margin-left: 32px;
+  padding: 0 10px 10px;
+}
+.path-mod-forum .first-post > .subject {
+  font-size: 1rem;
+}
+.path-mod-forum .forum-post {
+  padding-top: 10px;
+  border-bottom: 1px solid #eee;
+}
+.path-mod-forum .forum-post:first-of-type {
+  border-top: 1px solid #eee;
+}
+.path-mod-forum .forum-post:last-child {
+  border-bottom: 0;
+}
+.path-mod-forum .forum-post.first-post {
+  border-bottom: 15px solid #eee;
+}
+.path-mod-forum .header {
+  line-height: 20px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+.path-mod-forum .user-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.path-mod-forum time {
+  font-size: .75rem;
+  color: #888;
+  display: block;
+}
+.path-mod-forum .subject {
+  color: #0088cc;
+  padding: 10px;
+  margin-left: 50px;
+  border-top: 1px solid #eee;
+  overflow: hidden;
+}
+.path-mod-forum .content {
+  padding: 0 10px 10px;
+  margin-left: 50px;
+}
+.path-mod-forum .content ul,
+.path-mod-forum .content ol {
+  margin-left: 20px;
+}
+.path-mod-forum .attachments .attachment {
+  padding-top: 10px;
+}
+.path-mod-forum .attachments .content-name a {
+  padding: 0;
+  line-height: 20px;
+  margin-top: 2px;
+  color: #666666;
+}
+.path-mod-forum .attachments .content-actions {
+  width: 40px;
+  padding: 0;
+}
+.path-mod-forum .post-info {
+  font-size: .75rem;
+  color: #888;
+  text-align: right;
+  padding: 6px 10px;
+  border-top: 1px solid #eee;
+  margin-left: 50px;
+}
+.path-mod-forum .post-info span {
+  display: inline-block;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.path-mod-forum .post-info img {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+.path-mod-forum .post-info input {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+.path-mod-forum .paging-bar {
+  padding: 6px 10px;
+}
+.path-mod-forum .paging-bar a,
+.path-mod-forum .paging-bar .current {
+  display: inline-block;
+  padding: 2px 6px;
+  margin: 4px;
+}
+.path-mod-forum.forum-discussion .first-post {
+  border-top: 15px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.path-mod-forum.forum-discussion .indent {
+  border-top: 15px solid #eee;
+}
 .fullpath {
   width: 100%;
   background-color: #eee;
@@ -782,40 +893,49 @@ hr {
   margin-bottom: 0;
   line-height: 20px;
 }
+.messages,
 .notifications {
   padding: 10px;
 }
+.message,
 .notification {
   padding: 0 10px;
   margin-bottom: 10px;
   background-color: #eee;
 }
+.message:first-of-type,
 .notification:first-of-type {
   border-top: none;
 }
+.message .name,
 .notification .name {
   font-weight: bold;
   line-height: 20px;
   padding: 10px 8px;
   margin-bottom: 0;
 }
+.message .time,
 .notification .time {
   font-size: 12px;
   font-weight: normal;
   display: block;
 }
-.notification .message {
+.message .content,
+.notification .content {
   word-break: break-word;
   padding: 20px;
   margin-bottom: 0;
   background-color: #fff;
 }
-.notification .message a {
+.message .content a,
+.notification .content a {
   color: #0088cc;
 }
+.message .actions,
 .notification .actions {
   text-align: right;
 }
+.message .actions a,
 .notification .actions a {
   cursor: pointer;
   display: inline-block;
@@ -992,6 +1112,13 @@ hr {
 .settings p {
   padding: 10px;
 }
+.settings .device-info p {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin: 4px;
+}
 .sites-list .nav-item > a {
   font-weight: normal;
 }
@@ -1111,6 +1238,9 @@ hr {
   -webkit-border-radius: 10px 10px 0 0;
   -moz-border-radius: 10px 10px 0 0;
   border-radius: 10px 10px 0 0;
+}
+#app-dialog .modalHeader a {
+  color: #FFFFFF;
 }
 #app-dialog .modalContent {
   padding: 20px;
@@ -1301,4 +1431,95 @@ div.jqi button.jqidefaultbutton {
 .tablet .grades .range,
 .tablet .grades .percentage {
   text-align: right;
+}
+/* - User grades table
+-------------------------------------------------------------------------- */
+.user-grade {
+  border-collapse: collapse;
+  line-height: 20px;
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+}
+.user-grade tr {
+  border-bottom: 1px solid #eee;
+}
+.user-grade th,
+.user-grade td {
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  vertical-align: top;
+}
+.user-grade thead th {
+  padding-left: 10px;
+  vertical-align: bottom;
+}
+.user-grade tbody th {
+  font-weight: normal;
+}
+.user-grade th.b1b {
+  padding-left: 20px;
+}
+.user-grade th.item {
+  padding-left: 40px;
+}
+.user-grade th.baggt {
+  padding-left: 40px;
+}
+.user-grade th img {
+  margin-left: -20px;
+  float: left;
+}
+.user-grade .b1l {
+  width: 20px;
+  min-width: 20px;
+}
+.user-grade .b1t,
+.user-grade .baggt {
+  font-weight: bold;
+}
+.user-grade .itemcenter {
+  padding-left: 10px;
+  white-space: nowrap;
+}
+.user-grade .feedbacktext {
+  padding-left: 10px;
+}
+.user-grade .feedbacktext .no-overflow {
+  overflow: auto;
+}
+.user-grade .dimmed_text,
+.user-grade .hidden,
+.user-grade .hidden a {
+  color: #aaa;
+}
+.user-grade .oddd1,
+.user-grade .oddd3,
+.user-grade .evend3 {
+  background-color: #eee;
+}
+.user-grade .oddd1.b1b,
+.user-grade .oddd3.b1b,
+.user-grade .evend3.b1b,
+.user-grade .oddd1.b1l,
+.user-grade .oddd3.b1l,
+.user-grade .evend3.b1l {
+  border-top: 1px solid #fff;
+}
+.user-grade .oddd2,
+.user-grade .evend2,
+.user-grade .oddd4,
+.user-grade .evend4 {
+  background-color: #f9f9f9;
+}
+.user-grade .levelodd {
+  background-color: #eee;
+}
+.user-grade .levelodd.b1b,
+.user-grade .levelodd.b1l {
+  border-top: 1px solid #fff;
+}
+.user-grade .leveleven {
+  background-color: #fff;
 }

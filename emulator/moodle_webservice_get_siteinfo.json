@@ -1,1 +1,93 @@
-{"sitename":"Emulated site","username":"student","firstname":"Andrew","lastname":"Student","fullname":"Andrew Student","lang":"en","userid":3,"siteurl":"emulator/index.html#","userpictureurl":"emulator/userimage.png#","functions":[{"name":"moodle_enrol_get_users_courses","version":"2013051406.02"},{"name":"moodle_enrol_get_enrolled_users","version":"2013051406.02"},{"name":"moodle_user_get_users_by_id","version":"2013051406.02"},{"name":"moodle_webservice_get_siteinfo","version":"2013051406.02"},{"name":"moodle_notes_create_notes","version":"2013051406.02"},{"name":"moodle_user_get_course_participants_by_id","version":"2013051406.02"},{"name":"moodle_user_get_users_by_courseid","version":"2013051406.02"},{"name":"moodle_message_send_instantmessages","version":"2013051406.02"},{"name":"core_course_get_contents","version":"2013051406.02"},{"name":"core_get_component_strings","version":"2013051406.02"},{"name":"local_mobile_core_message_get_messages","version":"2014060200"},{"name":"core_calendar_get_calendar_events","version":"2013051406.02"},{"name":"local_mobile_core_user_add_user_device","version":"2014060200"},{"name":"local_mobile_core_grades_get_grades","version":"2014060200"},{"name":"local_mobile_mod_forum_get_forum_discussions","version":"2014060200"},{"name":"local_mobile_mod_forum_get_forum_discussion_posts","version":"2014060200"},{"name":"mod_forum_get_forums_by_courses","version":"2014060200"},{"name":"local_mobile_core_files_get_files","version":"2014052807"}],"downloadfiles":1,"release":"2.5.6+ (Build: 20140522)","version":"2013051406.02","mobilecssurl":""}
+{
+    "sitename": "Emulated site",
+    "username": "student",
+    "firstname": "Andrew",
+    "lastname": "Student",
+    "fullname": "Andrew Student",
+    "lang": "en",
+    "userid": 3,
+    "siteurl": "emulator/index.html#",
+    "userpictureurl": "emulator/userimage.png#",
+    "functions": [
+        {
+            "name": "moodle_enrol_get_users_courses",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "moodle_enrol_get_enrolled_users",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "moodle_user_get_users_by_id",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "moodle_webservice_get_siteinfo",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "moodle_notes_create_notes",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "moodle_user_get_course_participants_by_id",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "moodle_user_get_users_by_courseid",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "moodle_message_send_instantmessages",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "core_course_get_contents",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "core_get_component_strings",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "local_mobile_core_message_get_messages",
+            "version": "2014060200"
+        },
+        {
+            "name": "core_calendar_get_calendar_events",
+            "version": "2013051406.02"
+        },
+        {
+            "name": "local_mobile_core_user_add_user_device",
+            "version": "2014060200"
+        },
+        {
+            "name": "local_mobile_core_grades_get_grades",
+            "version": "2014060200"
+        },
+        {
+            "name": "local_mobile_mod_forum_get_forum_discussions_paginated",
+            "version": "2014060200"
+        },
+        {
+            "name": "local_mobile_mod_forum_get_forum_discussion_posts",
+            "version": "2014060200"
+        },
+        {
+            "name": "local_mobile_mod_forum_get_forums_by_courses",
+            "version": "2014060200"
+        },
+        {
+            "name": "local_mobile_core_files_get_files",
+            "version": "2014052807"
+        },
+        {
+            "name": "local_mobile_gradereport_user_get_grades_table",
+            "version": "2014052807"
+        }
+    ],
+    "downloadfiles": 1,
+    "release": "2.5.6+ (Build: 20140522)",
+    "version": "2013051406.02",
+    "mobilecssurl": ""
+}

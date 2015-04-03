@@ -16,7 +16,8 @@
             if (typeof(msg) === "string") {
                 var error = msg + "\n\nFile: " + url + "\nLine: " + lineNumber;
                 // Ommit cordova and 3rd party libs errors.
-                if (url.indexOf("cordova.js") == -1 && url.indexOf("externallib") == -1) {
+                if (url.indexOf("cordova.js") == -1 && url.indexOf("externallib") == -1 &&
+                        url.indexOf("org.apache.cordova") == -1) {
                     window.alert(error);
                 }
             } else {
@@ -34,9 +35,6 @@
 
     </script>
     <script src="cordova.js"></script>
-    <script src="childbrowser.js"></script>
-    <script src="webintent.js"></script>
-    <script src="PushNotification.js"></script>
     <script src="externallib/jquery.min.js"></script>
     <script src="externallib/jquery.touchSwipe.min.js"></script>
     <script src="externallib/md5.js"></script>
@@ -220,6 +218,9 @@
     <% }); %>
     <li class="nav-item">
         <a class="toogler expand touch-row section-header">
+            <div class="plugin-ico app-ico">
+                <img src="img/ico-course.png" border="0">
+            </div>
             <div class="plugin-name">
                 <%= MM.lang.s("mycourses") %>
             </div>
@@ -228,9 +229,6 @@
             <% _.each(courses, function(course) { %>
             <li class="nav-item">
                 <a href="#" class="toogler expand touch-row">
-                    <div class="course-ico app-ico">
-                        <img src="img/ico-course.png" border="0">
-                    </div>
                     <div class="plugin-name">
                         <%= course.fullname %>
                     </div>
@@ -253,7 +251,6 @@
                 </ul>
             </li>
             <% }); %>
-            <li class="divider"></li>
         </ul>
     </li>
 </ul>

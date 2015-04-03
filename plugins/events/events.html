@@ -17,9 +17,15 @@
 	<% }); %>
 	</ul>
 
+    <% if (!events.length) { %>
+        <p><%= MM.lang.s("noevents") %></p>
+    <% } %>
+
 	<p><%= MM.lang.s("groupeventsnotdisplayed") %></p>
 
-	<div class="centered">
-	    <button id="events-showmore"><%= MM.lang.s("threemonthsmore") %></button>
-	</div>
+    <% if (events.length) { %>
+    	<div class="centered">
+    	    <button id="events-showmore"><%= MM.lang.s("threemonthsmore") %></button>
+    	</div>
+    <% } %>
 </div>

@@ -16,3 +16,6 @@ http://docs.moodle.org/dev/Moodle_Mobile_Customization#Building
 http://docs.moodle.org/dev/Moodle_Mobile_Building_the_app_for_Android
 http://docs.moodle.org/dev/Moodle_Mobile_Building_the_app_for_iOS
 
+## License
+Apache 2.0 http://www.apache.org/licenses/LICENSE-2.0
+

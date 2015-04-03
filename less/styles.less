@@ -9,6 +9,8 @@
 @menuTextColor:                         #fff;
 @menuTextShadow:                        0px 1px 1px rgba(0, 0, 0, 0.2);
 
+@menuSubmenuBackground:                 rgba(0, 0, 0, 0.05);
+
 @menuSectionHeadingColor:               @menuTextColor;
 @menuSectionHeadingTextShadow:          @menuTextShadow;
 @menuSectionHeadingBackground:          transparent;
@@ -556,7 +558,6 @@ hr {
       background-repeat: no-repeat;
       background-position: center center;
       border: 0;
-      background-size: 24px;
       > a {
         padding: 0;
         width: 40px;
@@ -575,11 +576,11 @@ hr {
 }
 
 .menu-home {
-  background-image: url(../img/header-home.png);
+  background-image: url(../img/ico-menu.png);
 }
 
 .menu-back {
-  background-image: url(../img/menu-back.png);
+  background-image: url(../img/ico-back.png);
 }
 
 /* - Common on three panels
@@ -638,12 +639,16 @@ hr {
     padding-left: 14px;
   }
   .nav-item {
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     > a {
       color: @menuTextColor;
       text-shadow: @menuTextShadow;
       letter-spacing: .5px;
+      &.collapse {
+        background-color: @menuSubmenuBackground;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
     }
     .plugin-ico,
     .course-ico {
@@ -668,30 +673,24 @@ hr {
   .no-arrow > a {
     background-image: none;
   }
-  .section-header {
-    box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.1) inset;
-    .plugin-name {
-      color: @menuSectionHeadingColor;
-      font-size: .75rem;
-      text-transform: uppercase;
-      text-shadow: @menuSectionHeadingTextShadow;
-      margin-left: 4px;
-    }
-  }
   .submenu {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    .nav-item:last-of-type {
-      border-bottom: 0;
+    .nav-item {
+      background-color: @menuSubmenuBackground;
+      &:last-of-type {
+        border-bottom: 0;
+      }
+      .collapse {
+        background-color: transparent;
+      }
     }
-    .divider {
-      border-bottom: 0
+    .submenu {
+      .nav-item {
+        background-color: transparent;
+      }
+      .plugin-name {
+        margin-left: 52px;
+      }
     }
-  }
-  .divider {
-    height: 22px;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: @menuSectionHeadingBoxShadow;
   }
   #general-menu a {
     padding-right: 36px;
@@ -736,9 +735,11 @@ hr {
 .content-index {
   width: 100%;
   position: relative;
-  border-bottom: 1px solid #eee;
   header {
     padding: 10px;
+  }
+  section:last-of-type {
+    border-bottom: 1px solid #eee;
   }
   p {
     margin: 0;
@@ -768,6 +769,9 @@ hr {
         font-weight: normal;
         margin: 0;
         padding-right: 80px;
+      };
+      img {
+        width: auto;
       }
     }
     &.folder {
@@ -855,6 +859,132 @@ hr {
   padding: 10px;
 }
 
+//-----Forum discussions-----
+.path-mod-forum {
+  .forum {
+    border-bottom: 15px solid #eee;
+    > .content-name {
+      padding: 10px;
+      border-top: 1px solid #eee;
+    }
+    .post-info {
+      margin-left: 32px;
+    }
+  }
+  .intro {
+    margin-left: 32px;
+    padding: 0 10px 10px;
+  }
+  .first-post {
+    > .subject {
+      font-size: 1rem;
+    }
+  }
+  .forum-post {
+    padding-top: 10px;
+    border-bottom: 1px solid #eee;
+    &:first-of-type {
+      border-top: 1px solid #eee;
+    }
+    &:last-child {
+      border-bottom: 0;
+    }
+    &.first-post {
+      border-bottom: 15px solid #eee;
+    }
+  }
+  .header {
+    line-height: 20px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+  }
+  .user-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  time {
+    font-size: .75rem;
+    color: #888;
+    display: block;
+  }
+  .subject {
+    color: @linkColor;
+    padding: 10px;
+    margin-left: 50px;
+    border-top: 1px solid #eee;
+    overflow: hidden;
+  }
+  .content {
+    padding: 0 10px 10px;
+    margin-left: 50px;
+    ul,
+    ol {
+      margin-left: 20px;
+    }
+  }
+  .attachments {
+    .attachment {
+      padding-top: 10px;
+    }
+    .content-name {
+      a {
+        padding: 0;
+        line-height: 20px;
+        margin-top: 2px;
+        color: @textColor;
+      }
+    }
+    .content-actions {
+      width: 40px;
+      padding: 0;
+    }
+  }
+  .post-info {
+    font-size: .75rem;
+    color: #888;
+    text-align: right;
+    padding: 6px 10px;
+    border-top: 1px solid #eee;
+    margin-left: 50px;
+    span {
+      display: inline-block;
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+    img {
+      margin-left: 6px;
+      margin-right: 6px;
+    }
+    input {
+      margin-left: 6px;
+      margin-right: 6px;
+    }
+  }
+  .paging-bar {
+    padding: 6px 10px;
+    a,
+    .current {
+      display: inline-block;
+      padding: 2px 6px;
+      margin: 4px;
+    }
+  }
+  &.forum-discussion {
+    .first-post {
+      border-top: 15px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+    .indent {
+      border-top: 15px solid #eee;
+    }
+  }
+}
+
+
 //-----My Files-----
 .fullpath {
   width: 100%;
@@ -868,11 +998,13 @@ hr {
   }
 }
 
-//-----Notifications-----
+//-----Notifications and Messages-----
+.messages,
 .notifications {
   padding: 10px;
 }
 
+.message,
 .notification {
   padding: 0 10px;
   margin-bottom: 10px;
@@ -891,7 +1023,7 @@ hr {
     font-weight: normal;
     display: block;
   }
-  .message {
+  .content {
     word-break: break-word;
     padding: 20px;
     margin-bottom: 0;
@@ -1098,6 +1230,13 @@ hr {
   p {
     padding: 10px;
   }
+  .device-info p {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 4px;
+  }
 }
 
 //-----Sites-----
@@ -1236,6 +1375,9 @@ hr {
     -webkit-border-radius: 10px 10px 0 0;
     -moz-border-radius: 10px 10px 0 0;
     border-radius: 10px 10px 0 0;
+    a {
+      color: #FFFFFF;
+    }
   }
   .modalContent {
     padding: 20px;
@@ -1439,5 +1581,95 @@ div.jqi {
     .percentage {
       text-align: right;
     }
+  }
+}
+
+/* - User grades table
+-------------------------------------------------------------------------- */
+.user-grade {
+  border-collapse: collapse;
+  line-height: 20px;
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+  tr {
+    border-bottom: 1px solid #eee;
+  }
+  th,
+  td {
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    vertical-align: top;
+  }
+  thead th {
+    padding-left: 10px;
+    vertical-align: bottom;
+  }
+  tbody th {
+    font-weight: normal;
+  }
+  th {
+    &.b1b {
+      padding-left: 20px;
+    }
+    &.item {
+      padding-left: 40px;
+    }
+    &.baggt {
+      padding-left: 40px;
+    }
+    img {
+      margin-left: -20px;
+      float: left;
+    }
+  }
+  .b1l {
+    width: 20px;
+    min-width: 20px;
+  }
+  .b1t,
+  .baggt {
+    font-weight: bold;
+  }
+  .itemcenter {
+    padding-left: 10px;
+    white-space: nowrap;
+  }
+  .feedbacktext {
+    padding-left: 10px;
+  }
+  .feedbacktext .no-overflow {
+    overflow:auto;
+  }
+  .dimmed_text,
+  .hidden,
+  .hidden a {
+    color: #aaa;
+  }
+  .oddd1,
+  .oddd3,
+  .evend3 {
+    background-color: #eee;
+    &.b1b,
+    &.b1l {
+      border-top: 1px solid #fff;
+    }
+  }
+  .oddd2,
+  .evend2,
+  .oddd4,
+  .evend4 {
+    background-color: #f9f9f9;
+  }
+  .levelodd {
+    background-color:#eee;
+    &.b1b,
+    &.b1l {
+      border-top: 1px solid #fff;
+    }
+  }
+  .leveleven {
+    background-color: #fff;
   }
 }

@@ -144,6 +144,11 @@ define(function () {
                 error = { code: 0};
             }
 
+            if (typeof error.code == "undefined") {
+                MM.log("Unexpected error trying to record an audio", "Upload");
+                return;
+            }
+
             MM.log('Error trying recording an audio ' + error.code, 'Upload');
             if (error.code != CaptureError.CAPTURE_NO_MEDIA_FILES) {
                 MM.popErrorMessage(MM.lang.s("errorcapturingaudio"));

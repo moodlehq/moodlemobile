@@ -25,6 +25,8 @@ define(templates, function (filesTpl) {
 
         path: [],
 
+        wsPrefix: "",
+
         /**
          * Determines is the plugin is visible.
          * It may check Moodle remote site version, device OS, device type, etc...
@@ -33,7 +35,12 @@ define(templates, function (filesTpl) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
-            return MM.util.wsAvailable('local_mobile_core_files_get_files');
+            if (MM.util.wsAvailable('local_mobile_core_files_get_files')) {
+                MM.plugins.myfiles.wsPrefix = 'local_mobile_';
+                return true;
+            }
+
+            return MM.util.wsAvailable('core_files_get_files');
         },
 
         /**
@@ -108,7 +115,9 @@ define(templates, function (filesTpl) {
             var link = hex_md5(encodeURIComponent(dir));
             $('#' + link, '#panel-center').addClass('loading-row-black');
 
-            MM.moodleWSCall("local_mobile_core_files_get_files",
+            var wsName = MM.plugins.myfiles.wsPrefix + "core_files_get_files";
+
+            MM.moodleWSCall(wsName,
                 params,
                 function(result) {
                     if (typeof result.files == "undefined") {
@@ -181,6 +190,12 @@ define(templates, function (filesTpl) {
 
                         MM.plugins.myfiles._downloadFile(url, filename, linkId);
                     });
+
+                    // Hack, in iPad this page is not rendered well, it needs a refresh doing a DOM change.
+                    setTimeout(function() {
+                        $(".nav.nav-v", "#panel-center").css("display", "block");
+                        $("#panel-center").css("width", "99%");
+                    }, 200);
                 },
                 null,
                 function (error) {
@@ -196,8 +211,7 @@ define(templates, function (filesTpl) {
             var linkCssId = "#" + linkId;
             var downCssId = "#img-" + linkId;
 
-            filename = decodeURIComponent(filename);
-            filename = filename.replace(" ", "_");
+            filename = MM.fs.normalizeFileName(filename);
 
             var directory = siteId + "/files/" + linkId;
             var filePath = directory + "/" + filename;
@@ -226,11 +240,17 @@ define(templates, function (filesTpl) {
                                 $(downCssId).remove();
                                 $(linkCssId).attr("href", fullpath);
                                 $(linkCssId).attr("rel", "external");
+                                // Remove class and events.
+                                $(linkCssId).removeClass("myfiles-download");
+                                $(linkCssId).off(MM.clickType);
+
                                 // Android, open in new browser
                                 MM.handleFiles(linkCssId);
+                                MM._openFile(fullpath);
                             },
                             function(fullpath) {
-                               MM.log("Error downloading " + fullpath + " URL: " + downloadURL);
+                                $(downCssId).remove();
+                                MM.log("Error downloading " + fullpath + " URL: " + downloadURL);
                             }
                         );
                     });

@@ -1,0 +1,17 @@
+<% if (popUp) { %>
+<div class="back-row">
+    <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+</div>
+<% } %>
+<div class="content-index">
+    <header>
+        <div>
+            <div class="bd">
+                <h1><%= MM.util.formatText(course.fullname) %></h1>
+            </div>
+        </div>
+    </header>
+
+    <%= table %>
+
+</div>
