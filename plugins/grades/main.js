@@ -32,6 +32,11 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
                 return true;
             }
 
+            if (MM.util.wsAvailable('gradereport_user_get_grades_table')) {
+                MM.plugins.grades.wsName = 'gradereport_user_get_grades_table';
+                return true;
+            }
+
             if (MM.util.wsAvailable('local_mobile_core_grades_get_grades')) {
                 MM.plugins.grades.wsName = 'local_mobile_core_grades_get_grades';
                 return true;
@@ -61,7 +66,7 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
             // 3. Using the old WS grades_get_grades that only returns activity grades.
 
             // Option 1.
-            if (MM.plugins.grades.wsName == "local_mobile_gradereport_user_get_grades_table") {
+            if (MM.plugins.grades.wsName.indexOf("gradereport_user_get_grades_table") > -1) {
                 MM.plugins.grades.loadGradesTable(courseId, MM.config.current_site.userid);
             } else {
                 // Option 2 and 3.
@@ -230,7 +235,7 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
                         MM.panels.show("right", html, {keepTitle: true});
                     } else {
                         $(menuEl, '#panel-left').removeClass('loading-row');
-                        MM.panels.show("center", html, {title: MM.lang.s("grades"), hideRight: true});
+                        MM.panels.show("center", html, {title: MM.util.formatText(course.get("fullname")), hideRight: true});
                     }
                 },
                 {},

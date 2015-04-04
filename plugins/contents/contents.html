@@ -1,17 +1,27 @@
-
 <div class="content-index">
     <header>
         <div>
             <div class="bd">
-                <h1><%= course.fullname %></h1>
-                <p><%= course.summary %></p>
+                <p><%= MM.util.formatText(course.summary) %></p>
             </div>
         </div>
     </header>
     <% _.each(sections, function(section) { %>
     <% if (section.modules && section.modules.length >0) { %>
     <section>
-        <h2><%= MM.util.formatText(section.name) %></h2>
+        <% if (sections.length > 1) { %>
+
+            <% if(section.summary) { %>
+            <h3 data-sectionid="<%= section.id %>" style="background-image: url(img/expandgrey.png); background-position-x: 95%; background-repeat: no-repeat;"><%= MM.util.formatText(section.name) %></h3>
+            <div id="section-<%= section.id %>" style="display: none">
+                <%= MM.util.formatText(section.summary) %>
+            </div>
+            <% } else { %>
+            <h3><%= MM.util.formatText(section.name) %></h3>
+            <% } %>
+        <% } else if(section.summary) { %>
+            <%= MM.util.formatText(section.summary) %>
+        <% } %>
         <ul class="nav nav-v">
             <% _.each(section.modules, function(module) { %>
 

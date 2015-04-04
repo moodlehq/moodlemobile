@@ -1,0 +1,18 @@
+{
+    "online": [],
+    "offline": [],
+    "strangers": [
+        {
+            "id": 2,
+            "fullname": "Admin User",
+            "unread": 5
+        },
+        {
+            "id": 3,
+            "fullname": "Terry Teacher",
+            "profileimageurl": "emulator/userimage.png#",
+            "profileimageurlsmall": "emulator/userimage.png#",
+            "unread": 1
+        }
+    ]
+}

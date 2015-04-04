@@ -1,16 +1,5 @@
 <div class="panel-container">
     <div class="event">
-        <header>
-            <div class="media">
-                <div class="img">
-                    <img src="img/event-<%= event.eventtype %>.png">
-                </div>
-                <div class="bd">
-                    <h1><%= MM.util.formatText(event.name) %></h1>
-                </div>
-            </div>
-        </header>
-
         <div class="date">
             <p>
                 <%= event.startdate %>&nbsp
@@ -45,5 +34,27 @@
         <% } %>
 
         <div class="description"><%= MM.util.formatText(event.description) %></div>
+
+        <% if (MM.getConfig("event_notif_on", false)) { %>
+        <div class="option">
+            <div class="select-setting">
+                <div class="select-setting">
+                    <div class="select-label"><%= MM.lang.s("notifications") %></div>
+                    <div class="select-field">
+                        <select name="notification-time" id="notification-time">
+                            <option value ="0"><%= MM.lang.s("disabled") %></option>
+                            <option value ="10">10 <%= MM.lang.s("minutes") %></option>
+                            <option value ="30">30 <%= MM.lang.s("minutes") %></option>
+                            <option value ="60">1 <%= MM.lang.s("hours") %></option>
+                            <option value ="120">2 <%= MM.lang.s("hours") %></option>
+                            <option value ="360">6 <%= MM.lang.s("hours") %></option>
+                            <option value ="720">12 <%= MM.lang.s("hours") %></option>
+                            <option value ="1240">24 <%= MM.lang.s("hours") %></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
     </div>
 </div>

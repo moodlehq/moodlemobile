@@ -32,16 +32,26 @@
 @headerBorder:                          0;
 @headerBoxShadow:                       10px 0 20px rgba(0, 0, 0, 0.3);
 
+@subHeaderBoxShadow:                    0 0 10px rgba(0, 0, 0, 0.1);
+
 //-----Content-----
 @contentBackground:                     #fff;
 
 @textColor:                             #666;
 @linkColor:                             #08c;
-@headingsColor:                         @textColor;
 
 @sectionHeadingColor:                   @textColor;
 @sectionHeadingTextShadow:              0px 1px 1px rgba(0, 0, 0, 0.2);
 @sectionHeadingBackground:              #eee;
+
+
+//-----Messages-----
+@messageBackground:                     @contentBackground;
+
+@bubbleBackground:                      #fff;
+@bubbleBackgroundAlt:                   #fff;
+@bubbleBorder:                          rgba(0,0,0,0.3);
+@bubbleBorderAlt:                       rgba(250,143,28,1);
 
 /* Font Icon
 --------------------------------------------------------*/
@@ -89,8 +99,8 @@ html {
 body {
   color: @textColor;
   font-family: Helvetica, sans-serif;
-  font-size: 14px;
-  font-size: .875rem;
+  font-size: 16px;
+  font-size: 1rem;
   line-height: 24px;
   background: @bodyBackground;
 }
@@ -126,11 +136,17 @@ ol {
 h1 {
   font-size: 18px;
   font-size: 1.125rem;
-  color: @headingsColor;
-  margin: 5px 0 0;
+  font-weight: normal;
 }
 
 h2 {
+  font-size: 17px;
+  font-size: 1.0625rem;
+  font-weight: normal;
+  text-shadow: @sectionHeadingTextShadow;
+}
+
+h3 {
   color: @sectionHeadingColor;
   font-size: 100%;
   font-weight: normal;
@@ -140,6 +156,21 @@ h2 {
   margin: 0;
   padding: 0 10px;
   background-color: @sectionHeadingBackground;
+}
+
+h4 {
+  font-size: 15px;
+  font-size: 0.9375rem;
+}
+
+h5 {
+  font-size: 14px;
+  font-size: 0.875;
+}
+
+h6 {
+  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 b,
@@ -485,13 +516,14 @@ hr {
   }
 }
 
-#manage-accounts {
+#manage-accounts, #app-dialog {
   .accounts {
     display: block;
     background-color: #fff;
     border-radius: 4px;
     padding: 10px;
     margin-bottom: 15px;
+    min-height: 120px;
   }
   .account-details {
     color: @textColor;
@@ -547,7 +579,6 @@ hr {
   color: @headerTextColor;
   height: 44px;
   line-height: 44px;
-  padding-right: 20px;
   overflow: hidden;
   background: @headerBackground;
   border-bottom: @headerBorder;
@@ -566,21 +597,51 @@ hr {
       }
     }
   }
+  .menu-home {
+    background-image: url(../img/ico-menu.png);
+  }
+  .menu-back {
+    background-image: url(../img/ico-back.png);
+  }
+  #page-title {
+    text-shadow: @headerTextShadow;
+    letter-spacing: .5px;
+    display: block;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: hidden;
+  }
 }
 
-#page-title {
-  font-size: 16px;
-  font-size: 1rem;
-  text-shadow: @headerTextShadow;
-  letter-spacing: .5px;
-}
-
-.menu-home {
-  background-image: url(../img/ico-menu.png);
-}
-
-.menu-back {
-  background-image: url(../img/ico-back.png);
+.header-sub {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 44px;
+  box-shadow: @subHeaderBoxShadow;
+  .back-row {
+    float: left;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    display: block;
+    a {
+      padding: 10px;
+    }
+  }
+  h2 {
+    margin-bottom: 0;
+    overflow: hidden;
+    .img {
+      margin-top: 5px;
+    }
+  }
+  #tablet-page-title,
+  #back-arrow-title {
+    display: table;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 
 /* - Common on three panels
@@ -621,10 +682,11 @@ hr {
       border-radius: 50%;
     }
     h1 {
+      font-size: 20px;
+      font-size: 1.25rem;
       color: @menuHeaderTextColor;
       text-shadow: @menuHeaderTextShadow;
-      font-weight: normal;
-      line-height: 20px;
+      margin: 5px 0 0;
     }
   }
   h2 {
@@ -736,7 +798,12 @@ hr {
   width: 100%;
   position: relative;
   header {
-    padding: 10px;
+    border-top: 1px solid #eee;
+    box-shadow: @subHeaderBoxShadow;
+    h2 {
+      padding: 10px;
+      margin-bottom: 0;
+    }
   }
   section:last-of-type {
     border-bottom: 1px solid #eee;
@@ -754,7 +821,7 @@ hr {
     width: 100%;
   }
   .content-name {
-    a {
+    > a {
       display: block;
       padding: 10px;
     }
@@ -764,12 +831,23 @@ hr {
     }
     &.mod-label {
       overflow: auto;
-      h3 {
-        font-size: 100%;
-        font-weight: normal;
-        margin: 0;
+      a > div {
         padding-right: 80px;
-      };
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          color: @textColor;
+          font-weight: bold;
+          line-height: inherit;
+          letter-spacing: 0;
+          background-color: transparent;
+          text-shadow: none;
+          padding: 0;
+        }
+      }
       img {
         width: auto;
       }
@@ -853,12 +931,6 @@ hr {
   word-wrap: break-word;
 }
 
-//-----Folder, Forum discussions and My files-----
-.back-row a {
-  display: block;
-  padding: 10px;
-}
-
 //-----Forum discussions-----
 .path-mod-forum {
   .forum {
@@ -872,8 +944,8 @@ hr {
     }
   }
   .intro {
-    margin-left: 32px;
-    padding: 0 10px 10px;
+    padding: 10px;
+    margin-left: 4px;
   }
   .first-post {
     > .subject {
@@ -883,9 +955,6 @@ hr {
   .forum-post {
     padding-top: 10px;
     border-bottom: 1px solid #eee;
-    &:first-of-type {
-      border-top: 1px solid #eee;
-    }
     &:last-child {
       border-bottom: 0;
     }
@@ -921,6 +990,10 @@ hr {
   .content {
     padding: 0 10px 10px;
     margin-left: 50px;
+    &:first-of-type {
+      padding-top: 10px;
+      margin-left: 4px;
+    }
     ul,
     ol {
       margin-left: 20px;
@@ -974,27 +1047,120 @@ hr {
     }
   }
   &.forum-discussion {
-    .first-post {
-      border-top: 15px solid #eee;
-      border-bottom: 1px solid #eee;
-    }
     .indent {
       border-top: 15px solid #eee;
     }
   }
 }
 
+//-----Assignment-----
+.path-mod-assign {
+  .intro {
+    padding: 10px;
+    margin-left: 4px;
+  }
+  .info {
+    padding: 10px 10px 10px 0;
+    border-top: 1px solid #eee;
+    margin-left: 14px;
+    p {
+      display: table-row;
+    }
+    span {
+      display: table-cell;
+      padding-right: 20px;
+      text-align: right;
+    }
+    time {
+      font-size: .9375rem;
+      display: table-cell;
+    }
+  }
+  .post {
+    padding-top: 10px;
+    border-bottom: 15px solid #eee;
+  }
+  .header {
+    line-height: 20px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+  }
+  .user-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .author-name {
+    display: block;
+  }
+  time {
+    font-size: .75rem;
+    color: #888;
+    display: inline;
+  }
+  .status {
+    float: right;
+  }
+  .content {
+    padding: 0 10px 10px;
+    margin-left: 50px;
+    clear: right;
+    border-top: 1px solid #eee;
+    p {
+      padding-top: 10px;
+    }
+  }
+  .attachments {
+    .attachment {
+      padding-top: 10px;
+    }
+    .content-name {
+      a {
+        padding: 0;
+        line-height: 20px;
+        margin-top: 2px;
+        color: @textColor;
+      }
+    }
+    .content-actions {
+      width: 40px;
+      padding: 0;
+    }
+  }
+  .paging-bar {
+    padding: 6px 10px;
+    a,
+    .current {
+      display: inline-block;
+      padding: 2px 6px;
+      margin: 4px;
+    }
+  }
+}
 
 //-----My Files-----
-.fullpath {
-  width: 100%;
-  background-color: #eee;
-  position: fixed;
-  bottom: 0;
-  padding: 4px 10px;
-  p {
-    margin-bottom: 0;
-    line-height: 20px;
+.content-index {
+  .back-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 5px;
+    a {
+      padding: 10px;
+    }
+  }
+  .fullpath {
+    width: 100%;
+    background-color: #eee;
+    position: fixed;
+    bottom: 0;
+    padding: 4px 10px;
+    p {
+      margin-bottom: 0;
+      line-height: 20px;
+    }
   }
 }
 
@@ -1002,6 +1168,18 @@ hr {
 .messages,
 .notifications {
   padding: 10px;
+  .no-content {
+    display: table;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin-left: -10px;
+    p {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
 }
 
 .message,
@@ -1042,6 +1220,185 @@ hr {
   }
 }
 
+//-----Messages-----
+.path-messages {
+  &.recent-messages {
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    p {
+      font-weight: bold;
+      line-height: 20px;
+      margin: 0;
+    }
+    .preview {
+      font-weight: normal;
+    }
+  }
+  .conversation {
+    background-color: @messageBackground;
+    position: absolute;;
+    margin-right: 50px;
+    .conversation-area {
+      padding: 15px;
+      overflow-y: scroll;
+      .datestamp {
+        text-align: center;
+        margin-bottom: 10px;
+        clear: both;
+        span {
+          color: #fff;
+          font-size: .75rem;
+          font-weight: bold;
+          background-color: #c9c9c9;
+          padding: 2px 10px;
+          border-radius: 10px;
+        }
+      }
+      .bubble {
+        line-height: 20px;
+        word-wrap: break-word;
+        padding: 6px 12px;
+        margin-bottom: 10px;
+        width: auto;
+        max-width: 90%;
+        background: @bubbleBackground;
+        border: 1px solid @bubbleBorder;
+        border-radius: 6px;
+        float: left;
+        clear: both;
+        position: relative;
+        &:before,
+        &:after {
+          content: "";
+          display: block;
+          position: absolute;
+          border-style: solid;
+          border-color: transparent;
+        }
+        &:before {
+          border-width: 8px;
+          border-right-color: @bubbleBorder;
+          top: 8px;
+          left: -16px;
+        }
+        &:after {
+          border-width: 7px;
+          border-right-color: @bubbleBackground;
+          top: 9px;
+          left: -14px;
+        }
+      }
+      .bubble-alt {
+        background-color: @bubbleBackgroundAlt;
+        border-color: @bubbleBorderAlt;
+        float: right;
+        &:before {
+          border-color: transparent;
+          border-left-color: @bubbleBorderAlt;
+          left: auto;
+          right: -16px;
+        }
+        &:after {
+          border-color: transparent;
+          border-left-color:@bubbleBackgroundAlt;
+          left: auto;
+          right: -14px;
+        }
+      }
+      .time {
+        color: #999;
+        font-size: .65rem;
+        float: right;
+        padding-left: 8px;
+        padding-top: 2px;
+      }
+    }
+    .input-area {
+      padding: 8px 10px;
+      background-color: #eee;
+      border-top: 1px solid #ccc;
+      display: block;
+      width: 100%;
+      form {
+        > div {
+          position: relative;
+          margin-right: 60px;
+        }
+        input {
+          display: block;
+          line-height: 20px;
+          padding: 6px 6px 4px;
+        }
+        input[type="text"] {
+          width: 100%;
+          border: 1px solid #eee;
+        }
+        input[type="submit"] {
+          color: @linkColor;
+          font-weight: bold;
+          background: transparent;
+          border: none;
+          position: absolute;
+          top: 0px;
+          left: 100%;
+          width: 50px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  &.contacts {
+    input[type="search"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+    .nav-item > a {
+      padding-top: 6px;
+    }
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    p {
+      line-height: 30px;
+      margin: 0;
+    }
+  }
+  &.contact {
+    border-top: 1px solid #eee;
+    .media {
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 40px;
+      padding-top: 20px;
+      .img {
+        display: block;
+        vertical-align: baseline;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        vertical-align: bottom;
+      }
+      .bd {
+        font-size: 1rem;
+      }
+    }
+    .nav-item {
+      padding-left: 15px;
+      padding-right: 15px;
+      a {
+        color: @linkColor;
+      }
+    }
+  }
+}
+
 //-----Calendar-----
 .events-list {
   .name {
@@ -1059,7 +1416,7 @@ hr {
 }
 
 .event {
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #eee;
   header {
     padding: 10px;
     img {
@@ -1068,25 +1425,29 @@ hr {
   }
   > div {
     padding: 10px;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #eee;
     overflow: hidden;
   }
   .date,
-  .course {
+  .course,
+  .option {
     p {
-      padding-left: 26px;
       margin-bottom: 0;
     }
+    .time {
+      font-size: 12px;
+    }
+    input {
+      margin-right: 8px;
+    }
   }
-  .time {
-    font-size: 12px;
-  }
-  .app-ico img {
-      width: 18px;
-      height: auto;
+  .media {
+    .app-ico img {
+        width: 18px;
+        height: auto;
+    }
   }
   .description {
-    padding-left: 36px;
     img {
       margin: 20px 0 20px 20px;
     }
@@ -1178,6 +1539,7 @@ hr {
 /* - Participant on the right panel and Notification page on the center panel
 -------------------------------------------------------------------------- */
 .user-card {
+  border-top: 1px solid #eee;
   .content {
     border-bottom: 1px solid #eee;
   }
@@ -1195,7 +1557,9 @@ hr {
       position: absolute;
       bottom: 0;
       padding-left: 110px;
-      h1 {
+      p {
+        font-size: 18px;
+        font-size: 1.125rem;
         margin-bottom: 12px;
       }
     }
@@ -1224,6 +1588,7 @@ hr {
 /* - Settings on the right panel
 -------------------------------------------------------------------------- */
 .settings {
+  border-top: 1px solid #eee;
   .nav-item {
     padding: 10px;
   }
@@ -1308,16 +1673,19 @@ hr {
 
 //-----About-----
 .settings {
-  header {
-    padding: 10px;
-  }
   .about {
     border-collapse: collapse;
     line-height: 20px;
     width: 100%;
+    thead th {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
     th {
+      font-weight: normal;
       text-align: left;
-      padding: 0 10px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
     td {
       padding: 10px;
@@ -1331,9 +1699,6 @@ hr {
       text-shadow: @sectionHeadingTextShadow;
       background-color: @sectionHeadingBackground;
       border-bottom: 1px solid @contentBackground;
-      th {
-        font-weight: normal;
-      }
     }
   }
 }
@@ -1547,6 +1912,11 @@ div.jqi {
 /* - Tablet minimum width 768px
 -------------------------------------------------------------------------- */
 .tablet {
+  .path-messages {
+    .conversation {
+      margin-right: 0;
+    }
+  }
   .grades {
     thead {
       display: table-header-group;
@@ -1590,7 +1960,7 @@ div.jqi {
   border-collapse: collapse;
   line-height: 20px;
   width: 100%;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #eee;
   tr {
     border-bottom: 1px solid #eee;
   }
@@ -1671,5 +2041,44 @@ div.jqi {
   }
   .leveleven {
     background-color: #fff;
+  }
+}
+/* - Upload file (Android)
+-------------------------------------------------------------------------- */
+.uploadinstructions {
+   padding: 10px;
+}
+.uploadfilecontainer {
+  position: relative;
+}
+.uploadfilecontainer input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0;
+  outline: none;
+}
+/* - Full screen dialog
+-------------------------------------------------------------------------- */
+#app-dialog.full-screen-dialog {
+  >div {
+    width: 100% !important;
+    height: 100%;
+    margin-top: 0 !important;
+    background-color: #fa8f1c;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+  }
+  .modalHeader {
+    display: none;
+  }
+  .modalContent {
+    color: #fff;
+  }
+  .modalFooter {
+    border-top: 0px;
   }
 }

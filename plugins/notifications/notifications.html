@@ -1,4 +1,4 @@
-<h2><%= MM.lang.s("notifications") %></h2>
+<h3><%= MM.lang.s("notifications") %></h3>
 <% if (notifications.length > 0) { %>
 <ul class="nav nav-v">
     <% _.each(notifications, function(notification) {%>
@@ -8,7 +8,9 @@
     <% }); %>
 </ul>
 <% } else { %>
-    <h3><strong><%= MM.lang.s("therearentnotificationsyet") %></strong></h3>
+    <div class="no-content">
+        <p><%= MM.lang.s("therearentnotificationsyet") %></p>
+    </div>
 <% } %>
 <div class="centered">
     <i><%= MM.lang.s("uselocalmobileplugin") %></i>

@@ -80,28 +80,12 @@ define(templates, function (viewTpl, dialogTpl) {
         },
 
         _showPage: function(path) {
-            var height= $(document).innerHeight() - 200;
-            var style = 'border: none; width: 100%; height: ' + height + 'px';
-            var iframe = '<iframe style="' + style + '" src="' + path + '">';
-            iframe += '</iframe>';
-
             var data = {
                 path: path
             };
             var title = MM.tpl.render(MM.plugins.page.templates.dialog.html, data);
 
-            var options = {
-                title: title,
-                width: "100%",
-                marginTop: "10px"
-            };
-            MM.widgets.dialog(iframe, options);
-
-            MM.handleExternalLinks('.modalHeader a[target="_blank"]');
-
-            $("#dialog-close").on(MM.clickType, function(e){
-                MM.widgets.dialogClose();
-            });
+            MM.widgets.renderIframeModal(title, path);
         },
 
         templates: {

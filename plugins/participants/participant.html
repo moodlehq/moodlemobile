@@ -10,11 +10,11 @@
                     <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" alt="<%= MM.util.formatText(user.fullname) %>" />
                 </div>
                 <div class="bd">
-                    <h1><%= MM.util.formatText(user.fullname) %></h1>
+                    <p><%= MM.util.formatText(user.fullname) %></p>
                 </div>
             </div>
 
-            <h2><%= MM.lang.s("contact") %></h2>
+            <h3><%= MM.lang.s("contact") %></h3>
 
             <ul class="user-data">
             <% var fields = ["email", "address", "city", "country", "phone1", "phone2"]; %>
@@ -36,6 +36,8 @@
                         <a href="http://maps.google.com?q=<%= add %>" target="_blank"><%= MM.util.formatText(user[field]) %></a>
                     <% }  %>
 
+                <% } else if (field == "email"){ %>
+                    <a href="mailto:<%= user[field] %>"><%= user[field] %></a>
                 <% } else { %>
                     <%= MM.util.formatText(user[field]) %>
                 <% } %>
@@ -45,7 +47,7 @@
             </ul>
 
             <% if (user.description) { %>
-                <h2><%= MM.lang.s("description") %></h2>
+                <h3><%= MM.lang.s("description") %></h3>
                 <div class="user-description"><%= MM.util.formatText(user.description)  %></div>
             <% } %>
 

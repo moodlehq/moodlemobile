@@ -1,10 +1,11 @@
 var templates = [
     "root/externallib/text!root/plugins/participants/participants.html",
     "root/externallib/text!root/plugins/participants/participant.html",
-    "root/externallib/text!root/plugins/participants/participants_row.html"
+    "root/externallib/text!root/plugins/participants/participants_row.html",
+    "root/externallib/text!root/plugins/participants/countries.json"
 ];
 
-define(templates,function (participantsTpl, participantTpl, participantsRowTpl) {
+define(templates,function (participantsTpl, participantTpl, participantsRowTpl, countriesJSON) {
     var plugin = {
         settings: {
             name: "participants",
@@ -62,16 +63,29 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                     var pageTitle = "";
 
                     if (course) {
-                        pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                        pageTitle = course.get("shortname");;
                     }
 
                     MM.panels.show('center', html, {title: pageTitle});
+
                     // Load the first user
                     if (MM.deviceType == "tablet" && users.length > 0) {
                         $("#panel-center li:eq(0)").addClass("selected-row");
                         MM.plugins.participants.showParticipant(courseId, users.shift().id);
                         $("#panel-center li:eq(0)").addClass("selected-row");
                     }
+
+                    // Save the users in the users table.
+                    var newUser;
+                    users.forEach(function(user) {
+                        newUser = {
+                            'id': MM.config.current_site.id + '-' + user.id,
+                            'userid': user.id,
+                            'fullname': user.fullname,
+                            'profileimageurl': user.profileimageurl
+                        };
+                        MM.db.insert('users', newUser);
+                    });
 
                     // Show more button.
                     $("#participants-showmore").on(MM.clickType, function(e) {
@@ -154,7 +168,12 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var pageTitle = "";
                 if (course) {
-                    pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                    pageTitle = MM.lang.s("participant");
+                }
+
+                var countries = JSON.parse(MM.plugins.participants.templates.countries.json);
+                if (newUser.country && typeof countries[newUser.country] != "undefined") {
+                    newUser.country = countries[newUser.country];
                 }
 
                 var tpl = {
@@ -196,6 +215,9 @@ define(templates,function (participantsTpl, participantTpl, participantsRowTpl) 
             },
             "participantsRow": {
                 html: participantsRowTpl
+            },
+            "countries": {
+                json: countriesJSON
             }
         }
     }

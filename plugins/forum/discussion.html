@@ -1,5 +1,12 @@
-<div class="back-row">
-    <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+<div class="header-sub">
+    <div class="back-row">
+        <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+    </div>
+    <div id="back-arrow-title">
+         <div class="bd">
+            <h2><%= MM.util.formatText(discussion.subject) %></h2>
+        </div>
+    </div>
 </div>
 
 <div class="content-index">
@@ -11,9 +18,6 @@
                 <a class="author-name" href="#participant/<%= courseId %>/<%= discussion.userid %>/1" rel="author"><%= discussion.userfullname %></a>
                 <time><%= MM.util.timestampToUserDate(discussion.created) %></time>
             </div>
-            <p role="heading" class="subject toogler" data-discussionid="<%= discussion.discussion %>">
-                <%= MM.util.formatText(discussion.subject) %>
-            </p>
             <div class="discussion-body">
 
                 <div class="content">
