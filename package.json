@@ -1,8 +1,8 @@
 {
-  "name": "Moodle Mobile for desktop",
+  "name": "Ifaa Campus for desktop",
   "main": "index.html",
   "window": {
-    "title": "Moodle Mobile for desktop",
+    "title": "Ifaa Campus for desktop",
     "icon": "icon.png",
     "toolbar": true,
     "frame": true,
@@ -12,5 +12,5 @@
     "resizable": false
   },
   "plugin": true,
-  "description": "Moodle Mobile for desktop"
+  "description": "Ifaa Campus for desktop"
 }

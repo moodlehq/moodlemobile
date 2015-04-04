@@ -177,7 +177,7 @@
     "percentage": "В процентах",
     "phone1": "Телефон",
     "phone2": "Мобильный",
-    "pluginname": "Строки языка «Moodle Mobile»",
+    "pluginname": "Строки языка «Ifaa Campus»",
     "preview": "Предварительный просмотр",
     "previous": "Предыдущая",
     "privatefiles": "Личные файлы",
@@ -266,6 +266,6 @@
     "yes": "Да",
     "youarein": "Вы находитесь на:",
     "yourpassword": "пароль",
-    "yoursiteurl": "https:\/\/yourmoodle.com",
+    "yoursiteurl": "https:\/\/yourifaaonline.com",
     "yourusername": "имя пользователя"
 }

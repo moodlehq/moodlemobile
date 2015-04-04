@@ -174,7 +174,7 @@
     "percentage": "В проценти",
     "phone1": "Телефон",
     "phone2": "Мобилен",
-    "pluginname": "Езикови стрингове за Moodle Mobile",
+    "pluginname": "Езикови стрингове за Ifaa Campus",
     "preview": "Преглед",
     "previous": "Предишно",
     "privatefiles": "Лични файлове",
@@ -264,6 +264,6 @@
     "yes": "Да",
     "youarein": "Вие сте в:",
     "yourpassword": "парола",
-    "yoursiteurl": "https:\/\/yourmoodle.com",
+    "yoursiteurl": "https:\/\/yourifaaonline.com",
     "yourusername": "потребителско име"
 }

@@ -3,14 +3,14 @@
         {
             "courseid": 5,
             "userid": 3,
-            "userfullname": "Juan Student",
+            "userfullname": "mail Student",
             "maxdepth": 3,
             "tabledata": [
                 {
                     "itemname": {
                         "class": " oddd1 b1b b1t",
                         "colspan": 6,
-                        "content": "<img src=\"http://localhost/m/stable_24/theme/image.php/standard/core/1415271995/i/folder\" class=\"icon itemicon\" title=\"Category\" alt=\"Category\" />MoodleMobile Developer Testing Course",
+                        "content": "<img src=\"http://localhost/m/stable_24/theme/image.php/standard/core/1415271995/i/folder\" class=\"icon itemicon\" title=\"Category\" alt=\"Category\" />ifaacampus Developer Testing Course",
                         "celltype": "th",
                         "id": "cat_4_3"
                     },

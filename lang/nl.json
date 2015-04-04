@@ -178,7 +178,7 @@
     "percentage": "Percentage",
     "phone1": "Telefoon",
     "phone2": "Mobiele telefoon",
-    "pluginname": "Moodle mobile taal-strings",
+    "pluginname": "Ifaa Campus taal-strings",
     "preview": "Bekijk",
     "previous": "Vorige",
     "privatefiles": "Private bestanden",
@@ -267,6 +267,6 @@
     "yes": "Ja",
     "youarein": "Je ben in:",
     "yourpassword": "wachtwoord",
-    "yoursiteurl": "https:\/\/jouwmoodle.com",
+    "yoursiteurl": "https:\/\/jouwifaaonline.com",
     "yourusername": "gebruikersnaam"
 }

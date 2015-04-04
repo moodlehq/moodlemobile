@@ -176,7 +176,7 @@
     "percentage": "Percentuale",
     "phone1": "Telefono",
     "phone2": "Mobile",
-    "pluginname": "Stringhe di lingua Moodle Mobile",
+    "pluginname": "Stringhe di lingua Ifaa Campus",
     "preview": "Anteprima",
     "previous": "Precedente",
     "privatefiles": "File personali",
@@ -266,6 +266,6 @@
     "yes": "Si",
     "youarein": "Sei in:",
     "yourpassword": "password",
-    "yoursiteurl": "https:\/\/yourmoodle.com",
+    "yoursiteurl": "https:\/\/yourifaaonline.com",
     "yourusername": "username"
 }

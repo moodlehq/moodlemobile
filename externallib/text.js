@@ -247,7 +247,7 @@ define(['module'], function (module) {
             !process.versions['node-webkit'])) {
         //Using special require.nodeRequire, something added by r.js.
         //fs = require.nodeRequire('fs');
-        // patch moodle mobile jleyva
+        // patch Ifaa Campus jleyva
         fs = require('fs');
 
         text.get = function (url, callback, errback) {

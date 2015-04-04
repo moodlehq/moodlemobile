@@ -186,7 +186,7 @@
     "percentage": "パーセンテージ",
     "phone1": "電話",
     "phone2": "携帯電話",
-    "pluginname": "Moodle Mobile言語文字列",
+    "pluginname": "Ifaa Campus言語文字列",
     "preview": "プレビュー",
     "previous": "前へ",
     "privatefiles": "プライベートファイル",
@@ -274,12 +274,12 @@
     "webservicesuccessfullyexecuted": "Webサービスが正常に実行されました",
     "website": "ウェブサイト",
     "weight": "重み",
-    "welcome": "Moodle Mobileアプリへようこそ",
+    "welcome": "Ifaa Campusアプリへようこそ",
     "writeherethebug": "ここに生じた問題についての詳細な説明を記入してください",
     "years": "年",
     "yes": "はい",
     "youarein": "カレントフォルダ：",
     "yourpassword": "パスワード",
-    "yoursiteurl": "https:\/\/yourmoodle.com",
+    "yoursiteurl": "https:\/\/yourifaaonline.com",
     "yourusername": "ユーザ名"
 }

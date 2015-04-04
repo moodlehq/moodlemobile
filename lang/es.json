@@ -180,7 +180,7 @@
     "percentage": "Porcentaje",
     "phone1": "Teléfono",
     "phone2": "Móvil",
-    "pluginname": "Cadenas de idioma de Moodle Mobile",
+    "pluginname": "Cadenas de idioma de Ifaa Campus",
     "preview": "Previsualizar",
     "previous": "Anterior",
     "privatefiles": "Archivos privados",
@@ -264,12 +264,12 @@
     "webservicesuccessfullyexecuted": "Petición a servicio web ejecutada correctamente",
     "website": "Página web",
     "weight": "Peso",
-    "welcome": "Bienvenido a la aplicación móvil Moodle Mobile",
+    "welcome": "Bienvenido a la aplicación móvil Ifaa Campus",
     "writeherethebug": "Escriba aquí una descripción detalla del problema",
     "years": "Años",
     "yes": "Sí",
     "youarein": "Está en:",
     "yourpassword": "contraseña",
-    "yoursiteurl": "https:\/\/yourmoodle.com",
+    "yoursiteurl": "https:\/\/yourifaaonline.com",
     "yourusername": "usuario"
 }

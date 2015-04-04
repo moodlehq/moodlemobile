@@ -2,8 +2,8 @@
     "courses": [
         {
             "id": 4,
-            "fullname": "MoodleMobile Developer Testing Course",
-            "shortname": "MoodleMobile Testing",
+            "fullname": "ifaacampus Developer Testing Course",
+            "shortname": "ifaacampus Testing",
             "timemodified": 1426864349,
             "assignments": [
                 {

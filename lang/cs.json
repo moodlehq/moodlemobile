@@ -186,7 +186,7 @@
     "percentage": "Procenta",
     "phone1": "Telefon",
     "phone2": "Mobil",
-    "pluginname": "Jazykové řetězce Moodle Mobile",
+    "pluginname": "Jazykové řetězce Ifaa Campus",
     "preview": "Náhled",
     "previous": "Předchozí",
     "privatefiles": "Osobní soubory",
@@ -257,7 +257,7 @@
     "uploadfileinstructions": "Chcete-li nahrát soubor, klikněte na tlačítko dole a vyberte soubor, který chcete nahrát.",
     "uploading": "Nahrávání",
     "uploadingtoprivatefiles": "Nahrávání do vaší privátního oblasti",
-    "uselocalmobileplugin": "Tato stránka funguje lépe, když je do Moodle doinstalován doplňek \"Moodle Mobile additional features\"",
+    "uselocalmobileplugin": "Tato stránka funguje lépe, když je do Moodle doinstalován doplňek \"Ifaa Campus additional features\"",
     "userfrom": "Od",
     "username": "Uživatelské jméno",
     "usernamelabel": "Uživatelské jméno",
@@ -279,6 +279,6 @@
     "yes": "Ano",
     "youarein": "Nacházíte se v:",
     "yourpassword": "heslo",
-    "yoursiteurl": "https:\/\/yourmoodle.com",
+    "yoursiteurl": "https:\/\/yourifaaonline.com",
     "yourusername": "Uživatelské jméno"
 }
