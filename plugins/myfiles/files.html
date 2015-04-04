@@ -1,0 +1,52 @@
+<div class="content-index">
+    <ul class="nav nav-v">
+        <% if (goBack) { %>
+        <li class="nav-item">
+            <div class="back-row">
+                <a href="javascript: window.history.back();"><img src="img/arrowleft.png" border="0"></a>
+            </div>
+        </li>
+        <% } %>
+
+        <% if (entries.length > 0) { %>
+            <% _.each(entries, function(entry) { %>
+                <li class="nav-item">
+                    <div class="content-table">
+                        <% if (!entry.isdir) { %>
+                        <div class="content-actions app-ico">
+                            <% if (!entry.isdir && entry.localpath) { %>
+                            <% var dImg = "reloadgrey"; %>
+                            <% } else { %>
+                            <% var dImg = "download"; %>
+                            <% } %>
+                            <img id="img-<%= entry.linkId %>" class="myfiles-download" src="img/<%= dImg %>.png" border="0" data-url="<%= entry.url %>" data-filename="<%= entry.filename %>" data-linkid="<%= entry.linkId %>">
+                        </div>
+                        <% } %>
+                        <div class="content-name">
+                            <% if (!entry.isdir && !entry.localpath) { %>
+                                <a id="<%= entry.linkId %>" href="#" class="media touch-row myfiles-download" data-url="<%= entry.url %>" data-filename="<%= entry.filename %>" data-linkid="<%= entry.linkId %>">
+                            <% } else if(entry.localpath) { %>
+                                <a id="<%= entry.linkId %>" href="<%= entry.localpath %>" rel="external" class="media touch-row">
+                            <% } else { %>
+                                <a id="<%= entry.linkId %>" href="#myfiles/<%= entry.link %>" class="media touch-row">
+                            <% } %>
+                                <div class="img">
+                                    <img src="<%= entry.imgpath %>" alt="img">
+                                </div>
+                                <div class="bd">
+                                  <p><%= entry.filename %></p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            <% });%>
+        <% } %>
+    </ul>
+    <% if (fullPath) { %>
+    <div class="fullpath">
+        <p><span><%= MM.lang.s("youarein") %></span>&nbsp<%= fullPath %></p>
+    </div>
+    <% } %>
+</div>
+

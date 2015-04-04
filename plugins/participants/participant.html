@@ -1,0 +1,66 @@
+    <% if (popUp) { %>
+    <div class="back-row">
+        <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+    </div>
+    <% } %>
+    <div class="user-card">
+        <div class="content">
+            <div class="user-picture media">
+                <div class="img">
+                    <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" alt="<%= MM.util.formatText(user.fullname) %>" />
+                </div>
+                <div class="bd">
+                    <p><%= MM.util.formatText(user.fullname) %></p>
+                </div>
+            </div>
+
+            <h3><%= MM.lang.s("contact") %></h3>
+
+            <ul class="user-data">
+            <% var fields = ["email", "address", "city", "country", "phone1", "phone2"]; %>
+            <% _.each(fields, function(field) { %>
+            <% if (user[field]) { %>
+                <li><%= MM.lang.s(field) %>:
+                <% if (field == "phone1" || field == "phone2") { %>
+                    <a href="tel:<%= user[field] %>"><%= MM.util.formatText(user[field], true) %></a>
+
+                <% } else if (field == "address") { %>
+                    <% var add = user[field]; %>
+                    <% add += (user["city"]) ? "," + MM.util.formatText(user["city"], true) : ""; %>
+                    <% add += (user["country"]) ? "," + MM.util.formatText(user["country"], true) : ""; %>
+                    <% add = encodeURIComponent(add); %>
+
+                    <% if (MM.deviceOS == "android") { %>
+                        <a href="geo:<%= add %>" target="_blank"><%= MM.util.formatText(user[field]) %></a>
+                    <% } else { %>
+                        <a href="http://maps.google.com?q=<%= add %>" target="_blank"><%= MM.util.formatText(user[field]) %></a>
+                    <% }  %>
+
+                <% } else if (field == "email"){ %>
+                    <a href="mailto:<%= user[field] %>"><%= user[field] %></a>
+                <% } else { %>
+                    <%= MM.util.formatText(user[field]) %>
+                <% } %>
+                </li>
+            <% } %>
+            <% }); %>
+            </ul>
+
+            <% if (user.description) { %>
+                <h3><%= MM.lang.s("description") %></h3>
+                <div class="user-description"><%= MM.util.formatText(user.description)  %></div>
+            <% } %>
+
+        </div>
+
+        <% if (!popUp) { %>
+        <div class="buttons">
+            <% _.each(plugins, function(plugin) { %>
+            <div><a href="<%= plugin.menuURL %>/<%= courseid %>/<%= user.id %>"><button><%= MM.lang.s(plugin.name) %></button></a></div>
+            <% }); %>
+            <% if (MM.plugins.participants._showGrades(courseid, user.id)) { %>
+            <div><a href="#course/grades/user/<%= courseid %>/<%= user.id %>/1"><button><%= MM.lang.s("grades") %></button></a></div>
+            <% } %>
+        </div>
+         <% } %>
+    </div>

@@ -1,0 +1,60 @@
+<div class="panel-container">
+    <div class="event">
+        <div class="date">
+            <p>
+                <%= event.startdate %>&nbsp
+                <span class="time"
+                    ><%= event.starttime %>
+                </span>
+
+                <% if (event.enddate) { %>
+                    &nbsp-&nbsp
+                    <% if (event.enddate != event.startdate) { %>
+                        <%= event.enddate %>&nbsp
+                    <% } %>
+                    <span class="time"><%= event.endtime %></span>
+                <% } %>
+
+            </p>
+        </div>
+
+        <% if (event.courseName) { %>
+            <div class="course"><p><%= MM.lang.s("course") %>: <%= MM.util.formatText(event.courseName) %></p></div>
+        <% } %>
+
+        <% if (event.modulename != "0") { %>
+            <div class="media">
+                <div class="img app-ico">
+                    <img src="img/mod/<%= event.modulename %>.png">
+                </div>
+                <div class="bd">
+                    <%= event.modulename %>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="description"><%= MM.util.formatText(event.description) %></div>
+
+        <% if (MM.getConfig("event_notif_on", false)) { %>
+        <div class="option">
+            <div class="select-setting">
+                <div class="select-setting">
+                    <div class="select-label"><%= MM.lang.s("notifications") %></div>
+                    <div class="select-field">
+                        <select name="notification-time" id="notification-time">
+                            <option value ="0"><%= MM.lang.s("disabled") %></option>
+                            <option value ="10">10 <%= MM.lang.s("minutes") %></option>
+                            <option value ="30">30 <%= MM.lang.s("minutes") %></option>
+                            <option value ="60">1 <%= MM.lang.s("hours") %></option>
+                            <option value ="120">2 <%= MM.lang.s("hours") %></option>
+                            <option value ="360">6 <%= MM.lang.s("hours") %></option>
+                            <option value ="720">12 <%= MM.lang.s("hours") %></option>
+                            <option value ="1240">24 <%= MM.lang.s("hours") %></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>

@@ -1,0 +1,162 @@
+<div class="header-sub">
+    <div class="back-row">
+        <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+    </div>
+    <div id="back-arrow-title" class="media">
+        <div class="img app-ico">
+            <img src="img/mod/assign.png" alt="img">
+        </div>
+        <div class="bd">
+            <h2><%= MM.util.formatText(assign.name) %></h2>
+        </div>
+    </div>
+</div>
+
+<div class="content-index">
+    <div class="path-mod-assign">
+        <div class="assign">
+            <div class="intro">
+                <% if (assign.intro) { %>
+                <%= MM.util.formatText(assign.intro) %>
+                <% } %>
+
+
+                <% if (assign.introattachments && assign.introattachments.length > 0) { %>
+
+                    <div class="attachments">
+                        <% _.each(assign.introattachments, function(attachment) { %>
+                        <% if (attachment.localpath) { %>
+                            <% var dImg = "reloadgrey"; %>
+                            <% } else { %>
+                            <% var dImg = "download"; %>
+                        <% } %>
+                        <div class="attachment media">
+                            <div class="content-actions app-icon">
+                                <img id="downimg-<%= attachment.id %>" src="img/<%= dImg %>.png" class="assign-download" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
+                            </div>
+                            <div class="content-name">
+                                <div class="img app-ico">
+                                    <img src="img/files/<%= attachment.icon %>" alt="img">
+                                </div>
+                                <div class="bd">
+                                    <% if (!attachment.localpath) { %>
+                                    <a id="attachment-<%= attachment.id %>" class="assign-download" href="#" data-downloadurl="<%= attachment.fileurl %>" data-filename="<%= attachment.filename %>" data-attachmentid="<%= attachment.id %>">
+                                        <%= attachment.filename %>
+                                    </a>
+                                    <% } else { %>
+                                    <a id="attachment-<%= attachment.id %>" href="<%= attachment.localpath %>" rel="external"
+                                        ><%= attachment.filename %>
+                                    </a>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <% }); %>
+                    </div>
+
+                <% } %>
+
+            </div>
+
+            <div class="info">
+
+                <% if (assign.allowsubmissionsfromdate) { %>
+                    <p>
+                        <span><%= MM.lang.s('allowsubmissionsfromdate') %></span>
+                        <time><%= MM.util.timestampToUserDate(assign.allowsubmissionsfromdate) %></time>
+                    </p>
+                <% } %>
+
+                <p>
+                <% if (assign.duedate) { %>
+                        <span><%= MM.lang.s('duedate') %></span>
+                        <time><%= MM.util.timestampToUserDate(assign.duedate) %></time>
+                <% } else { %>
+                        <%= MM.lang.s('duedateno') %>
+                <% } %>
+                </p>
+
+                <% if (assign.cutoffdate) { %>
+                    <p>
+                        <span><%= MM.lang.s('cutoffdate') %></span>
+                        <time><%= MM.util.timestampToUserDate(assign.cutoffdate) %></time>
+                    </p>
+                <% } %>
+
+                <% if (canviewsubmissions && (!submissions || submissions.length == 0)) { %>
+                    <span><%= submissions.length %> <%= MM.lang.s("submissions") %></span>
+                <% } %>
+            </div>
+        </div>
+
+        <% if (canviewsubmissions) { %>
+        <h3><%= MM.lang.s('submissions') %></h3>
+        <% _.each(submissions, function(submission) { %>
+            <% user = {'fullname': 'User with Id' + submission.userid, 'profileimageurl': ''}; %>
+            <% if (typeof users[submission.userid] != 'undefined') { %>
+                <% user = users[submission.userid]; %>
+            <% } %>
+            <div class="post" data-assignsubmission="<%= submission.submission %>">
+                <div class="header">
+                    <img class="user-picture" src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>">
+                    <a class="author-name" href="#participant/<%= assign.course %>/<%= submission.userid %>/1" rel="author"><%= user.fullname %></a>
+                    <time><%= MM.util.timestampToUserDate(submission.timemodified) %></time>
+                    <span class="status"><%= submission.status %></span>
+                </div>
+                <div class="content">
+                    <p><%= MM.lang.s('attempnumber') %> <%= submission.attemptnumber %></p>
+
+                    <% var text = MM.plugins.assign._getSubmissionText(submission); %>
+                    <% var files = MM.plugins.assign._getSubmissionFiles(submission); %>
+
+                    <% if (text != '') { %>
+                        <p><a href="#" class="submissiontext" data-submissionid="<%= submission.id %>"><%= MM.lang.s('viewsubmission') %></a></p>
+                    <% } %>
+
+                    <% if (files.length > 0) { %>
+
+                        <div class="attachments">
+                            <% _.each(files, function(file) { %>
+                            <% if (file.localpath) { %>
+                                <% var dImg = "reloadgrey"; %>
+                                <% } else { %>
+                                <% var dImg = "download"; %>
+                            <% } %>
+                            <div class="attachment media">
+                                <div class="content-actions app-icon">
+                                    <img id="downimg-<%= file.id %>" src="img/<%= dImg %>.png" class="assign-download" data-downloadurl="<%= file.fileurl %>" data-filename="<%= file.filepath %>" data-attachmentid="<%= file.id %>">
+                                </div>
+                                <div class="content-name">
+                                    <div class="img app-ico">
+                                        <img src="img/files/<%= file.icon %>" alt="img">
+                                    </div>
+                                    <div class="bd">
+                                        <% if (!file.localpath) { %>
+                                        <a id="file-<%= file.id %>" class="assign-download" href="#" data-downloadurl="<%= file.fileurl %>" data-filename="<%= file.filepath %>" data-attachmentid="<%= file.id %>">
+                                            <%= file.filepath %>
+                                        </a>
+                                        <% } else { %>
+                                        <a id="file-<%= file.id %>" href="<%= file.localpath %>" rel="external"
+                                            ><%= file.filepath %>
+                                        </a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <% }); %>
+                        </div>
+
+                    <% } %>
+
+                </div>
+            </div>
+        <% }); %>
+        <% } else { %>
+            <div class="centered">
+                <a href="<%= activityLink %>" target="_blank"><button><%= MM.lang.s('addsubmission') %></button></a>
+            </div>
+        <% } %>
+    </div>
+</div>

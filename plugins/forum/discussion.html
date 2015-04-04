@@ -1,0 +1,59 @@
+<div class="header-sub">
+    <div class="back-row">
+        <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+    </div>
+    <div id="back-arrow-title">
+         <div class="bd">
+            <h2><%= MM.util.formatText(discussion.subject) %></h2>
+        </div>
+    </div>
+</div>
+
+<div class="content-index">
+    <div class="path-mod-forum forum-discussion">
+
+        <div class="forum-post first-post" data-postdiscussion="<%= discussion.discussion %>">
+            <div class="header">
+                <img class="user-picture" src="<%= MM.util.getMoodleFilePath(discussion.userpictureurl) %>">
+                <a class="author-name" href="#participant/<%= courseId %>/<%= discussion.userid %>/1" rel="author"><%= discussion.userfullname %></a>
+                <time><%= MM.util.timestampToUserDate(discussion.created) %></time>
+            </div>
+            <div class="discussion-body">
+
+                <div class="content">
+                    <%= MM.util.formatText(discussion.message) %>
+                    <%= MM.plugins.forum._printAttachments(discussion) %>
+                </div>
+                <p class="post-info" role="heading">
+                    <span>
+                        <img src="img/message.png"><%= discussion.numreplies %> <%= MM.lang.s("forumnumreplies") %>
+                    </span>
+                    <% if (discussion.created != discussion.timemodified && discussion.timemodified > discussion.created) { %>
+                        <span>
+                            <img src="img/time.png"><%= MM.util.printTimeAgo(discussion.timemodified) %>
+                        </span>
+                    <% } %>
+                </p>
+                <div class="indent">
+                    <% _.each(posts, function(post) { %>
+                    <% if (post.id == discussion.id) return; %>
+                    <div class="forum-post">
+                        <div class="header">
+                            <img class="user-picture" src="<%= MM.util.getMoodleFilePath(post.userpictureurl) %>">
+                            <a class="author-name" href="#participant/<%= courseId %>/<%= post.userid %>/1" rel="author"><%= post.userfullname %></a>
+                            <time><%= MM.util.timestampToUserDate(post.modified) %></time>
+                        </div>
+                        <p class="subject"><%= MM.util.formatText(post.subject) %></p>
+                        <div class="content">
+                            <%= MM.util.formatText(post.message) %>
+                            <%= MM.plugins.forum._printAttachments(post) %>
+                        </div>
+                    </div>
+                    <% }); %>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

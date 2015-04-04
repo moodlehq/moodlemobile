@@ -1,0 +1,33 @@
+{
+    "items": [
+        {
+            "activityid": "4",
+            "itemnumber": 0,
+            "scaleid": 0,
+            "name": "Cuestionario sencillo",
+            "grademin": 0,
+            "grademax": 10,
+            "gradepass": 0,
+            "locked": false,
+            "hidden": false,
+            "grades": [
+                {
+                    "userid": 3,
+                    "grade": 7,
+                    "locked": false,
+                    "hidden": false,
+                    "overridden": false,
+                    "feedback": null,
+                    "feedbackformat": 0,
+                    "usermodified": 3,
+                    "datesubmitted": 1404987241,
+                    "dategraded": 1404987241,
+                    "str_grade": "7.00",
+                    "str_long_grade": "7.00 / 10.00",
+                    "str_feedback": ""
+                }
+            ]
+        }
+    ],
+    "outcomes": []
+}

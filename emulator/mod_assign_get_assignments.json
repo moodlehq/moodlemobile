@@ -1,0 +1,324 @@
+{
+    "courses": [
+        {
+            "id": 4,
+            "fullname": "MoodleMobile Developer Testing Course",
+            "shortname": "MoodleMobile Testing",
+            "timemodified": 1426864349,
+            "assignments": [
+                {
+                    "id": 12,
+                    "cmid": 80,
+                    "course": 4,
+                    "name": "Task",
+                    "nosubmissions": 0,
+                    "submissiondrafts": 0,
+                    "sendnotifications": 1,
+                    "sendlatenotifications": 1,
+                    "sendstudentnotifications": 1,
+                    "duedate": 0,
+                    "allowsubmissionsfromdate": 1664274000,
+                    "grade": 100,
+                    "timemodified": 1427106986,
+                    "completionsubmit": 0,
+                    "cutoffdate": 0,
+                    "teamsubmission": 0,
+                    "requireallteammemberssubmit": 0,
+                    "teamsubmissiongroupingid": 0,
+                    "blindmarking": 0,
+                    "revealidentities": 0,
+                    "attemptreopenmethod": "none",
+                    "maxattempts": -1,
+                    "markingworkflow": 0,
+                    "markingallocation": 0,
+                    "requiresubmissionstatement": 0,
+                    "configs": [
+                        {
+                            "id": 78,
+                            "assignment": 12,
+                            "plugin": "onlinetext",
+                            "subtype": "assignsubmission",
+                            "name": "enabled",
+                            "value": "1"
+                        },
+                        {
+                            "id": 79,
+                            "assignment": 12,
+                            "plugin": "file",
+                            "subtype": "assignsubmission",
+                            "name": "enabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 80,
+                            "assignment": 12,
+                            "plugin": "comments",
+                            "subtype": "assignsubmission",
+                            "name": "enabled",
+                            "value": "1"
+                        },
+                        {
+                            "id": 81,
+                            "assignment": 12,
+                            "plugin": "comments",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "1"
+                        },
+                        {
+                            "id": 82,
+                            "assignment": 12,
+                            "plugin": "offline",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 83,
+                            "assignment": 12,
+                            "plugin": "file",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 90,
+                            "assignment": 12,
+                            "plugin": "onlinetext",
+                            "subtype": "assignsubmission",
+                            "name": "wordlimit",
+                            "value": "0"
+                        },
+                        {
+                            "id": 91,
+                            "assignment": 12,
+                            "plugin": "onlinetext",
+                            "subtype": "assignsubmission",
+                            "name": "wordlimitenabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 92,
+                            "assignment": 12,
+                            "plugin": "comments",
+                            "subtype": "assignfeedback",
+                            "name": "commentinline",
+                            "value": "0"
+                        },
+                        {
+                            "id": 93,
+                            "assignment": 12,
+                            "plugin": "editpdf",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "0"
+                        }
+                    ]
+                },
+                {
+                    "id": 13,
+                    "cmid": 83,
+                    "course": 4,
+                    "name": "Average lecture",
+                    "nosubmissions": 0,
+                    "submissiondrafts": 0,
+                    "sendnotifications": 1,
+                    "sendlatenotifications": 1,
+                    "sendstudentnotifications": 1,
+                    "duedate": 1405626900,
+                    "allowsubmissionsfromdate": 1405022100,
+                    "grade": 100,
+                    "timemodified": 1405022351,
+                    "completionsubmit": 0,
+                    "cutoffdate": 1405626900,
+                    "teamsubmission": 0,
+                    "requireallteammemberssubmit": 0,
+                    "teamsubmissiongroupingid": 0,
+                    "blindmarking": 0,
+                    "revealidentities": 0,
+                    "attemptreopenmethod": "none",
+                    "maxattempts": -1,
+                    "markingworkflow": 0,
+                    "markingallocation": 0,
+                    "requiresubmissionstatement": 0,
+                    "configs": [
+                        {
+                            "id": 84,
+                            "assignment": 13,
+                            "plugin": "onlinetext",
+                            "subtype": "assignsubmission",
+                            "name": "enabled",
+                            "value": "1"
+                        },
+                        {
+                            "id": 85,
+                            "assignment": 13,
+                            "plugin": "file",
+                            "subtype": "assignsubmission",
+                            "name": "enabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 86,
+                            "assignment": 13,
+                            "plugin": "comments",
+                            "subtype": "assignsubmission",
+                            "name": "enabled",
+                            "value": "1"
+                        },
+                        {
+                            "id": 87,
+                            "assignment": 13,
+                            "plugin": "comments",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "1"
+                        },
+                        {
+                            "id": 88,
+                            "assignment": 13,
+                            "plugin": "offline",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 89,
+                            "assignment": 13,
+                            "plugin": "file",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "0"
+                        }
+                    ],
+                    "intro": "<p>lecture description here</p>",
+                    "introformat": 1
+                },
+                {
+                    "id": 14,
+                    "cmid": 18,
+                    "course": 4,
+                    "name": "Assignment: Requirements for night in the Alps",
+                    "nosubmissions": 0,
+                    "submissiondrafts": 1,
+                    "sendnotifications": 0,
+                    "sendlatenotifications": 0,
+                    "sendstudentnotifications": 1,
+                    "duedate": 1427410800,
+                    "allowsubmissionsfromdate": 1426806000,
+                    "grade": 100,
+                    "timemodified": 1426865651,
+                    "completionsubmit": 0,
+                    "cutoffdate": 0,
+                    "teamsubmission": 0,
+                    "requireallteammemberssubmit": 0,
+                    "teamsubmissiongroupingid": 0,
+                    "blindmarking": 0,
+                    "revealidentities": 0,
+                    "attemptreopenmethod": "none",
+                    "maxattempts": -1,
+                    "markingworkflow": 0,
+                    "markingallocation": 0,
+                    "requiresubmissionstatement": 0,
+                    "configs": [
+                        {
+                            "id": 94,
+                            "assignment": 14,
+                            "plugin": "onlinetext",
+                            "subtype": "assignsubmission",
+                            "name": "enabled",
+                            "value": "1"
+                        },
+                        {
+                            "id": 95,
+                            "assignment": 14,
+                            "plugin": "onlinetext",
+                            "subtype": "assignsubmission",
+                            "name": "wordlimit",
+                            "value": "0"
+                        },
+                        {
+                            "id": 96,
+                            "assignment": 14,
+                            "plugin": "onlinetext",
+                            "subtype": "assignsubmission",
+                            "name": "wordlimitenabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 97,
+                            "assignment": 14,
+                            "plugin": "file",
+                            "subtype": "assignsubmission",
+                            "name": "enabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 98,
+                            "assignment": 14,
+                            "plugin": "comments",
+                            "subtype": "assignsubmission",
+                            "name": "enabled",
+                            "value": "1"
+                        },
+                        {
+                            "id": 99,
+                            "assignment": 14,
+                            "plugin": "comments",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "1"
+                        },
+                        {
+                            "id": 100,
+                            "assignment": 14,
+                            "plugin": "comments",
+                            "subtype": "assignfeedback",
+                            "name": "commentinline",
+                            "value": "1"
+                        },
+                        {
+                            "id": 101,
+                            "assignment": 14,
+                            "plugin": "editpdf",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 102,
+                            "assignment": 14,
+                            "plugin": "offline",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "0"
+                        },
+                        {
+                            "id": 103,
+                            "assignment": 14,
+                            "plugin": "file",
+                            "subtype": "assignfeedback",
+                            "name": "enabled",
+                            "value": "0"
+                        }
+                    ],
+                    "intro": "<p>Assignment description here<br></p>",
+                    "introformat": 1,
+                    "introattachments": [
+                        {
+                            "filename": "singlescobasic.zip",
+                            "mimetype": "application/zip",
+                            "fileurl": "http://localhost/m/stable_master/webservice/pluginfile.php/245/mod_assign/introattachment/0/singlescobasic.zip"
+                        },
+                        {
+                            "filename": "page.html",
+                            "mimetype": "text/html",
+                            "fileurl": "http://localhost/m/stable_master/webservice/pluginfile.php/245/mod_assign/introattachment/0/page.html"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "warnings": []
+}

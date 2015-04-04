@@ -1,0 +1,91 @@
+<div class="content-index">
+    <header>
+        <div>
+            <div class="bd">
+                <p><%= MM.util.formatText(course.summary) %></p>
+            </div>
+        </div>
+    </header>
+    <% _.each(sections, function(section) { %>
+    <% if (section.modules && section.modules.length >0) { %>
+    <section>
+        <% if (sections.length > 1) { %>
+
+            <% if(section.summary) { %>
+            <h3 data-sectionid="<%= section.id %>" style="background-image: url(img/expandgrey.png); background-position-x: 95%; background-repeat: no-repeat;"><%= MM.util.formatText(section.name) %></h3>
+            <div id="section-<%= section.id %>" style="display: none">
+                <%= MM.util.formatText(section.summary) %>
+            </div>
+            <% } else { %>
+            <h3><%= MM.util.formatText(section.name) %></h3>
+            <% } %>
+        <% } else if(section.summary) { %>
+            <%= MM.util.formatText(section.summary) %>
+        <% } %>
+        <ul class="nav nav-v">
+            <% _.each(section.modules, function(module) { %>
+
+            <%  var plugin = MM.checkModPlugin(module.modname); %>
+            <%  if (plugin) { %>
+                <%= MM.plugins[plugin].render(courseId, sectionId, section, module) %>
+                <%  return; %>
+            <% } %>
+
+            <li class="nav-item media mod-<%= module.modname %>">
+                <div class="content-table">
+
+                    <div class="content-actions app-ico">
+                        <% if (module.multiplefiles){ %>
+                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>"><img src="img/arrowright.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
+                        <% } else { %>
+                            <% if (!module.downloaded) { %>
+                                <% if (!module.webOnly) { %>
+                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/download.png" border="0" id="download-<%= module.contentid %>"></a>&nbsp;
+                                <% } else { %>
+                                    <img src="img/website.png" border="0">&nbsp;
+                                <% } %>
+                            <% } else  { %>
+                                    <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>"><img src="img/reloadgrey.png" border="0" id="download-<%= module.contentid %>" width="16" height="16"></a>&nbsp;
+                            <% } %>
+                        <% } %>
+                        <img src="img/info.png" border="0" id="info-<%= module.contentid %>" class="content-info" data-course="<%= courseId %>" data-section="<%= sectionId %>" data-content="<%= module.contentid %>">
+                    </div>
+
+                    <div class="content-name mod-<%= module.modname %>">
+                        <% if (module.downloaded) { %>
+                            <% if (module.multiplefiles){ %>
+                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>" id="link-<%= module.contentid %>">
+                            <% } else { %>
+                                <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" id="link-<%= module.contentid %>">
+                            <% }%>
+                        <% } else { %>
+                             <% if (module.multiplefiles){ %>
+                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/folder/<%= module.contentid %>/sectionname/<%= encodeURIComponent(section.name) %>" id="link-<%= module.contentid %>">
+                            <% } else if(module.webOnly){ %>
+                                <a href="<%= module.url %>" target="_blank" id="link-<%= module.contentid %>">
+                            <% } else { %>
+                                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>" id="link-<%= module.contentid %>">
+                            <% } %>
+                        <% } %>
+
+                        <div class="img app-ico">
+                        <% if (!module.multiplefiles && typeof(module.mainExtension) != "undefined") { %>
+                            <img src="img/files/<%= module.mainExtension %>-64.png" alt="img">
+                        <% } else { %>
+                            <img src="<%= MM.plugins.contents.getModuleIcon(module.modname) %>" alt="img">
+                        <% } %>
+                        </div>
+                        <div class="bd">
+                            <p><%= module.name %></p>
+                        </div>
+
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <% }); %>
+        </ul>
+    </section>
+    <% } %>
+    <% }); %>
+</div>

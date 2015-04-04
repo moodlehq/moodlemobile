@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+#add-site,
+#manage-accounts,
+.full-screen-dialog .modalContent {
+  margin: 0 auto;
+  width: 90%;
+}
+#main-wrapper {
+  position: absolute;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.header-wrapper {
+  position: absolute;
+  width: 100%;
+  left: 100%;
+  z-index: 30;
+}
+.panel {
+  position: absolute;
+}
+#panel-left {
+  left: 0;
+  width: 100%;
+}
+#panel-left.animate {
+  left: -100%;
+}
+#panel-center {
+  left: 100%;
+  width: 100%;
+  top: 44px;
+  display: none;
+}
+#panel-center.animate {
+  left: 0%;
+}
+#panel-center:after {
+  content: "";
+  display: inherit;
+  height: 44px;
+}
+#panel-right {
+  left: 100%;
+  width: 100%;
+  top: 44px;
+  padding-right: 50px;
+  display: none;
+}
+#panel-right:after {
+  content: "";
+  display: inherit;
+  height: 44px;
+}
+#mycourses {
+  overflow: auto;
+  width: 100%;
+}
+.full-screen-dialog.choose-account .modalContent {
+  height: 100%;
+  overflow: auto;
+}
+/* - Tablet minimum width 768px
+-------------------------------------------------------------------------- */
+.tablet #add-site,
+.tablet #manage-accounts,
+.tablet .full-screen-dialog .modalContent {
+  width: 70%;
+}
+.tablet .header-wrapper {
+  left: 0%;
+}
+.tablet #panel-left {
+  width: 30%;
+}
+.tablet #panel-center {
+  left: 0%;
+  width: 33%;
+  display: block;
+}
+.tablet #panel-right {
+  left: 33%;
+  width: 67%;
+  padding: 0px;
+  display: block;
+}

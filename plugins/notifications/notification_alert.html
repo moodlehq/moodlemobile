@@ -1,0 +1,18 @@
+<p><%= event.alert %></p>
+
+<div style = "text-align: left">
+
+<% if (event.site) { %>
+    <strong><%=  MM.lang.s("sitename") %></strong>: <%=  MM.util.formatText(event.site.sitename) %><br />
+    <strong><%=  MM.lang.s("siteurl") %></strong>: <%=  event.site.siteurl %><br />
+<% } %>
+
+<% if (event.userfrom) { %>
+    <strong><%= MM.lang.s("userfrom") %></strong>: <%= event.userfrom %><br />
+<% } %>
+
+<% if (event.date) { %>
+    <strong><%= MM.lang.s("date") %></strong>: <%= MM.util.timestampToUserDate(event.date) %><br />
+<% } %>
+
+</div>

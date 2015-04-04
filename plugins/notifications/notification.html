@@ -1,0 +1,11 @@
+<div class="user-card">
+    <div class="content">
+        <h3 class="settings-section"><%= MM.lang.s("info") %></h3>
+        <ul class="user-data">
+            <li><%= alert %></li>
+            <li><%= MM.lang.s("type") %>: <%= notification.type %></li>
+            <li><%= MM.lang.s("userfrom") %>: <%= notification.userfrom %></li>
+            <li><%= MM.lang.s("date") %>: <%= MM.util.timestampToUserDate(notification.date) %></li>
+        </ul>
+    </div>
+</div>

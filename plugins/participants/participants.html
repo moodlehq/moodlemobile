@@ -1,0 +1,16 @@
+    <section class="users-index-list">
+        <!--<form class="search">
+            <input type="search" results="5" placeholder="Search...">
+        </form>-->
+        <ul class="nav nav-v">
+            <%= MM.tpl.render(MM.plugins.participants.templates.participantsRow.html, {"courseId": courseId, "users": users}) %>
+        </ul>
+        <ul id="participants-additional" class="nav nav-v">
+
+        </ul>
+    </section>
+    <% if (showMore) { %>
+    <div class="centered">
+        <button id="participants-showmore"><%= MM.lang.s("showmore") %></button>
+    </div>
+    <% } %>
