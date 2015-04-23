@@ -14,9 +14,9 @@
 
         <div class="content-name mod-resource">
             <% if (module.downloaded) { %>
-                 <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" id="link-<%= module.contentid %>">
+                 <a href="<% print(MM.fs.getRoot() + "/" + module.contents[0].localpath); %>" rel="external" id="link-<%= module.contentid %>"  data-instance="<%= module.instance %>">
             <% } else { %>
-                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>" id="link-<%= module.contentid %>">
+                <a href="#course/contents/<%= courseId %>/section/<%= sectionId %>/download/<%= module.contentid %>" id="link-<%= module.contentid %>"  data-instance="<%= module.instance %>">
             <% } %>
 
             <div class="img app-ico">

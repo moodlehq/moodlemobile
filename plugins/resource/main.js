@@ -16,6 +16,12 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
         },
 
         render: function(courseId, sectionId, section, module) {
+
+            // Missing instance? (Possible in older Moodle versions).
+            if (typeof module.instance == "undefined") {
+                module.instance = 0;
+            }
+
             var data = {
                 "courseId": courseId,
                 "sectionId": sectionId,
@@ -40,6 +46,19 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
          * Callback executed when the contents resource is rendered.
          */
         contentsPageRendered: function() {
+
+            // Logging.
+             $(".content-name.mod-resource a").on(MM.clickType, function(e) {
+                var instance = $(this).data("instance");
+                if (parseInt(instance) > 0) {
+                    MM.moodleLogging(
+                        'mod_resource_view_resource',
+                        {
+                            resourceid: instance
+                        }
+                    );
+                }
+            });
 
             $(".resource-downloaded").on(MM.clickType, function(e) {
                 e.preventDefault();
