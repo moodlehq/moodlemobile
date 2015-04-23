@@ -15,6 +15,11 @@ define(templates, function (viewTpl, dialogTpl) {
         },
 
         render: function(courseId, sectionId, section, module) {
+            // Missing instance? (Possible in older Moodle versions).
+            if (typeof module.instance == "undefined") {
+                module.instance = 0;
+            }
+
             var data = {
                 "courseId": courseId,
                 "sectionId": sectionId,
@@ -33,10 +38,11 @@ define(templates, function (viewTpl, dialogTpl) {
             $(".page-downloaded").on(MM.clickType, function(e) {
                 e.preventDefault();
                 var path = $(this).data("path");
+                var instance = $(this).data("instance");
                 path = path.substring(0, path.lastIndexOf("/") + 1) + "index.html";
                 path = MM.fs.getRoot() + "/" + path;
 
-                MM.plugins.page._showPage(path);
+                MM.plugins.page._showPage(path, instance);
             });
 
             $(".page-download-all").on(MM.clickType, function(e) {
@@ -45,6 +51,7 @@ define(templates, function (viewTpl, dialogTpl) {
                 var contentId = $(this).data("content");
                 var courseId = $(this).data("course");
                 var sectionId = $(this).data("section");
+                var instance = $(this).data("instance");
 
                 var downloadIcon = $("#download-all-" + contentId);
                 if (downloadIcon) {
@@ -71,7 +78,7 @@ define(templates, function (viewTpl, dialogTpl) {
 
                         var indexFileURL = MM.fs.getRoot() + "/" + path + "index.html";
 
-                        MM.plugins.page._showPage(indexFileURL);
+                        MM.plugins.page._showPage(indexFileURL, instance);
                     },
                     // Error.
                     errorFn
@@ -79,13 +86,21 @@ define(templates, function (viewTpl, dialogTpl) {
             });
         },
 
-        _showPage: function(path) {
+        _showPage: function(path, instance) {
             var data = {
                 path: path
             };
             var title = MM.tpl.render(MM.plugins.page.templates.dialog.html, data);
 
             MM.widgets.renderIframeModal(title, path);
+            if (parseInt(instance) > 0) {
+                MM.moodleLogging(
+                    'mod_page_view_page',
+                    {
+                        pageid: instance
+                    }
+                );
+            }
         },
 
         templates: {
