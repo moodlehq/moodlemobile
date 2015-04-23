@@ -238,7 +238,15 @@ define(templates,function (activities, activitiesTotal, gradesTable) {
                         MM.panels.show("center", html, {title: MM.util.formatText(course.get("fullname")), hideRight: true});
                     }
                 },
-                {},
+                {
+                    logging: {
+                        method: 'gradereport_user_view_grade_report',
+                        data: {
+                            courseid: courseId,
+                            userid: userId
+                        }
+                    }
+                },
                 function(e) {
                     if (!popUp) {
                         $(menuEl, '#panel-left').removeClass('loading-row');
