@@ -47,6 +47,9 @@ define(templates, function (filesTpl) {
                         'mod_url_view_url',
                         {
                             urlid: instance
+                        },
+                        function() {
+                            MM.cache.invalidate();
                         }
                     );
                 }

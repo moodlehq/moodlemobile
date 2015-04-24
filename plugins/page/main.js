@@ -98,6 +98,9 @@ define(templates, function (viewTpl, dialogTpl) {
                     'mod_page_view_page',
                     {
                         pageid: instance
+                    },
+                    function() {
+                        MM.cache.invalidate();
                     }
                 );
             }

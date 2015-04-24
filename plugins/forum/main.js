@@ -239,6 +239,9 @@ define(templates, function (filesTpl, discussionTpl, discussionsTpl, attachments
                         method: 'mod_forum_view_forum',
                         data: {
                             forumid: forum.id
+                        },
+                        callBack: function() {
+                            MM.cache.invalidate();
                         }
                     }
                 },

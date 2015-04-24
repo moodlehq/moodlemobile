@@ -55,6 +55,9 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
                         'mod_resource_view_resource',
                         {
                             resourceid: instance
+                        },
+                        function() {
+                            MM.cache.invalidate();
                         }
                     );
                 }
