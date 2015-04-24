@@ -57,6 +57,15 @@ define(requires, function (uploadFileTpl) {
 
                 return false;
             }
+
+            // Check capability usercanmanageownfiles. Moodle 2.9 and onwards.
+            if (MM.config && MM.config.current_site &&
+                typeof(MM.config.current_site.usercanmanageownfiles) != "undefined" &&
+                !MM.config.current_site.usercanmanageownfiles) {
+
+                return false;
+            }
+
             return true;
         },
 
