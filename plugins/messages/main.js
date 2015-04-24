@@ -71,6 +71,22 @@ define(requires, function (messagesTpl, recentTpl, conversationTpl, contactTpl, 
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
+
+            // Moodle 2.9 and onwards, check global settings.
+            if (MM.config && MM.config.current_site &&
+                    typeof(MM.config.current_site.advancedfeatures) != "undefined"){
+
+                var disabled = false;
+                MM.config.current_site.advancedfeatures.forEach(function(feature) {
+                    if (feature.name == 'messaging' && feature.value === 0) {
+                        disabled = true;
+                    }
+                });
+                if (disabled) {
+                    return false;
+                }
+            }
+
             // The plugin is visible either if is available the remote service for pulling messages or
             // the platform support Push messages.
 
