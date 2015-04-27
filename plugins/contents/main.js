@@ -467,6 +467,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
 
+            if (typeof content.instance == "undefined") {
+                content.instance = 0;
+            }
+
             var data = {
             "options[0][name]" : "",
             "options[0][value]" : ""
@@ -504,6 +508,18 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     $(this).data("index"));
             });
 
+            // Logging.
+            if (parseInt(content.instance) > 0) {
+                MM.moodleLogging(
+                    'mod_folder_view_folder',
+                    {
+                        folderid: content.instance
+                    },
+                    function() {
+                        MM.cache.invalidate();
+                    }
+                );
+            }
         },
 
         infoContent: function(e, courseId, sectionId, contentId, index) {
