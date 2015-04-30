@@ -41,7 +41,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             $('a[href="#course/contents/' +courseId+ '"]').addClass('loading-row');
 
             var data = {
-                'courseid': courseId
+                'courseid': courseId,
+                'options[0][name]': 'excludecontents',
+                'options[0][value]': true
             };
 
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
