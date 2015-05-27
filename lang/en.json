@@ -27,6 +27,7 @@
 "cannotaddnote": "Network not reachable. Your note has been saved in task queue; you can resend it once you are online.",
 "cannotconnect": "Cannot connect: Verify that your have typed correctly the URL and that your site uses Moodle 2.4 or later.",
 "cannotconnectssl": "Cannot connect: Verify that your have typed correctly the URL, your site uses Moodle 2.4 or later and the SSL certificate is valid.",
+"cannotdownloadfiles": "File downloading is disabled in your Mobile service, the app can't work with this setting disabled. Please, contact your site administrator.",
 "cannotsendmessage": "Network not reachable. Your message has been saved in task queue; you can resend it once you are online.",
 "chooseaccountuploadfile": "Choose an account to upload the file to",
 "choosefile": "Choose a file",
