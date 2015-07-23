@@ -1,8 +1,8 @@
 {
-  "name": "APPleby for desktop",
+  "name": "Moodle Mobile for desktop",
   "main": "index.html",
   "window": {
-    "title": "APPleby for desktop",
+    "title": "Moodle Mobile for desktop",
     "icon": "icon.png",
     "toolbar": true,
     "frame": true,
@@ -12,5 +12,5 @@
     "resizable": false
   },
   "plugin": true,
-  "description": "APPleby for desktop"
+  "description": "Moodle Mobile for desktop"
 }

@@ -1,15 +1,10 @@
 {
-"name": "APPleby",
+"name": "Moodle Mobile",
 "license": {
     "name": "Apache 2.0",
     "link": "http://www.apache.org/licenses/LICENSE-2.0"
 },
 "credits": [
-{
-	"fullname": "Paulin Tchonin",
-	"contribution": "developer mobile",
-    "company": "Customization"
-},
 {
     "fullname": "Juan Leyva",
     "contribution": "Main developer",
