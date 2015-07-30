@@ -5,10 +5,10 @@
         id        = "com.moodle.moohat"
         versionCode = "1"
         version   = "1.0">
-    <name>Web h&#7885;c tr&#7921;c tuy&#7871;n</name>
+    <name>Web học trực tuyến</name>
 
     <description>
-        &#7912;ng d&#7909;ng tr&#234;n di &#273;&#7897;ng c&#7911;a website h&#7885;c tr&#7921;c tuy&#7871;n
+        á»¨ng dá»¥ng trÃªn di Ä‘á»™ng cá»§a website há»c trá»±c tuyáº¿n
     </description>
 
     <author href="http://moodle.com" email="juan@moodle.com">
