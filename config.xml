@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.moodle.moohat"
         versionCode = "1"
         version   = "1.0">
-    <name>Web học trực tuyến</name>
+    <name>Web h&#7885;c tr&#7921;c tuy&#7871;n</name>
 
     <description>
-        Ứng dụng trên di động của website học trực tuyến
+        &#7912;ng d&#7909;ng tr&#234;n di &#273;&#7897;ng c&#7911;a website h&#7885;c tr&#7921;c tuy&#7871;n
     </description>
 
     <author href="http://moodle.com" email="juan@moodle.com">
