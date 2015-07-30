@@ -2,13 +2,13 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
-        id        = "com.moodle.moodlemobile"
-        versionCode = "391"
-        version   = "1.15">
-    <name>Moodle Mobile</name>
+        id        = "com.moodle.moohat"
+        versionCode = "1"
+        version   = "1.0">
+    <name>Web học trực tuyến</name>
 
     <description>
-        Moodle Mobile official app
+        Ứng dụng trên di động của website học trực tuyến
     </description>
 
     <author href="http://moodle.com" email="juan@moodle.com">
@@ -16,9 +16,20 @@
     </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-        <string>1.15</string>
+        <string>1.0</string>
     </gap:config-file>
-
+    
+    <feature name="http://api.phonegap.com/1.0/device" />
+    <feature name="http://api.phonegap.com/1.0/network"/>
+    <!-- The following phonegap camera feature block Google Play to install the app on Nexus 7.
+         Nothing is broken without it, so we disable it.
+         Note that at the current moment we don't use phonegap video capture plugin - MOBILE-296.
+         -->
+    <!-- feature name="http://api.phonegap.com/1.0/camera"/ -->
+    <feature name="http://api.phonegap.com/1.0/contacts"/>
+    <feature name="http://api.phonegap.com/1.0/media"/>
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    
     <preference name="android-minSdkVersion" value="5" />
 
     <preference name="phonegap-version" value="3.6.3" />
@@ -90,7 +101,7 @@
     <gap:plugin name="com.phonegap.plugins.pushplugin" />
     <gap:plugin name="net.tunts.webintent" />
     <gap:plugin name="nl.x-services.plugins.launchmyapp">
-        <param name="URL_SCHEME" value="moodlemobile" />
+        <param name="URL_SCHEME" value="moohat" />
     </gap:plugin>
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
