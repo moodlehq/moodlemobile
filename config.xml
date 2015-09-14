@@ -5,14 +5,14 @@
         id        = "com.moodle.moodlemobile"
         versionCode = "391"
         version   = "1.15">
-    <name>Moodle Mobile</name>
+    <name>InstaLearn</name>
 
     <description>
-        Moodle Mobile official app
+        One-Stop app for JNTU
     </description>
 
     <author href="http://moodle.com" email="juan@moodle.com">
-        Juan Leyva
+        Charles Talathoti
     </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
@@ -21,7 +21,7 @@
 
     <preference name="android-minSdkVersion" value="5" />
 
-    <preference name="phonegap-version" value="3.6.3" />
+    <preference name="phonegap-version" value="3.7.0" />
     <preference name="orientation"      value="default" />
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
