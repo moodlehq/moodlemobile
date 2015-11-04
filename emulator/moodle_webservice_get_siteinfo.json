@@ -84,6 +84,38 @@
         {
             "name": "local_mobile_gradereport_user_get_grades_table",
             "version": "2014052807"
+        },
+        {
+            "name": "local_mobile_core_message_create_contacts",
+            "version": "2014052811"
+        },
+        {
+            "name": "local_mobile_core_message_delete_contacts",
+            "version": "2014052811"
+        },
+        {
+            "name": "local_mobile_core_message_block_contacts",
+            "version": "2014052811"
+        },
+        {
+            "name": "local_mobile_core_message_unblock_contacts",
+            "version": "2014052811"
+        },
+        {
+            "name": "local_mobile_core_message_get_contacts",
+            "version": "2014052811"
+        },
+        {
+            "name": "local_mobile_core_message_search_contacts",
+            "version": "2014052811"
+        },
+        {
+            "name": "mod_assign_get_assignments",
+            "version": "2014052811"
+        },
+        {
+            "name": "mod_assign_get_submissions",
+            "version": "2014052811"
         }
     ],
     "downloadfiles": 1,

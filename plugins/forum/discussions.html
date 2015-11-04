@@ -1,20 +1,20 @@
-<div class="back-row">
-    <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+<div class="header-sub">
+    <div class="back-row">
+        <a onclick="window.history.back();"><img src="img/arrowleft.png"></a>
+    </div>
+    <div id="back-arrow-title" class="media">
+        <div class="img app-ico">
+            <img src="img/mod/forum.png" alt="img">
+        </div>
+        <div class="bd">
+            <h2><%= MM.util.formatText(forum.name) %></h2>
+        </div>
+    </div>
 </div>
 
 <div class="content-index">
-    <h2><%= sectionName %></h2>
     <div class="path-mod-forum">
         <div class="forum media">
-            <div class="content-name">
-                <div class="img app-ico">
-                    <img src="img/mod/forum.png" alt="img">
-                </div>
-                <div class="bd">
-                    <p><%= MM.util.formatText(forum.name) %></p>
-                </div>
-            </div>
-
             <div class="intro">
                 <%= MM.util.formatText(forum.intro) %>
             </div>
@@ -46,7 +46,7 @@
                     <time><%= MM.util.timestampToUserDate(discussion.created) %></time>
                 </div>
                 <p role="heading" class="subject toogler" data-discussionid="<%= discussion.discussion %>">
-                    <%= MM.util.formatText(discussion.subject) %>
+                    <a href="#forum/discussion/<%= forum.course %>/<%= discussion.discussion %>"><%= MM.util.formatText(discussion.subject) %></a>
                 </p>
                 <div class="discussion-body"></div>
                 <div class="post-info">

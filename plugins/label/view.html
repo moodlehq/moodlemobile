@@ -3,7 +3,7 @@
         <div class="content-name mod-label">
 
             <a class="expand-label action-label" data-courseid="<%= courseId %>" data-sectionid="<%= sectionId %>" data-contentid="<%= module.contentid %>" id="link-<%= module.contentid %>">
-                <h3><%= module.name %></h3>
+                <div><%= MM.plugins.label.shortenText(module.description) %></div>
             </a>
         </div>
     </div>

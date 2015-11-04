@@ -3,7 +3,7 @@
             <a href="#course/contents/<%= course.courseid %>/section/-1" class="menu1 touch-row"><%= MM.lang.s("showall") %><br></a>
     </li>
 <% $.each(sections, function(index, section) { %>
-    <% if (section.modules && section.modules.length >0) { %>
+    <% if (course.courseid  != 1 && section.modules && section.modules.length >0) { %>
     <li class="nav-item">
             <a href="#course/contents/<%= course.courseid %>/section/<%= index %>" class="menu1 touch-row"><%= section.name%><br></a>
     </li>

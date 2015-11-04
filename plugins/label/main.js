@@ -43,10 +43,14 @@ define(templates, function (filesTpl) {
                         MM.handleExternalLinks('#link-' + contentId + ' a[target="_blank"]');
                     }
                 } else {
-                    $(this).html("<h3>" + content.name + "</h3>");
+                    $(this).html("<div>" + MM.plugins.label.shortenText(content.description) + "</div>");
                 }
                 $(this).toggleClass("collapse-label expand-label");
             });
+        },
+
+        shortenText: function(text) {
+            return MM.util.shortenText(MM.util.formatText(text, true), 64);
         },
 
         templates: {

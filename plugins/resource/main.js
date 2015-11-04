@@ -16,6 +16,12 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
         },
 
         render: function(courseId, sectionId, section, module) {
+
+            // Missing instance? (Possible in older Moodle versions).
+            if (typeof module.instance == "undefined") {
+                module.instance = 0;
+            }
+
             var data = {
                 "courseId": courseId,
                 "sectionId": sectionId,
@@ -40,6 +46,22 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
          * Callback executed when the contents resource is rendered.
          */
         contentsPageRendered: function() {
+
+            // Logging.
+             $(".content-name.mod-resource a").on(MM.clickType, function(e) {
+                var instance = $(this).data("instance");
+                if (parseInt(instance) > 0) {
+                    MM.moodleLogging(
+                        'mod_resource_view_resource',
+                        {
+                            resourceid: instance
+                        },
+                        function() {
+                            MM.cache.invalidate();
+                        }
+                    );
+                }
+            });
 
             $(".resource-downloaded").on(MM.clickType, function(e) {
                 e.preventDefault();
@@ -97,28 +119,12 @@ define(templates, function (viewSingleTpl, viewMultipleTpl, dialogTpl) {
         },
 
         _showResource: function(path) {
-            var height= $(document).innerHeight() - 200;
-            var style = 'border: none; width: 100%; height: ' + height + 'px';
-            var iframe = '<iframe style="' + style + '" src="' + path + '">';
-            iframe += '</iframe>';
-
             var data = {
                 path: path
             };
             var title = MM.tpl.render(MM.plugins.resource.templates.dialog.html, data);
 
-            var options = {
-                title: title,
-                width: "100%",
-                marginTop: "10px"
-            };
-            MM.widgets.dialog(iframe, options);
-
-            MM.handleExternalLinks('.modalHeader a[target="_blank"]');
-
-            $("#dialog-close").on(MM.clickType, function(e){
-                MM.widgets.dialogClose();
-            });
+            MM.widgets.renderIframeModal(title, path);
         },
 
         templates: {

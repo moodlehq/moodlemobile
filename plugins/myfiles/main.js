@@ -1,4 +1,4 @@
-var templates = [
+    var templates = [
     "root/externallib/text!root/plugins/myfiles/files.html"
 ];
 
@@ -35,6 +35,14 @@ define(templates, function (filesTpl) {
          * @return {bool} True if the plugin is visible for the site and device
          */
         isPluginVisible: function() {
+            // Check capability usercanmanageownfiles. Moodle 2.9 and onwards.
+            if (MM.config && MM.config.current_site &&
+                typeof(MM.config.current_site.usercanmanageownfiles) != "undefined" &&
+                !MM.config.current_site.usercanmanageownfiles) {
+
+                return false;
+            }
+
             if (MM.util.wsAvailable('local_mobile_core_files_get_files')) {
                 MM.plugins.myfiles.wsPrefix = 'local_mobile_';
                 return true;

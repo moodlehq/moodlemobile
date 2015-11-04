@@ -11,6 +11,8 @@
         "descriptionformat": 1,
         "city": "Perth",
         "country": "AU",
+        "phone1": "+1 987 654 321",
+        "address": "Sesamee street",
         "profileimageurlsmall": "emulator/userimage.png#",
         "profileimageurl": "emulator/userimage.png#",
         "preferences": [

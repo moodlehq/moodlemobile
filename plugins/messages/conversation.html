@@ -1,72 +1,25 @@
+<script type="text/template" id="header-icon-right-content">
+    <a href="#messages/contact/<%= otherUser %>"><img width="16" style="border-radius: 50%" src="<%= userPicture %>"></a>
+</script>
 <div id="header-action-contact" class="header-action"></div>
 <div class="panel-container">
     <div class="path-messages">
         <div class="conversation">
             <div class="conversation-area">
-                <p class="datestamp">May 20, 2014, 4:16 PM</p>
-                <div class="bubble">
-                    Hi!
-                </div>
-                <div class="bubble bubble-alt">
-                    are you there?
-                </div>
-                <div class="bubble">
-                    The quick brown fox jumps over the lazy dog.
-                </div>
-                <div class="bubble">
-                    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-                </div>
-                <div class="bubble bubble-alt">
-                    did you received my message?
-                </div>
-                <div class="bubble bubble-alt">
-                    The one about the fruits?
-                </div>
-                <div class="bubble bubble-alt">
-                    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.?
-                </div>
-                <div class="bubble">
-                    ¿?...
-                </div>
-                <div class="bubble">
-                    Hi!
-                </div>
-                <div class="bubble bubble-alt">
-                    are you there?
-                </div>
-                <div class="bubble">
-                    The quick brown fox jumps over the lazy dog.
-                </div>
-                <div class="bubble">
-                    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-                </div>
-                <div class="bubble bubble-alt">
-                    did you received my message?
-                </div>
-                <div class="bubble bubble-alt">
-                    The one about the fruits?
-                </div>
-                <div class="bubble bubble-alt">
-                    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.?
-                </div>
-                <div class="bubble">
-                    ¿?...
-                </div>
+                <% previousDate = ""; %>
+
+                <%= MM.plugins.messages._renderConversationArea(messages, otherUser, previousDate) %>
+
             </div>
 
-            <div style="clear:both"></div>
-
             <div class="input-area">
-                <form>
+                <form id="message-send-form">
                     <div>
-                        <input type="text"></span>
+                        <input type="text" name="message" id="message-text"></span>
                         <input type="submit" value="<%= MM.lang.s("send") %>">
                     </div>
                 </form>
             </div>
-<!--         <div style="position: fixed; bottom: 0px">
-            <input type="text" style="display: inline"> <span style="display: inline"><%= MM.lang.s("send") %></span>
-        </div> -->
 
         </div>
     </div>

@@ -14,6 +14,11 @@ define(templates, function (filesTpl) {
         },
 
         render: function(courseId, sectionId, section, module) {
+            // Missing instance? (Possible in older Moodle versions).
+            if (typeof module.instance == "undefined") {
+                module.instance = 0;
+            }
+
             var data = {
                 "courseId": courseId,
                 "sectionId": sectionId,
@@ -27,7 +32,29 @@ define(templates, function (filesTpl) {
             "view": {
                 html: filesTpl
             }
-        }
+        },
+
+        /**
+         * Callback executed when the contents resource is rendered.
+         */
+        contentsPageRendered: function() {
+
+            // Logging.
+             $(".content-name.mod-url a").on(MM.clickType, function(e) {
+                var instance = $(this).data("instance");
+                if (parseInt(instance) > 0) {
+                    MM.moodleLogging(
+                        'mod_url_view_url',
+                        {
+                            urlid: instance
+                        },
+                        function() {
+                            MM.cache.invalidate();
+                        }
+                    );
+                }
+            });
+        },
 
     };
 
