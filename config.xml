@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
-        id        = "com.moodle.moodlemobile"
+        id        = "org.bekr.bekrmobile"
         versionCode = "391"
         version   = "1.15">
-    <name>Moodle Mobile</name>
+    <name>Bekr Mobile</name>
 
     <description>
-        Moodle Mobile official app
+        Bekr Mobile official app
     </description>
 
-    <author href="http://moodle.com" email="juan@moodle.com">
-        Juan Leyva
+        <author href="http://bekr.org" email="hadi_12766@ymail.com">
+        Hadi Behrouzian
     </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
