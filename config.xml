@@ -3,9 +3,9 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.moodle.moodlemobile"
-        versionCode = "391"
+        versionCode = "2"
         version   = "1.15">
-    <name>Moodle Mobile</name>
+    <name>ITA Movil</name>
 
     <description>
         Moodle Mobile official app
