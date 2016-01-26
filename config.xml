@@ -4,8 +4,8 @@
         xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.moodle.moodlemobile"
         versionCode = "2"
-        version   = "2.01">
-    <name>ITA Movil</name>
+        version   = "2.02">
+    <name>ITA Educacion movil</name>
 
     <description>
         Moodle Mobile official app
