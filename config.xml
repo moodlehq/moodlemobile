@@ -4,7 +4,7 @@
         xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.moodle.moodlemobile"
         versionCode = "2"
-        version   = "1.15">
+        version   = "2.01">
     <name>ITA Movil</name>
 
     <description>
