@@ -95,7 +95,8 @@
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
     <gap:plugin name="ch.ti8m.documenthandler" version="0.2.1" />
-    <gap:plugin name="com.pushbots.push" version="1.2.1" source="plugins.cordova.io" />
+    <gap:plugin name="pushbots-cordova-plugin" source="npm" />
+    
 
     <gap:config-file platform="android" parent="/manifest">
          <application android:debuggable="false" />
