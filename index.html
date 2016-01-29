@@ -61,6 +61,13 @@
         // We should wait to phonegap, if not, we get errors like:
         // http://rickluna.com/wp/2012/04/solving-the-connection-to-the-server-was-unsuccessful-error-in-androidphonegap/
         $(document).bind('deviceready', function() {
+
+            //push
+
+            document.addEventListener('deviceready', function () {
+            var Pushbots = PushbotsPlugin.initialize("56aade1317795988768b4567", {"android":{"sender_id":"AIzaSyCgV0cXihwaRVP6jFKvd-3p1et4rznNW30"}});
+            }, false);
+            //end push
             MM.log('Deviceready fired');
             MM.deviceReady = true;
             // Store the device locale for further uses.
