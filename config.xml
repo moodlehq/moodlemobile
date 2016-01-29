@@ -4,7 +4,7 @@
         xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.moodle.moodlemobile"
         versionCode = "2"
-        version   = "2.03">
+        version   = "2.02">
     <name>ITA Educacion movil</name>
 
     <description>
@@ -95,8 +95,6 @@
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
     <gap:plugin name="ch.ti8m.documenthandler" version="0.2.1" />
-    <gap:plugin name="pushbots-cordova-plugin" source="npm" />
-    
 
     <gap:config-file platform="android" parent="/manifest">
          <application android:debuggable="false" />
@@ -110,16 +108,6 @@
         <uses-permission android:name="android.permission.READ_CONTACTS" />
         <uses-permission android:name="android.permission.GET_ACCOUNTS" />
         <uses-permission android:name="android.permission.VIBRATE"/>
-        <!-- GCM connects to Google Services. -->
-        <uses-permission android:name="android.permission.INTERNET" />
-        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-        <!-- GCM requires a Google account. -->
-        <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-        <uses-permission android:name="android.permission.WAKE_LOCK" />
-        <permission android:name="com.example.sampleapp.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-        <uses-permission android:name="com.example.sampleapp.permission.C2D_MESSAGE" />
-        <!-- This app has permission to register and receive dataf message. -->
-        <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     </gap:config-file>
 
     <gap:config-file platform="ios" parent="CFBundleDocumentTypes" mode="add">

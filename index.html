@@ -65,8 +65,8 @@
             //push
 
             document.addEventListener('deviceready', function () {
-            var Pushbots = PushbotsPlugin.initialize("56aaed2a17795921088b4568", {"android":{"sender_id":"231349567440"}});
-            }, false);
+var Pushbots = PushbotsPlugin.initialize("PUSHBOTS_APPLICATION_ID", {"android":{"sender_id":"GCM_SENDER_ID"}});
+}, false);
             //end push
             MM.log('Deviceready fired');
             MM.deviceReady = true;
