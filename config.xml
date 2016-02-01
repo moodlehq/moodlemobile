@@ -4,15 +4,19 @@
         xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.moodle.moodlemobile"
         versionCode = "2"
+<<<<<<< HEAD
         version   = "2.02">
+=======
+        version   = "2.05">
+>>>>>>> origin/cesar
     <name>ITA Educacion movil</name>
 
     <description>
         Moodle Mobile official app
     </description>
 
-    <author href="http://moodle.com" email="juan@moodle.com">
-        Juan Leyva
+    <author href="" email="yarilcaos@gmail.com">
+        Cesar Yaril
     </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
@@ -95,6 +99,10 @@
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
     <gap:plugin name="ch.ti8m.documenthandler" version="0.2.1" />
+<<<<<<< HEAD
+=======
+    <gap:plugin name="pushbots-cordova-plugin" source="npm" />
+>>>>>>> origin/cesar
 
     <gap:config-file platform="android" parent="/manifest">
          <application android:debuggable="false" />
