@@ -65,8 +65,8 @@
             //push
 
             document.addEventListener('deviceready', function () {
-var Pushbots = PushbotsPlugin.initialize("PUSHBOTS_APPLICATION_ID", {"android":{"sender_id":"GCM_SENDER_ID"}});
-}, false);
+            var Pushbots = PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"AIzaSyCUhgNcU33Fp7miG4p6AimklpWbJWzN8Xg"}});
+            }, false);
             //end push
             MM.log('Deviceready fired');
             MM.deviceReady = true;
@@ -133,6 +133,11 @@ var Pushbots = PushbotsPlugin.initialize("PUSHBOTS_APPLICATION_ID", {"android":{
 <div id="main-wrapper" style="display: none; background-color: white">
 
     <div class="header-wrapper">
+        <header style="background-color:white">
+<div class="media" >
+<img src="img/login-logo.png">
+</div>
+</header>
         <header class="header-main">
             <nav class="nav-main">
                 <ul class="nav">
@@ -170,6 +175,11 @@ var Pushbots = PushbotsPlugin.initialize("PUSHBOTS_APPLICATION_ID", {"android":{
 </div>
 
 <script type="text/template" id="menu_template">
+<header style="background-color:white">
+<div class="media" >
+<img src="img/login-logo.png">
+</div>
+</header>
 <header>
     <div class="media">
         <div class="refresh app-ico">
@@ -344,7 +354,7 @@ var Pushbots = PushbotsPlugin.initialize("PUSHBOTS_APPLICATION_ID", {"android":{
 <form action="" novalidate>
     <div id="login-details">
         <p>
-            <input type="url" id="url" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("siteurl") %>">
+            <input type="url" id="url" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("siteurl") %>" readonly>
         </p>
         <div id="login-credentials">
             <p>
@@ -355,13 +365,13 @@ var Pushbots = PushbotsPlugin.initialize("PUSHBOTS_APPLICATION_ID", {"android":{
             </p>
         </div>
         <p>
-            <input type="submit" name="add"   id="addsitebutton"   value="<%= MM.lang.s("add") %>">
+            <input type="submit" name="add"   id="addsitebutton"   value="Entrar">
             <input type="button" name="reset" id="resetsitebutton" value="<%= MM.lang.s("reset") %>">
         </p>
     </div>
 </form>
 <div id= "helplogin">
-    <a href="#helpmelogin"><%= MM.lang.s("icantlogin") %></a>
+    <a href="http://bringslive.com/login/signup.php?" target="_blank">Registrarme</a>
     <a href="#manage-accounts"><%= MM.lang.s("manageaccounts") %></a>
 </div>
 </script>
