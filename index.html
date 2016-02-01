@@ -65,12 +65,12 @@
             //push
 
 
-            document.addEventListener('deviceready', function () {
+          /*  document.addEventListener('deviceready', function () {
             var Pushbots = PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"AIzaSyCUhgNcU33Fp7miG4p6AimklpWbJWzN8Xg"}});
-            }, false);
-          /*document.addEventListener('deviceready', function () {
-            var Pushbots = PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"963595412229"}});
             }, false);*/
+          document.addEventListener('deviceready', function () {
+            var Pushbots = PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"963595412229"}});
+            }, false);
             //end push
             MM.log('Deviceready fired');
             MM.deviceReady = true;
