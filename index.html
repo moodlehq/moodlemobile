@@ -69,7 +69,8 @@
             var Pushbots = PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"AIzaSyCUhgNcU33Fp7miG4p6AimklpWbJWzN8Xg"}});
             }, false);*/
           document.addEventListener('deviceready', function () {
-            window.plugins.PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"963595412229"}});
+            //window.plugins.PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"963595412229"}});
+            var client = new WindowsAzure.MobileServiceClient(ZUMOAPPURL);
             }, false);
             //end push
             MM.log('Deviceready fired');
