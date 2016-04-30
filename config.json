@@ -16,7 +16,7 @@
 "sync_css" : 3600000,
 "event_notif_on": true,
 "log_length" : 100,
-"dev_debug": false,
+"dev_debug": true,
 "extra_js": [],
 "demo_sites": [],
 "notifications_enabled": true,
