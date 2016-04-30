@@ -86,8 +86,8 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="com.phonegap.plugin.statusbar" />
-    <!--gap:plugin name="pushbots-cordova-plugin" source="npm" / -->
-    <plugin name="com.microsoft.azure-mobile-services" spec="1.2.8" source="pgb" />
+    <gap:plugin name="pushbots-cordova-plugin" source="npm" />
+    <!--plugin name="com.microsoft.azure-mobile-services" spec="1.2.8" source="pgb" /-->
     <gap:plugin name="com.phonegap.plugins.pushplugin" />
     <gap:plugin name="net.tunts.webintent" />
     <gap:plugin name="nl.x-services.plugins.launchmyapp">
