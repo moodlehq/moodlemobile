@@ -29,7 +29,7 @@
     <asset src="lib/angular-admob.js" target="lib/angular-admob.js" />
     <asset src="lib/google-services.json" target="lib/google-services.json" />
         
-    <preference name="phonegap-version" value="4.0.8" />
+    <preference name="phonegap-version" value="3.6.3" />
     <preference name="orientation"      value="default" />
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
