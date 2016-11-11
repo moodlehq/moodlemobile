@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "1011541520369",
+    "firebase_url": "https://elearningsmantri.firebaseio.com",
+    "project_id": "elearningsmantri",
+    "storage_bucket": "elearningsmantri.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011541520369:android:98fdaea6631b83cf",
+        "android_client_info": {
+          "package_name": "com.alosistudio.elearningsmantri"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011541520369-kqee57u6v097phnv3ht8tj2d8aob4qb7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alosistudio.elearningsmantri",
+            "certificate_hash": "A65BD3657E3AF66C89FE62389BBDC44E5411D3EC"
+          }
+        },
+        {
+          "client_id": "1011541520369-0bqp5mk5gqsge65f1jic7lo7e0t56s80.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5q_KDPZlR988426Wo5ZhSmlAeuVHH8kE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
