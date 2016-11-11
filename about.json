@@ -1,70 +1,15 @@
 {
-"name": "Moodle Mobile",
+"name": "Elearning SMANTRI",
 "license": {
     "name": "Apache 2.0",
     "link": "http://www.apache.org/licenses/LICENSE-2.0"
 },
 "credits": [
 {
-    "fullname": "Juan Leyva",
+    "fullname": "Syahrum Mubarak",
     "contribution": "Main developer",
-    "company": "CV&A Consulting"
+    "company": "alosistudio.com"
 },
-{
-    "fullname": "Josep Maria Gifreu",
-    "contribution": "Icons and css fixes",
-    "company": "CV&A Consulting"
-},
-{
-    "fullname": "Martin Dougiamas",
-    "contribution": "Strategic direction",
-    "company": "Moodle Pty Ltd."
-},
-{
-    "fullname": "Jerome Mouneryac",
-    "contribution": "Developer and Moodle HQ technical contact",
-    "company": "Moodle Pty Ltd."
-},
-{
-    "fullname": "Barbara Ramiro",
-    "contribution": "Designer",
-    "company": "Moodle Pty Ltd."
-},
-{
-    "fullname": "Adrian Bedford",
-    "contribution": "Contributor (project manager)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "David Shaw",
-    "contribution": "Contributor (solutions architect)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "Dominic Orme",
-    "contribution": "Contributor (developer)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "Tony Blundell",
-    "contribution": "Contributor (developer)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "Michael Palmer",
-    "contribution": "Contributor (designer)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "Daniel Palou",
-    "contribution": "Contributor (developer)",
-    "company": "CV&A Consulting"
-},
-{
-    "fullname": "Daniel Ramírez",
-    "contribution": "Contributor (developer Window version)",
-    "company": "CV&A Consulting"
-}
 ],
 "thirdpartylibs": [
 {
