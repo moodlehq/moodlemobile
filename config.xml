@@ -19,7 +19,7 @@
         <string>1.10</string>
     </gap:config-file>
 
-    <preference name="android-minSdkVersion" value="5" />
+    <preference name="android-minSdkVersion" value="14" />
         
     <dependency id="com.connectivity.monitor" />   
     <js-module src="lib/admob.js" name="AdMobAds">
