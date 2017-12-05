@@ -5,6 +5,11 @@
     "link": "http://www.apache.org/licenses/LICENSE-2.0"
 },
 "credits": [
+    {
+    "fullname": "David WINNER",
+    "contribution": "Custom...",
+    "company": "ZAYNDO"
+},
 {
     "fullname": "Juan Leyva",
     "contribution": "Main developer",
