@@ -2,17 +2,17 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
-        id        = "com.moodle.moodlemobile"
+        id        = "com.darassa.darassamobile"
         versionCode = "391"
         version   = "1.15">
     <name>Moodle Mobile</name>
 
     <description>
-        Moodle Mobile official app
+        Application Officielle de Darassa Learning
     </description>
 
-    <author href="http://moodle.com" email="juan@moodle.com">
-        Juan Leyva
+    <author href="http://darassa.com" email="david.winner@darassa.com">
+        David WINNER
     </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
