@@ -88,8 +88,8 @@
     <gap:plugin name="com.phonegap.plugin.statusbar" source="npm" />
 
     <gap:plugin name="com.phonegap.plugins.pushplugin" source="npm" />
-    <gap:plugin name="net.tunts.webintent" />
-    <gap:plugin name="nl.x-services.plugins.launchmyapp">
+    <gap:plugin name="net.tunts.webintent" source="npm"/>
+    <gap:plugin name="nl.x-services.plugins.launchmyapp" source="npm">
         <param name="URL_SCHEME" value="mootes14" />
     </gap:plugin>
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
