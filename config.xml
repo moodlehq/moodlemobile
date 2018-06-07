@@ -92,9 +92,9 @@
     <gap:plugin name="nl.x-services.plugins.launchmyapp" source="npm">
         <param name="URL_SCHEME" value="mootes14" />
     </gap:plugin>
-    <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
-    <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
-    <gap:plugin name="ch.ti8m.documenthandler" version="0.2.1" />
+    <gap:plugin name="com.ionic.keyboard" version="1.0.3" source="npm" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" source="npm"/>
+    <gap:plugin name="ch.ti8m.documenthandler" version="0.2.1" source="npm" />
 
     <gap:config-file platform="android" parent="/manifest">
          <application android:debuggable="false" />
