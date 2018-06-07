@@ -75,7 +75,7 @@
     <gap:platform name="ios" />
     <gap:platform name="android" />
 
-  <gap:plugin name="org.apache.cordova.camera" spec="~4.0.3" /> 
+  <gap:plugin name="org.apache.cordova.camera" spec="~4.0.3" source="npm" /> 
     <gap:plugin name="org.apache.cordova.media-capture" />
     <gap:plugin name="org.apache.cordova.console" />
     <gap:plugin name="org.apache.cordova.device" version="0.2.8"/>
