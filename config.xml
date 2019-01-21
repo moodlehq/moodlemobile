@@ -5,14 +5,14 @@
         id        = "com.technocrats.eduquality"
         versionCode = "391"
         version   = "1.15">
-    <name>Moodle Mobile</name>
+    <name>Edu-quality</name>
 
     <description>
-        Moodle Mobile official app
+        Edu-quality official app
     </description>
 
-    <author href="http://moodle.com" email="juan@moodle.com">
-        Juan Leyva
+    <author href="http://moodle.com" email="jhaymarcbelen@gmail.com">
+        Jhaymarc Belen
     </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
