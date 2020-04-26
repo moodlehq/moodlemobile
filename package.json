@@ -1,8 +1,8 @@
 {
-  "name": "Moodle Mobile for desktop",
+  "name": "Aula Virtual Soporte Empresario",
   "main": "index.html",
   "window": {
-    "title": "Moodle Mobile for desktop",
+    "title": "Aula Virtual Soporte Empresario",
     "icon": "icon.png",
     "toolbar": true,
     "frame": true,
@@ -12,5 +12,5 @@
     "resizable": false
   },
   "plugin": true,
-  "description": "Moodle Mobile for desktop"
+  "description": "Aula Virtual Soporte Empresario"
 }

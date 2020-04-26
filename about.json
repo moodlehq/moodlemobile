@@ -1,5 +1,5 @@
 {
-"name": "Moodle Mobile",
+"name": "Aula Virtual Soporte Empresario",
 "license": {
     "name": "Apache 2.0",
     "link": "http://www.apache.org/licenses/LICENSE-2.0"
@@ -64,6 +64,11 @@
     "fullname": "Daniel Ramírez",
     "contribution": "Contributor (developer Window version)",
     "company": "CV&A Consulting"
+},
+{
+    "fullname": "Diego Caliri",
+    "contribution": "Adapt to Soporte Empresario",
+    "company": "Soporte Empresario SA"
 }
 ],
 "thirdpartylibs": [
