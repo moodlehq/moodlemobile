@@ -1,6 +1,6 @@
 {
 "app_id" : "com.moodle.moodlemobile",
-"versioncode" : "391",
+"versioncode" : "3",
 "versionname" : "1.15",
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
@@ -8,7 +8,7 @@
 "plugins" : ["notifications", "messages", "upload", "events", "myfiles", "contents", "participants", "grades","addcontact", "addnote", "sendmessage", "forum", "label", "url", "page", "resource", "assign"],
 "wsservice" : "moodle_mobile_app",
 "wsextservice" : "local_mobile",
-"presets" : {"url": "", "username": ""},
+"presets" : {"url": "http://ita-acapulco.azurewebsites.net/", "username": ""},
 "sync_ws_on" : true,
 "sync_css_on" : true,
 "sync_cron": 300000,
@@ -18,7 +18,8 @@
 "log_length" : 100,
 "dev_debug": false,
 "extra_js": [],
-"demo_sites": [{"key": "student", "url": "http://school.demo.moodle.net", "username": "student", "password": "moodle"}, {"key": "teacher", "url": "http://school.demo.moodle.net", "username": "teacher", "password": "moodle"}, {"key": "cva", "url": "http://mm.cvaconsulting.com/moodle", "username": "student", "password": "student"}],
+"demo_sites": [],
 "notifications_enabled": true,
-"gcmpn": "694767596569"
+"gcmpn": "694767596569",
+"reportbugmail": "yarilcaos@gmail.com"
 }
