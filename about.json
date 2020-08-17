@@ -1,69 +1,39 @@
 {
-"name": "Moodle Mobile",
+"name": "Edu-Quality",
 "license": {
     "name": "Apache 2.0",
     "link": "http://www.apache.org/licenses/LICENSE-2.0"
 },
 "credits": [
 {
-    "fullname": "Juan Leyva",
+    "fullname": "Jhaymarc Belen",
     "contribution": "Main developer",
-    "company": "CV&A Consulting"
+    "company": "Technocrats Ltd."
 },
 {
-    "fullname": "Josep Maria Gifreu",
+    "fullname": "Diana Marie Penalba",
     "contribution": "Icons and css fixes",
-    "company": "CV&A Consulting"
+    "company": "Technocrats Ltd."
 },
 {
-    "fullname": "Martin Dougiamas",
+    "fullname": "Jim Albert Gunay",
     "contribution": "Strategic direction",
-    "company": "Moodle Pty Ltd."
+    "company": "Technocrats Ltd."
 },
 {
-    "fullname": "Jerome Mouneryac",
+    "fullname": "LA Macale",
     "contribution": "Developer and Moodle HQ technical contact",
-    "company": "Moodle Pty Ltd."
+    "company": "Technocrats Ltd."
 },
 {
-    "fullname": "Barbara Ramiro",
+    "fullname": "Chill Laroza",
     "contribution": "Designer",
-    "company": "Moodle Pty Ltd."
+    "company": "Technocrats Ltd."
 },
 {
-    "fullname": "Adrian Bedford",
-    "contribution": "Contributor (project manager)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "David Shaw",
-    "contribution": "Contributor (solutions architect)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "Dominic Orme",
-    "contribution": "Contributor (developer)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "Tony Blundell",
-    "contribution": "Contributor (developer)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "Michael Palmer",
-    "contribution": "Contributor (designer)",
-    "company": "City & Guilds Kineo"
-},
-{
-    "fullname": "Daniel Palou",
-    "contribution": "Contributor (developer)",
-    "company": "CV&A Consulting"
-},
-{
-    "fullname": "Daniel Ramírez",
-    "contribution": "Contributor (developer Window version)",
-    "company": "CV&A Consulting"
+    "fullname": "Alizza Baral",
+    "contribution": "Project Manager",
+    "company": "Technocrats Ltd."
 }
 ],
 "thirdpartylibs": [
