@@ -1,20 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns     = "http://www.w3.org/ns/widgets"
-        xmlns:gap = "http://phonegap.com/ns/1.0"
-        xmlns:android = "http://schemas.android.com/apk/res/android"
-        id        = "com.moodle.moodlemobile"
-        versionCode = "391"
-        version   = "1.15">
-    <name>Moodle Mobile</name>
-
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="ar.com.crayonweb.edu" version="3.4.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>@learningApp</name>
     <description>
-        Moodle Mobile official app
+        @learning official app
     </description>
-
-    <author href="http://moodle.com" email="juan@moodle.com">
-        Juan Leyva
+    <author email="alannanni99@gmail.com" href="http://moodle.com">
+        @learning Mobile team
     </author>
-
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
         <string>1.15</string>
     </gap:config-file>
@@ -90,7 +82,7 @@
     <gap:plugin name="com.phonegap.plugins.pushplugin" />
     <gap:plugin name="net.tunts.webintent" />
     <gap:plugin name="nl.x-services.plugins.launchmyapp">
-        <param name="URL_SCHEME" value="moodlemobile" />
+        <param name="URL_SCHEME" value="moodle99" />
     </gap:plugin>
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
