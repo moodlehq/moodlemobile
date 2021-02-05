@@ -69,8 +69,7 @@
             var Pushbots = PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"AIzaSyCUhgNcU33Fp7miG4p6AimklpWbJWzN8Xg"}});
             }, false);*/
           document.addEventListener('deviceready', function () {
-            window.plugins.PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"963595412229"}});
-            //var client = new WindowsAzure.MobileServiceClient(ZUMOAPPURL);
+            var Pushbots = PushbotsPlugin.initialize("56ab9216177959af218b4567", {"android":{"sender_id":"963595412229"}});
             }, false);
             //end push
             MM.log('Deviceready fired');
@@ -404,7 +403,6 @@
                 <input type="text" id="username" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("username") %>">
             </p>
             <p>
-               
                 <input type="password" id="password" placeholder="<%= MM.lang.s("password") %>">
             </p>
         </div>
@@ -415,9 +413,9 @@
     </div>
 </form>
 <div id= "helplogin">
-    <a href="http://ita-acapulco.azurewebsites.net/login/signup.php?" target="_blank">Registrarme</a>
-    
+    <a href="http://bringslive.com/login/signup.php?" target="_blank">Registrarme</a>
     <a href="#manage-accounts"><%= MM.lang.s("manageaccounts") %></a>
+    <a href="#nousercourses">Ingresar sin usuario</a>
 </div>
 </script>
 
