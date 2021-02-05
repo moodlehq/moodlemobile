@@ -2,13 +2,13 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
-        id        = "com.moodle.moodlemobile"
+        id        = "in.edufuture.mootes14"
         versionCode = "391"
         version   = "1.15">
-    <name>Moodle Mobile</name>
+    <name>edu future</name>
 
     <description>
-        Moodle Mobile official app
+        edu future official app
     </description>
 
     <author href="http://moodle.com" email="juan@moodle.com">
@@ -21,7 +21,7 @@
 
     <preference name="android-minSdkVersion" value="5" />
 
-    <preference name="phonegap-version" value="3.6.3" />
+    <preference name="phonegap-version" value="cli-6.5.0" />
     <preference name="orientation"      value="default" />
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
@@ -75,26 +75,26 @@
     <gap:platform name="ios" />
     <gap:platform name="android" />
 
-    <gap:plugin name="org.apache.cordova.camera" />
-    <gap:plugin name="org.apache.cordova.media-capture" />
-    <gap:plugin name="org.apache.cordova.console" />
-    <gap:plugin name="org.apache.cordova.device" version="0.2.8"/>
-    <gap:plugin name="org.apache.cordova.file" />
-    <gap:plugin name="org.apache.cordova.file-transfer" />
-    <gap:plugin name="org.apache.cordova.globalization" />
-    <gap:plugin name="org.apache.cordova.inappbrowser" />
-    <gap:plugin name="org.apache.cordova.network-information" />
-    <gap:plugin name="org.apache.cordova.splashscreen" />
-    <gap:plugin name="com.phonegap.plugin.statusbar" />
+ <!-- <gap:plugin name="org.apache.cordova.camera" spec="~4.0.3" source="npm" /> 
+    <gap:plugin name="org.apache.cordova.media-capture" source="npm" />
+    <gap:plugin name="org.apache.cordova.console" source="npm" />
+    <gap:plugin name="org.apache.cordova.device" version="0.2.8" source="npm"/>
+    <gap:plugin name="org.apache.cordova.file" source="npm" />
+    <gap:plugin name="org.apache.cordova.file-transfer" source="npm" />
+    <gap:plugin name="org.apache.cordova.globalization" source="npm" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
+    <gap:plugin name="org.apache.cordova.network-information" source="npm" />
+    <gap:plugin name="org.apache.cordova.splashscreen" source="npm" /> 
+    <gap:plugin name="com.phonegap.plugin.statusbar" source="npm" />
 
-    <gap:plugin name="com.phonegap.plugins.pushplugin" />
-    <gap:plugin name="net.tunts.webintent" />
-    <gap:plugin name="nl.x-services.plugins.launchmyapp">
-        <param name="URL_SCHEME" value="moodlemobile" />
+    <gap:plugin name="com.phonegap.plugins.pushplugin" source="npm" />
+    <gap:plugin name="net.tunts.webintent" source="npm"/>
+    <gap:plugin name="nl.x-services.plugins.launchmyapp" source="npm">
+        <param name="URL_SCHEME" value="mootes14" />
     </gap:plugin>
-    <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
-    <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
-    <gap:plugin name="ch.ti8m.documenthandler" version="0.2.1" />
+    <gap:plugin name="com.ionic.keyboard" version="1.0.3" source="npm" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" source="npm"/>
+    <gap:plugin name="ch.ti8m.documenthandler" version="0.2.1" source="npm" /> -->
 
     <gap:config-file platform="android" parent="/manifest">
          <application android:debuggable="false" />
